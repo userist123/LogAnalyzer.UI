@@ -1,0 +1,132 @@
+<Window x:Class="LogAnalyzer.UI.Views.GenericDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:LogAnalyzer.Core.Models;assembly=LogAnalyzer.Core"
+        Title="Detalii Eveniment / Artefact" Height="680" Width="850"
+        WindowStartupLocation="CenterOwner" Background="#FF0F1219" Foreground="White">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="DETALII ARTEFACT FORENZIC" FontSize="18" FontWeight="Bold" Foreground="#FF3498DB" Margin="0,0,0,15"/>
+
+        <Border Grid.Row="1" Background="#FF161A22" BorderBrush="#FF30363D" BorderThickness="1" CornerRadius="6" Padding="20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                
+                <ContentControl Content="{Binding}">
+                    <ContentControl.Resources>
+                        
+                        <!-- Șablonul grafic pentru Evenimente EVTX -->
+                        <DataTemplate DataType="{x:Type models:ParsedEvent}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="190"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="EventId:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding EventId}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="MachineName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MachineName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ProviderName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ProviderName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="TimeCreated:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding TimeCreated, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Level:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Level}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="XmlData (Brut):" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Message}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="OfficialDescription:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding OfficialDescription}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="TacticalExample:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding TacticalExample}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="ReferenceUrl:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding ReferenceUrl}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="9" Grid.Column="0" Text="PotentialCriticality:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding PotentialCriticality}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                            </Grid>
+                        </DataTemplate>
+
+                        <!-- Șablonul grafic pentru Registri -->
+                        <DataTemplate DataType="{x:Type models:RegistryArtifact}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="190"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Category:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Category}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="KeyPath:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding KeyPath}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ValueName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="ValueData (Brut):" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ValueData}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
+                            </Grid>
+                        </DataTemplate>
+
+                        <!-- Șablon pentru Timeline -->
+                        <DataTemplate DataType="{x:Type models:TimelineItem}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="190"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Sursă / Tip:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Source}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Timestamp:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Timestamp, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Host / User:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding UserOrHost}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Descriere:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
+                            </Grid>
+                        </DataTemplate>
+
+                    </ContentControl.Resources>
+                </ContentControl>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="🚨 Promovează ca Alertă" Click="Escalate_Click" Background="#FF8B0000" Foreground="White" Padding="15,8" Margin="0,0,10,0" Cursor="Hand" BorderBrush="#FFB22222"/>
+            <Button Content="Închide" Click="Close_Click" Background="#FF333337" Foreground="White" Padding="15,8" Cursor="Hand" BorderBrush="#FF434346"/>
+        </StackPanel>
+    </Grid>
+</Window>

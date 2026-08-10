@@ -1,0 +1,625 @@
+[
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4928",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An Active Directory replica source naming context was established.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4928",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1207",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "An Active Directory replica source naming context was established.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4928",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4929",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An Active Directory replica source naming context was removed.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4929",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1207",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "An Active Directory replica source naming context was removed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4929",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4930",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An Active Directory replica source naming context was modified.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4930",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1207",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "An Active Directory replica source naming context was modified.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4930",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4931",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An Active Directory replica destination naming context was modified.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4931",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1207",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "An Active Directory replica destination naming context was modified",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4931",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4934",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Attributes of an Active Directory object were replicated.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4934",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4934",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4935",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Replication failure begins.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4935",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "Replication failure begins.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4935",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4936",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Replication failure ends.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4936",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "Replication failure ends.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4936",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Detailed Directory Service Replication",
+        "eventID": "4937",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A lingering object was removed from a replica.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Detailed Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4937",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "A lingering object was removed from a replica.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4937",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Access",
+        "eventID": "4661",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Access",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4661",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1003,T1201",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nMost objects, when opened (handle request), generate event 4656 but when you open a SAM object you get 4661 instead.\n\r\nSome AD objects also double as SAM objects and some properties of those objects double as SAM attributes. This event is logged when opening such SAM objects such as SAM_DOMAIN or SAM_USER. \n\r\nWhen the object is closed you get event ID 4658 with the same handle ID.\n\r\nI regard these events as noise and recommend disabling the SAM subcategory in your audit policy.",
+        "EventExample": "SAM example",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4661",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Access",
+        "eventID": "4662",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An operation was performed on an object.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Access",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1069.002",
+        "ExtendedDescription": "Active Directory logs this event when a user accesses an AD object. \n\r\nOf course the object's audit policy must be enabled for the permissions requested and the user requesting it or a group to which that user belongs.\n\r\nFor tracking property level changes to AD objects I recommend using Directory Service Change events (5136...) instead of this event because 5136, etc providemuch better information. \n\r\nOn the other hand this is the only event that reports accesses defined for auditing that do not qualify as property changes.",
+        "EventExample": "An operation was performed on an object.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4662",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Changes",
+        "eventID": "5136",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A directory service object was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Changes",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "This event documents modifications to AD objects, identifying the object, user, attribute modified, thenew value of the attribute if applicableand the operation performed. \n\r\nOf course this eventwill only beloggedwhen the object's audit policy has auditing enabled for the properties or actions involved and for the user performing the action or a group to which the user belongs.\n\r\nThis event is not logged for creation, deletion, undeletion or moves of AD objects. See event IDs 5137, 5138, 5139, 5141.\n\r\nFor users, groups and computers there are specific events for tracking most modifications. See \"User account management\", etc.",
+        "EventExample": "Edit Of A Group Policy Object",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5136",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Changes",
+        "eventID": "5137",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A directory service object was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Changes",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5137",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1207",
+        "ExtendedDescription": "This event documents creations ofAD objects, identifying the object created anduser who created it. \n\r\nOf course this eventwill only beloggedwhen the object's parent's audit policy has auditing enabled forcreation of the object classinvolvedand for the user performing the action or a group to which the user belongs.\n\r\nFor users, groups and computers there are specific events for tracking creation. See \"User account management\", etc.",
+        "EventExample": "Creation of a User",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5137",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Changes",
+        "eventID": "5138",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A directory service object was undeleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Changes",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5138",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event has not been observed.\n\r\n",
+        "EventExample": "A directory service object was undeleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5138",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Changes",
+        "eventID": "5139",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A directory service object was moved.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Changes",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5139",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents the move ofan AD objects from one OU to another, identifying the object moved anduser whomoved it and its old and new location.\n\r\nOf course this eventwill only beloggedwhen the object's parent's audit policy has auditing enabled formoves of the object classinvolvedand for the user performing the action or a group to which the user belongs.",
+        "EventExample": "A directory service object was moved.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5139",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Changes",
+        "eventID": "5141",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A directory service object was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Changes",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5141",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents deletion ofAD objects, identifying the object deleted anduser whodeleted it. \n\r\nOf course this eventwill only beloggedwhen the object's parent's audit policy has auditing enabled fordeletion of the object classinvolvedand for the user performing the action or a group to which the user belongs.\n\r\nFor users, groups and computers there are specific events for tracking deletion. See \"User account management\", etc.",
+        "EventExample": "A directory service object was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5141",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Replication",
+        "eventID": "4932",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Synchronization of a replica of an Active Directory naming context has begun.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4932",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "Synchronization of a replica of an Active Directory naming context has begun.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4932",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Replication",
+        "eventID": "4933",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Synchronization of a replica of an Active Directory naming context has ended.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Replication",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4933",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Directory Service replication has little to no security relevance. I recommend disabling these 2 subcategories:",
+        "EventExample": "Synchronization of a replica of an Active Directory naming context has ended.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4933",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "DS Access",
+        "subCategory": "Audit Directory Service Access",
+        "eventID": "4661",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\DS Access\\Audit Directory Service Access",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4661",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1003,T1201",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nMost objects, when opened (handle request), generate event 4656 but when you open a SAM object you get 4661 instead.\n\r\nSome AD objects also double as SAM objects and some properties of those objects double as SAM attributes. This event is logged when opening such SAM objects such as SAM_DOMAIN or SAM_USER. \n\r\nWhen the object is closed you get event ID 4658 with the same handle ID.\n\r\nI regard these events as noise and recommend disabling the SAM subcategory in your audit policy.",
+        "EventExample": "SAM example",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4661",
+        "PotentialCriticality": "Low"
+    }
+]

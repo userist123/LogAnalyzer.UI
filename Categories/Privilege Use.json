@@ -1,0 +1,255 @@
+[
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Non-Sensitive Privilege Use",
+        "eventID": "4673",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A privileged service was called.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Non-Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4673",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "Very High",
+            "Workstation": "Very High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4673 indicates that the specified user exercised the user right specified in the Privileges field. \n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nSome user rights are logged by this event - others by 4674. Still other, \"\"high-volume\"\" rights are not logged when they are exercised unless you enable the security option \"Audit: Audit the use of Backup and Restore privilege\". \n\r\nUnfortunately, Microsoft has overloaded these privileges so that each privilege may govern your authority to perform many different operations and which privilege is required for which operations is not well documented. Therefore seeing that a privilege was exercised doesn't really tell you much. In Win2008 this has been improved with better information in the Server: and Service Name: fields. In general though,Istillclassify these events as noise. Microsoft admits: \"These are high volume events, which typically do not contain sufficient information to act upon since they do not describe what operation occurred.\"\n\r\nNote: 4673 and 4674 do not log any activity associated with Logon Rights such as the SeNetworkLogonRight. Do not confuse events 4673 and 4674 with events 4717and 4718 which document rights assignment changes as opposed to the exercise of rights which is the purpose of events 4673and 4674.\n\nSubject:\n\r\nThe ID and logon session of the user that excercised the right.",
+        "EventExample": "A privileged service was called.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4673",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Non-Sensitive Privilege Use",
+        "eventID": "4674",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An operation was attempted on a privileged object.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Non-Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4674",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "Very High",
+            "Workstation": "Very High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4674 indicates that the specified user exercised the user right specified in the Privileges field. \n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nSome user rights are logged by 4674 - others by 4673. Still other, \"high-volume\" rights are not logged when they are exercised unless you enable the security option \"Audit: Audit the use of Backup and Restore privilege\". \n\r\nUnfortunately, Microsoft has overloaded these privileges so that each privilege may govern your authority to perform many different operations and which privilege is required for which operations is not well documented. Therefore seeing that a privilege was exercised doesn't really tell you much. In Win2008 this has been improved with better information in the Server: and Service Name: fields. In general though,Istillclassify these events as noise. Microsoft admits: \"These are high volume events, which typically do not contain sufficient information to act upon since they do not describe what operation occurred.\"\n\r\nNote: 4673 and 4674 do not log any activity associated with Logon Rights such as the SeNetworkLogonRight. Do not confuse events 4673 and 4674 with events 4717 and 4718 which document rights assignment changes as opposed to the exercise of rights which is the purpose of events 4673 and 4674.",
+        "EventExample": "An operation was attempted on a privileged object.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4674",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Non-Sensitive Privilege Use",
+        "eventID": "4985",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The state of a transaction has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Non-Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4985",
+        "volume": {
+            "DomainController": "Very High",
+            "Server": "Very High",
+            "Workstation": "Very High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The state of a transaction has changed.",
+        "EventExample": "The state of a transaction has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4985",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Other Privilege Use",
+        "eventID": "4985",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The state of a transaction has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Other Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4985",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The state of a transaction has changed.",
+        "EventExample": "The state of a transaction has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4985",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Sensitive Privilege Use",
+        "eventID": "4673",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A privileged service was called.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4673",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4673 indicates that the specified user exercised the user right specified in the Privileges field. \n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nSome user rights are logged by this event - others by 4674. Still other, \"\"high-volume\"\" rights are not logged when they are exercised unless you enable the security option \"Audit: Audit the use of Backup and Restore privilege\". \n\r\nUnfortunately, Microsoft has overloaded these privileges so that each privilege may govern your authority to perform many different operations and which privilege is required for which operations is not well documented. Therefore seeing that a privilege was exercised doesn't really tell you much. In Win2008 this has been improved with better information in the Server: and Service Name: fields. In general though,Istillclassify these events as noise. Microsoft admits: \"These are high volume events, which typically do not contain sufficient information to act upon since they do not describe what operation occurred.\"\n\r\nNote: 4673 and 4674 do not log any activity associated with Logon Rights such as the SeNetworkLogonRight. Do not confuse events 4673 and 4674 with events 4717and 4718 which document rights assignment changes as opposed to the exercise of rights which is the purpose of events 4673and 4674.\n\nSubject:\n\r\nThe ID and logon session of the user that excercised the right.",
+        "EventExample": "A privileged service was called.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4673",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Sensitive Privilege Use",
+        "eventID": "4674",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An operation was attempted on a privileged object.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4674",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4674 indicates that the specified user exercised the user right specified in the Privileges field. \n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nSome user rights are logged by 4674 - others by 4673. Still other, \"high-volume\" rights are not logged when they are exercised unless you enable the security option \"Audit: Audit the use of Backup and Restore privilege\". \n\r\nUnfortunately, Microsoft has overloaded these privileges so that each privilege may govern your authority to perform many different operations and which privilege is required for which operations is not well documented. Therefore seeing that a privilege was exercised doesn't really tell you much. In Win2008 this has been improved with better information in the Server: and Service Name: fields. In general though,Istillclassify these events as noise. Microsoft admits: \"These are high volume events, which typically do not contain sufficient information to act upon since they do not describe what operation occurred.\"\n\r\nNote: 4673 and 4674 do not log any activity associated with Logon Rights such as the SeNetworkLogonRight. Do not confuse events 4673 and 4674 with events 4717 and 4718 which document rights assignment changes as opposed to the exercise of rights which is the purpose of events 4673 and 4674.",
+        "EventExample": "An operation was attempted on a privileged object.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4674",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Privilege Use",
+        "subCategory": "Audit Sensitive Privilege Use",
+        "eventID": "4985",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The state of a transaction has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Privilege Use\\Audit Sensitive Privilege Use",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4985",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The state of a transaction has changed.",
+        "EventExample": "The state of a transaction has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4985",
+        "PotentialCriticality": "Low"
+    }
+]

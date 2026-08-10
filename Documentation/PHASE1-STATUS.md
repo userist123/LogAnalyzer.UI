@@ -14,17 +14,15 @@
 - Workflow GitHub Actions pentru build și teste .NET.
 - Fundație SQLCipher pentru baza de date IOC, cu cheie AES-256 generată aleator și protejată prin DPAPI.
 - Operații IOC parametrizate prin ADO.NET, fără EF Core și fără date sensibile în repository.
+- Teste de integrare pentru creare, redeschidere, inserare, căutare și respingerea unei chei SQLCipher greșite.
 
 ## Important
 
-SQLCipher este pregătit ca strat de infrastructură, dar nu este încă conectat la DI/UI și nu trebuie considerat validat până când workflow-ul CI nu confirmă restore/build/test pe repository.
-
-Aceste controale nu reprezintă singure certificare ORNISS, ISO/IEC 27037, Common Criteria sau un mecanism juridic automat de inalterabilitate.
+Rezultatul testelor CI este autoritatea pentru compatibilitatea efectivă a pachetelor SQLCipher cu target-ul proiectului. Testele de integrare nu reprezintă certificare ORNISS, ISO/IEC 27037, Common Criteria sau un mecanism juridic automat de inalterabilitate.
 
 ## Următorii pași
 
-1. Verificarea compatibilității pachetelor SQLCipher cu target-ul proiectului și runner-ul CI.
-2. Teste de integrare pentru deschiderea bazei criptate, schema IOC și query-uri parametrizate.
-3. Integrarea serviciului în DI și în fluxul de analiză.
-4. Profil de publicare și test separat pentru Native AOT.
-5. Semnare Authenticode și verificarea artefactelor de release.
+1. Integrarea SQLCipher în DI și în fluxul de analiză.
+2. Adăugarea operațiilor de actualizare/ștergere IOC cu audit obligatoriu.
+3. Profil de publicare și test separat pentru Native AOT.
+4. Semnare Authenticode și verificarea artefactelor de release.

@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using LogAnalyzer.Core.Interfaces;
+using LogAnalyzer.Infrastructure;
 using LogAnalyzer.UI.Services;
 using LogAnalyzer.UI.ViewModels;
 using LogAnalyzer.UI.Views;
@@ -39,6 +41,7 @@ public partial class App : Application
         var custodyLogPath = Path.Combine(appData, "custody.log");
         var databasePath = Path.Combine(appData, "knowledge.db");
         var databaseKeyPath = Path.Combine(appData, "knowledge.key");
+        var auditLogPath = Path.Combine(appData, "audit.log");
 
         services.AddSingleton(new SecurityBootstrap(custodyLogPath));
         services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().HardwareIdentity);
@@ -50,6 +53,14 @@ public partial class App : Application
         services.AddSingleton(sp => new SqlCipherKeyStore(sp.GetRequiredService<ProtectedSecretStore>(), databaseKeyPath));
         services.AddSingleton(sp => new SqlCipherDatabase(databasePath, sp.GetRequiredService<SqlCipherKeyStore>()));
         services.AddSingleton<IocKnowledgeBaseService>();
+
+        services.AddSingleton<IEventParser, EvtxParser>();
+        services.AddSingleton<IAnalysisEngine, AnalysisEngine>();
+        services.AddSingleton<IRegistryParser, RegistryParser>();
+        services.AddSingleton(new LogAnalyzer.Core.Services.AuditLogService(auditLogPath));
+        services.AddSingleton<LogAnalyzer.Core.Services.KnowledgeBaseService>();
+        services.AddSingleton<LogAnalyzer.Core.Services.PluginManagerService>();
+        services.AddSingleton<LogAnalyzer.Core.Services.LicenseService>();
 
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();

@@ -1,49 +1,50 @@
 using System;
+using System.IO;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using LogAnalyzer.Core.Interfaces;
-using LogAnalyzer.Core.Services;
-using LogAnalyzer.Infrastructure;
+using LogAnalyzer.UI.Services;
 using LogAnalyzer.UI.ViewModels;
 using LogAnalyzer.UI.Views;
 
-namespace LogAnalyzer.UI
+namespace LogAnalyzer.UI;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public static IServiceProvider? ServiceProvider { get; private set; }
+
+    protected override void OnStartup(StartupEventArgs e)
     {
-        public static IServiceProvider? ServiceProvider { get; private set; }
+        base.OnStartup(e);
 
-        protected override void OnStartup(StartupEventArgs e)
+        DispatcherUnhandledException += (_, args) =>
         {
-            base.OnStartup(e);
+            MessageBox.Show(
+                $"Eroare critică internă:\n{args.Exception.Message}",
+                "LogAnalyzer.UI Crash",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            args.Handled = true;
+        };
 
-            this.DispatcherUnhandledException += (sender, args) =>
-            {
-                MessageBox.Show($"Eroare critică internă:\n{args.Exception.Message}", "Crash", MessageBoxButton.OK, MessageBoxImage.Error);
-                args.Handled = true;
-            };
+        var services = new ServiceCollection();
 
-            var services = new ServiceCollection();
-            
-            // Servicii Core (Utilitare)
-            services.AddSingleton<AuditLogService>();
-            services.AddSingleton<PluginManagerService>();
-            services.AddSingleton<KnowledgeBaseService>();
-            
-            // Motoarele din Infrastructure (Aici se rezolvă eroarea CS0246)
-            services.AddSingleton<IEventParser, EvtxParser>();
-            services.AddSingleton<IAnalysisEngine, AnalysisEngine>();
-            services.AddSingleton<IRegistryParser, RegistryParser>();
-            
-            // Componentele MVVM din UI
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainWindow>();
+        var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LogAnalyzer.UI");
+        Directory.CreateDirectory(appData);
+        var custodyLogPath = Path.Combine(appData, "custody.log");
 
-            ServiceProvider = services.BuildServiceProvider();
+        services.AddSingleton(new SecurityBootstrap(custodyLogPath));
+        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().HardwareIdentity);
+        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().SecurePaths);
+        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().ChainOfCustody);
+        services.AddSingleton<EvidenceIntakeService>();
 
-            // Afișăm fereastra principală
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
-        }
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<MainWindow>();
+
+        ServiceProvider = services.BuildServiceProvider();
+
+        var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        MainWindow = mainWindow;
+        mainWindow.Show();
     }
 }

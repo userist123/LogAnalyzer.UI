@@ -13,22 +13,30 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        HardwareIdTextBox.Text = _licenseService.GetHardwareId();
+        HardwareIdTextBox.Text = string.Empty;
         ExpiryDatePicker.SelectedDate = DateTime.Today.AddYears(1);
     }
 
     private void Generate_Click(object sender, RoutedEventArgs e)
     {
+        var hardwareId = HardwareIdTextBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(hardwareId))
+        {
+            StatusText.Text = "Introdu Hardware ID-ul clientului.";
+            HardwareIdTextBox.Focus();
+            return;
+        }
+
         if (ExpiryDatePicker.SelectedDate is not DateTime expiry || expiry.Date <= DateTime.UtcNow.Date)
         {
-            StatusText.Text = "Alege o dată de expirare în viitor.";
+            StatusText.Text = "Alege o datÄƒ de expirare Ã®n viitor.";
             return;
         }
 
         var date = expiry.Date.ToString("yyyy-MM-dd");
-        var key = _licenseService.GenerateKey(HardwareIdTextBox.Text, expiry.Date);
+        var key = _licenseService.GenerateKey(hardwareId, expiry.Date);
         LicenseTextBox.Text = $"{key}|{date}";
-        StatusText.Text = "Licență generată. Copiază valoarea în ActivationWindow.";
+        StatusText.Text = "LicenÈ›Äƒ generatÄƒ. CopiazÄƒ valoarea Ã®n ActivationWindow.";
     }
 
     private void CopyHardwareId_Click(object sender, RoutedEventArgs e)
@@ -41,19 +49,19 @@ public partial class MainWindow : Window
     {
         if (string.IsNullOrWhiteSpace(LicenseTextBox.Text))
         {
-            StatusText.Text = "Generează mai întâi o licență.";
+            StatusText.Text = "GenereazÄƒ mai Ã®ntâi o licenÈ›Äƒ.";
             return;
         }
 
         Clipboard.SetText(LicenseTextBox.Text);
-        StatusText.Text = "Licență copiată în clipboard.";
+        StatusText.Text = "LicenÈ›Äƒ copiatÄƒ în clipboard.";
     }
 
     private void SaveLicense_Click(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(LicenseTextBox.Text))
         {
-            StatusText.Text = "Generează mai întâi o licență.";
+            StatusText.Text = "GenereazÄƒ mai Ã®ntâi o licenÈ›Äƒ.";
             return;
         }
 
@@ -61,7 +69,7 @@ public partial class MainWindow : Window
         if (dialog.ShowDialog() == true)
         {
             File.WriteAllText(dialog.FileName, LicenseTextBox.Text);
-            StatusText.Text = $"Licența a fost salvată: {Path.GetFileName(dialog.FileName)}";
+            StatusText.Text = $"LicenÈ›a a fost salvatÄƒ: {Path.GetFileName(dialog.FileName)}";
         }
     }
 }

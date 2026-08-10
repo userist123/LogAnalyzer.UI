@@ -7,6 +7,8 @@
 - Calcul SHA-256 pentru fișiere de probă.
 - Jurnal de custodie append-only cu hash-chain și verificare integrală.
 - Verificare de bază pentru fișiere reparse-point înainte de import.
+- Flux de import probă care produce un receipt cu SHA-256 și hash-ul auditului.
+- Bootstrap local pentru compunerea serviciilor de securitate.
 
 ## Important
 
@@ -14,8 +16,8 @@ Aceste controale oferă integritate și trasabilitate la nivel de aplicație; nu
 
 ## Următorii pași
 
-1. Teste unitare și build CI pentru branch.
-2. Integrarea serviciilor în DI și App.xaml.cs.
+1. Integrarea `SecurityBootstrap` în DI și `App.xaml.cs`.
+2. Teste unitare și build CI pentru branch.
 3. Protejarea materialului secret prin Windows DPAPI/CNG.
 4. Alegerea și integrarea explicită a providerului SQLCipher.
 5. Profil de publicare și test separat pentru Native AOT; WPF și dependințele dinamice trebuie validate înainte de activare.

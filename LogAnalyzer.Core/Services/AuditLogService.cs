@@ -21,6 +21,8 @@ public sealed class AuditLogService
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
     }
 
+    public void LogAction(string action, string details) => LogAction("analyst", action, details);
+
     public void LogAction(string actor, string action, string details)
     {
         var timestamp = DateTimeOffset.UtcNow.ToString("O");

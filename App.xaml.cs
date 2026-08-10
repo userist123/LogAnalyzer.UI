@@ -26,17 +26,30 @@ public partial class App : Application
             args.Handled = true;
         };
 
-        var services = new ServiceCollection();
+        Exit += (_, _) =>
+        {
+            if (ServiceProvider is IDisposable disposable)
+                disposable.Dispose();
+        };
 
+        var services = new ServiceCollection();
         var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LogAnalyzer.UI");
         Directory.CreateDirectory(appData);
+
         var custodyLogPath = Path.Combine(appData, "custody.log");
+        var databasePath = Path.Combine(appData, "knowledge.db");
+        var databaseKeyPath = Path.Combine(appData, "knowledge.key");
 
         services.AddSingleton(new SecurityBootstrap(custodyLogPath));
         services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().HardwareIdentity);
         services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().SecurePaths);
         services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().ChainOfCustody);
         services.AddSingleton<EvidenceIntakeService>();
+
+        services.AddSingleton<ProtectedSecretStore>();
+        services.AddSingleton(sp => new SqlCipherKeyStore(sp.GetRequiredService<ProtectedSecretStore>(), databaseKeyPath));
+        services.AddSingleton(sp => new SqlCipherDatabase(databasePath, sp.GetRequiredService<SqlCipherKeyStore>()));
+        services.AddSingleton<IocKnowledgeBaseService>();
 
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();

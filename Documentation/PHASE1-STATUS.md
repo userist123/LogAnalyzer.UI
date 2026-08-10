@@ -15,14 +15,16 @@
 - Fundație SQLCipher pentru baza de date IOC, cu cheie AES-256 generată aleator și protejată prin DPAPI.
 - Operații IOC parametrizate prin ADO.NET, fără EF Core și fără date sensibile în repository.
 - Teste de integrare pentru creare, redeschidere, inserare, căutare și respingerea unei chei SQLCipher greșite.
+- Dependențe declarate explicit pentru `Microsoft.Data.Sqlite.Core`, `SQLitePCLRaw.bundle_e_sqlcipher` și `System.Security.Cryptography.ProtectedData`.
 
 ## Important
 
-Rezultatul testelor CI este autoritatea pentru compatibilitatea efectivă a pachetelor SQLCipher cu target-ul proiectului. Testele de integrare nu reprezintă certificare ORNISS, ISO/IEC 27037, Common Criteria sau un mecanism juridic automat de inalterabilitate.
+Rezultatul testelor CI este autoritatea pentru compatibilitatea efectivă a pachetelor cu target-ul proiectului. Testele de integrare nu reprezintă certificare ORNISS, ISO/IEC 27037, Common Criteria sau un mecanism juridic automat de inalterabilitate.
 
 ## Următorii pași
 
-1. Integrarea SQLCipher în DI și în fluxul de analiză.
-2. Adăugarea operațiilor de actualizare/ștergere IOC cu audit obligatoriu.
-3. Profil de publicare și test separat pentru Native AOT.
-4. Semnare Authenticode și verificarea artefactelor de release.
+1. Verificarea restore/build/test în CI.
+2. Integrarea operațiilor de adăugare, actualizare și ștergere IOC cu audit obligatoriu.
+3. Integrarea filtrării IOC în ViewModel și UI.
+4. Profil de publicare și test separat pentru Native AOT.
+5. Semnare Authenticode și verificarea artefactelor de release.

@@ -25,6 +25,21 @@
             <Setter Property="Background" Value="#FF1E1E1E"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
+        <Style x:Key="VirtualizedDataGridStyle" TargetType="DataGrid">
+            <Setter Property="EnableRowVirtualization" Value="True"/>
+            <Setter Property="EnableColumnVirtualization" Value="True"/>
+            <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+            <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+            <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="Background" Value="#FF1E1E1E"/>
+            <Setter Property="AlternatingRowBackground" Value="#FF252526"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FF3F3F46"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#FF3F3F46"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="RowHeight" Value="25"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -57,7 +72,7 @@
                     <Grid Background="#FF1E1E1E">
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                         <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="5" Padding="5" Background="#FF333337" Foreground="White" BorderBrush="#FF434346" ToolTip="Caută în evenimente sau mesaj..."/>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding EventsView}" SelectedItem="{Binding SelectedEvent}" AutoGenerateColumns="False" IsReadOnly="True" RowHeight="25" Background="#FF1E1E1E" AlternatingRowBackground="#FF252526" HorizontalGridLinesBrush="#FF3F3F46" VerticalGridLinesBrush="#FF3F3F46">
+                        <DataGrid Grid.Row="1" Style="{StaticResource VirtualizedDataGridStyle}" ItemsSource="{Binding EventsView}" SelectedItem="{Binding SelectedEvent}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Data (UTC)" Binding="{Binding TimeCreated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
                                 <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="60"/>
@@ -76,7 +91,7 @@
                     <Grid Background="#FF1E1E1E">
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                         <TextBox Text="{Binding SearchArtifactsText, UpdateSourceTrigger=PropertyChanged}" Margin="5" Padding="5" Background="#FF333337" Foreground="White" BorderBrush="#FF434346"/>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding ArtifactsView}" SelectedItem="{Binding SelectedArtifact}" AutoGenerateColumns="False" IsReadOnly="True" RowHeight="25" Background="#FF1E1E1E" AlternatingRowBackground="#FF252526" HorizontalGridLinesBrush="#FF3F3F46" VerticalGridLinesBrush="#FF3F3F46">
+                        <DataGrid Grid.Row="1" Style="{StaticResource VirtualizedDataGridStyle}" ItemsSource="{Binding ArtifactsView}" SelectedItem="{Binding SelectedArtifact}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Cale Cheie" Binding="{Binding KeyPath}" Width="300"/>
                                 <DataGridTextColumn Header="Valoare" Binding="{Binding ValueName}" Width="150"/>
@@ -89,7 +104,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Timeline" Background="#FF2D2D30">
-                    <DataGrid ItemsSource="{Binding TimelineView}" SelectedItem="{Binding SelectedTimelineItem}" AutoGenerateColumns="False" IsReadOnly="True" RowHeight="25" Background="#FF1E1E1E" AlternatingRowBackground="#FF252526" HorizontalGridLinesBrush="#FF3F3F46" VerticalGridLinesBrush="#FF3F3F46">
+                    <DataGrid Style="{StaticResource VirtualizedDataGridStyle}" ItemsSource="{Binding TimelineView}" SelectedItem="{Binding SelectedTimelineItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
                             <DataGridTextColumn Header="Sursă" Binding="{Binding Source}" Width="100"/>
@@ -116,7 +131,7 @@
                     <Grid>
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                         <CheckBox Content="Ascunde alerte verificate" IsChecked="{Binding HideVerifiedAlerts}" Foreground="White" Margin="5"/>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}" AutoGenerateColumns="False" IsReadOnly="True" RowHeight="25" Background="#FF1E1E1E" AlternatingRowBackground="#FF252526" HorizontalGridLinesBrush="#FF3F3F46" VerticalGridLinesBrush="#FF3F3F46">
+                        <DataGrid Grid.Row="1" Style="{StaticResource VirtualizedDataGridStyle}" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Sev" Binding="{Binding Severity}" Width="60"/>
                                 <DataGridTextColumn Header="Alertă" Binding="{Binding Title}" Width="*"/>
@@ -164,8 +179,9 @@
         </StatusBar>
 
         <Grid Grid.RowSpan="3" Background="#B2000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ProgressBar IsIndeterminate="True" Width="300" Height="25" Margin="0,0,0,15"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="340">
+                <ProgressBar IsIndeterminate="False" Minimum="0" Maximum="100" Value="{Binding LoadProgress, Mode=OneWay}" Width="340" Height="25" Margin="0,0,0,10"/>
+                <TextBlock Text="{Binding LoadProgressText}" Foreground="White" FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,5"/>
                 <TextBlock Text="Se procesează..." Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>

@@ -1,10 +1,9 @@
 using System;
-using System.IO;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using LogAnalyzer.Core.Interfaces;
+using LogAnalyzer.Core.Services;
 using LogAnalyzer.Infrastructure;
-using LogAnalyzer.UI.Services;
 using LogAnalyzer.UI.ViewModels;
 using LogAnalyzer.UI.Views;
 
@@ -18,57 +17,49 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        DispatcherUnhandledException += (_, args) =>
+        this.DispatcherUnhandledException += (sender, args) =>
         {
-            MessageBox.Show(
-                $"Eroare critică internă:\n{args.Exception.Message}",
-                "LogAnalyzer.UI Crash",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            MessageBox.Show($"Eroare critică internă:\n{args.Exception.Message}", "Crash", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
 
-        Exit += (_, _) =>
-        {
-            if (ServiceProvider is IDisposable disposable)
-                disposable.Dispose();
-        };
-
         var services = new ServiceCollection();
-        var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LogAnalyzer.UI");
-        Directory.CreateDirectory(appData);
 
-        var custodyLogPath = Path.Combine(appData, "custody.log");
-        var databasePath = Path.Combine(appData, "knowledge.db");
-        var databaseKeyPath = Path.Combine(appData, "knowledge.key");
-        var auditLogPath = Path.Combine(appData, "audit.log");
+        // Servicii Core (Utilitare)
+        services.AddSingleton<AuditLogService>();
+        services.AddSingleton<KnowledgeBaseService>();
+        services.AddSingleton<PluginManagerService>();
+        services.AddSingleton<LicenseService>();
 
-        services.AddSingleton(new SecurityBootstrap(custodyLogPath));
-        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().HardwareIdentity);
-        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().SecurePaths);
-        services.AddSingleton(sp => sp.GetRequiredService<SecurityBootstrap>().ChainOfCustody);
-        services.AddSingleton<EvidenceIntakeService>();
-
-        services.AddSingleton<ProtectedSecretStore>();
-        services.AddSingleton(sp => new SqlCipherKeyStore(sp.GetRequiredService<ProtectedSecretStore>(), databaseKeyPath));
-        services.AddSingleton(sp => new SqlCipherDatabase(databasePath, sp.GetRequiredService<SqlCipherKeyStore>()));
-        services.AddSingleton<IocKnowledgeBaseService>();
-
+        // Motoarele din Infrastructure
         services.AddSingleton<IEventParser, EvtxParser>();
         services.AddSingleton<IAnalysisEngine, AnalysisEngine>();
         services.AddSingleton<IRegistryParser, RegistryParser>();
-        services.AddSingleton(new LogAnalyzer.Core.Services.AuditLogService(auditLogPath));
-        services.AddSingleton<LogAnalyzer.Core.Services.KnowledgeBaseService>();
-        services.AddSingleton<LogAnalyzer.Core.Services.PluginManagerService>();
-        services.AddSingleton<LogAnalyzer.Core.Services.LicenseService>();
 
+        // Componentele MVVM și ferestrele din UI
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();
+        services.AddTransient<ActivationWindow>();
 
         ServiceProvider = services.BuildServiceProvider();
 
+        // Verificăm licența ÎNAINTE de a afișa fereastra principală.
+        // Dacă nu este activată sau a expirat, blocăm accesul la aplicație.
+        var licenseService = ServiceProvider.GetRequiredService<LicenseService>();
+        if (!licenseService.IsActivated())
+        {
+            var activationWindow = ServiceProvider.GetRequiredService<ActivationWindow>();
+            bool? activated = activationWindow.ShowDialog();
+
+            if (activated != true)
+            {
+                Shutdown();
+                return;
+            }
+        }
+
+        // Afișăm fereastra principală
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-        MainWindow = mainWindow;
         mainWindow.Show();
     }
 }

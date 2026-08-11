@@ -36,6 +36,12 @@ namespace LogAnalyzer.UI.ViewModels
         public ObservableCollection<RegistryArtifact> RegistryArtifacts { get; set; } = new();
         public ObservableCollection<TimelineItem> TimelineItems { get; set; } = new();
         public ObservableCollection<IocItem> CurrentIocs { get; set; } = new();
+        
+        // Threat Hunting Command Center Collections
+        public ObservableCollection<ProcessNode> ProcessTreeNodes { get; set; } = new();
+        public ObservableCollection<SigmaRule> SigmaRules { get; set; } = new();
+        [ObservableProperty] private SigmaRule? _selectedSigmaRule;
+        public ObservableCollection<MitreTechnique> AttackTechniques { get; set; } = new();
 
         [ObservableProperty] private ICollectionView? _issuesView;
 
@@ -150,6 +156,11 @@ namespace LogAnalyzer.UI.ViewModels
 
             IssuesView = CollectionViewSource.GetDefaultView(DetectedIssues);
             IssuesView.Filter = FilterIssues;
+
+            // Initialize Threat Hunting command center components
+            InitializeProcessTree();
+            InitializeSigmaRules();
+            PopulateMitreMatrix();
         }
 
         private void ReloadEvtxFromDb()
@@ -203,6 +214,8 @@ namespace LogAnalyzer.UI.ViewModels
                 TotalRegistryCount = _databaseService.GetRegistryArtifactsCount(null);
                 TotalHostsCount = _databaseService.GetUniqueHostsCount();
                 TotalAlertsCount = DetectedIssues.Count;
+
+                PopulateMitreMatrix();
             }
             catch { }
         }
@@ -606,5 +619,215 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);
+
+        private void InitializeProcessTree()
+        {
+            ProcessTreeNodes.Clear();
+            var systemRoot = new ProcessNode { ProcessName = "System", PID = 4, RiskColor = "#e1e7f0", ProcessIcon = "💻" };
+            
+            var smss = new ProcessNode { ProcessName = "smss.exe", PID = 312, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            systemRoot.Children.Add(smss);
+            
+            var wininit = new ProcessNode { ProcessName = "wininit.exe", PID = 620, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            systemRoot.Children.Add(wininit);
+            
+            var services = new ProcessNode { ProcessName = "services.exe", PID = 744, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            wininit.Children.Add(services);
+            
+            var svchost1 = new ProcessNode { ProcessName = "svchost.exe (netsvcs)", PID = 1044, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            services.Children.Add(svchost1);
+            
+            var unverifiedService = new ProcessNode { ProcessName = "malicious_service.exe", PID = 5124, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+            services.Children.Add(unverifiedService);
+
+            var winlogon = new ProcessNode { ProcessName = "winlogon.exe", PID = 688, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            systemRoot.Children.Add(winlogon);
+            
+            var explorer = new ProcessNode { ProcessName = "explorer.exe", PID = 4120, RiskColor = "#00f2fe", ProcessIcon = "🖥️" };
+            winlogon.Children.Add(explorer);
+
+            var chrome = new ProcessNode { ProcessName = "chrome.exe", PID = 5824, RiskColor = "#e1e7f0", ProcessIcon = "🌐" };
+            explorer.Children.Add(chrome);
+
+            var cmd = new ProcessNode { ProcessName = "cmd.exe", PID = 8812, RiskColor = "#f9d423", ProcessIcon = "🐚" };
+            explorer.Children.Add(cmd);
+
+            var powershell = new ProcessNode { ProcessName = "powershell.exe", PID = 9024, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+            cmd.Children.Add(powershell);
+
+            var whoami = new ProcessNode { ProcessName = "whoami.exe", PID = 9088, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+            powershell.Children.Add(whoami);
+
+            ProcessTreeNodes.Add(systemRoot);
+        }
+
+        private void InitializeSigmaRules()
+        {
+            SigmaRules.Clear();
+            SigmaRules.Add(new SigmaRule
+            {
+                RuleName = "Suspicious PowerShell Encoded Command",
+                Status = "Active",
+                RuleStatusColor = "#00ff87",
+                FilePath = "rules/powershell_encoded.yml",
+                RuleContent = @"title: Suspicious PowerShell Encoded Command
+id: f3a8d9a2-94a2-4a0b-bf3e-ff2b32c59562
+status: experimental
+description: Detects base64 encoded commands passed to PowerShell
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4688
+        ProcessName|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - '-enc'
+            - '-encodedcommand'
+            - 'bypass'
+    condition: selection
+falsepositives:
+    - Administrative maintenance scripts
+level: high"
+            });
+
+            SigmaRules.Add(new SigmaRule
+            {
+                RuleName = "Volume Shadow Copy Deletion via VSSAdmin",
+                Status = "Active",
+                RuleStatusColor = "#00ff87",
+                FilePath = "rules/vssadmin_delete.yml",
+                RuleContent = @"title: Volume Shadow Copy Deletion via VSSAdmin
+id: a2b8d9c2-9014-41e9-9fa6-c00bb24e392a
+status: stable
+description: Detects ransomware behavior deleting system backup shadows
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4688
+        CommandLine|contains|all:
+            - 'vssadmin'
+            - 'delete'
+            - 'shadows'
+    condition: selection
+level: critical"
+            });
+
+            SigmaRules.Add(new SigmaRule
+            {
+                RuleName = "Credential Dumping via LSASS Memory Access",
+                Status = "Experimental",
+                RuleStatusColor = "#f9d423",
+                FilePath = "rules/lsass_credential_dumping.yml",
+                RuleContent = @"title: Credential Dumping via LSASS Memory Access
+id: df3a8081-a7b2-4f32-bc81-c77673a38212
+status: experimental
+description: Detects access requests to LSASS process memory for dumping credentials
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4656
+        ObjectType: 'Process'
+        ObjectName|endswith: '\lsass.exe'
+        AccessMask: '0x1410' # PROCESS_VM_READ | PROCESS_QUERY_INFORMATION
+    condition: selection
+level: critical"
+            });
+
+            SelectedSigmaRule = SigmaRules.FirstOrDefault();
+        }
+
+        private void PopulateMitreMatrix()
+        {
+            AttackTechniques.Clear();
+            var techniques = new List<MitreTechnique>
+            {
+                new MitreTechnique { TechId = "T1110", Name = "Brute Force" },
+                new MitreTechnique { TechId = "T1070.001", Name = "Clear Event Logs" },
+                new MitreTechnique { TechId = "T1136.001", Name = "Local Account" },
+                new MitreTechnique { TechId = "T1098", Name = "Account Manipulation" },
+                new MitreTechnique { TechId = "T1543.003", Name = "Windows Service" },
+                new MitreTechnique { TechId = "T1059.001", Name = "PowerShell Scripting" },
+                new MitreTechnique { TechId = "T1490", Name = "Inhibit System Recovery" },
+                new MitreTechnique { TechId = "T1547.001", Name = "Registry Run Keys" },
+                new MitreTechnique { TechId = "T1003.001", Name = "Credential Dumping" },
+                new MitreTechnique { TechId = "T1562.001", Name = "Impair Defenses" },
+                new MitreTechnique { TechId = "T1548.002", Name = "Bypass UAC" },
+                new MitreTechnique { TechId = "T1133", Name = "External RDP Access" },
+                new MitreTechnique { TechId = "T1027", Name = "Obfuscated Files" },
+                new MitreTechnique { TechId = "T1047", Name = "WMI Execution" }
+            };
+
+            foreach (var tech in techniques)
+            {
+                bool hasAlert = false;
+                string maxSeverity = "None";
+                foreach (var issue in DetectedIssues)
+                {
+                    if (issue.MitreTechniqueId == tech.TechId || (issue.MitreTechniqueId != null && issue.MitreTechniqueId.StartsWith(tech.TechId)))
+                    {
+                        hasAlert = true;
+                        if (issue.Severity == "Critical") maxSeverity = "Critical";
+                        else if (issue.Severity == "High" && maxSeverity != "Critical") maxSeverity = "High";
+                        else if (issue.Severity == "Medium" && maxSeverity != "Critical" && maxSeverity != "High") maxSeverity = "Medium";
+                    }
+                }
+
+                if (hasAlert)
+                {
+                    if (maxSeverity == "Critical" || maxSeverity == "High")
+                    {
+                        tech.DetectionColor = "#2a0d15"; // Dark Crimson background
+                        tech.BorderColor = "#ff3366"; // Neon Red
+                        tech.Severity = maxSeverity;
+                    }
+                    else
+                    {
+                        tech.DetectionColor = "#261c0d"; // Dark Amber background
+                        tech.BorderColor = "#f9d423"; // Neon Amber
+                        tech.Severity = maxSeverity;
+                    }
+                }
+                else
+                {
+                    tech.DetectionColor = "#121622";
+                    tech.BorderColor = "#1e2538";
+                    tech.Severity = "None";
+                }
+
+                AttackTechniques.Add(tech);
+            }
+        }
+    }
+
+    public class ProcessNode
+    {
+        public string ProcessName { get; set; } = string.Empty;
+        public int PID { get; set; }
+        public string RiskColor { get; set; } = "#e1e7f0";
+        public string ProcessIcon { get; set; } = "⚙️";
+        public ObservableCollection<ProcessNode> Children { get; set; } = new();
+    }
+
+    public class SigmaRule
+    {
+        public string RuleName { get; set; } = string.Empty;
+        public string Status { get; set; } = "Active";
+        public string RuleStatusColor { get; set; } = "#00ff87";
+        public string FilePath { get; set; } = string.Empty;
+        public string RuleContent { get; set; } = string.Empty;
+    }
+
+    public class MitreTechnique
+    {
+        public string TechId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string DetectionColor { get; set; } = "#121622";
+        public string BorderColor { get; set; } = "#1e2538";
+        public string Severity { get; set; } = "None";
     }
 }

@@ -26,6 +26,9 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly AuditLogService _auditService;
         private readonly KnowledgeBaseService _kbService;
         private readonly PluginManagerService _pluginManager;
+        private readonly IDatabaseService _databaseService;
+
+        private const int PageSize = 100;
 
         public ObservableCollection<ParsedEvent> Events { get; set; } = new();
         public ObservableCollection<DetectedIssue> DetectedIssues { get; set; } = new();
@@ -33,10 +36,7 @@ namespace LogAnalyzer.UI.ViewModels
         public ObservableCollection<TimelineItem> TimelineItems { get; set; } = new();
         public ObservableCollection<IocItem> CurrentIocs { get; set; } = new();
 
-        [ObservableProperty] private ICollectionView? _eventsView;
-        [ObservableProperty] private ICollectionView? _artifactsView;
         [ObservableProperty] private ICollectionView? _issuesView;
-        [ObservableProperty] private ICollectionView? _timelineView;
 
         [ObservableProperty] private string _searchEventsText = string.Empty;
         [ObservableProperty] private string _searchArtifactsText = string.Empty;
@@ -54,6 +54,21 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _statusMessage = "Sistem pregătit pentru investigație offline...";
         [ObservableProperty] private bool _hideVerifiedAlerts;
 
+        // Dashboard stats
+        [ObservableProperty] private int _selectedTabIndex = 0;
+        [ObservableProperty] private int _totalEventsCount;
+        [ObservableProperty] private int _totalAlertsCount;
+        [ObservableProperty] private int _totalRegistryCount;
+        [ObservableProperty] private int _totalHostsCount;
+
+        // Paging properties
+        [ObservableProperty] private int _evtxCurrentPage = 1;
+        [ObservableProperty] private int _evtxTotalPages = 1;
+        [ObservableProperty] private int _registryCurrentPage = 1;
+        [ObservableProperty] private int _registryTotalPages = 1;
+        [ObservableProperty] private int _timelineCurrentPage = 1;
+        [ObservableProperty] private int _timelineTotalPages = 1;
+
         public ObservableCollection<DfirProfile> Profiles { get; } = new()
         {
             new DfirProfile { Name = "1. Toate Evenimentele (Implicit)", TargetEventIds = new() },
@@ -64,14 +79,36 @@ namespace LogAnalyzer.UI.ViewModels
 
         [ObservableProperty] private DfirProfile? _selectedProfile;
 
-        partial void OnSearchEventsTextChanged(string value) { EventsView?.Refresh(); TimelineView?.Refresh(); }
-        partial void OnSearchArtifactsTextChanged(string value) => ArtifactsView?.Refresh();
+        // Trigger DB reloading when search parameters change
+        partial void OnSearchEventsTextChanged(string value)
+        {
+            EvtxCurrentPage = 1;
+            TimelineCurrentPage = 1;
+            ReloadEvtxFromDb();
+            ReloadTimelineFromDb();
+        }
+
+        partial void OnSearchArtifactsTextChanged(string value)
+        {
+            RegistryCurrentPage = 1;
+            ReloadRegistryFromDb();
+        }
+
+        partial void OnSelectedProfileChanged(DfirProfile? value)
+        {
+            EvtxCurrentPage = 1;
+            ReloadEvtxFromDb();
+        }
+
+        partial void OnEvtxCurrentPageChanged(int value) => ReloadEvtxFromDb();
+        partial void OnRegistryCurrentPageChanged(int value) => ReloadRegistryFromDb();
+        partial void OnTimelineCurrentPageChanged(int value) => ReloadTimelineFromDb();
         partial void OnHideVerifiedAlertsChanged(bool value) => IssuesView?.Refresh();
-        partial void OnSelectedProfileChanged(DfirProfile? value) { EventsView?.Refresh(); TimelineView?.Refresh(); }
 
         public MainViewModel(
             IEventParser eventParser, IAnalysisEngine analysisEngine, IRegistryParser registryParser,
-            AuditLogService auditService, KnowledgeBaseService kbService, PluginManagerService pluginManager)
+            AuditLogService auditService, KnowledgeBaseService kbService, PluginManagerService pluginManager,
+            IDatabaseService databaseService)
         {
             _eventParser = eventParser;
             _analysisEngine = analysisEngine;
@@ -79,21 +116,93 @@ namespace LogAnalyzer.UI.ViewModels
             _auditService = auditService;
             _kbService = kbService;
             _pluginManager = pluginManager;
+            _databaseService = databaseService;
 
             SelectedProfile = Profiles.First();
 
-            EventsView = CollectionViewSource.GetDefaultView(Events);
-            EventsView.Filter = FilterEvents;
-            
-            ArtifactsView = CollectionViewSource.GetDefaultView(RegistryArtifacts);
-            ArtifactsView.Filter = FilterArtifacts;
-            
+            try
+            {
+                string categoriesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Categories");
+                _kbService.LoadCategories(categoriesPath);
+            }
+            catch { }
+
             IssuesView = CollectionViewSource.GetDefaultView(DetectedIssues);
             IssuesView.Filter = FilterIssues;
-            
-            TimelineView = CollectionViewSource.GetDefaultView(TimelineItems);
-            TimelineView.Filter = FilterTimeline;
         }
+
+        private void ReloadEvtxFromDb()
+        {
+            try
+            {
+                var targetIds = SelectedProfile?.TargetEventIds ?? new List<int>();
+                int count = _databaseService.GetEventsCount(SearchEventsText, null, targetIds);
+                EvtxTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
+                
+                var list = _databaseService.GetEvents(PageSize, (EvtxCurrentPage - 1) * PageSize, SearchEventsText, null, targetIds);
+                Events.Clear();
+                foreach (var ev in list) Events.Add(ev);
+            }
+            catch { }
+        }
+
+        private void ReloadRegistryFromDb()
+        {
+            try
+            {
+                int count = _databaseService.GetRegistryArtifactsCount(SearchArtifactsText);
+                RegistryTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
+                
+                var list = _databaseService.GetRegistryArtifacts(PageSize, (RegistryCurrentPage - 1) * PageSize, SearchArtifactsText);
+                RegistryArtifacts.Clear();
+                foreach (var reg in list) RegistryArtifacts.Add(reg);
+            }
+            catch { }
+        }
+
+        private void ReloadTimelineFromDb()
+        {
+            try
+            {
+                int count = _databaseService.GetTimelineCount(SearchEventsText);
+                TimelineTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
+                
+                var list = _databaseService.GetTimeline(PageSize, (TimelineCurrentPage - 1) * PageSize, SearchEventsText);
+                TimelineItems.Clear();
+                foreach (var item in list) TimelineItems.Add(item);
+            }
+            catch { }
+        }
+
+        private void ReloadDashboardStats()
+        {
+            try
+            {
+                TotalEventsCount = _databaseService.GetEventsCount(null, null, null);
+                TotalRegistryCount = _databaseService.GetRegistryArtifactsCount(null);
+                TotalHostsCount = _databaseService.GetUniqueHostsCount();
+                TotalAlertsCount = DetectedIssues.Count;
+            }
+            catch { }
+        }
+
+        [RelayCommand]
+        private void Navigate(string indexStr)
+        {
+            if (int.TryParse(indexStr, out int index))
+            {
+                SelectedTabIndex = index;
+            }
+        }
+
+        [RelayCommand] private void NextEvtxPage() { if (EvtxCurrentPage < EvtxTotalPages) EvtxCurrentPage++; }
+        [RelayCommand] private void PrevEvtxPage() { if (EvtxCurrentPage > 1) EvtxCurrentPage--; }
+
+        [RelayCommand] private void NextRegistryPage() { if (RegistryCurrentPage < RegistryTotalPages) RegistryCurrentPage++; }
+        [RelayCommand] private void PrevRegistryPage() { if (RegistryCurrentPage > 1) RegistryCurrentPage--; }
+
+        [RelayCommand] private void NextTimelinePage() { if (TimelineCurrentPage < TimelineTotalPages) TimelineCurrentPage++; }
+        [RelayCommand] private void PrevTimelinePage() { if (TimelineCurrentPage > 1) TimelineCurrentPage--; }
 
         private void UpdateInspector(string machine, string provider, string time, string message)
         {
@@ -150,6 +259,7 @@ namespace LogAnalyzer.UI.ViewModels
                         _selectedIssue = null;
                         OnPropertyChanged(nameof(SelectedIssue));
                         IssuesView?.Refresh();
+                        ReloadDashboardStats();
                         _isPopupActive = false;
                     });
                 }
@@ -180,6 +290,7 @@ namespace LogAnalyzer.UI.ViewModels
             {
                 DetectedIssues.Insert(0, newAlert);
                 IssuesView?.Refresh();
+                ReloadDashboardStats();
                 StatusMessage = "✅ Alertă manuală adăugată!";
             });
         }
@@ -188,6 +299,7 @@ namespace LogAnalyzer.UI.ViewModels
         private void PivotIoc(string value)
         {
             SearchEventsText = value;
+            SelectedTabIndex = 1; // Comută la evenimente
             StatusMessage = $"Filtrare după IOC: {value}";
         }
 
@@ -208,15 +320,37 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand]
         private void ExportToCsv()
         {
-            if (EventsView == null || EventsView.IsEmpty) return;
-            var dialog = new SaveFileDialog { Filter = "Raport CSV (*.csv)|*.csv", FileName = "Raport_Incident.csv" };
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var sb = new StringBuilder(); sb.AppendLine("Data,Severitate,EventID,Sursa,Mesaj");
-                foreach (ParsedEvent ev in EventsView)
-                    sb.AppendLine($"{ev.TimeCreated},{ev.Level},{ev.EventId},{ev.ProviderName},\"{ev.Message?.Replace("\r", " ").Replace("\n", " ") ?? ""}\"");
-                File.WriteAllText(dialog.FileName, sb.ToString(), Encoding.UTF8);
-                StatusMessage = "Export CSV complet.";
+                // Exportă tot ce corespunde filtrului curent de evenimente din DB
+                var targetIds = SelectedProfile?.TargetEventIds ?? new List<int>();
+                int count = _databaseService.GetEventsCount(SearchEventsText, null, targetIds);
+                if (count == 0) return;
+
+                var dialog = new SaveFileDialog { Filter = "Raport CSV (*.csv)|*.csv", FileName = "Raport_Incident.csv" };
+                if (dialog.ShowDialog() == true)
+                {
+                    var sb = new StringBuilder(); 
+                    sb.AppendLine("Data,Severitate,EventID,Sursa,Mesaj");
+                    
+                    // Încărcăm în loturi de 5000 din DB pentru export fără a încărca memoria
+                    int limit = 5000;
+                    for (int offset = 0; offset < count; offset += limit)
+                    {
+                        var chunk = _databaseService.GetEvents(limit, offset, SearchEventsText, null, targetIds);
+                        foreach (ParsedEvent ev in chunk)
+                        {
+                            sb.AppendLine($"{ev.TimeCreated},{ev.Level},{ev.EventId},{ev.ProviderName},\"{ev.Message?.Replace("\r", " ").Replace("\n", " ") ?? ""}\"");
+                        }
+                    }
+                    
+                    File.WriteAllText(dialog.FileName, sb.ToString(), Encoding.UTF8);
+                    StatusMessage = "Export CSV complet.";
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Eroare la export CSV: {ex.Message}";
             }
         }
 
@@ -226,62 +360,163 @@ namespace LogAnalyzer.UI.ViewModels
             var dialog = new SaveFileDialog { Filter = "Raport PDF (*.pdf)|*.pdf", FileName = $"Raport_Forenzic_{DateTime.Now:yyyyMMdd_HHmmss}.pdf" };
             if (dialog.ShowDialog() == true)
             {
-                try {
-                    PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), TimelineItems.ToList(), "Hashes");
+                try 
+                {
+                    // Tragem un număr reprezentativ de evenimente de timeline din DB pentru raport (limitat la 500 pentru lizibilitate în PDF)
+                    var timeline = _databaseService.GetTimeline(500, 0, null).ToList();
+                    PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), timeline, "Hashes");
                     StatusMessage = $"✅ Raport PDF generat cu succes!";
-                } catch (Exception ex) { StatusMessage = $"Eroare PDF: {ex.Message}"; }
+                } 
+                catch (Exception ex) 
+                { 
+                    StatusMessage = $"Eroare PDF: {ex.Message}"; 
+                }
             }
         }
 
         private async Task ProcessFilesAsync(string[] allFiles)
         {
             IsLoading = true;
-            StatusMessage = "Procesare artefacte...";
+            StatusMessage = "Inițializare bază de date SQLite...";
             Events.Clear(); RegistryArtifacts.Clear(); DetectedIssues.Clear(); TimelineItems.Clear();
+            _databaseService.ClearDatabase();
 
             await Task.Run(() =>
             {
+                // 1. Procesare fișiere EVTX în loturi
                 var evtxFiles = allFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
+                int totalEvtxProcessed = 0;
                 foreach (var file in evtxFiles)
                 {
-                    try {
-                        foreach (var ev in _eventParser.ParseEvtxFile(file)) {
-                            Application.Current.Dispatcher.Invoke(() => Events.Add(ev));
+                    try 
+                    {
+                        var batch = new List<ParsedEvent>();
+                        var timelineBatch = new List<TimelineItem>();
+                        
+                        foreach (var ev in _eventParser.ParseEvtxFile(file)) 
+                        {
+                            var kbDetails = _kbService.GetDetails(ev.EventId);
+                            if (kbDetails != null)
+                            {
+                                ev.OfficialDescription = kbDetails.ExtendedDescription;
+                                ev.TacticalExample = kbDetails.EventExample;
+                                ev.ReferenceUrl = kbDetails.ReferenceUrl;
+                                ev.PotentialCriticality = kbDetails.PotentialCriticality;
+                            }
+                            batch.Add(ev);
+                            
+                            // Adăugăm în batch-ul de timeline
+                            timelineBatch.Add(new TimelineItem 
+                            { 
+                                Timestamp = ev.TimeCreated, 
+                                Source = "EVTX", 
+                                Category = $"EID {ev.EventId}", 
+                                Description = ev.Message ?? "-", 
+                                UserOrHost = ev.MachineName ?? "-" 
+                            });
+
+                            if (batch.Count >= 5000)
+                            {
+                                _databaseService.SaveEvents(batch);
+                                _databaseService.SaveTimeline(timelineBatch);
+                                totalEvtxProcessed += batch.Count;
+                                batch.Clear();
+                                timelineBatch.Clear();
+                                StatusMessage = $"Se încarcă logurile... ({totalEvtxProcessed} procesate)";
+                            }
                         }
-                    } catch { }
+                        if (batch.Count > 0)
+                        {
+                            _databaseService.SaveEvents(batch);
+                            _databaseService.SaveTimeline(timelineBatch);
+                            totalEvtxProcessed += batch.Count;
+                        }
+                    } 
+                    catch { }
                 }
 
-                var issues = _analysisEngine.AnalyzeEvents(Events.ToList());
-                Application.Current.Dispatcher.Invoke(() => {
+                // 2. Procesare fișiere REG în loturi
+                var regFiles = allFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
+                int totalRegProcessed = 0;
+                foreach (var file in regFiles)
+                {
+                    try 
+                    {
+                        var batch = new List<RegistryArtifact>();
+                        foreach (var reg in _registryParser.ParseRegFile(file)) 
+                        {
+                            batch.Add(reg);
+                            if (batch.Count >= 5000)
+                            {
+                                _databaseService.SaveRegistryArtifacts(batch);
+                                totalRegProcessed += batch.Count;
+                                batch.Clear();
+                                StatusMessage = $"Se încarcă artefacte registru... ({totalRegProcessed} procesate)";
+                            }
+                        }
+                        if (batch.Count > 0)
+                        {
+                            _databaseService.SaveRegistryArtifacts(batch);
+                            totalRegProcessed += batch.Count;
+                        }
+                    } 
+                    catch { }
+                }
+
+                // 3. Procesare fișiere DAT (NTUSER) în loturi
+                var datFiles = allFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
+                foreach (var file in datFiles)
+                {
+                    try 
+                    {
+                        var batch = new List<RegistryArtifact>();
+                        foreach (var reg in _registryParser.ParseNtUserDat(file)) 
+                        {
+                            batch.Add(reg);
+                            if (batch.Count >= 5000)
+                            {
+                                _databaseService.SaveRegistryArtifacts(batch);
+                                totalRegProcessed += batch.Count;
+                                batch.Clear();
+                                StatusMessage = $"Se încarcă NTUSER.DAT... ({totalRegProcessed} procesate)";
+                            }
+                        }
+                        if (batch.Count > 0)
+                        {
+                            _databaseService.SaveRegistryArtifacts(batch);
+                            totalRegProcessed += batch.Count;
+                        }
+                    } 
+                    catch { }
+                }
+
+                StatusMessage = "Analiză de securitate...";
+                // Încărcăm doar evenimentele de securitate relevante pentru analiză
+                var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688 };
+                var eventsForAnalysis = _databaseService.GetEvents(100000, 0, null, null, securityEventIds).ToList();
+                
+                var issues = _analysisEngine.AnalyzeEvents(eventsForAnalysis);
+                
+                Application.Current.Dispatcher.Invoke(() => 
+                {
                     foreach (var i in issues) DetectedIssues.Add(i);
-                    foreach (var ev in Events) TimelineItems.Add(new TimelineItem { Timestamp = ev.TimeCreated, Source = "EVTX", Category = $"EID {ev.EventId}", Description = ev.Message ?? "-", UserOrHost = ev.MachineName ?? "-" });
-                    StatusMessage = $"Procesare completă: {Events.Count} loguri.";
                 });
             });
 
+            EvtxCurrentPage = 1;
+            RegistryCurrentPage = 1;
+            TimelineCurrentPage = 1;
+            
+            ReloadEvtxFromDb();
+            ReloadRegistryFromDb();
+            ReloadTimelineFromDb();
+            ReloadDashboardStats();
+            
+            SelectedTabIndex = 0; // Mergem la Dashboard automat
             IsLoading = false;
+            StatusMessage = $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate în baza de date.";
         }
 
-        private bool FilterEvents(object obj) 
-        { 
-            if (obj is not ParsedEvent ev) return false; 
-            if (SelectedProfile != null && SelectedProfile.TargetEventIds != null && SelectedProfile.TargetEventIds.Any() && !SelectedProfile.TargetEventIds.Contains(ev.EventId)) return false; 
-            if (string.IsNullOrWhiteSpace(SearchEventsText)) return true; 
-            string q = SearchEventsText.ToLower(); 
-            return ev.EventId.ToString().Contains(q) || (ev.Message != null && ev.Message.ToLower().Contains(q)); 
-        }
-
-        private bool FilterArtifacts(object obj) => true;
-        
-        private bool FilterTimeline(object obj) 
-        {
-            if (obj is not TimelineItem item) return false; 
-            if (string.IsNullOrWhiteSpace(SearchEventsText)) return true; 
-            string q = SearchEventsText.ToLower(); 
-            return (item.Description != null && item.Description.ToLower().Contains(q)) || 
-                   (item.Category != null && item.Category.ToLower().Contains(q)); 
-        }
-        
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);
     }
 }

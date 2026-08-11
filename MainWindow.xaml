@@ -1,44 +1,60 @@
 <Window x:Class="LogAnalyzer.UI.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LogAnalyzer Enterprise - Security Audit &amp; Forensic Analysis" Height="850" Width="1450"
-        WindowStartupLocation="CenterScreen" Background="#0b0c0e" Foreground="White">
+        Title="LogAnalyzer Enterprise - Threat Triage &amp; Incident Response Command Center" Height="850" Width="1450"
+        WindowStartupLocation="CenterScreen" Background="#0a0c10" Foreground="#e1e7f0">
 
     <Window.Resources>
-        <!-- Sober & Flat Styling System (CrowdStrike / Splunk / Sentinel Style) -->
+        <!-- Modern Cyber-Console Theme System (Space Blue / Cyan / Emerald) -->
         
-        <!-- Button Style (Flat, Sharp Corners) -->
+        <!-- Button Style (Rounded, Subtle Gradient, Professional Accent) -->
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#1c2028"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#2c3345"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#1e2433" Offset="0"/>
+                        <GradientStop Color="#141824" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#e1e7f0"/>
+            <Setter Property="BorderBrush" Value="#2d374d"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="3"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="11"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="2"
+                                CornerRadius="4"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#272f3d"/>
-                                <Setter Property="BorderBrush" Value="#3d495c"/>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#283145" Offset="0"/>
+                                            <GradientStop Color="#1a2030" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" Value="#00f2fe"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#00adb5"/>
-                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Background" Value="#00f2fe"/>
+                                <Setter Property="Foreground" Value="#0a0c10"/>
+                                <Setter Property="BorderBrush" Value="#00f2fe"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.25"/>
+                                <Setter Property="Opacity" Value="0.3"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -46,27 +62,29 @@
             </Setter>
         </Style>
 
-        <!-- TextBox Style -->
+        <!-- TextBox Style (Premium Rounded, Cyan Accent) -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#11141a"/>
+            <Setter Property="Background" Value="#0d1017"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#232731"/>
+            <Setter Property="BorderBrush" Value="#1e2538"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="6,4"/>
-            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="CaretBrush" Value="#00f2fe"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="2">
+                                CornerRadius="4">
                             <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="#00adb5"/>
+                                <Setter Property="BorderBrush" Value="#00f2fe"/>
+                                <Setter Property="Background" Value="#10141e"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -76,45 +94,49 @@
 
         <!-- ComboBox Style -->
         <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="#11141a"/>
+            <Setter Property="Background" Value="#0d1017"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#232731"/>
+            <Setter Property="BorderBrush" Value="#1e2538"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
         </Style>
 
-        <!-- High-Density DataGrid Style -->
+        <!-- High-Density Professional DataGrid -->
         <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="#0b0c0e"/>
-            <Setter Property="RowBackground" Value="#11141a"/>
-            <Setter Property="AlternatingRowBackground" Value="#14171d"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#0a0c10"/>
+            <Setter Property="RowBackground" Value="#0d1017"/>
+            <Setter Property="AlternatingRowBackground" Value="#111520"/>
+            <Setter Property="Foreground" Value="#e1e7f0"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="GridLinesVisibility" Value="None"/>
             <Setter Property="HeadersVisibility" Value="Column"/>
             <Setter Property="CanUserAddRows" Value="False"/>
-            <Setter Property="RowHeight" Value="22"/>
+            <Setter Property="RowHeight" Value="24"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
         </Style>
         
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#14171d"/>
-            <Setter Property="Foreground" Value="#9fa6b2"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#121622"/>
+            <Setter Property="Foreground" Value="#8c9cb3"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#232731"/>
+            <Setter Property="BorderBrush" Value="#1e2538"/>
         </Style>
         
         <Style TargetType="DataGridRow">
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#22262f"/>
-                    <Setter Property="Foreground" Value="#00adb5"/>
+                    <Setter Property="Background" Value="#1e2538"/>
+                    <Setter Property="Foreground" Value="#00f2fe"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#151b2a"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -122,12 +144,15 @@
         <!-- Top Header Navigation Tabs -->
         <Style x:Key="HeaderTabStyle" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="Foreground" Value="#8c9cb3"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Width" Value="220"/>
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Height" Value="46"/>
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -136,12 +161,12 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#14171d"/>
+                                <Setter Property="Background" Value="#121622"/>
                                 <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderBrush" Value="#00adb5"/>
+                                <Setter Property="BorderBrush" Value="#00f2fe"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#11141a"/>
+                                <Setter Property="Background" Value="#0d1017"/>
                                 <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -165,32 +190,34 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Sidebar RadioButtons Styled as Navigation Tabs -->
+        <!-- Sidebar Navigation Buttons -->
         <Style x:Key="SidebarTabStyle" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="Foreground" Value="#8c9cb3"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="Margin" Value="0,1"/>
-            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Padding" Value="12,0"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
                             <Grid>
-                                <Rectangle x:Name="AccentBar" Width="3" HorizontalAlignment="Left" Fill="#00adb5" Visibility="Collapsed"/>
-                                <ContentPresenter Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                <Rectangle x:Name="AccentBar" Width="3.5" HorizontalAlignment="Left" Fill="#00f2fe" Visibility="Collapsed"/>
+                                <ContentPresenter Margin="15,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#1c2028"/>
+                                <Setter Property="Background" Value="#181f30"/>
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter TargetName="AccentBar" Property="Visibility" Value="Visible"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#14171d"/>
+                                <Setter Property="Background" Value="#111520"/>
                                 <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -240,16 +267,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Top Workspace Switcher Bar -->
-            <RowDefinition Height="50"/>
-            <!-- Active Module Work Area -->
+            <!-- Header Bar -->
+            <RowDefinition Height="56"/>
+            <!-- Content Work Area -->
             <RowDefinition Height="*"/>
-            <!-- Bottom Status Bar -->
-            <RowDefinition Height="30"/>
+            <!-- Status Bar -->
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
 
-        <!-- TOP SWITCHER HEADER -->
-        <Border Grid.Row="0" Background="#11141a" BorderThickness="0,0,0,1" BorderBrush="#232731" Padding="20,0">
+        <!-- TOP HEADER -->
+        <Border Grid.Row="0" Background="#0d1017" BorderThickness="0,0,0,1" BorderBrush="#1e2538" Padding="24,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -257,29 +284,29 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Brand Logo (Sober) -->
+                <!-- Brand Logo (Sober Cyber Tech) -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="LOGANALYZER" FontWeight="Black" FontSize="15" Foreground="White"/>
-                    <Border Margin="10,0" Width="1" Height="15" Background="#232731"/>
-                    <TextBlock Text="ENTERPRISE EDITION" FontSize="10" FontWeight="Bold" Foreground="#00adb5" VerticalAlignment="Center"/>
+                    <TextBlock Text="🛡️ LOGANALYZER" FontWeight="Black" FontSize="16" Foreground="White"/>
+                    <Border Margin="12,0" Width="1.5" Height="16" Background="#1e2538"/>
+                    <TextBlock Text="COMMAND CENTER v2.1" FontSize="10" FontWeight="Bold" Foreground="#00f2fe" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Session Switcher Buttons -->
+                <!-- Module Switcher -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <RadioButton Content="🛡️ ANALIZĂ FORENZICĂ" Style="{StaticResource HeaderTab0Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="0"/>
-                    <RadioButton Content="📥 COLECTARE DATE AUDIT" Style="{StaticResource HeaderTab1Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="1"/>
+                    <RadioButton Content="ANALIZĂ FORENZICĂ" Style="{StaticResource HeaderTab0Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="0"/>
+                    <RadioButton Content="COLECTARE DATE AUDIT" Style="{StaticResource HeaderTab1Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="1"/>
                 </StackPanel>
 
-                <!-- System attestation tag -->
+                <!-- Status Badge -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#1b2028" BorderBrush="#2c3345" BorderThickness="1" CornerRadius="2" Padding="8,4">
-                        <TextBlock Text="INVESTIGATOR SECURE SESSION" FontSize="10" FontWeight="Bold" Foreground="LightGray"/>
+                    <Border Background="#121622" BorderBrush="#252f47" BorderThickness="1" CornerRadius="4" Padding="10,5">
+                        <TextBlock Text="AUDITOR ONLINE SECURE" FontSize="10" FontWeight="Bold" Foreground="#8c9cb3"/>
                     </Border>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- WORKSPACE (Tabs with hidden headers, bound to SelectedModuleIndex) -->
+        <!-- WORKSPACE (Bound to SelectedModuleIndex) -->
         <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedModuleIndex}" BorderThickness="0" Background="Transparent">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
@@ -291,14 +318,14 @@
             <TabItem>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <!-- Left Sidebar (Forensics) -->
-                        <ColumnDefinition Width="230"/>
-                        <!-- Forensics Page Workspace -->
+                        <!-- Left Sidebar (Navigation & Controls) -->
+                        <ColumnDefinition Width="240"/>
+                        <!-- Main Content View -->
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Left Sidebar -->
-                    <Grid Grid.Column="0" Background="#11141a" Margin="0,0,1,0">
+                    <Grid Grid.Column="0" Background="#0d1017" Margin="0,0,1,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -306,28 +333,28 @@
                         </Grid.RowDefinitions>
 
                         <!-- Profile Selection -->
-                        <StackPanel Grid.Row="0" Margin="15,15,15,10">
-                            <TextBlock Text="PROFIL FILTRARE DFIR:" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,5"/>
+                        <StackPanel Grid.Row="0" Margin="18,18,18,12">
+                            <TextBlock Text="PROFIL INVESTIGAȚIE" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
                             <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Name"/>
                         </StackPanel>
 
-                        <!-- Sidebar Links -->
-                        <StackPanel Grid.Row="1" Margin="8,10">
-                            <RadioButton Content="📊 Overview Dashboard" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
-                            <RadioButton Content="📁 Jurnale EVTX" Style="{StaticResource SidebarTab1Style}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
+                        <!-- Navigation Items -->
+                        <StackPanel Grid.Row="1" Margin="10,5">
+                            <RadioButton Content="📊 Monitor Dashboard" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
+                            <RadioButton Content="📁 Jurnale EVTX Windows" Style="{StaticResource SidebarTab1Style}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
                             <RadioButton Content="🔑 Registru Offline" Style="{StaticResource SidebarTab2Style}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
                             <RadioButton Content="🚨 Alerte Securitate" Style="{StaticResource SidebarTab3Style}" Command="{Binding NavigateCommand}" CommandParameter="3"/>
-                            <RadioButton Content="⏱ Timeline Incident" Style="{StaticResource SidebarTab4Style}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
+                            <RadioButton Content="⏱ Cronologie Incident" Style="{StaticResource SidebarTab4Style}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
                         </StackPanel>
 
-                        <!-- Forensic Core Actions -->
-                        <StackPanel Grid.Row="2" Margin="15">
-                            <Button Content="📁 Încarcă Folder Audit" Command="{Binding LoadFolderCommand}" Margin="0,2"/>
-                            <Button Content="📄 Încarcă Fișiere" Command="{Binding LoadFilesCommand}" Margin="0,2"/>
+                        <!-- Action Group -->
+                        <StackPanel Grid.Row="2" Margin="18">
+                            <Button Content="📁 Încarcă Folder Triage" Command="{Binding LoadFolderCommand}" Margin="0,3"/>
+                            <Button Content="📄 Încarcă Fișiere Log" Command="{Binding LoadFilesCommand}" Margin="0,3"/>
                         </StackPanel>
                     </Grid>
 
-                    <!-- Forensics Tab Workspace (Bound to SelectedTabIndex) -->
+                    <!-- Main Tab Content Area (Bound to SelectedTabIndex) -->
                     <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedTabIndex}" BorderThickness="0" Background="Transparent">
                         <TabControl.ItemContainerStyle>
                             <Style TargetType="TabItem">
@@ -338,7 +365,7 @@
                         <!-- TAB 0: DASHBOARD -->
                         <TabItem>
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <Grid Margin="20">
+                                <Grid Margin="24">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -346,80 +373,102 @@
                                     </Grid.RowDefinitions>
 
                                     <!-- Title -->
-                                    <TextBlock Grid.Row="0" Text="Overview Dashboard - Forensic Analysis Session" FontSize="16" FontWeight="Bold" Margin="10,0,0,15" Foreground="LightGray"/>
+                                    <TextBlock Grid.Row="0" Text="Overview Threat Monitor - Active Forensic Session" FontSize="18" FontWeight="Bold" Margin="8,0,0,18" Foreground="White"/>
 
-                                    <!-- Flat KPI Cards (No glowing glows, purely professional) -->
-                                    <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,15">
-                                        <Border Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15" Margin="8">
+                                    <!-- Modern Flat Cards (Rounded, Gradient Borders, Minimalist Layout) -->
+                                    <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,18">
+                                        <!-- Card 1 -->
+                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18" Margin="8">
                                             <StackPanel>
-                                                <TextBlock Text="LOGURI EVENIMENTE" Foreground="#9fa6b2" FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
-                                                <TextBlock Text="{Binding TotalEventsCount, FallbackValue=0}" Foreground="#00adb5" FontSize="26" FontWeight="Bold"/>
+                                                <Grid Margin="0,0,0,10">
+                                                    <TextBlock Text="LOGURI PARSATE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="🖥️" FontSize="12" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding TotalEventsCount, FallbackValue=0}" Foreground="#00f2fe" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Înregistrate în SQLite database" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
-                                        <Border Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15" Margin="8">
+                                        <!-- Card 2 -->
+                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18" Margin="8">
                                             <StackPanel>
-                                                <TextBlock Text="ALERTE CORELARE" Foreground="#9fa6b2" FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
-                                                <TextBlock Text="{Binding TotalAlertsCount, FallbackValue=0}" Foreground="#ef4444" FontSize="26" FontWeight="Bold"/>
+                                                <Grid Margin="0,0,0,10">
+                                                    <TextBlock Text="ALERTE CORELARE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="🚨" FontSize="12" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding TotalAlertsCount, FallbackValue=0}" Foreground="#ff3366" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Nivel critic de securitate detectat" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
-                                        <Border Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15" Margin="8">
+                                        <!-- Card 3 -->
+                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18" Margin="8">
                                             <StackPanel>
-                                                <TextBlock Text="ARTEFACTE REGISTRU" Foreground="#9fa6b2" FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
-                                                <TextBlock Text="{Binding TotalRegistryCount, FallbackValue=0}" Foreground="#10b981" FontSize="26" FontWeight="Bold"/>
+                                                <Grid Margin="0,0,0,10">
+                                                    <TextBlock Text="ARTEFACTE REGISTRU" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="🔑" FontSize="12" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding TotalRegistryCount, FallbackValue=0}" Foreground="#00ff87" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Chei offline analizate din Hive" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
-                                        <Border Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15" Margin="8">
+                                        <!-- Card 4 -->
+                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18" Margin="8">
                                             <StackPanel>
-                                                <TextBlock Text="HOSTURI IDENTIFICATE" Foreground="#9fa6b2" FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
-                                                <TextBlock Text="{Binding TotalHostsCount, FallbackValue=0}" Foreground="#f59e0b" FontSize="26" FontWeight="Bold"/>
+                                                <Grid Margin="0,0,0,10">
+                                                    <TextBlock Text="HOSTURI COLECTATE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="🌐" FontSize="12" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding TotalHostsCount, FallbackValue=0}" Foreground="#f9d423" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Mașini unice cu diagnostic" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
                                     </UniformGrid>
 
-                                    <!-- Bottom Grid Split -->
+                                    <!-- Alert List & Details Row -->
                                     <Grid Grid.Row="2" Margin="8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="380"/>
+                                            <ColumnDefinition Width="400"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!-- Alerts -->
-                                        <Border Grid.Column="0" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15" Margin="0,0,15,0">
+                                        <!-- Alerts DataGrid Panel -->
+                                        <Border Grid.Column="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18" Margin="0,0,18,0">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Alerte Securitate Active" FontSize="13" FontWeight="Bold" Margin="3,0,0,10" Foreground="LightGray"/>
+                                                <TextBlock Text="Evenimente de Securitate Corelate" FontSize="14" FontWeight="Bold" Margin="3,0,0,12" Foreground="White"/>
                                                 <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}" AutoGenerateColumns="False" IsReadOnly="True">
                                                     <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="Sev" Binding="{Binding Severity}" Width="60"/>
-                                                        <DataGridTextColumn Header="Alertă" Binding="{Binding Title}" Width="200"/>
-                                                        <DataGridTextColumn Header="Descriere Analiză" Binding="{Binding Explanation}" Width="*"/>
+                                                        <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
+                                                        <DataGridTextColumn Header="Tehnică MITRE" Binding="{Binding MitreTechniqueId}" Width="100"/>
+                                                        <DataGridTextColumn Header="Alertă Securitate" Binding="{Binding Title}" Width="240"/>
+                                                        <DataGridTextColumn Header="Descriere Corelare Forensică" Binding="{Binding Explanation}" Width="*"/>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                             </Grid>
                                         </Border>
 
-                                        <!-- Session info -->
-                                        <Border Grid.Column="1" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15">
+                                        <!-- Session Info Panel -->
+                                        <Border Grid.Column="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18">
                                             <StackPanel>
-                                                <TextBlock Text="Detalii Conexiune Audit" FontSize="13" FontWeight="Bold" Margin="3,0,0,12" Foreground="LightGray"/>
+                                                <TextBlock Text="Sumar Sesiune Investigare" FontSize="14" FontWeight="Bold" Margin="3,0,0,15" Foreground="White"/>
                                                 
-                                                <TextBlock Text="Engine Stocare:" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,4,0,1"/>
-                                                <TextBlock Text="SQLite Database Engine (LogAnalyzer.db)" FontSize="11" Foreground="White" Margin="3,0,0,8"/>
+                                                <TextBlock Text="Motor Bază de Date:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,4,0,1"/>
+                                                <TextBlock Text="SQLite Database Local (LogAnalyzer.db)" FontSize="12" Foreground="White" Margin="3,0,0,10"/>
 
-                                                <TextBlock Text="Stare Tranzacții:" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,1"/>
-                                                <TextBlock Text="Active (5000 records/transaction)" FontSize="11" Foreground="White" Margin="3,0,0,8"/>
+                                                <TextBlock Text="Tranzacții Active:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,1"/>
+                                                <TextBlock Text="Salvare batch (5000 intrări / tranzacție)" FontSize="12" Foreground="White" Margin="3,0,0,10"/>
 
-                                                <TextBlock Text="Activare Licență:" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,1"/>
-                                                <TextBlock Text="Enterprise Server (Validă: 2027-12-31)" FontSize="11" Foreground="#10b981" Margin="3,0,0,12"/>
+                                                <TextBlock Text="Stare Licență Nod:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,1"/>
+                                                <TextBlock Text="ENTERPRISE SERVER ACTIVE (Exp: 2027-12-31)" FontSize="12" Foreground="#00ff87" Margin="3,0,0,15"/>
                                                 
-                                                <Border Height="1" Background="#232731" Margin="3,10"/>
+                                                <Border Height="1" Background="#1e2538" Margin="3,12"/>
                                                 
-                                                <TextBlock Text="Observații Investigație:" FontSize="10" Foreground="#9fa6b2" TextWrapping="Wrap" Margin="3"/>
-                                                <TextBlock Text="- Paginarea la afișarea logurilor oferă un timp de răspuns sub 10ms." FontSize="10" Foreground="#9fa6b2" TextWrapping="Wrap" Margin="3,2"/>
-                                                <TextBlock Text="- Jurnalizarea se face automat în format forensic valid." FontSize="10" Foreground="#9fa6b2" TextWrapping="Wrap" Margin="3,2"/>
+                                                <TextBlock Text="Note Metodologie Audit:" FontSize="10" Foreground="#8c9cb3" FontWeight="SemiBold" Margin="3,0,0,5"/>
+                                                <TextBlock Text="• Datele sunt citite paginat (câte 100 loguri pe pagină) pentru a reduce latența la interogare." FontSize="10" Foreground="#8c9cb3" TextWrapping="Wrap" Margin="3,2"/>
+                                                <TextBlock Text="• Căutarea în text execută indexare optimizată la nivel de SQLite." FontSize="10" Foreground="#8c9cb3" TextWrapping="Wrap" Margin="3,2"/>
+                                                <TextBlock Text="• Alertele conțin mapare directă pe MITRE ATT&amp;CK și taguri de conformitate ISO." FontSize="10" Foreground="#8c9cb3" TextWrapping="Wrap" Margin="3,2"/>
                                             </StackPanel>
                                         </Border>
                                     </Grid>
@@ -429,7 +478,7 @@
 
                         <!-- TAB 1: EVTX LOGS -->
                         <TabItem>
-                            <Grid Margin="15">
+                            <Grid Margin="18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -443,70 +492,70 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" ToolTip="Căutare după ID sau mesaj..."/>
+                                    <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" ToolTip="Căutare după EID, Sursă sau Mesaj..."/>
                                     <DataGrid Grid.Row="1" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" AutoGenerateColumns="False" IsReadOnly="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Data (UTC)" Binding="{Binding TimeCreated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="135"/>
-                                            <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="55"/>
-                                            <DataGridTextColumn Header="Nivel" Binding="{Binding Level}" Width="75"/>
-                                            <DataGridTextColumn Header="Sursă" Binding="{Binding ProviderName}" Width="130"/>
-                                            <DataGridTextColumn Header="Mașină" Binding="{Binding MachineName}" Width="100"/>
-                                            <DataGridTextColumn Header="Mesaj" Binding="{Binding Message}" Width="*"/>
+                                            <DataGridTextColumn Header="Data Eveniment (UTC)" Binding="{Binding TimeCreated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
+                                            <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="60"/>
+                                            <DataGridTextColumn Header="Nivel" Binding="{Binding Level}" Width="80"/>
+                                            <DataGridTextColumn Header="Sursă Provider" Binding="{Binding ProviderName}" Width="140"/>
+                                            <DataGridTextColumn Header="Mașină Gazdă" Binding="{Binding MachineName}" Width="110"/>
+                                            <DataGridTextColumn Header="Mesaj / Date Eveniment" Binding="{Binding Message}" Width="*"/>
                                         </DataGrid.Columns>
                                         <DataGrid.InputBindings>
                                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                                         </DataGrid.InputBindings>
                                     </DataGrid>
-                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                    <Grid Grid.Row="2" Margin="0,10,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Dimensiune pagină: 100 loguri" VerticalAlignment="Center" Foreground="DarkGray" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <Button Content="◀" Command="{Binding PrevEvtxPageCommand}" Width="40" Margin="2,0"/>
-                                            <TextBlock Text="{Binding EvtxCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="8,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="DarkGray"/>
-                                            <TextBlock Text="{Binding EvtxTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,8,0"/>
-                                            <Button Content="▶" Command="{Binding NextEvtxPageCommand}" Width="40" Margin="2,0"/>
+                                            <Button Content="◀ Precedenta" Command="{Binding PrevEvtxPageCommand}" Width="90" Margin="2,0"/>
+                                            <TextBlock Text="{Binding EvtxCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text="{Binding EvtxTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
+                                            <Button Content="Următoarea ▶" Command="{Binding NextEvtxPageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#232731" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
                                 <!-- Right side details -->
                                 <Grid Grid.Column="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
-                                        <RowDefinition Height="120"/>
+                                        <RowDefinition Height="140"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="12" Margin="0,0,0,8">
+                                    <Border Grid.Row="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel>
-                                                <TextBlock Text="DETALII EVENIMENT EVTX" FontSize="12" FontWeight="Bold" Foreground="#00adb5" Margin="0,0,0,10"/>
-                                                <TextBlock Text="{Binding InspectorMachineName, StringFormat='Host: {0}'}" FontWeight="Bold" FontSize="11" Margin="0,0,0,3"/>
-                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Provider: {0}'}" FontSize="10" Foreground="DarkGray" Margin="0,0,0,3"/>
-                                                <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Timestamp: {0}'}" FontSize="10" Foreground="DarkGray" Margin="0,0,0,10"/>
-                                                <Border Height="1" Background="#232731" Margin="0,0,0,10"/>
+                                                <TextBlock Text="DETALII JURNAL EVTX" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                                <TextBlock Text="{Binding InspectorMachineName, StringFormat='Mașină: {0}'}" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
+                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,4"/>
+                                                <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Data: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                                <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                                 <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </Border>
-                                    <Border Grid.Row="1" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="12">
+                                    <Border Grid.Row="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="IOC-uri Identificate" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,6"/>
-                                            <ListBox Grid.Row="1" ItemsSource="{Binding CurrentIocs}" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="10">
+                                            <TextBlock Text="Indicatori de Compromitere (IOC)" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,8"/>
+                                            <ListBox Grid.Row="1" ItemsSource="{Binding CurrentIocs}" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="11">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal" Margin="1">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50" Foreground="#00adb5"/>
-                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#569CD6" TextDecorations="Underline">
+                                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="#00f2fe"/>
+                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#4facfe" TextDecorations="Underline">
                                                                 <TextBlock.InputBindings>
                                                                     <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotIocCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Value}"/>
                                                                 </TextBlock.InputBindings>
@@ -523,7 +572,7 @@
 
                         <!-- TAB 2: REGISTRY -->
                         <TabItem>
-                            <Grid Margin="15">
+                            <Grid Margin="18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -537,68 +586,68 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <TextBox Text="{Binding SearchArtifactsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" ToolTip="Căutare după cheie sau valoare..."/>
+                                    <TextBox Text="{Binding SearchArtifactsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" ToolTip="Căutare în cheile sau valorile Registry..."/>
                                     <DataGrid Grid.Row="1" ItemsSource="{Binding RegistryArtifacts}" SelectedItem="{Binding SelectedArtifact}" AutoGenerateColumns="False" IsReadOnly="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Hive" Binding="{Binding HiveType}" Width="80"/>
-                                            <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="120"/>
-                                            <DataGridTextColumn Header="Cale Cheie" Binding="{Binding KeyPath}" Width="300"/>
-                                            <DataGridTextColumn Header="Valoare" Binding="{Binding ValueName}" Width="130"/>
-                                            <DataGridTextColumn Header="Date" Binding="{Binding ValueData}" Width="*"/>
+                                            <DataGridTextColumn Header="Hive" Binding="{Binding HiveType}" Width="90"/>
+                                            <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="130"/>
+                                            <DataGridTextColumn Header="Cale Registru" Binding="{Binding KeyPath}" Width="320"/>
+                                            <DataGridTextColumn Header="Valoare" Binding="{Binding ValueName}" Width="140"/>
+                                            <DataGridTextColumn Header="Date Valoare" Binding="{Binding ValueData}" Width="*"/>
                                         </DataGrid.Columns>
                                         <DataGrid.InputBindings>
                                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                                         </DataGrid.InputBindings>
                                     </DataGrid>
-                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                    <Grid Grid.Row="2" Margin="0,10,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Dimensiune pagină: 100 loguri" VerticalAlignment="Center" Foreground="DarkGray" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <Button Content="◀" Command="{Binding PrevRegistryPageCommand}" Width="40" Margin="2,0"/>
-                                            <TextBlock Text="{Binding RegistryCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="8,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="DarkGray"/>
-                                            <TextBlock Text="{Binding RegistryTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,8,0"/>
-                                            <Button Content="▶" Command="{Binding NextRegistryPageCommand}" Width="40" Margin="2,0"/>
+                                            <Button Content="◀ Precedenta" Command="{Binding PrevRegistryPageCommand}" Width="90" Margin="2,0"/>
+                                            <TextBlock Text="{Binding RegistryCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text="{Binding RegistryTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
+                                            <Button Content="Următoarea ▶" Command="{Binding NextRegistryPageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#232731" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
                                 <!-- Right side -->
                                 <Grid Grid.Column="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
-                                        <RowDefinition Height="120"/>
+                                        <RowDefinition Height="140"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="12" Margin="0,0,0,8">
+                                    <Border Grid.Row="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel>
-                                                <TextBlock Text="DETALII ARTEFACT REGISTRU" FontSize="12" FontWeight="Bold" Foreground="#00adb5" Margin="0,0,0,10"/>
-                                                <TextBlock Text="Sursa: Hive Offline" FontWeight="Bold" FontSize="11" Margin="0,0,0,3"/>
-                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Categorie: {0}'}" FontSize="10" Foreground="DarkGray" Margin="0,0,0,10"/>
-                                                <Border Height="1" Background="#232731" Margin="0,0,0,10"/>
+                                                <TextBlock Text="DETALII HIVE REGISTRU" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                                <TextBlock Text="Sursă: Offline Registry Audit" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
+                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Categorie: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                                <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                                 <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </Border>
-                                    <Border Grid.Row="1" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="12">
+                                    <Border Grid.Row="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="IOC-uri Identificate" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,6"/>
-                                            <ListBox Grid.Row="1" ItemsSource="{Binding CurrentIocs}" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="10">
+                                            <TextBlock Text="IOC-uri Identificate" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,8"/>
+                                            <ListBox Grid.Row="1" ItemsSource="{Binding CurrentIocs}" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="11">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal" Margin="1">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50" Foreground="#00adb5"/>
-                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#569CD6" TextDecorations="Underline">
+                                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="#00f2fe"/>
+                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#4facfe" TextDecorations="Underline">
                                                                 <TextBlock.InputBindings>
                                                                     <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotIocCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Value}"/>
                                                                 </TextBlock.InputBindings>
@@ -615,7 +664,7 @@
 
                         <!-- TAB 3: ALERTS -->
                         <TabItem>
-                            <Grid Margin="15">
+                            <Grid Margin="18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -626,26 +675,28 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <CheckBox Content="Ascunde alerte investigate (verificate)" IsChecked="{Binding HideVerifiedAlerts}" Foreground="White" Margin="5,0,0,10"/>
+                                    <CheckBox Content="Ascunde alerte investigate (verificate)" IsChecked="{Binding HideVerifiedAlerts}" Foreground="White" Margin="5,0,0,12"/>
                                     <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}" AutoGenerateColumns="False" IsReadOnly="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="80"/>
-                                            <DataGridTextColumn Header="Alertă Corelată" Binding="{Binding Title}" Width="220"/>
-                                            <DataGridTextColumn Header="Descriere Analiză &amp; TTPs" Binding="{Binding Explanation}" Width="*"/>
+                                            <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
+                                            <DataGridTextColumn Header="Tehnică MITRE" Binding="{Binding MitreTechniqueId}" Width="110"/>
+                                            <DataGridTextColumn Header="Indicator de Conformitate" Binding="{Binding ComplianceTag}" Width="150"/>
+                                            <DataGridTextColumn Header="Titlu Alertă Securitate" Binding="{Binding Title}" Width="240"/>
+                                            <DataGridTextColumn Header="Descriere Analiză &amp; TTPs Corelate" Binding="{Binding Explanation}" Width="*"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#232731" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
-                                <Border Grid.Column="2" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15">
+                                <Border Grid.Column="2" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="16">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <StackPanel>
-                                            <TextBlock Text="INSPECTOR ALERTE SECURITATE" FontSize="12" FontWeight="Bold" Foreground="#ef4444" Margin="0,0,0,10"/>
-                                            <TextBlock Text="Sursa: Analiză Corelare" FontWeight="Bold" FontSize="11" Margin="0,0,0,3"/>
-                                            <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Timestamp: {0}'}" FontSize="10" Foreground="DarkGray" Margin="0,0,0,10"/>
-                                            <Border Height="1" Background="#232731" Margin="0,0,0,10"/>
-                                            <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Segoe UI" FontSize="11" AcceptsReturn="True"/>
+                                            <TextBlock Text="INSPECTOR REGULI CORELATE" FontSize="12" FontWeight="Bold" Foreground="#ff3366" Margin="0,0,0,12"/>
+                                            <TextBlock Text="Sursă: Threat Correlation Engine" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
+                                            <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Corelat la: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                            <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
+                                            <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Segoe UI" FontSize="12" AcceptsReturn="True"/>
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>
@@ -654,7 +705,7 @@
 
                         <!-- TAB 4: TIMELINE -->
                         <TabItem>
-                            <Grid Margin="15">
+                            <Grid Margin="18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -666,45 +717,45 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" ToolTip="Căutare în Timeline..."/>
+                                    <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" ToolTip="Căutare rapidă în timeline..."/>
                                     <DataGrid Grid.Row="1" ItemsSource="{Binding TimelineItems}" SelectedItem="{Binding SelectedTimelineItem}" AutoGenerateColumns="False" IsReadOnly="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="135"/>
-                                            <DataGridTextColumn Header="Sursă" Binding="{Binding Source}" Width="80"/>
+                                            <DataGridTextColumn Header="Timestamp Eveniment" Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
+                                            <DataGridTextColumn Header="Sursă" Binding="{Binding Source}" Width="90"/>
                                             <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="150"/>
-                                            <DataGridTextColumn Header="Utilizator / Host" Binding="{Binding UserOrHost}" Width="120"/>
+                                            <DataGridTextColumn Header="Utilizator / Host" Binding="{Binding UserOrHost}" Width="130"/>
                                             <DataGridTextColumn Header="Mesaj Detaliat Eveniment" Binding="{Binding Description}" Width="*"/>
                                         </DataGrid.Columns>
                                         <DataGrid.InputBindings>
                                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                                         </DataGrid.InputBindings>
                                     </DataGrid>
-                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                    <Grid Grid.Row="2" Margin="0,10,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Dimensiune pagină: 100 loguri" VerticalAlignment="Center" Foreground="DarkGray" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <Button Content="◀" Command="{Binding PrevTimelinePageCommand}" Width="40" Margin="2,0"/>
-                                            <TextBlock Text="{Binding TimelineCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="8,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="DarkGray"/>
-                                            <TextBlock Text="{Binding TimelineTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,8,0"/>
-                                            <Button Content="▶" Command="{Binding NextTimelinePageCommand}" Width="40" Margin="2,0"/>
+                                            <Button Content="◀ Precedenta" Command="{Binding PrevTimelinePageCommand}" Width="90" Margin="2,0"/>
+                                            <TextBlock Text="{Binding TimelineCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text="{Binding TimelineTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
+                                            <Button Content="Următoarea ▶" Command="{Binding NextTimelinePageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#232731" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
-                                <Border Grid.Column="2" Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15">
+                                <Border Grid.Column="2" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="16">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <StackPanel>
-                                            <TextBlock Text="INSPECTOR TIMELINE CRONOLOGIC" FontSize="12" FontWeight="Bold" Foreground="#00adb5" Margin="0,0,0,10"/>
-                                            <TextBlock Text="{Binding InspectorMachineName, StringFormat='Host / Utilizator: {0}'}" FontWeight="Bold" FontSize="11" Margin="0,0,0,3"/>
-                                            <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursa: {0}'}" FontSize="10" Foreground="DarkGray" Margin="0,0,0,10"/>
-                                            <Border Height="1" Background="#232731" Margin="0,0,0,10"/>
+                                            <TextBlock Text="INSPECTOR CRONOLOGIC DFIR" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                            <TextBlock Text="{Binding InspectorMachineName, StringFormat='Host / Utilizator: {0}'}" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
+                                            <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă Eveniment: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                            <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                             <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                         </StackPanel>
                                     </ScrollViewer>
@@ -717,16 +768,16 @@
 
             <!-- MODULE 1: AUDIT DATA COLLECTION -->
             <TabItem>
-                <Grid Margin="20">
+                <Grid Margin="24">
                     <Grid.ColumnDefinitions>
                         <!-- Left: Configuration panel -->
-                        <ColumnDefinition Width="420"/>
+                        <ColumnDefinition Width="440"/>
                         <!-- Right: Live Console Terminal -->
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Left: Configuration -->
-                    <Border Grid.Column="0" Background="#11141a" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="20" Margin="0,0,20,0">
+                    <Border Grid.Column="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="20" Margin="0,0,24,0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -735,118 +786,119 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0">
-                                <TextBlock Text="Configurare Colector Date Audit" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                                <TextBlock Text="Parametri Colectare Audit" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
 
-                                <TextBlock Text="TIP ECHIPAMENT DESTINAȚIE:" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,5"/>
-                                <ComboBox ItemsSource="{Binding TargetTypes}" SelectedItem="{Binding SelectedTargetType}" Margin="0,0,0,15"/>
+                                <TextBlock Text="TIP ECHIPAMENT CONECTAT:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <ComboBox ItemsSource="{Binding TargetTypes}" SelectedItem="{Binding SelectedTargetType}" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="IP / NUME GAZDĂ (HOSTNAME):" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,5"/>
-                                <TextBox Text="{Binding CollectionHostname, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,15"/>
+                                <TextBlock Text="HOSTNAME / ADRESĂ IP GAZDĂ:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <TextBox Text="{Binding CollectionHostname, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="DIRECTOR RĂDĂCINĂ SALVARE (LOCAL):" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,5"/>
-                                <Grid Margin="0,0,0,15">
+                                <TextBlock Text="DIRECTOR COLECTARE LOCALĂ (DESTINAȚIE):" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <Grid Margin="0,0,0,18">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding CollectionOutputDir, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" IsReadOnly="True"/>
-                                    <Button Content="Alege..." Command="{Binding SelectCollectionOutputDirCommand}" Grid.Column="1" Margin="5,0,0,0" Width="80"/>
+                                    <Button Content="Răsfoiește..." Command="{Binding SelectCollectionOutputDirCommand}" Grid.Column="1" Margin="6,0,0,0" Width="90"/>
                                 </Grid>
                                 
-                                <Border Height="1" Background="#232731" Margin="0,10,0,15"/>
+                                <Border Height="1" Background="#1e2538" Margin="0,8,0,18"/>
 
-                                <!-- Syslog settings (active when DataCenter selected) -->
-                                <TextBlock Text="CONECTARE UNILATERALĂ (DATA CENTER - UDP SYSLOG):" FontSize="9" FontWeight="Bold" Foreground="#9fa6b2" Margin="3,0,0,5"/>
-                                <Grid Margin="0,0,0,15">
+                                <!-- Syslog settings -->
+                                <TextBlock Text="RECEPTOR UDP SYSLOG (DATA CENTER DIODE):" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <Grid Margin="0,0,0,18">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding SyslogPort, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" ToolTip="Portul UDP de ascultare pentru primirea syslog stream."/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5,0,0,0">
-                                        <Button Content="Start Syslog" Command="{Binding StartSyslogCommand}" IsEnabled="{Binding IsSyslogInactive}" Width="95"/>
-                                        <Button Content="Stop" Command="{Binding StopSyslogCommand}" IsEnabled="{Binding IsSyslogActive}" Margin="3,0,0,0" Width="55"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
+                                        <Button Content="Pornire Receptor" Command="{Binding StartSyslogCommand}" IsEnabled="{Binding IsSyslogInactive}" Width="130"/>
+                                        <Button Content="Oprire" Command="{Binding StopSyslogCommand}" IsEnabled="{Binding IsSyslogActive}" Margin="4,0,0,0" Width="70"/>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
 
                             <!-- Collector status info -->
                             <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,15">
-                                <Border Background="#14171d" BorderBrush="#232731" BorderThickness="1" CornerRadius="2" Padding="15">
+                                <Border Background="#0d1017" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="4" Padding="15">
                                     <StackPanel>
-                                        <TextBlock Text="STRUCTURA DE DENUMIRE AUDIT:" FontSize="10" FontWeight="Bold" Foreground="#00adb5" Margin="0,0,0,8"/>
-                                        <TextBlock Text="Director Save:" FontSize="9" Foreground="#9fa6b2"/>
-                                        <TextBlock Text="{Binding CollectionOutputDir, StringFormat='{}{0}\\[Luna-An]\\'}" FontSize="11" Foreground="White" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                        <TextBlock Text="CONVENȚIE DENUMIRE FIȘIERE AUDIT:" FontSize="10" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,10"/>
                                         
-                                        <TextBlock Text="Nume Folder Echipament:" FontSize="9" Foreground="#9fa6b2"/>
-                                        <TextBlock Text="{Binding SelectedTargetType, StringFormat='{}{}[Prefix]_{0}_[NumeHost]'}" FontSize="11" Foreground="White" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Folder Salvat:" FontSize="9" Foreground="#8c9cb3"/>
+                                        <TextBlock Text="{Binding CollectionOutputDir, StringFormat='{}{0}\\[Luna-An]\\'}" FontSize="11" Foreground="White" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                                        
+                                        <TextBlock Text="Folder Echipament:" FontSize="9" Foreground="#8c9cb3"/>
+                                        <TextBlock Text="{Binding SelectedTargetType, StringFormat='{}{}[Prefix]_{0}_[NumeHost]'}" FontSize="11" Foreground="White" Margin="0,0,0,10"/>
 
-                                        <TextBlock Text="Nume Fișiere Colectate:" FontSize="9" Foreground="#9fa6b2"/>
+                                        <TextBlock Text="Nume Fișiere Redenumite:" FontSize="9" Foreground="#8c9cb3"/>
                                         <TextBlock Text="[Prefix]_[NumeHost]_[NumeArtefact]_[Data].[ext]" FontSize="11" Foreground="White" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
 
-                            <!-- Large Actions -->
+                            <!-- Run Action -->
                             <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
-                                <Button Content="Pornește Colectarea (Triage local/WinRM)" Command="{Binding StartCollectionCommand}" IsEnabled="{Binding IsCollectionNotRunning}" Height="40" Background="#1e2c3c" BorderBrush="#00adb5" Foreground="#00adb5"/>
+                                <Button Content="PORNEȘTE CULEGERE TELEMETRIE FORENSICĂ" Command="{Binding StartCollectionCommand}" IsEnabled="{Binding IsCollectionNotRunning}" Height="42" Background="#17243c" BorderBrush="#00f2fe" Foreground="#00f2fe"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <!-- Right: Console Log terminal -->
-                    <Border Grid.Column="1" Background="#05070a" BorderBrush="#14171d" BorderThickness="1" CornerRadius="2" Padding="15">
+                    <Border Grid.Column="1" Background="#05070a" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                                <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+                                <Ellipse Width="8" Height="8" Margin="0,0,10,0" VerticalAlignment="Center">
                                     <Ellipse.Style>
                                         <Style TargetType="Ellipse">
-                                            <Setter Property="Fill" Value="Gray"/>
+                                            <Setter Property="Fill" Value="#ff3366"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsCollectionRunning}" Value="True">
-                                                    <Setter Property="Fill" Value="#10b981"/>
+                                                    <Setter Property="Fill" Value="#00ff87"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Ellipse.Style>
                                 </Ellipse>
-                                <TextBlock Text="JURNAL LIVE CONSOLĂ COLECTARE" FontSize="11" FontWeight="Bold" Foreground="#9fa6b2" VerticalAlignment="Center"/>
+                                <TextBlock Text="LOG ACTIVITATE COLECTOR" FontSize="11" FontWeight="Bold" Foreground="#8c9cb3" VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <TextBox Grid.Row="1" Text="{Binding CollectionLogs}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="#10b981" BorderThickness="0" FontFamily="Consolas" FontSize="12" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                            <TextBox Grid.Row="1" Text="{Binding CollectionLogs}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="#00ff87" BorderThickness="0" FontFamily="Consolas" FontSize="12" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
                         </Grid>
                     </Border>
                 </Grid>
             </TabItem>
         </TabControl>
 
-        <!-- GLOBAL STATUS BAR -->
-        <Border Grid.Row="2" Background="#11141a" BorderThickness="0,1,0,0" BorderBrush="#232731" Padding="20,0">
+        <!-- STATUS BAR -->
+        <Border Grid.Row="2" Background="#0d1017" BorderThickness="0,1,0,0" BorderBrush="#1e2538" Padding="24,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding StatusMessage}" Foreground="#9fa6b2" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#8c9cb3" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Ellipse Width="6" Height="6" Fill="#10b981" Margin="0,0,6,0"/>
-                    <TextBlock Text="SYSTEM SECURE OK" Foreground="#10b981" FontWeight="Bold" FontSize="10"/>
+                    <Ellipse Width="6" Height="6" Fill="#00ff87" Margin="0,0,8,0"/>
+                    <TextBlock Text="SYSTEM SECURE SHIELD ACTIVE" Foreground="#00ff87" FontWeight="Bold" FontSize="10"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- GLOBAL LOADING OVERLAY -->
         <Grid Grid.RowSpan="3" Background="#d2000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border Background="#11141a" BorderBrush="#2c3545" BorderThickness="1" CornerRadius="2" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+            <Border Background="#121622" BorderBrush="#252f47" BorderThickness="1" CornerRadius="6" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
                 <StackPanel>
-                    <ProgressBar IsIndeterminate="True" Height="4" Foreground="#00adb5" Background="#1c2028" BorderThickness="0" Margin="0,0,0,20"/>
-                    <TextBlock Text="Se procesează..." Foreground="White" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="DarkGray" FontSize="11" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <ProgressBar IsIndeterminate="True" Height="4" Foreground="#00f2fe" Background="#1c2028" BorderThickness="0" Margin="0,0,0,24"/>
+                    <TextBlock Text="Procesare în Curs..." Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#8c9cb3" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
         </Grid>

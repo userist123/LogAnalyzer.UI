@@ -579,12 +579,15 @@ namespace LogAnalyzer.UI.ViewModels
                 StatusMessage = "Analiză de securitate...";
                 var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688 };
                 var eventsForAnalysis = _databaseService.GetEvents(100000, 0, null, null, securityEventIds).ToList();
+                var registryForAnalysis = _databaseService.GetRegistryArtifacts(100000, 0, null).ToList();
                 
                 var issues = _analysisEngine.AnalyzeEvents(eventsForAnalysis);
+                var regIssues = _analysisEngine.AnalyzeRegistry(registryForAnalysis);
                 
                 Application.Current.Dispatcher.Invoke(() => 
                 {
                     foreach (var i in issues) DetectedIssues.Add(i);
+                    foreach (var i in regIssues) DetectedIssues.Add(i);
                 });
             });
 

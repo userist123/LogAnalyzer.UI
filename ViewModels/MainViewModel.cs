@@ -27,6 +27,7 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly KnowledgeBaseService _kbService;
         private readonly PluginManagerService _pluginManager;
         private readonly IDatabaseService _databaseService;
+        private readonly IAuditCollectionService _collectionService;
 
         private const int PageSize = 100;
 
@@ -54,6 +55,9 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _statusMessage = "Sistem pregătit pentru investigație offline...";
         [ObservableProperty] private bool _hideVerifiedAlerts;
 
+        // Session / Module Management
+        [ObservableProperty] private int _selectedModuleIndex = 0; // 0 for Forensics, 1 for Collection
+
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;
         [ObservableProperty] private int _totalEventsCount;
@@ -68,6 +72,22 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _registryTotalPages = 1;
         [ObservableProperty] private int _timelineCurrentPage = 1;
         [ObservableProperty] private int _timelineTotalPages = 1;
+
+        // Audit Data Collection Properties
+        public ObservableCollection<string> TargetTypes { get; } = new() { "PC", "Server", "NAS", "DataCenter" };
+        [ObservableProperty] private string _selectedTargetType = "PC";
+        [ObservableProperty] private string _collectionOutputDir = "C:\\fișiere audit";
+        [ObservableProperty] private string _collectionHostname = "PC-AUDIT";
+        [ObservableProperty] private string _collectionLogs = string.Empty;
+        [ObservableProperty] private bool _isCollectionRunning;
+        [ObservableProperty] private int _syslogPort = 514;
+        [ObservableProperty] private bool _isSyslogActive;
+
+        public bool IsCollectionNotRunning => !IsCollectionRunning;
+        public bool IsSyslogInactive => !IsSyslogActive;
+
+        partial void OnIsCollectionRunningChanged(bool value) => OnPropertyChanged(nameof(IsCollectionNotRunning));
+        partial void OnIsSyslogActiveChanged(bool value) => OnPropertyChanged(nameof(IsSyslogInactive));
 
         public ObservableCollection<DfirProfile> Profiles { get; } = new()
         {
@@ -108,7 +128,7 @@ namespace LogAnalyzer.UI.ViewModels
         public MainViewModel(
             IEventParser eventParser, IAnalysisEngine analysisEngine, IRegistryParser registryParser,
             AuditLogService auditService, KnowledgeBaseService kbService, PluginManagerService pluginManager,
-            IDatabaseService databaseService)
+            IDatabaseService databaseService, IAuditCollectionService collectionService)
         {
             _eventParser = eventParser;
             _analysisEngine = analysisEngine;
@@ -117,6 +137,7 @@ namespace LogAnalyzer.UI.ViewModels
             _kbService = kbService;
             _pluginManager = pluginManager;
             _databaseService = databaseService;
+            _collectionService = collectionService;
 
             SelectedProfile = Profiles.First();
 
@@ -187,6 +208,19 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         [RelayCommand]
+        private void SwitchModule(string indexStr)
+        {
+            if (int.TryParse(indexStr, out int index))
+            {
+                SelectedModuleIndex = index;
+                if (index == 0)
+                {
+                    ReloadDashboardStats();
+                }
+            }
+        }
+
+        [RelayCommand]
         private void Navigate(string indexStr)
         {
             if (int.TryParse(indexStr, out int index))
@@ -203,6 +237,64 @@ namespace LogAnalyzer.UI.ViewModels
 
         [RelayCommand] private void NextTimelinePage() { if (TimelineCurrentPage < TimelineTotalPages) TimelineCurrentPage++; }
         [RelayCommand] private void PrevTimelinePage() { if (TimelineCurrentPage > 1) TimelineCurrentPage--; }
+
+        // Data Collection Commands
+        [RelayCommand]
+        private void SelectCollectionOutputDir()
+        {
+            var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Selectează directorul rădăcină pentru audit" };
+            if (dialog.ShowDialog() == true)
+            {
+                CollectionOutputDir = dialog.FolderName;
+            }
+        }
+
+        [RelayCommand]
+        private async Task StartCollectionAsync()
+        {
+            if (IsCollectionRunning) return;
+            IsCollectionRunning = true;
+            CollectionLogs = string.Empty;
+
+            try
+            {
+                await _collectionService.RunCollectionAsync(
+                    SelectedTargetType,
+                    CollectionOutputDir,
+                    CollectionHostname,
+                    log => App.Current.Dispatcher.Invoke(() => CollectionLogs += log + Environment.NewLine)
+                );
+            }
+            catch (Exception ex)
+            {
+                CollectionLogs += $"[FATAL ERROR] {ex.Message}" + Environment.NewLine;
+            }
+            finally
+            {
+                IsCollectionRunning = false;
+            }
+        }
+
+        [RelayCommand]
+        private void StartSyslog()
+        {
+            CollectionLogs = string.Empty;
+            _collectionService.StartSyslogListener(
+                SyslogPort,
+                CollectionOutputDir,
+                CollectionHostname,
+                log => App.Current.Dispatcher.Invoke(() => CollectionLogs += log + Environment.NewLine)
+            );
+            IsSyslogActive = _collectionService.IsSyslogListenerActive;
+        }
+
+        [RelayCommand]
+        private void StopSyslog()
+        {
+            _collectionService.StopSyslogListener();
+            IsSyslogActive = false;
+            CollectionLogs += "[SYSLOG] Receptorul de syslog a fost oprit de investigator." + Environment.NewLine;
+        }
 
         private void UpdateInspector(string machine, string provider, string time, string message)
         {
@@ -300,6 +392,7 @@ namespace LogAnalyzer.UI.ViewModels
         {
             SearchEventsText = value;
             SelectedTabIndex = 1; // Comută la evenimente
+            SelectedModuleIndex = 0; // Comută la forensics
             StatusMessage = $"Filtrare după IOC: {value}";
         }
 
@@ -322,7 +415,6 @@ namespace LogAnalyzer.UI.ViewModels
         {
             try
             {
-                // Exportă tot ce corespunde filtrului curent de evenimente din DB
                 var targetIds = SelectedProfile?.TargetEventIds ?? new List<int>();
                 int count = _databaseService.GetEventsCount(SearchEventsText, null, targetIds);
                 if (count == 0) return;
@@ -333,7 +425,6 @@ namespace LogAnalyzer.UI.ViewModels
                     var sb = new StringBuilder(); 
                     sb.AppendLine("Data,Severitate,EventID,Sursa,Mesaj");
                     
-                    // Încărcăm în loturi de 5000 din DB pentru export fără a încărca memoria
                     int limit = 5000;
                     for (int offset = 0; offset < count; offset += limit)
                     {
@@ -362,7 +453,6 @@ namespace LogAnalyzer.UI.ViewModels
             {
                 try 
                 {
-                    // Tragem un număr reprezentativ de evenimente de timeline din DB pentru raport (limitat la 500 pentru lizibilitate în PDF)
                     var timeline = _databaseService.GetTimeline(500, 0, null).ToList();
                     PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), timeline, "Hashes");
                     StatusMessage = $"✅ Raport PDF generat cu succes!";
@@ -383,7 +473,6 @@ namespace LogAnalyzer.UI.ViewModels
 
             await Task.Run(() =>
             {
-                // 1. Procesare fișiere EVTX în loturi
                 var evtxFiles = allFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
                 int totalEvtxProcessed = 0;
                 foreach (var file in evtxFiles)
@@ -405,7 +494,6 @@ namespace LogAnalyzer.UI.ViewModels
                             }
                             batch.Add(ev);
                             
-                            // Adăugăm în batch-ul de timeline
                             timelineBatch.Add(new TimelineItem 
                             { 
                                 Timestamp = ev.TimeCreated, 
@@ -435,7 +523,6 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                // 2. Procesare fișiere REG în loturi
                 var regFiles = allFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
                 int totalRegProcessed = 0;
                 foreach (var file in regFiles)
@@ -463,7 +550,6 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                // 3. Procesare fișiere DAT (NTUSER) în loturi
                 var datFiles = allFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
                 foreach (var file in datFiles)
                 {
@@ -491,7 +577,6 @@ namespace LogAnalyzer.UI.ViewModels
                 }
 
                 StatusMessage = "Analiză de securitate...";
-                // Încărcăm doar evenimentele de securitate relevante pentru analiză
                 var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688 };
                 var eventsForAnalysis = _databaseService.GetEvents(100000, 0, null, null, securityEventIds).ToList();
                 
@@ -512,9 +597,9 @@ namespace LogAnalyzer.UI.ViewModels
             ReloadTimelineFromDb();
             ReloadDashboardStats();
             
-            SelectedTabIndex = 0; // Mergem la Dashboard automat
+            SelectedTabIndex = 0; 
             IsLoading = false;
-            StatusMessage = $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate în baza de date.";
+            StatusMessage = $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate.";
         }
 
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);

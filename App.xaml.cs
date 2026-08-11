@@ -46,6 +46,7 @@ namespace LogAnalyzer.UI
                 services.AddSingleton<IAnalysisEngine, AnalysisEngine>();
                 services.AddSingleton<IRegistryParser, OfflineRegistryParser>();
                 services.AddSingleton<IDatabaseService, DatabaseService>();
+                services.AddSingleton<IAuditCollectionService, AuditCollectionService>();
                 
                 // Componentele MVVM și Ferestrele din UI
                 services.AddTransient<MainViewModel>();

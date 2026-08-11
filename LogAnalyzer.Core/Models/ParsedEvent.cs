@@ -17,4 +17,13 @@ public class ParsedEvent
     public string? ReferenceUrl { get; set; }
     public string? PotentialCriticality { get; set; }
     public List<string> Tags { get; set; } = new();
+
+    public string TargetUserName { get; set; } = string.Empty;
+    public string SubjectUserName { get; set; } = string.Empty;
+    public string IpAddress { get; set; } = string.Empty;
+    public string LogonType { get; set; } = string.Empty;
+    public string WorkstationName { get; set; } = string.Empty;
+    public string ProcessName { get; set; } = string.Empty;
+    public string CommandLine { get; set; } = string.Empty;
+    public string ParentProcessName { get; set; } = string.Empty;
 }

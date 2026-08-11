@@ -14,7 +14,6 @@ using CommunityToolkit.Mvvm.Input;
 using LogAnalyzer.Core.Models;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Services;
-using LogAnalyzer.UI.Services;
 using Microsoft.Win32;
 
 namespace LogAnalyzer.UI.ViewModels;
@@ -28,10 +27,10 @@ public partial class MainViewModel : ObservableObject
     private readonly KnowledgeBaseService _kbService;
     private readonly PluginManagerService _pluginManager;
 
-    public RangeObservableCollection<ParsedEvent> Events { get; set; } = new();
-    public RangeObservableCollection<DetectedIssue> DetectedIssues { get; set; } = new();
-    public RangeObservableCollection<RegistryArtifact> RegistryArtifacts { get; set; } = new();
-    public RangeObservableCollection<TimelineItem> TimelineItems { get; set; } = new();
+    public ObservableCollection<ParsedEvent> Events { get; set; } = new();
+    public ObservableCollection<DetectedIssue> DetectedIssues { get; set; } = new();
+    public ObservableCollection<RegistryArtifact> RegistryArtifacts { get; set; } = new();
+    public ObservableCollection<TimelineItem> TimelineItems { get; set; } = new();
     public ObservableCollection<IocItem> CurrentIocs { get; set; } = new();
 
     [ObservableProperty] private ICollectionView? _eventsView;
@@ -54,9 +53,6 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private string _statusMessage = "Sistem pregătit pentru investigație offline...";
     [ObservableProperty] private bool _hideVerifiedAlerts;
-
-    [ObservableProperty] private double _loadProgress;
-    [ObservableProperty] private string _loadProgressText = string.Empty;
 
     public ObservableCollection<DfirProfile> Profiles { get; } = new()
     {
@@ -175,7 +171,7 @@ public partial class MainViewModel : ObservableObject
     {
         string title = "Alertă Manuală Escalată", msg = "Artefact suspect identificat.";
         if (item is ParsedEvent ev) { title = $"EID {ev.EventId}"; msg = ev.Message ?? ""; }
-        else if (item is RegistryArtifact reg) { title = $"Registru Suspect"; msg = reg.ValueData ?? ""; }
+        else if (item is RegistryArtifact reg) { title = "Registru Suspect"; msg = reg.ValueData ?? ""; }
         else if (item is TimelineItem tl) { title = tl.Category ?? "Investigație"; msg = tl.Description ?? ""; }
 
         var newAlert = new DetectedIssue { Title = title, Severity = "High", Explanation = msg, Status = AlertStatus.Nouă };
@@ -199,7 +195,7 @@ public partial class MainViewModel : ObservableObject
     private async Task LoadFolderAsync()
     {
         var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Selectează folderul cu loguri" };
-        if (dialog.ShowDialog() == true) await ProcessFilesAsync(Directory.GetFiles(dialog.FolderName));
+        if (dialog.ShowDialog() == true) await ProcessFilesAsync(Directory.GetFiles(dialog.FolderName, "*", SearchOption.AllDirectories));
     }
 
     [RelayCommand]
@@ -233,77 +229,67 @@ public partial class MainViewModel : ObservableObject
             try
             {
                 PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), TimelineItems.ToList(), "Hashes");
-                StatusMessage = $"✅ Raport PDF generat cu succes!";
+                StatusMessage = "✅ Raport PDF generat cu succes!";
             }
             catch (Exception ex) { StatusMessage = $"Eroare PDF: {ex.Message}"; }
         }
     }
 
-    private const int BatchSize = 500;
-
     private async Task ProcessFilesAsync(string[] allFiles)
     {
         IsLoading = true;
         StatusMessage = "Procesare artefacte...";
-        LoadProgress = 0;
-        LoadProgressText = string.Empty;
         Events.Clear(); RegistryArtifacts.Clear(); DetectedIssues.Clear(); TimelineItems.Clear();
 
         await Task.Run(() =>
         {
             var evtxFiles = allFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
-            int totalFiles = evtxFiles.Length;
-            int fileIndex = 0;
-
             foreach (var file in evtxFiles)
             {
-                fileIndex++;
                 try
                 {
-                    var batch = new List<ParsedEvent>(BatchSize);
-                    long parsedCount = 0;
-
                     foreach (var ev in _eventParser.ParseEvtxFile(file))
                     {
-                        batch.Add(ev);
-                        parsedCount++;
-
-                        if (batch.Count >= BatchSize)
-                        {
-                            var toAdd = batch;
-                            batch = new List<ParsedEvent>(BatchSize);
-                            Application.Current.Dispatcher.Invoke(() => Events.AddRange(toAdd));
-
-                            LoadProgress = (double)fileIndex / Math.Max(totalFiles, 1) * 100.0;
-                            LoadProgressText = $"Fișier {fileIndex}/{totalFiles} — {parsedCount:N0} evenimente procesate";
-                        }
+                        Application.Current.Dispatcher.Invoke(() => Events.Add(ev));
                     }
+                }
+                catch { }
+            }
 
-                    if (batch.Count > 0)
+            var regFiles = allFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
+            foreach (var file in regFiles)
+            {
+                try
+                {
+                    foreach (var art in _registryParser.ParseRegFile(file))
                     {
-                        var toAdd = batch;
-                        Application.Current.Dispatcher.Invoke(() => Events.AddRange(toAdd));
+                        Application.Current.Dispatcher.Invoke(() => RegistryArtifacts.Add(art));
+                    }
+                }
+                catch { }
+            }
+
+            var hiveFiles = allFiles.Where(f =>
+                Path.GetFileName(f).Equals("NTUSER.DAT", StringComparison.OrdinalIgnoreCase) ||
+                f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase)).ToArray();
+            foreach (var file in hiveFiles)
+            {
+                try
+                {
+                    foreach (var art in _registryParser.ParseNtUserDat(file))
+                    {
+                        Application.Current.Dispatcher.Invoke(() => RegistryArtifacts.Add(art));
                     }
                 }
                 catch { }
             }
 
             var issues = _analysisEngine.AnalyzeEvents(Events.ToList());
-            var timelineBatch = Events.Select(ev => new TimelineItem
-            {
-                Timestamp = ev.TimeCreated,
-                Source = "EVTX",
-                Category = $"EID {ev.EventId}",
-                Description = ev.Message ?? "-",
-                UserOrHost = ev.MachineName ?? "-"
-            }).ToList();
-
             Application.Current.Dispatcher.Invoke(() =>
             {
-                DetectedIssues.AddRange(issues);
-                TimelineItems.AddRange(timelineBatch);
-                LoadProgress = 100;
-                StatusMessage = $"Procesare completă: {Events.Count:N0} loguri.";
+                foreach (var i in issues) DetectedIssues.Add(i);
+                foreach (var ev in Events) TimelineItems.Add(new TimelineItem { Timestamp = ev.TimeCreated, Source = "EVTX", Category = $"EID {ev.EventId}", Description = ev.Message ?? "-", UserOrHost = ev.MachineName ?? "-" });
+                StatusMessage = $"Procesare completă: {Events.Count} loguri, {RegistryArtifacts.Count} artefacte registru.";
             });
         });
 
@@ -319,7 +305,16 @@ public partial class MainViewModel : ObservableObject
         return ev.EventId.ToString().Contains(q) || (ev.Message != null && ev.Message.ToLower().Contains(q));
     }
 
-    private bool FilterArtifacts(object obj) => true;
+    private bool FilterArtifacts(object obj)
+    {
+        if (obj is not RegistryArtifact art) return false;
+        if (string.IsNullOrWhiteSpace(SearchArtifactsText)) return true;
+        string q = SearchArtifactsText.ToLower();
+        return (art.KeyPath != null && art.KeyPath.ToLower().Contains(q)) ||
+               (art.ValueName != null && art.ValueName.ToLower().Contains(q)) ||
+               (art.ValueData != null && art.ValueData.ToLower().Contains(q)) ||
+               (art.Category != null && art.Category.ToLower().Contains(q));
+    }
 
     private bool FilterTimeline(object obj)
     {

@@ -11,21 +11,26 @@ namespace LogAnalyzer.UI.Views
         {
             InitializeComponent();
             _licenseService = licenseService;
-            
-            // Afișăm ID-ul pe ecran
+
             TxtHardwareId.Text = _licenseService.GetHardwareId();
+        }
+
+        private void CopyHardwareId_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(TxtHardwareId.Text);
+            MessageBox.Show("ID-ul hardware a fost copiat în clipboard.", "Copiat", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Activate_Click(object sender, RoutedEventArgs e)
         {
             if (_licenseService.ValidateAndSaveKey(TxtLicenseKey.Text))
             {
-                MessageBox.Show("✅ Licența a fost activată cu succes! Aplicația va porni.", "Activare Reușită", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Licența a fost activată cu succes! Aplicația va porni.", "Activare Reușită", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
             }
             else
             {
-                MessageBox.Show("❌ Cheia de licență este invalidă pentru acest Hardware ID.", "Eroare Activare", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Cheia de licență este invalidă pentru acest Hardware ID sau formatul este incorect. Introdu textul complet primit, în formatul CHEIE|DATĂ.", "Eroare Activare", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

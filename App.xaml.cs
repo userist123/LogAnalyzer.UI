@@ -62,10 +62,23 @@ public partial class App : Application
         services.AddSingleton<LogAnalyzer.Core.Services.PluginManagerService>();
         services.AddSingleton<LogAnalyzer.Core.Services.LicenseService>();
 
+        services.AddTransient<ActivationWindow>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();
 
         ServiceProvider = services.BuildServiceProvider();
+
+        var licenseService = ServiceProvider.GetRequiredService<LogAnalyzer.Core.Services.LicenseService>();
+        if (!licenseService.IsActivated)
+        {
+            var activationWindow = ServiceProvider.GetRequiredService<ActivationWindow>();
+            var activated = activationWindow.ShowDialog();
+            if (activated != true)
+            {
+                Shutdown();
+                return;
+            }
+        }
 
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
         MainWindow = mainWindow;

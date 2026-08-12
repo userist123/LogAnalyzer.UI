@@ -185,16 +185,86 @@ namespace LogAnalyzer.Infrastructure.Services
             using var connection = OpenConnection();
             
             var command = connection.CreateCommand();
+            string actualSearch = search ?? string.Empty;
+            var levels = new List<string>();
+            var extraEventIds = new List<int>();
+            DateTime? minTime = null;
+
+            if (actualSearch.StartsWith("[FILTER:"))
+            {
+                int endIdx = actualSearch.IndexOf(']');
+                if (endIdx > 8)
+                {
+                    string filterContent = actualSearch.Substring(8, endIdx - 8);
+                    actualSearch = actualSearch.Substring(endIdx + 1).Trim();
+
+                    var parts = filterContent.Split(';');
+                    foreach (var part in parts)
+                    {
+                        var kv = part.Split(':');
+                        if (kv.Length == 2)
+                        {
+                            var key = kv[0].ToUpper();
+                            var val = kv[1];
+                            if (key == "LEVELS")
+                            {
+                                levels.AddRange(val.Split(','));
+                            }
+                            else if (key == "EVENTIDS")
+                            {
+                                foreach (var idStr in val.Split(','))
+                                {
+                                    if (int.TryParse(idStr, out int parsedId))
+                                        extraEventIds.Add(parsedId);
+                                }
+                            }
+                            else if (key == "TIMEFRAME")
+                            {
+                                if (val == "24H")
+                                    minTime = DateTime.UtcNow.AddDays(-1);
+                                else if (val == "7D")
+                                    minTime = DateTime.UtcNow.AddDays(-7);
+                            }
+                        }
+                    }
+                }
+            }
+
+            var dbLevels = new List<string>();
+            foreach (var lvl in levels)
+            {
+                if (lvl.Equals("Critical", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Critical");
+                else if (lvl.Equals("High", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Error");
+                else if (lvl.Equals("Medium", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Warning");
+                else if (lvl.Equals("Info", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Information");
+            }
+
             string query = "SELECT * FROM Events WHERE 1=1";
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(actualSearch))
             {
                 query += " AND (EventId LIKE $search OR Message LIKE $search)";
-                command.Parameters.AddWithValue("$search", $"%{search}%");
+                command.Parameters.AddWithValue("$search", $"%{actualSearch}%");
             }
-            if (targetEventIds != null && targetEventIds.Count > 0)
+            
+            var allEventIds = new List<int>();
+            if (targetEventIds != null) allEventIds.AddRange(targetEventIds);
+            allEventIds.AddRange(extraEventIds);
+            if (allEventIds.Count > 0)
             {
-                query += $" AND EventId IN ({string.Join(",", targetEventIds)})";
+                query += $" AND EventId IN ({string.Join(",", allEventIds)})";
             }
+
+            if (dbLevels.Count > 0)
+            {
+                query += $" AND Level IN ({string.Join(",", dbLevels.Select(l => $"'{l}'"))})";
+            }
+
+            if (minTime.HasValue)
+            {
+                query += " AND TimeCreated >= $minTime";
+                command.Parameters.AddWithValue("$minTime", minTime.Value.ToString("o"));
+            }
+
             query += " ORDER BY TimeCreated DESC LIMIT $limit OFFSET $offset";
             
             command.CommandText = query;
@@ -227,16 +297,86 @@ namespace LogAnalyzer.Infrastructure.Services
         {
             using var connection = OpenConnection();
             var command = connection.CreateCommand();
+            string actualSearch = search ?? string.Empty;
+            var levels = new List<string>();
+            var extraEventIds = new List<int>();
+            DateTime? minTime = null;
+
+            if (actualSearch.StartsWith("[FILTER:"))
+            {
+                int endIdx = actualSearch.IndexOf(']');
+                if (endIdx > 8)
+                {
+                    string filterContent = actualSearch.Substring(8, endIdx - 8);
+                    actualSearch = actualSearch.Substring(endIdx + 1).Trim();
+
+                    var parts = filterContent.Split(';');
+                    foreach (var part in parts)
+                    {
+                        var kv = part.Split(':');
+                        if (kv.Length == 2)
+                        {
+                            var key = kv[0].ToUpper();
+                            var val = kv[1];
+                            if (key == "LEVELS")
+                            {
+                                levels.AddRange(val.Split(','));
+                            }
+                            else if (key == "EVENTIDS")
+                            {
+                                foreach (var idStr in val.Split(','))
+                                {
+                                    if (int.TryParse(idStr, out int parsedId))
+                                        extraEventIds.Add(parsedId);
+                                }
+                            }
+                            else if (key == "TIMEFRAME")
+                            {
+                                if (val == "24H")
+                                    minTime = DateTime.UtcNow.AddDays(-1);
+                                else if (val == "7D")
+                                    minTime = DateTime.UtcNow.AddDays(-7);
+                            }
+                        }
+                    }
+                }
+            }
+
+            var dbLevels = new List<string>();
+            foreach (var lvl in levels)
+            {
+                if (lvl.Equals("Critical", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Critical");
+                else if (lvl.Equals("High", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Error");
+                else if (lvl.Equals("Medium", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Warning");
+                else if (lvl.Equals("Info", StringComparison.OrdinalIgnoreCase)) dbLevels.Add("Information");
+            }
+
             string query = "SELECT COUNT(*) FROM Events WHERE 1=1";
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(actualSearch))
             {
                 query += " AND (EventId LIKE $search OR Message LIKE $search)";
-                command.Parameters.AddWithValue("$search", $"%{search}%");
+                command.Parameters.AddWithValue("$search", $"%{actualSearch}%");
             }
-            if (targetEventIds != null && targetEventIds.Count > 0)
+            
+            var allEventIds = new List<int>();
+            if (targetEventIds != null) allEventIds.AddRange(targetEventIds);
+            allEventIds.AddRange(extraEventIds);
+            if (allEventIds.Count > 0)
             {
-                query += $" AND EventId IN ({string.Join(",", targetEventIds)})";
+                query += $" AND EventId IN ({string.Join(",", allEventIds)})";
             }
+
+            if (dbLevels.Count > 0)
+            {
+                query += $" AND Level IN ({string.Join(",", dbLevels.Select(l => $"'{l}'"))})";
+            }
+
+            if (minTime.HasValue)
+            {
+                query += " AND TimeCreated >= $minTime";
+                command.Parameters.AddWithValue("$minTime", minTime.Value.ToString("o"));
+            }
+
             command.CommandText = query;
             return Convert.ToInt32(command.ExecuteScalar());
         }
@@ -330,12 +470,60 @@ namespace LogAnalyzer.Infrastructure.Services
             var list = new List<TimelineItem>();
             using var connection = OpenConnection();
             var command = connection.CreateCommand();
+            string actualSearch = search ?? string.Empty;
+            var levels = new List<string>();
+            DateTime? minTime = null;
+
+            if (actualSearch.StartsWith("[FILTER:"))
+            {
+                int endIdx = actualSearch.IndexOf(']');
+                if (endIdx > 8)
+                {
+                    string filterContent = actualSearch.Substring(8, endIdx - 8);
+                    actualSearch = actualSearch.Substring(endIdx + 1).Trim();
+
+                    var parts = filterContent.Split(';');
+                    foreach (var part in parts)
+                    {
+                        var kv = part.Split(':');
+                        if (kv.Length == 2)
+                        {
+                            var key = kv[0].ToUpper();
+                            var val = kv[1];
+                            if (key == "LEVELS")
+                            {
+                                levels.AddRange(val.Split(','));
+                            }
+                            else if (key == "TIMEFRAME")
+                            {
+                                if (val == "24H")
+                                    minTime = DateTime.UtcNow.AddDays(-1);
+                                else if (val == "7D")
+                                    minTime = DateTime.UtcNow.AddDays(-7);
+                            }
+                        }
+                    }
+                }
+            }
+
             string query = "SELECT * FROM Timeline WHERE 1=1";
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(actualSearch))
             {
                 query += " AND (Category LIKE $search OR Description LIKE $search)";
-                command.Parameters.AddWithValue("$search", $"%{search}%");
+                command.Parameters.AddWithValue("$search", $"%{actualSearch}%");
             }
+
+            if (levels.Count > 0)
+            {
+                query += $" AND Severity IN ({string.Join(",", levels.Select(l => $"'{l}'"))})";
+            }
+
+            if (minTime.HasValue)
+            {
+                query += " AND Timestamp >= $minTime";
+                command.Parameters.AddWithValue("$minTime", minTime.Value.ToString("o"));
+            }
+
             query += " ORDER BY Timestamp DESC LIMIT $limit OFFSET $offset";
             command.CommandText = query;
             command.Parameters.AddWithValue("$limit", limit);
@@ -363,12 +551,60 @@ namespace LogAnalyzer.Infrastructure.Services
         {
             using var connection = OpenConnection();
             var command = connection.CreateCommand();
+            string actualSearch = search ?? string.Empty;
+            var levels = new List<string>();
+            DateTime? minTime = null;
+
+            if (actualSearch.StartsWith("[FILTER:"))
+            {
+                int endIdx = actualSearch.IndexOf(']');
+                if (endIdx > 8)
+                {
+                    string filterContent = actualSearch.Substring(8, endIdx - 8);
+                    actualSearch = actualSearch.Substring(endIdx + 1).Trim();
+
+                    var parts = filterContent.Split(';');
+                    foreach (var part in parts)
+                    {
+                        var kv = part.Split(':');
+                        if (kv.Length == 2)
+                        {
+                            var key = kv[0].ToUpper();
+                            var val = kv[1];
+                            if (key == "LEVELS")
+                            {
+                                levels.AddRange(val.Split(','));
+                            }
+                            else if (key == "TIMEFRAME")
+                            {
+                                if (val == "24H")
+                                    minTime = DateTime.UtcNow.AddDays(-1);
+                                else if (val == "7D")
+                                    minTime = DateTime.UtcNow.AddDays(-7);
+                            }
+                        }
+                    }
+                }
+            }
+
             string query = "SELECT COUNT(*) FROM Timeline WHERE 1=1";
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(actualSearch))
             {
                 query += " AND (Category LIKE $search OR Description LIKE $search)";
-                command.Parameters.AddWithValue("$search", $"%{search}%");
+                command.Parameters.AddWithValue("$search", $"%{actualSearch}%");
             }
+
+            if (levels.Count > 0)
+            {
+                query += $" AND Severity IN ({string.Join(",", levels.Select(l => $"'{l}'"))})";
+            }
+
+            if (minTime.HasValue)
+            {
+                query += " AND Timestamp >= $minTime";
+                command.Parameters.AddWithValue("$minTime", minTime.Value.ToString("o"));
+            }
+
             command.CommandText = query;
             return Convert.ToInt32(command.ExecuteScalar());
         }

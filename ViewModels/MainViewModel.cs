@@ -95,6 +95,21 @@ namespace LogAnalyzer.UI.ViewModels
         };
         [ObservableProperty] private string _selectedRegistryCategory = "Toate Cheile";
 
+        // Advanced Forensic Filters
+        [ObservableProperty] private bool _filterCritical = true;
+        [ObservableProperty] private bool _filterHigh = true;
+        [ObservableProperty] private bool _filterMedium = true;
+        [ObservableProperty] private bool _filterInfo = true;
+        [ObservableProperty] private string _filterEventId = string.Empty;
+        [ObservableProperty] private bool _filterFailedLogins;
+        [ObservableProperty] private bool _filterPrivEsc;
+        [ObservableProperty] private string _filterTimeframePreset = "Toate"; // "Toate", "Ultima zi", "Ultimele 7 zile"
+
+        public ObservableCollection<KeyValuePair<string, string>> SelectedEventProperties { get; } = new();
+        [ObservableProperty] private string _selectedEventMitigation = string.Empty;
+        [ObservableProperty] private string _selectedEventMitreMapping = string.Empty;
+        [ObservableProperty] private string _selectedEventThreatScenario = string.Empty;
+
         // Audit Data Collection Properties
         public ObservableCollection<string> TargetTypes { get; } = new() { "PC", "Server", "NAS" };
         [ObservableProperty] private string _selectedTargetType = "PC";
@@ -140,6 +155,80 @@ namespace LogAnalyzer.UI.ViewModels
         {
             EvtxCurrentPage = 1;
             ReloadEvtxFromDb();
+        }
+
+        partial void OnFilterCriticalChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterHighChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterMediumChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterInfoChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterEventIdChanged(string value) => ApplyFiltersAndReload();
+        partial void OnFilterFailedLoginsChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterPrivEscChanged(bool value) => ApplyFiltersAndReload();
+        partial void OnFilterTimeframePresetChanged(string value) => ApplyFiltersAndReload();
+
+        private void ApplyFiltersAndReload()
+        {
+            EvtxCurrentPage = 1;
+            TimelineCurrentPage = 1;
+            ReloadEvtxFromDb();
+            ReloadTimelineFromDb();
+        }
+
+        private string GetFilteredSearchText(string originalSearch)
+        {
+            var levels = new List<string>();
+            if (FilterCritical) levels.Add("Critical");
+            if (FilterHigh) levels.Add("High");
+            if (FilterMedium) levels.Add("Medium");
+            if (FilterInfo) levels.Add("Info");
+
+            var eventIds = new List<int>();
+            if (!string.IsNullOrWhiteSpace(FilterEventId))
+            {
+                foreach (var idStr in FilterEventId.Split(','))
+                {
+                    if (int.TryParse(idStr.Trim(), out int id))
+                        eventIds.Add(id);
+                }
+            }
+            if (FilterFailedLogins)
+            {
+                eventIds.Add(4625);
+                eventIds.Add(4771);
+            }
+            if (FilterPrivEsc)
+            {
+                eventIds.Add(4720);
+                eventIds.Add(4722);
+                eventIds.Add(4732);
+                eventIds.Add(4728);
+                eventIds.Add(4756);
+                eventIds.Add(4672);
+            }
+
+            string timeframe = string.Empty;
+            if (FilterTimeframePreset == "Ultima zi") timeframe = "24H";
+            else if (FilterTimeframePreset == "Ultimele 7 zile") timeframe = "7D";
+
+            var filterParts = new List<string>();
+            if (levels.Count < 4)
+            {
+                filterParts.Add($"LEVELS:{string.Join(",", levels)}");
+            }
+            if (eventIds.Count > 0)
+            {
+                filterParts.Add($"EVENTIDS:{string.Join(",", eventIds.Distinct())}");
+            }
+            if (!string.IsNullOrEmpty(timeframe))
+            {
+                filterParts.Add($"TIMEFRAME:{timeframe}");
+            }
+
+            if (filterParts.Count > 0)
+            {
+                return $"[FILTER:{string.Join(";", filterParts)}]{originalSearch}";
+            }
+            return originalSearch;
         }
 
         partial void OnEvtxCurrentPageChanged(int value) => ReloadEvtxFromDb();
@@ -194,11 +283,12 @@ namespace LogAnalyzer.UI.ViewModels
         {
             try
             {
+                string filteredSearch = GetFilteredSearchText(SearchEventsText);
                 var targetIds = SelectedProfile?.TargetEventIds ?? new List<int>();
-                int count = _databaseService.GetEventsCount(SearchEventsText, null, targetIds);
+                int count = _databaseService.GetEventsCount(filteredSearch, null, targetIds);
                 EvtxTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
                 
-                var list = _databaseService.GetEvents(PageSize, (EvtxCurrentPage - 1) * PageSize, SearchEventsText, null, targetIds);
+                var list = _databaseService.GetEvents(PageSize, (EvtxCurrentPage - 1) * PageSize, filteredSearch, null, targetIds);
                 Events.Clear();
                 foreach (var ev in list) Events.Add(ev);
             }
@@ -233,10 +323,11 @@ namespace LogAnalyzer.UI.ViewModels
         {
             try
             {
-                int count = _databaseService.GetTimelineCount(SearchEventsText);
+                string filteredSearch = GetFilteredSearchText(SearchEventsText);
+                int count = _databaseService.GetTimelineCount(filteredSearch);
                 TimelineTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
                 
-                var list = _databaseService.GetTimeline(PageSize, (TimelineCurrentPage - 1) * PageSize, SearchEventsText);
+                var list = _databaseService.GetTimeline(PageSize, (TimelineCurrentPage - 1) * PageSize, filteredSearch);
                 TimelineItems.Clear();
                 foreach (var item in list) TimelineItems.Add(item);
             }
@@ -288,7 +379,98 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand] private void NextTimelinePage() { if (TimelineCurrentPage < TimelineTotalPages) TimelineCurrentPage++; }
         [RelayCommand] private void PrevTimelinePage() { if (TimelineCurrentPage > 1) TimelineCurrentPage--; }
 
-        // Data Collection Commands
+        [RelayCommand]
+        private void ClearCache()
+        {
+            var result = MessageBox.Show(
+                "Ești sigur că vrei să ștergi memoria cache și toate datele colectate în investigația curentă? Această acțiune este ireversibilă.",
+                "Confirmare Ștergere Date",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    _databaseService.ClearDatabase();
+                    
+                    Events.Clear();
+                    RegistryArtifacts.Clear();
+                    TimelineItems.Clear();
+                    DetectedIssues.Clear();
+                    
+                    ReloadDashboardStats();
+                    UpdateDatabaseSize();
+                    StatusMessage = "Baza de date și memoria cache au fost curățate cu succes.";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Eroare la ștergerea bazei de date: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ExportCsv()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Fișiere CSV (*.csv)|*.csv",
+                FileName = $"Audit_Report_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Timestamp,Source,Category,Severity,MitreTags,UserOrHost,Description");
+                    
+                    string filteredSearch = GetFilteredSearchText(SearchEventsText);
+                    var allTimeline = _databaseService.GetTimeline(10000, 0, filteredSearch);
+                    foreach (var item in allTimeline)
+                    {
+                        var line = $"\"{item.Timestamp:yyyy-MM-dd HH:mm:ss}\",\"{EscapeCsv(item.Source)}\",\"{EscapeCsv(item.Category)}\",\"{EscapeCsv(item.Severity)}\",\"{EscapeCsv(item.MitreTags)}\",\"{EscapeCsv(item.UserOrHost)}\",\"{EscapeCsv(item.Description)}\"";
+                        sb.AppendLine(line);
+                    }
+
+                    File.WriteAllText(dialog.FileName, sb.ToString(), Encoding.UTF8);
+                    MessageBox.Show("Raportul CSV a fost exportat cu succes!", "Export Reușit", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Eroare la exportul raportului: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private string EscapeCsv(string? field)
+        {
+            if (field == null) return string.Empty;
+            return field.Replace("\"", "\"\"");
+        }
+
+        [RelayCommand]
+        private void OpenAuditFolder()
+        {
+            try
+            {
+                if (Directory.Exists(CollectionOutputDir))
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", CollectionOutputDir);
+                }
+                else
+                {
+                    Directory.CreateDirectory(CollectionOutputDir);
+                    System.Diagnostics.Process.Start("explorer.exe", CollectionOutputDir);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nu s-a putut deschide folderul: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         [RelayCommand]
         private void SelectCollectionOutputDir()
         {
@@ -374,9 +556,130 @@ namespace LogAnalyzer.UI.ViewModels
             });
         }
 
-        partial void OnSelectedEventChanged(ParsedEvent? value) { if (value != null) UpdateInspector(value.MachineName ?? "-", value.ProviderName ?? "-", value.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss"), value.Message ?? ""); }
-        partial void OnSelectedArtifactChanged(RegistryArtifact? value) { if (value != null) UpdateInspector("NTUSER", value.Category ?? "Registru", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), $"Cheie: {value.KeyPath}\nValoare: {value.ValueData}"); }
-        partial void OnSelectedTimelineItemChanged(TimelineItem? value) { if (value != null) UpdateInspector(value.UserOrHost ?? "-", value.Source ?? "-", value.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), value.Description ?? ""); }
+        partial void OnSelectedEventChanged(ParsedEvent? value)
+        {
+            SelectedEventProperties.Clear();
+            if (value == null)
+            {
+                UpdateInspector("-", "-", "-", "Selectează un eveniment sau artefact...");
+                SelectedEventThreatScenario = string.Empty;
+                SelectedEventMitreMapping = string.Empty;
+                SelectedEventMitigation = string.Empty;
+                return;
+            }
+
+            UpdateInspector(value.MachineName ?? "-", value.ProviderName ?? "-", value.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss"), value.Message ?? "");
+
+            SelectedEventProperties.Add(new("ID Eveniment", value.EventId.ToString()));
+            SelectedEventProperties.Add(new("Sursă Jurnal", value.ProviderName ?? "-"));
+            SelectedEventProperties.Add(new("Nivel Severitate", value.Level ?? "-"));
+            SelectedEventProperties.Add(new("Nume Echipament", value.MachineName ?? "-"));
+            SelectedEventProperties.Add(new("Data Colectare", value.TimeCreated.ToString("g")));
+
+            if (!string.IsNullOrWhiteSpace(value.XmlData))
+            {
+                try
+                {
+                    var matches = Regex.Matches(value.XmlData, @"<Data Name=""([^""]+)"">([^<]*)</Data>");
+                    foreach (Match match in matches)
+                    {
+                        var name = match.Groups[1].Value;
+                        var val = match.Groups[2].Value;
+                        if (!SelectedEventProperties.Any(p => p.Key == name))
+                        {
+                            SelectedEventProperties.Add(new(name, val));
+                        }
+                    }
+                }
+                catch { }
+            }
+
+            if (value.EventId == 4625)
+            {
+                SelectedEventThreatScenario = "Atac de tip Brute Force sau Spraying de parole vizând contul de utilizator.";
+                SelectedEventMitreMapping = "Credential Access - Brute Force (T1110)";
+                SelectedEventMitigation = "1. Blocarea temporară a contului afectat.\n2. Verificarea IP-ului sursă din detaliile XML.\n3. Activarea autentificării multi-factor (MFA).\n4. Revizuirea politicilor de complexitate a parolelor.";
+            }
+            else if (value.EventId == 4720 || value.EventId == 4732)
+            {
+                SelectedEventThreatScenario = "Crearea unui cont local nou sau adăugarea unui cont în grupul de administratori locali.";
+                SelectedEventMitreMapping = "Persistence - Local Account (T1136.001)";
+                SelectedEventMitigation = "1. Validarea creării contului cu administratorii IT.\n2. Verificarea procesului care a inițiat modificarea.\n3. Eliminarea imediată a contului dacă este neautorizat.\n4. Auditarea drepturilor de administrator local.";
+            }
+            else if (value.EventId == 1102 || value.EventId == 104)
+            {
+                SelectedEventThreatScenario = "Curățarea sau ștergerea jurnalele de evenimente (EVTX) de securitate/sistem pentru a șterge urmele atacului.";
+                SelectedEventMitreMapping = "Defense Evasion - Indicator Removal (T1070.001)";
+                SelectedEventMitigation = "1. Identificarea utilizatorului și PID-ului procesului responsabil.\n2. Inspectarea activității imediate anterioare a host-ului.\n3. Centralizarea obligatorie a log-urilor pe un server extern (Syslog/SIEM air-gapped).";
+            }
+            else
+            {
+                SelectedEventThreatScenario = value.OfficialDescription ?? "Activitate de sistem înregistrată pentru analiză forenzică standard.";
+                SelectedEventMitreMapping = string.IsNullOrWhiteSpace(value.PotentialCriticality) ? "Standard Audit Trace" : $"{value.PotentialCriticality} - Reference ID {value.EventId}";
+                SelectedEventMitigation = value.TacticalExample ?? "1. Verificați legitimitatea procesului apelant.\n2. Comparați timestamp-ul cu baseline-ul de activitate al utilizatorului.";
+            }
+        }
+
+        partial void OnSelectedArtifactChanged(RegistryArtifact? value)
+        {
+            SelectedEventProperties.Clear();
+            if (value == null)
+            {
+                UpdateInspector("-", "-", "-", "Selectează un eveniment sau artefact...");
+                SelectedEventThreatScenario = string.Empty;
+                SelectedEventMitreMapping = string.Empty;
+                SelectedEventMitigation = string.Empty;
+                return;
+            }
+
+            UpdateInspector("NTUSER", value.Category ?? "Registru", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), $"Cheie: {value.KeyPath}\nValoare: {value.ValueName}\nDate: {value.ValueData}");
+
+            SelectedEventProperties.Add(new("Tip Hive", value.HiveType ?? "-"));
+            SelectedEventProperties.Add(new("Categorie Registru", value.Category ?? "-"));
+            SelectedEventProperties.Add(new("Cale Cheie", value.KeyPath ?? "-"));
+            SelectedEventProperties.Add(new("Nume Valoare", value.ValueName ?? "-"));
+            SelectedEventProperties.Add(new("Date Valoare", value.ValueData ?? "-"));
+            SelectedEventProperties.Add(new("Nivel Suspiciune", value.SuspicionLevel ?? "None"));
+
+            if (value.SuspicionLevel == "High" || value.SuspicionLevel == "Critical")
+            {
+                SelectedEventThreatScenario = "Persistență în registry printr-o cheie de rulare automată nesemnificativă sau un serviciu nou.";
+                SelectedEventMitreMapping = "Persistence - Boot or Logon Autostart Execution (T1547.001)";
+                SelectedEventMitigation = "1. Analizarea fișierului executabil indicat în calea cheii.\n2. Verificarea semnăturii digitale a executabilului.\n3. Ștergerea cheii dacă executabilul este nelegitim.";
+            }
+            else
+            {
+                SelectedEventThreatScenario = "Modificare sau configurare registru Windows.";
+                SelectedEventMitreMapping = "Defense Evasion - Modify Registry (T1112)";
+                SelectedEventMitigation = "1. Verificați dacă modificarea provine de la un installer autorizat.\n2. Comparați cheia cu baseline-ul unui sistem curat.";
+            }
+        }
+
+        partial void OnSelectedTimelineItemChanged(TimelineItem? value)
+        {
+            SelectedEventProperties.Clear();
+            if (value == null)
+            {
+                UpdateInspector("-", "-", "-", "Selectează un eveniment sau artefact...");
+                SelectedEventThreatScenario = string.Empty;
+                SelectedEventMitreMapping = string.Empty;
+                SelectedEventMitigation = string.Empty;
+                return;
+            }
+
+            UpdateInspector(value.UserOrHost ?? "-", value.Source ?? "-", value.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), value.Description ?? "");
+
+            SelectedEventProperties.Add(new("Timestamp", value.Timestamp.ToString("o")));
+            SelectedEventProperties.Add(new("Sursă Corelare", value.Source ?? "-"));
+            SelectedEventProperties.Add(new("Categorie", value.Category ?? "-"));
+            SelectedEventProperties.Add(new("Severitate", value.Severity ?? "-"));
+            SelectedEventProperties.Add(new("Etichete MITRE", value.MitreTags ?? "-"));
+            SelectedEventProperties.Add(new("Utilizator/Host", value.UserOrHost ?? "-"));
+
+            SelectedEventThreatScenario = $"Eveniment detectat în investigație: {value.Category}.";
+            SelectedEventMitreMapping = value.MitreTags ?? "Standard Event";
+            SelectedEventMitigation = "1. Verificați evenimentele adiacente în timeline-ul din jurul acestei ore.\n2. Examinați detaliile hostului afectat.";
+        }
 
         private bool _isPopupActive = false; 
         private DetectedIssue? _selectedIssue;

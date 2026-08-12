@@ -3,130 +3,207 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:LogAnalyzer.Core.Models;assembly=LogAnalyzer.Core"
         Title="Detalii Eveniment / Artefact" Height="680" Width="850"
-        WindowStartupLocation="CenterOwner" Background="#FF0F1219" Foreground="White">
+        WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgBrush" Color="#070812"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#0c0f1c"/>
+        <SolidColorBrush x:Key="Surface2Brush" Color="#111528"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#1e2538"/>
+        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#8b5cf6"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#f5f7ff"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#a7adc2"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#ef4444"/>
+    </Window.Resources>
 
-        <TextBlock Text="DETALII ARTEFACT FORENZIC" FontSize="18" FontWeight="Bold" Foreground="#FF3498DB" Margin="0,0,0,15"/>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                    <DoubleAnimation Storyboard.TargetName="RootTransform" Storyboard.TargetProperty="Y" From="20" To="0" Duration="0:0:0.25" DecelerationRatio="0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
 
-        <Border Grid.Row="1" Background="#FF161A22" BorderBrush="#FF30363D" BorderThickness="1" CornerRadius="6" Padding="20">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                
-                <ContentControl Content="{Binding}">
-                    <ContentControl.Resources>
-                        
-                        <!-- Șablonul grafic pentru Evenimente EVTX -->
-                        <DataTemplate DataType="{x:Type models:ParsedEvent}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="190"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+    <Border x:Name="RootBorder" Background="{StaticResource BgBrush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1.5" CornerRadius="10" Opacity="0">
+        <Border.Effect>
+            <DropShadowEffect Color="#8b5cf6" Direction="270" ShadowDepth="0" Opacity="0.35" BlurRadius="18"/>
+        </Border.Effect>
+        <Border.RenderTransform>
+            <TranslateTransform x:Name="RootTransform" Y="20"/>
+        </Border.RenderTransform>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="EventId:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding EventId}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="MachineName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MachineName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+            <Grid Grid.Row="0" Background="#0c101d" MouseDown="TitleBar_MouseDown" Cursor="SizeAll">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="14,0">
+                    <TextBlock Text="🔍 INSPECȚIE DETALIATĂ EVENIMENT FORENZIC" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="✕" Click="Close_Click" Width="38" Height="30" Background="Transparent" Foreground="{StaticResource TextSecondaryBrush}" BorderThickness="0" VerticalAlignment="Center" Margin="0,0,8,0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ProviderName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ProviderName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+            <Grid Grid.Row="1" Margin="18">
+                <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="18">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type models:ParsedEvent}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="TimeCreated:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding TimeCreated, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="0,4,0,8" Margin="0,0,0,8">
+                                            <TextBlock Text="METADATE DE BAZĂ" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
+                                        </Border>
 
-                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Level:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Level}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Event ID:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EventId}" Foreground="White" FontWeight="Bold" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="5" Grid.Column="0" Text="XmlData (Brut):" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Message}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Calculator / Sursă:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding MachineName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="6" Grid.Column="0" Text="OfficialDescription:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding OfficialDescription}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Furnizor (Provider):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ProviderName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="7" Grid.Column="0" Text="TacticalExample:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding TacticalExample}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Data Creării (UTC):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding TimeCreated, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="8" Grid.Column="0" Text="ReferenceUrl:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding ReferenceUrl}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Nivel Severitate:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Level}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="9" Grid.Column="0" Text="PotentialCriticality:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding PotentialCriticality}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
-                            </Grid>
-                        </DataTemplate>
+                                        <Border Grid.Row="6" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="0,8,0,8" Margin="0,4,0,8">
+                                            <TextBlock Text="DESCRIERI ȘI DETALII TACTICE" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
+                                        </Border>
 
-                        <!-- Șablonul grafic pentru Registri -->
-                        <DataTemplate DataType="{x:Type models:RegistryArtifact}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="190"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Descriere Oficială:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding OfficialDescription}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Category:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Category}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Exemplu Tactic / Explicație:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding TacticalExample}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="KeyPath:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding KeyPath}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Date Brut (XML):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <Border Grid.Row="9" Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,4,0,6">
+                                            <TextBox Text="{Binding Message}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" FontSize="11.5"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ValueName:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ValueName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                <DataTemplate DataType="{x:Type models:RegistryArtifact}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="ValueData (Brut):" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ValueData}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
-                            </Grid>
-                        </DataTemplate>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="0,4,0,8" Margin="0,0,0,8">
+                                            <TextBlock Text="ARTEFACT REGISTRY" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
+                                        </Border>
 
-                        <!-- Șablon pentru Timeline -->
-                        <DataTemplate DataType="{x:Type models:TimelineItem}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="190"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Categorie:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Category}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Sursă / Tip:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Source}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Cale Cheie (Key Path):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding KeyPath}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Timestamp:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Timestamp, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Nume Valoare:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ValueName}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Host / User:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding UserOrHost}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Valoare Brut (Data):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <Border Grid.Row="4" Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,4,0,6">
+                                            <TextBox Text="{Binding ValueData}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" FontSize="11.5"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Descriere:" Foreground="#FFA0AAB5" FontWeight="SemiBold" Margin="0,4,10,6"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" Margin="0,4,0,6"/>
-                            </Grid>
-                        </DataTemplate>
+                                <DataTemplate DataType="{x:Type models:TimelineItem}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                    </ContentControl.Resources>
-                </ContentControl>
-            </ScrollViewer>
-        </Border>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="0,4,0,8" Margin="0,0,0,8">
+                                            <TextBlock Text="EVENIMENT CRONOLOGIE" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
+                                        </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button Content="🚨 Promovează ca Alertă" Click="Escalate_Click" Background="#FF8B0000" Foreground="White" Padding="15,8" Margin="0,0,10,0" Cursor="Hand" BorderBrush="#FFB22222"/>
-            <Button Content="Închide" Click="Close_Click" Background="#FF333337" Foreground="White" Padding="15,8" Cursor="Hand" BorderBrush="#FF434346"/>
-        </StackPanel>
-    </Grid>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Sursă / Sub-sistem:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Source}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Data și Ora (UTC):" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Timestamp, StringFormat={}{0:dd-MMM-yy HH:mm:ss}}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="User / Calculator:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding UserOrHost}" Foreground="White" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Descriere Eveniment:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>
+                                        <Border Grid.Row="4" Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,4,0,6">
+                                            <TextBox Text="{Binding Description}" Foreground="White" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" FontSize="11.5"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2" Background="#0c101d" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderBrush}" CornerRadius="0,0,10,10" Padding="14,0">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="🚨 Promovează ca Alertă" Click="Escalate_Click" Background="#8b0000" Foreground="White" BorderBrush="#b22222" Padding="18,6" Margin="0,0,10,0"/>
+                        <Button Content="Închide" Click="Close_Click" Padding="18,6" Background="Transparent" Foreground="White" BorderBrush="{StaticResource BorderBrush}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
 </Window>

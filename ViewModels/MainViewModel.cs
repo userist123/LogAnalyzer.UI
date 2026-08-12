@@ -50,6 +50,9 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _searchEventsText = string.Empty;
         [ObservableProperty] private string _searchArtifactsText = string.Empty;
 
+        private System.Timers.Timer? _searchDebounceTimer;
+        private System.Timers.Timer? _registryDebounceTimer;
+
         [ObservableProperty] private string _inspectorMachineName = "-";
         [ObservableProperty] private string _inspectorProviderName = "-";
         [ObservableProperty] private string _inspectorTimeCreated = "-";
@@ -139,16 +142,42 @@ namespace LogAnalyzer.UI.ViewModels
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
         {
-            EvtxCurrentPage = 1;
-            TimelineCurrentPage = 1;
-            ReloadEvtxFromDb();
-            ReloadTimelineFromDb();
+            if (_searchDebounceTimer == null)
+            {
+                _searchDebounceTimer = new System.Timers.Timer(400); // 400ms debounce
+                _searchDebounceTimer.AutoReset = false;
+                _searchDebounceTimer.Elapsed += (s, e) =>
+                {
+                    System.Windows.Application.Current?.Dispatcher.Invoke(() =>
+                    {
+                        EvtxCurrentPage = 1;
+                        TimelineCurrentPage = 1;
+                        ReloadEvtxFromDb();
+                        ReloadTimelineFromDb();
+                    });
+                };
+            }
+            _searchDebounceTimer.Stop();
+            _searchDebounceTimer.Start();
         }
 
         partial void OnSearchArtifactsTextChanged(string value)
         {
-            RegistryCurrentPage = 1;
-            ReloadRegistryFromDb();
+            if (_registryDebounceTimer == null)
+            {
+                _registryDebounceTimer = new System.Timers.Timer(400); // 400ms debounce
+                _registryDebounceTimer.AutoReset = false;
+                _registryDebounceTimer.Elapsed += (s, e) =>
+                {
+                    System.Windows.Application.Current?.Dispatcher.Invoke(() =>
+                    {
+                        RegistryCurrentPage = 1;
+                        ReloadRegistryFromDb();
+                    });
+                };
+            }
+            _registryDebounceTimer.Stop();
+            _registryDebounceTimer.Start();
         }
 
         partial void OnSelectedProfileChanged(DfirProfile? value)

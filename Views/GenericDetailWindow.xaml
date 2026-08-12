@@ -140,7 +140,7 @@
                                         </Grid.RowDefinitions>
 
                                         <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="0,4,0,8" Margin="0,0,0,8">
-                                            <TextBlock Text="ARTEFACT REGISTRY" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
+                                            <TextBlock Text="ARTEFACT REGISTRU" Foreground="{StaticResource PrimaryAccentBrush}" FontWeight="Bold" FontSize="12"/>
                                         </Border>
 
                                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Categorie:" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,4,10,6"/>

@@ -87,7 +87,7 @@ namespace LogAnalyzer.UI.ViewModels
         // Cyber Telemetry & System Status
         [ObservableProperty] private string _operatorName = "-";
         [ObservableProperty] private string _databaseSize = "0.0 MB";
-        [ObservableProperty] private string _licenseTier = "Standard Edition";
+        [ObservableProperty] private string _licenseTier = "Ediție Standard";
 
         // Registry Sidebar Categories
         public ObservableCollection<string> RegistryCategories { get; } = new()
@@ -644,7 +644,7 @@ namespace LogAnalyzer.UI.ViewModels
             else
             {
                 SelectedEventThreatScenario = value.OfficialDescription ?? "Activitate de sistem înregistrată pentru analiză forenzică standard.";
-                SelectedEventMitreMapping = string.IsNullOrWhiteSpace(value.PotentialCriticality) ? "Standard Audit Trace" : $"{value.PotentialCriticality} - Reference ID {value.EventId}";
+                SelectedEventMitreMapping = string.IsNullOrWhiteSpace(value.PotentialCriticality) ? "Traseu de Audit Standard" : $"{value.PotentialCriticality} - Reference ID {value.EventId}";
                 SelectedEventMitigation = value.TacticalExample ?? "1. Verificați legitimitatea procesului apelant.\n2. Comparați timestamp-ul cu baseline-ul de activitate al utilizatorului.";
             }
         }
@@ -668,7 +668,13 @@ namespace LogAnalyzer.UI.ViewModels
             SelectedEventProperties.Add(new("Cale Cheie", value.KeyPath ?? "-"));
             SelectedEventProperties.Add(new("Nume Valoare", value.ValueName ?? "-"));
             SelectedEventProperties.Add(new("Date Valoare", value.ValueData ?? "-"));
-            SelectedEventProperties.Add(new("Nivel Suspiciune", value.SuspicionLevel ?? "None"));
+            string suspLevel = (value.SuspicionLevel ?? "None") switch
+            {
+                "High" => "Ridicată",
+                "Critical" => "Critic",
+                _ => "Niciunul"
+            };
+            SelectedEventProperties.Add(new("Nivel Suspiciune", suspLevel));
 
             if (value.SuspicionLevel == "High" || value.SuspicionLevel == "Critical")
             {
@@ -706,7 +712,7 @@ namespace LogAnalyzer.UI.ViewModels
             SelectedEventProperties.Add(new("Utilizator/Host", value.UserOrHost ?? "-"));
 
             SelectedEventThreatScenario = $"Eveniment detectat în investigație: {value.Category}.";
-            SelectedEventMitreMapping = value.MitreTags ?? "Standard Event";
+            SelectedEventMitreMapping = value.MitreTags ?? "Eveniment Standard";
             SelectedEventMitigation = "1. Verificați evenimentele adiacente în timeline-ul din jurul acestei ore.\n2. Examinați detaliile hostului afectat.";
         }
 

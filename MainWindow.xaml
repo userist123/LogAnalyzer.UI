@@ -449,7 +449,7 @@
                     <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10,5">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="COMMAND NODE ONLINE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="NOD DE COMANDA ONLINE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -537,7 +537,7 @@
                                     </Grid.RowDefinitions>
 
                                     <!-- Title -->
-                                    <TextBlock Grid.Row="0" Text="Incident Overview Command Dashboard" FontSize="18" FontWeight="Bold" Margin="8,0,0,18" Foreground="White"/>
+                                    <TextBlock Grid.Row="0" Text="Tablou de Comandă - Monitorizare Incidente" FontSize="18" FontWeight="Bold" Margin="8,0,0,18" Foreground="White"/>
 
                                     <!-- Glowing KPI Cards (Rounded, Gradient Borders, Minimalist Layout) -->
                                     <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,12">
@@ -601,7 +601,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Alerte Securitate Corelate (Threat Log)" FontSize="14" FontWeight="Bold" Margin="3,0,0,12" Foreground="White"/>
+                                                <TextBlock Text="Alerte de Securitate Corelate (Jurnal Amenințări)" FontSize="14" FontWeight="Bold" Margin="3,0,0,12" Foreground="White"/>
                                                 <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}" AutoGenerateColumns="False" IsReadOnly="True">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="80"/>
@@ -663,7 +663,7 @@
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="PERSISTENȚĂ / PRIV" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="PERSISTENȚĂ / PRIVILEGII" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding PersistencePrivEscTechniques}">
                                                                     <ItemsControl.ItemTemplate>
@@ -823,9 +823,9 @@
                                                 <!-- Severity Badges Checklist -->
                                                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="Severitate:" FontSize="10.5" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold"/>
-                                                    <CheckBox IsChecked="{Binding FilterCritical}" Content="Critical" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterHigh}" Content="High" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterMedium}" Content="Medium" Foreground="{StaticResource WarningBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterCritical}" Content="Critic" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterHigh}" Content="Ridicată" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterMedium}" Content="Medie" Foreground="{StaticResource WarningBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
                                                     <CheckBox IsChecked="{Binding FilterInfo}" Content="Info" Foreground="{StaticResource SuccessBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
                                                 </StackPanel>
                                                 
@@ -876,7 +876,7 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="Arbore Procese Triage (Execution Tree)" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,8"/>
+                                            <TextBlock Text="Arbore Execuție Procese (Triage)" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,8"/>
                                             <TreeView Grid.Row="1" ItemsSource="{Binding ProcessTreeNodes}" Background="Transparent" BorderThickness="0" Foreground="White">
                                                 <TreeView.Resources>
                                                     <HierarchicalDataTemplate DataType="{x:Type vm:ProcessNode}" ItemsSource="{Binding Children}">
@@ -1189,7 +1189,7 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="Offline Sigma Rules Detection Database" FontSize="13" FontWeight="Bold" Margin="3,0,0,10" Foreground="White"/>
+                                            <TextBlock Text="Baza Detec?ie Offline - Reguli Sigma" FontSize="13" FontWeight="Bold" Margin="3,0,0,10" Foreground="White"/>
                                             <Grid Grid.Row="1">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="280"/>
@@ -1307,9 +1307,9 @@
                                                 <!-- Severity Badges Checklist -->
                                                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="Severitate:" FontSize="10.5" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold"/>
-                                                    <CheckBox IsChecked="{Binding FilterCritical}" Content="Critical" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterHigh}" Content="High" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterMedium}" Content="Medium" Foreground="{StaticResource WarningBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterCritical}" Content="Critic" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterHigh}" Content="Ridicata" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
+                                                    <CheckBox IsChecked="{Binding FilterMedium}" Content="Medie" Foreground="{StaticResource WarningBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
                                                     <CheckBox IsChecked="{Binding FilterInfo}" Content="Info" Foreground="{StaticResource SuccessBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
                                                 </StackPanel>
                                                 
@@ -1550,7 +1550,7 @@
                 <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0"/>
-                    <TextBlock Text="SYSTEM SECURE SHIELD ACTIVE" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
+                    <TextBlock Text="SCUT DE SECURITATE DISPOZITIV ACTIV" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -1567,3 +1567,4 @@
         </Grid>
     </Grid>
 </Window>
+

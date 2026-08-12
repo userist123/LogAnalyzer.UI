@@ -678,41 +678,41 @@ namespace LogAnalyzer.UI.ViewModels
         private void InitializeProcessTree()
         {
             ProcessTreeNodes.Clear();
-            var systemRoot = new ProcessNode { ProcessName = "System", PID = 4, RiskColor = "#e1e7f0", ProcessIcon = "💻" };
+            var systemRoot = new ProcessNode { ProcessName = "System", PID = 4, RiskColor = "#a7adc2", ProcessIcon = "💻" };
             
-            var smss = new ProcessNode { ProcessName = "smss.exe", PID = 312, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            var smss = new ProcessNode { ProcessName = "smss.exe", PID = 312, RiskColor = "#a7adc2", ProcessIcon = "⚙️" };
             systemRoot.Children.Add(smss);
             
-            var wininit = new ProcessNode { ProcessName = "wininit.exe", PID = 620, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            var wininit = new ProcessNode { ProcessName = "wininit.exe", PID = 620, RiskColor = "#a7adc2", ProcessIcon = "⚙️" };
             systemRoot.Children.Add(wininit);
             
-            var services = new ProcessNode { ProcessName = "services.exe", PID = 744, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            var services = new ProcessNode { ProcessName = "services.exe", PID = 744, RiskColor = "#a7adc2", ProcessIcon = "⚙️" };
             wininit.Children.Add(services);
             
-            var svchost1 = new ProcessNode { ProcessName = "svchost.exe (netsvcs)", PID = 1044, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+            var svchost1 = new ProcessNode { ProcessName = "svchost.exe (netsvcs)", PID = 1044, RiskColor = "#a7adc2", ProcessIcon = "⚙️" };
             services.Children.Add(svchost1);
             
-            var unverifiedService = new ProcessNode { ProcessName = "malicious_service.exe", PID = 5124, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+            var unverifiedService = new ProcessNode { ProcessName = "malicious_service.exe", PID = 5124, RiskColor = "#ef4444", ProcessIcon = "🚨" };
             services.Children.Add(unverifiedService);
-
-            var winlogon = new ProcessNode { ProcessName = "winlogon.exe", PID = 688, RiskColor = "#e1e7f0", ProcessIcon = "⚙️" };
+ 
+            var winlogon = new ProcessNode { ProcessName = "winlogon.exe", PID = 688, RiskColor = "#a7adc2", ProcessIcon = "⚙️" };
             systemRoot.Children.Add(winlogon);
             
-            var explorer = new ProcessNode { ProcessName = "explorer.exe", PID = 4120, RiskColor = "#00f2fe", ProcessIcon = "🖥️" };
+            var explorer = new ProcessNode { ProcessName = "explorer.exe", PID = 4120, RiskColor = "#8b5cf6", ProcessIcon = "🖥️" };
             winlogon.Children.Add(explorer);
-
-            var chrome = new ProcessNode { ProcessName = "chrome.exe", PID = 5824, RiskColor = "#e1e7f0", ProcessIcon = "🌐" };
+ 
+            var chrome = new ProcessNode { ProcessName = "chrome.exe", PID = 5824, RiskColor = "#a7adc2", ProcessIcon = "🌐" };
             explorer.Children.Add(chrome);
-
-            var cmd = new ProcessNode { ProcessName = "cmd.exe", PID = 8812, RiskColor = "#f9d423", ProcessIcon = "🐚" };
+ 
+            var cmd = new ProcessNode { ProcessName = "cmd.exe", PID = 8812, RiskColor = "#f59e0b", ProcessIcon = "🐚" };
             explorer.Children.Add(cmd);
-
-            var powershell = new ProcessNode { ProcessName = "powershell.exe", PID = 9024, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+ 
+            var powershell = new ProcessNode { ProcessName = "powershell.exe", PID = 9024, RiskColor = "#ef4444", ProcessIcon = "🚨" };
             cmd.Children.Add(powershell);
-
-            var whoami = new ProcessNode { ProcessName = "whoami.exe", PID = 9088, RiskColor = "#ff3366", ProcessIcon = "🚨" };
+ 
+            var whoami = new ProcessNode { ProcessName = "whoami.exe", PID = 9088, RiskColor = "#ef4444", ProcessIcon = "🚨" };
             powershell.Children.Add(whoami);
-
+ 
             ProcessTreeNodes.Add(systemRoot);
         }
 
@@ -723,7 +723,7 @@ namespace LogAnalyzer.UI.ViewModels
             {
                 RuleName = "Suspicious PowerShell Encoded Command",
                 Status = "Active",
-                RuleStatusColor = "#00ff87",
+                RuleStatusColor = "#22c55e",
                 FilePath = "rules/powershell_encoded.yml",
                 RuleContent = @"title: Suspicious PowerShell Encoded Command
 id: f3a8d9a2-94a2-4a0b-bf3e-ff2b32c59562
@@ -750,7 +750,7 @@ level: high"
             {
                 RuleName = "Volume Shadow Copy Deletion via VSSAdmin",
                 Status = "Active",
-                RuleStatusColor = "#00ff87",
+                RuleStatusColor = "#22c55e",
                 FilePath = "rules/vssadmin_delete.yml",
                 RuleContent = @"title: Volume Shadow Copy Deletion via VSSAdmin
 id: a2b8d9c2-9014-41e9-9fa6-c00bb24e392a
@@ -774,7 +774,7 @@ level: critical"
             {
                 RuleName = "Credential Dumping via LSASS Memory Access",
                 Status = "Experimental",
-                RuleStatusColor = "#f9d423",
+                RuleStatusColor = "#f59e0b",
                 FilePath = "rules/lsass_credential_dumping.yml",
                 RuleContent = @"title: Credential Dumping via LSASS Memory Access
 id: df3a8081-a7b2-4f32-bc81-c77673a38212
@@ -836,21 +836,21 @@ level: critical"
                 {
                     if (maxSeverity == "Critical" || maxSeverity == "High")
                     {
-                        tech.DetectionColor = "#2a0d15"; // Dark Crimson background
-                        tech.BorderColor = "#ff3366"; // Neon Red
+                        tech.DetectionColor = "#2d0b13"; // Dark Crimson background
+                        tech.BorderColor = "#ef4444"; // Neon Red
                         tech.Severity = maxSeverity;
                     }
                     else
                     {
-                        tech.DetectionColor = "#261c0d"; // Dark Amber background
-                        tech.BorderColor = "#f9d423"; // Neon Amber
+                        tech.DetectionColor = "#301d06"; // Dark Amber background
+                        tech.BorderColor = "#f59e0b"; // Neon Amber
                         tech.Severity = maxSeverity;
                     }
                 }
                 else
                 {
-                    tech.DetectionColor = "#121622";
-                    tech.BorderColor = "#1e2538";
+                    tech.DetectionColor = "#111528";
+                    tech.BorderColor = "#1b2035";
                     tech.Severity = "None";
                 }
 

@@ -3,23 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:LogAnalyzer.UI.ViewModels"
         Title="LogAnalyzer Enterprise - Threat Triage &amp; Incident Response Command Center" Height="850" Width="1450"
-        WindowStartupLocation="CenterScreen" Background="#05080e" Foreground="#e1e7f0">
+        WindowStartupLocation="CenterScreen" Background="#070812" Foreground="#a7adc2">
 
     <Window.Resources>
-        <!-- Modern Cyber-Console Theme System (Space Blue / Cyan / Emerald) -->
+        <!-- Premium Visual DNA - Electric Violet & Deep Navy Theme Palette -->
+        <SolidColorBrush x:Key="BgBrush" Color="#070812"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#0c0f1c"/>
+        <SolidColorBrush x:Key="Surface2Brush" Color="#111528"/>
+        <SolidColorBrush x:Key="Surface3Brush" Color="#151a31"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#1b2035"/>
+        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#8b5cf6"/>
+        <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#4f46e5"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#22c55e"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#ef4444"/>
+        <SolidColorBrush x:Key="WarningBrush" Color="#f59e0b"/>
+        
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#f5f7ff"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#a7adc2"/>
+        <SolidColorBrush x:Key="TextMutedBrush" Color="#6f758b"/>
         
         <!-- Button Style (Rounded, Subtle Gradient, Professional Accent) -->
         <Style TargetType="Button">
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#1e2433" Offset="0"/>
-                        <GradientStop Color="#141824" Offset="1"/>
+                        <GradientStop Color="#151a31" Offset="0"/>
+                        <GradientStop Color="#0c0f1c" Offset="1"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Foreground" Value="#e1e7f0"/>
-            <Setter Property="BorderBrush" Value="#2d374d"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="12,6"/>
             <Setter Property="Margin" Value="3"/>
@@ -42,17 +56,17 @@
                                 <Setter Property="Background">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#283145" Offset="0"/>
-                                            <GradientStop Color="#1a2030" Offset="1"/>
+                                            <GradientStop Color="#1a2035" Offset="0"/>
+                                            <GradientStop Color="#111528" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="BorderBrush" Value="#00f2fe"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#00f2fe"/>
-                                <Setter Property="Foreground" Value="#05080e"/>
-                                <Setter Property="BorderBrush" Value="#00f2fe"/>
+                                <Setter Property="Background" Value="{StaticResource PrimaryAccentBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource BgBrush}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.3"/>
@@ -63,14 +77,14 @@
             </Setter>
         </Style>
 
-        <!-- TextBox Style (Premium Rounded, Cyan Accent) -->
+        <!-- TextBox Style (Premium Rounded, Violet Accent) -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#0d1017"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#1e2538"/>
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="CaretBrush" Value="#00f2fe"/>
+            <Setter Property="CaretBrush" Value="{StaticResource PrimaryAccentBrush}"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Template">
@@ -84,8 +98,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="#00f2fe"/>
-                                <Setter Property="Background" Value="#10141e"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
+                                <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -95,9 +109,9 @@
 
         <!-- ComboBox Style -->
         <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="#0d1017"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#1e2538"/>
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -107,9 +121,9 @@
         <!-- High-Density Professional DataGrid -->
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="RowBackground" Value="#0d1017"/>
-            <Setter Property="AlternatingRowBackground" Value="#111520"/>
-            <Setter Property="Foreground" Value="#e1e7f0"/>
+            <Setter Property="RowBackground" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource Surface2Brush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="GridLinesVisibility" Value="None"/>
             <Setter Property="HeadersVisibility" Value="Column"/>
@@ -120,24 +134,24 @@
         </Style>
         
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#121622"/>
-            <Setter Property="Foreground" Value="#8c9cb3"/>
+            <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="Padding" Value="10,6"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#1e2538"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
         </Style>
         
         <Style TargetType="DataGridRow">
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#1e2538"/>
-                    <Setter Property="Foreground" Value="#00f2fe"/>
+                    <Setter Property="Background" Value="{StaticResource Surface3Brush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBrush}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#151b2a"/>
+                    <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -145,7 +159,7 @@
         <!-- Top Header Navigation Tabs -->
         <Style x:Key="HeaderTabStyle" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#8c9cb3"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="46"/>
@@ -162,13 +176,13 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#121622"/>
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderBrush" Value="#00f2fe"/>
+                                <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#0d1017"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -194,7 +208,7 @@
         <!-- Sidebar Navigation Buttons -->
         <Style x:Key="SidebarTabStyle" TargetType="RadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#8c9cb3"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Height" Value="40"/>
             <Setter Property="Margin" Value="0,2"/>
@@ -207,19 +221,19 @@
                     <ControlTemplate TargetType="RadioButton">
                         <Border Background="{TemplateBinding Background}" CornerRadius="4">
                             <Grid>
-                                <Rectangle x:Name="AccentBar" Width="3.5" HorizontalAlignment="Left" Fill="#00f2fe" Visibility="Collapsed"/>
+                                <Rectangle x:Name="AccentBar" Width="3.5" HorizontalAlignment="Left" Fill="{StaticResource PrimaryAccentBrush}" Visibility="Collapsed"/>
                                 <ContentPresenter Margin="15,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#181f30"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource Surface3Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                                 <Setter TargetName="AccentBar" Property="Visibility" Value="Visible"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#111520"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -267,10 +281,10 @@
         <Style x:Key="GlassCardStyle" TargetType="Border">
             <Setter Property="Background">
                 <Setter.Value>
-                    <SolidColorBrush Color="#121622" Opacity="0.85"/>
+                    <SolidColorBrush Color="#111528" Opacity="0.85"/>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="#1e2538"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="16"/>
@@ -292,7 +306,7 @@
                                 <Style TargetType="Border">
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#00f2fe"/>
+                                            <Setter Property="Background" Value="{StaticResource PrimaryAccentBrush}"/>
                                             <Setter Property="Opacity" Value="0.9"/>
                                         </Trigger>
                                     </Style.Triggers>
@@ -351,7 +365,7 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="🛡️ LOGANALYZER" FontWeight="Black" FontSize="16" Foreground="White"/>
                     <Border Margin="12,0" Width="1.5" Height="16" Background="#1e2538"/>
-                    <TextBlock Text="COMMAND CENTER v2.5" FontSize="10" FontWeight="Bold" Foreground="#00f2fe" VerticalAlignment="Center"/>
+                    <TextBlock Text="COMMAND CENTER v2.5" FontSize="10" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Module Switcher -->
@@ -363,21 +377,21 @@
                 <!-- Telemetry & Status Badge -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
-                        <TextBlock Text="OPERATOR:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="OPERATOR:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding OperatorName}" FontSize="10" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
-                        <TextBlock Text="DB CACHE:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding DatabaseSize}" FontSize="10" Foreground="#00ff87" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        <TextBlock Text="DB CACHE:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DatabaseSize}" FontSize="10" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
-                        <TextBlock Text="LICENȚĂ:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding LicenseTier}" FontSize="10" Foreground="#f9d423" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        <TextBlock Text="LICENȚĂ:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding LicenseTier}" FontSize="10" Foreground="{StaticResource WarningBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                     </StackPanel>
-                    <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="4" Padding="10,5">
+                    <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10,5">
                         <StackPanel Orientation="Horizontal">
-                            <Ellipse Width="6" Height="6" Fill="#00ff87" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="COMMAND NODE ONLINE" FontSize="9" FontWeight="Bold" Foreground="#00f2fe" VerticalAlignment="Center"/>
+                            <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="COMMAND NODE ONLINE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -412,7 +426,7 @@
 
                         <!-- Profile Selection -->
                         <StackPanel Grid.Row="0" Margin="18,18,18,12">
-                            <TextBlock Text="PROFIL FILTRARE" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                            <TextBlock Text="PROFIL FILTRARE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="3,0,0,6"/>
                             <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Name"/>
                         </StackPanel>
 
@@ -460,44 +474,44 @@
                                         <Border Style="{StaticResource GlassCardStyle}">
                                             <StackPanel>
                                                 <Grid Margin="0,0,0,10">
-                                                    <TextBlock Text="LOGURI EVENIMENTE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="LOGURI EVENIMENTE" Foreground="{StaticResource TextSecondaryBrush}" FontSize="9" FontWeight="Bold"/>
                                                     <TextBlock Text="🖥️" FontSize="12" HorizontalAlignment="Right"/>
                                                 </Grid>
-                                                <TextBlock Text="{Binding TotalEventsCount, FallbackValue=0}" Foreground="#00f2fe" FontSize="28" FontWeight="Bold"/>
-                                                <TextBlock Text="Înregistrate în SQLite DB" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding TotalEventsCount, FallbackValue=0}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Înregistrate în SQLite DB" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
                                         <!-- Card 2 -->
                                         <Border Style="{StaticResource GlassCardStyle}">
                                             <StackPanel>
                                                 <Grid Margin="0,0,0,10">
-                                                    <TextBlock Text="ALERTE CORELARE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="ALERTE CORELARE" Foreground="{StaticResource TextSecondaryBrush}" FontSize="9" FontWeight="Bold"/>
                                                     <TextBlock Text="🚨" FontSize="12" HorizontalAlignment="Right"/>
                                                 </Grid>
-                                                <TextBlock Text="{Binding TotalAlertsCount, FallbackValue=0}" Foreground="#ff3366" FontSize="28" FontWeight="Bold"/>
-                                                <TextBlock Text="Indicatori critici detectați" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding TotalAlertsCount, FallbackValue=0}" Foreground="{StaticResource DangerBrush}" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Indicatori critici detectați" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
                                         <!-- Card 3 -->
                                         <Border Style="{StaticResource GlassCardStyle}">
                                             <StackPanel>
                                                 <Grid Margin="0,0,0,10">
-                                                    <TextBlock Text="ARTEFACTE REGISTRU" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="ARTEFACTE REGISTRU" Foreground="{StaticResource TextSecondaryBrush}" FontSize="9" FontWeight="Bold"/>
                                                     <TextBlock Text="🔑" FontSize="12" HorizontalAlignment="Right"/>
                                                 </Grid>
-                                                <TextBlock Text="{Binding TotalRegistryCount, FallbackValue=0}" Foreground="#00ff87" FontSize="28" FontWeight="Bold"/>
-                                                <TextBlock Text="Chei offline analizate din Hive" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding TotalRegistryCount, FallbackValue=0}" Foreground="{StaticResource SuccessBrush}" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Chei offline analizate din Hive" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
                                         <!-- Card 4 -->
                                         <Border Style="{StaticResource GlassCardStyle}">
                                             <StackPanel>
                                                 <Grid Margin="0,0,0,10">
-                                                    <TextBlock Text="MAȘINI IDENTIFICATE" Foreground="#8c9cb3" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Text="MAȘINI IDENTIFICATE" Foreground="{StaticResource TextSecondaryBrush}" FontSize="9" FontWeight="Bold"/>
                                                     <TextBlock Text="🌐" FontSize="12" HorizontalAlignment="Right"/>
                                                 </Grid>
-                                                <TextBlock Text="{Binding TotalHostsCount, FallbackValue=0}" Foreground="#f9d423" FontSize="28" FontWeight="Bold"/>
-                                                <TextBlock Text="Noduri unice diagnosticate" FontSize="10" Foreground="#8c9cb3" Margin="0,4,0,0"/>
+                                                <TextBlock Text="{Binding TotalHostsCount, FallbackValue=0}" Foreground="{StaticResource WarningBrush}" FontSize="28" FontWeight="Bold"/>
+                                                <TextBlock Text="Noduri unice diagnosticate" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </Border>
                                     </UniformGrid>
@@ -510,7 +524,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Alerts DataGrid Panel -->
-                                        <Border Grid.Column="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="18" Margin="0,0,18,0">
+                                        <Border Grid.Column="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="18" Margin="0,0,18,0">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
@@ -529,7 +543,7 @@
                                         </Border>
 
                                         <!-- Dynamic MITRE ATT&CK Matrix Heatmap Widget (Structured Grid) -->
-                                        <Border Grid.Column="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="14">
+                                        <Border Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
@@ -547,20 +561,20 @@
                                                     </Grid.ColumnDefinitions>
                                                     
                                                     <!-- Column 1: Access & Exec -->
-                                                    <Border Grid.Column="0" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                    <Border Grid.Column="0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Margin="2,0">
                                                         <Grid>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="ACCES / EXECUȚIE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="ACCES / EXECUȚIE" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding AccessExecTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
                                                                                 <StackPanel VerticalAlignment="Center">
-                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -572,20 +586,20 @@
                                                     </Border>
 
                                                     <!-- Column 2: Persistence & PrivEsc -->
-                                                    <Border Grid.Column="1" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                    <Border Grid.Column="1" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Margin="2,0">
                                                         <Grid>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="PERSISTENȚĂ / PRIV" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="PERSISTENȚĂ / PRIV" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding PersistencePrivEscTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
                                                                                 <StackPanel VerticalAlignment="Center">
-                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -597,20 +611,20 @@
                                                     </Border>
 
                                                     <!-- Column 3: Defense Evasion -->
-                                                    <Border Grid.Column="2" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                    <Border Grid.Column="2" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Margin="2,0">
                                                         <Grid>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="EVAZIUNE APĂRARE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="EVAZIUNE APĂRARE" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding DefenseEvasionTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
                                                                                 <StackPanel VerticalAlignment="Center">
-                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -622,20 +636,20 @@
                                                     </Border>
 
                                                     <!-- Column 4: Credential Access -->
-                                                    <Border Grid.Column="3" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                    <Border Grid.Column="3" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Margin="2,0">
                                                         <Grid>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="ACCES CREDENȚIALE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="ACCES CREDENȚIALE" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding CredentialAccessTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
                                                                                 <StackPanel VerticalAlignment="Center">
-                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -653,14 +667,14 @@
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="*"/>
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="IMPACT / AFECTARE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <TextBlock Grid.Row="0" Text="IMPACT / AFECTARE" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                                                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                                                 <ItemsControl ItemsSource="{Binding ImpactTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
                                                                                 <StackPanel VerticalAlignment="Center">
-                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -717,24 +731,24 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                                             <Button Content="◀ Precedenta" Command="{Binding PrevEvtxPageCommand}" Width="90" Margin="2,0"/>
                                             <TextBlock Text="{Binding EvtxCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
                                             <TextBlock Text="{Binding EvtxTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
                                             <Button Content="Următoarea ▶" Command="{Binding NextEvtxPageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
                                     </Grid>
 
                                     <!-- Process Tree Visualizer Widget -->
-                                    <Border Grid.Row="3" Style="{StaticResource GlassCardStyle}" BorderBrush="#1e2538" Padding="14" Margin="0">
+                                    <Border Grid.Row="3" Style="{StaticResource GlassCardStyle}" BorderBrush="{StaticResource BorderBrush}" Padding="14" Margin="0">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="Arbore Procese Triage (Execution Tree)" FontSize="11" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,8"/>
+                                            <TextBlock Text="Arbore Procese Triage (Execution Tree)" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,8"/>
                                             <TreeView Grid.Row="1" ItemsSource="{Binding ProcessTreeNodes}" Background="Transparent" BorderThickness="0" Foreground="White">
                                                 <TreeView.Resources>
                                                     <HierarchicalDataTemplate DataType="{x:Type vm:ProcessNode}" ItemsSource="{Binding Children}">
@@ -758,19 +772,19 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="140"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
+                                    <Border Grid.Row="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel>
-                                                <TextBlock Text="DETALII JURNAL EVTX" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                                <TextBlock Text="DETALII JURNAL EVTX" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
                                                 <TextBlock Text="{Binding InspectorMachineName, StringFormat='Mașină: {0}'}" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
-                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,4"/>
-                                                <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Data: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                                <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Data: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
                                                 <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                                 <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </Border>
-                                    <Border Grid.Row="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14">
+                                    <Border Grid.Row="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -781,8 +795,8 @@
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" Margin="2">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="#00f2fe" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#4facfe" TextDecorations="Underline" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="{StaticResource SecondaryAccentBrush}" TextDecorations="Underline" VerticalAlignment="Center">
                                                                 <TextBlock.InputBindings>
                                                                     <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotIocCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Value}"/>
                                                                 </TextBlock.InputBindings>
@@ -812,13 +826,13 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Left Sidebar: Registry Hive Categories -->
-                                <Border Grid.Column="0" Background="#0c0e17" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,12,0">
+                                <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,12,0">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="STRUCTURĂ HIVE REGISTRY" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="5,0,0,12"/>
+                                        <TextBlock Grid.Row="0" Text="STRUCTURĂ HIVE REGISTRY" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="5,0,0,12"/>
                                         <ListBox Grid.Row="1" ItemsSource="{Binding RegistryCategories}" SelectedItem="{Binding SelectedRegistryCategory}" Background="Transparent" BorderThickness="0">
                                             <ListBox.ItemContainerStyle>
                                                 <Style TargetType="ListBoxItem">
@@ -878,11 +892,11 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                                             <Button Content="◀ Precedenta" Command="{Binding PrevRegistryPageCommand}" Width="90" Margin="2,0"/>
                                             <TextBlock Text="{Binding RegistryCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
                                             <TextBlock Text="{Binding RegistryTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
                                             <Button Content="Următoarea ▶" Command="{Binding NextRegistryPageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
@@ -897,18 +911,18 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="140"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
+                                    <Border Grid.Row="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel>
-                                                <TextBlock Text="DETALII HIVE REGISTRU" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                                <TextBlock Text="DETALII HIVE REGISTRU" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
                                                 <TextBlock Text="Sursă: Offline Registry Audit" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
-                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Categorie: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                                <TextBlock Text="{Binding InspectorProviderName, StringFormat='Categorie: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
                                                 <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                                 <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </Border>
-                                    <Border Grid.Row="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="14">
+                                    <Border Grid.Row="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -920,8 +934,8 @@
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" Margin="2">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="#00f2fe" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="#4facfe" TextDecorations="Underline" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="55" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding Value}" Cursor="Hand" Foreground="{StaticResource SecondaryAccentBrush}" TextDecorations="Underline" VerticalAlignment="Center">
                                                                 <TextBlock.InputBindings>
                                                                     <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotIocCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Value}"/>
                                                                 </TextBlock.InputBindings>
@@ -967,7 +981,7 @@
                                     </DataGrid>
 
                                     <!-- Bottom: Sigma Rules Database Panel -->
-                                    <Border Grid.Row="3" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,12,0,0">
+                                    <Border Grid.Row="3" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,12,0,0">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -984,14 +998,14 @@
                                                 <ListBox Grid.Column="0" ItemsSource="{Binding SigmaRules}" SelectedItem="{Binding SelectedSigmaRule}" Background="Transparent" BorderThickness="0" Foreground="White">
                                                     <ListBox.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Border BorderBrush="#1e2538" BorderThickness="0,0,0,1" Padding="8,6">
+                                                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="8,6">
                                                                 <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="Auto"/>
                                                                     </Grid.ColumnDefinitions>
                                                                     <TextBlock Text="{Binding RuleName}" FontWeight="SemiBold" FontSize="11" Foreground="White" VerticalAlignment="Center" TextWrapping="Wrap"/>
-                                                                    <Border Grid.Column="1" Background="#0f172a" BorderBrush="{Binding RuleStatusColor}" BorderThickness="1" CornerRadius="2" Padding="4,2" Margin="5,0,0,0" VerticalAlignment="Center">
+                                                                    <Border Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{Binding RuleStatusColor}" BorderThickness="1" CornerRadius="2" Padding="4,2" Margin="5,0,0,0" VerticalAlignment="Center">
                                                                         <TextBlock Text="{Binding Status}" Foreground="{Binding RuleStatusColor}" FontSize="8.5" FontWeight="Bold"/>
                                                                     </Border>
                                                                 </Grid>
@@ -1003,14 +1017,14 @@
                                                 <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
                                                 
                                                 <!-- Sigma Rule Code Content -->
-                                                <Border Grid.Column="2" Background="#05070a" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="4" Padding="12">
+                                                <Border Grid.Column="2" Background="#05070a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12">
                                                     <Grid>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto"/>
                                                             <RowDefinition Height="*"/>
                                                         </Grid.RowDefinitions>
-                                                        <TextBlock Text="{Binding SelectedSigmaRule.FilePath, StringFormat='Rule file: {0}'}" FontSize="10" FontFamily="Consolas" Foreground="#8c9cb3" Margin="0,0,0,8"/>
-                                                        <TextBox Grid.Row="1" Text="{Binding SelectedSigmaRule.RuleContent}" IsReadOnly="True" Background="Transparent" BorderThickness="0" Foreground="#00ff87" FontFamily="Consolas" FontSize="11.5" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                                                        <TextBlock Text="{Binding SelectedSigmaRule.FilePath, StringFormat='Rule file: {0}'}" FontSize="10" FontFamily="Consolas" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                                                        <TextBox Grid.Row="1" Text="{Binding SelectedSigmaRule.RuleContent}" IsReadOnly="True" Background="Transparent" BorderThickness="0" Foreground="{StaticResource SuccessBrush}" FontFamily="Consolas" FontSize="11.5" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
                                                     </Grid>
                                                 </Border>
                                             </Grid>
@@ -1020,12 +1034,12 @@
 
                                 <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
-                                <Border Grid.Column="2" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="16">
+                                <Border Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="16">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <StackPanel>
-                                            <TextBlock Text="INSPECTOR REGULI CORELATE" FontSize="12" FontWeight="Bold" Foreground="#ff3366" Margin="0,0,0,12"/>
+                                            <TextBlock Text="INSPECTOR REGULI CORELATE" FontSize="12" FontWeight="Bold" Foreground="{StaticResource DangerBrush}" Margin="0,0,0,12"/>
                                             <TextBlock Text="Sursă: Threat Correlation Engine" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
-                                            <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Corelat la: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                            <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Corelat la: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
                                             <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                             <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Segoe UI" FontSize="12" AcceptsReturn="True"/>
                                         </StackPanel>
@@ -1067,11 +1081,11 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="#8c9cb3" FontSize="11"/>
+                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                                             <Button Content="◀ Precedenta" Command="{Binding PrevTimelinePageCommand}" Width="90" Margin="2,0"/>
                                             <TextBlock Text="{Binding TimelineCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="#8c9cb3"/>
+                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
                                             <TextBlock Text="{Binding TimelineTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
                                             <Button Content="Următoarea ▶" Command="{Binding NextTimelinePageCommand}" Width="90" Margin="2,0"/>
                                         </StackPanel>
@@ -1080,12 +1094,12 @@
 
                                 <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
-                                <Border Grid.Column="2" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="16">
+                                <Border Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="16">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <StackPanel>
-                                            <TextBlock Text="INSPECTOR CRONOLOGIC DFIR" FontSize="12" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,12"/>
+                                            <TextBlock Text="INSPECTOR CRONOLOGIC DFIR" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
                                             <TextBlock Text="{Binding InspectorMachineName, StringFormat='Host / Utilizator: {0}'}" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
-                                            <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă Eveniment: {0}'}" FontSize="10" Foreground="#8c9cb3" Margin="0,0,0,12"/>
+                                            <TextBlock Text="{Binding InspectorProviderName, StringFormat='Sursă Eveniment: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
                                             <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
                                             <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                         </StackPanel>
@@ -1108,7 +1122,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Left: Configuration -->
-                    <Border Grid.Column="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="20" Margin="0,0,24,0">
+                    <Border Grid.Column="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="20" Margin="0,0,24,0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1119,13 +1133,13 @@
                             <StackPanel Grid.Row="0">
                                 <TextBlock Text="Parametri Colectare Audit" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
 
-                                <TextBlock Text="TIP ECHIPAMENT CONECTAT:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <TextBlock Text="TIP ECHIPAMENT CONECTAT:" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="3,0,0,6"/>
                                 <ComboBox ItemsSource="{Binding TargetTypes}" SelectedItem="{Binding SelectedTargetType}" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="HOSTNAME / ADRESĂ IP GAZDĂ:" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <TextBlock Text="HOSTNAME / ADRESĂ IP GAZDĂ:" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="3,0,0,6"/>
                                 <TextBox Text="{Binding CollectionHostname, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,18"/>
 
-                                <TextBlock Text="DIRECTOR COLECTARE LOCALĂ (DESTINAȚIE):" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
+                                <TextBlock Text="DIRECTOR COLECTARE LOCALĂ (DESTINAȚIE):" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="3,0,0,6"/>
                                 <Grid Margin="0,0,0,18">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -1138,17 +1152,17 @@
 
                             <!-- Collector status info -->
                             <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,15">
-                                <Border Background="#05080e" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="4" Padding="15">
+                                <Border Background="#05080e" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="15">
                                     <StackPanel>
-                                        <TextBlock Text="CONVENȚIE DENUMIRE FIȘIERE AUDIT:" FontSize="10" FontWeight="Bold" Foreground="#00f2fe" Margin="0,0,0,10"/>
+                                        <TextBlock Text="CONVENȚIE DENUMIRE FIȘIERE AUDIT:" FontSize="10" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,10"/>
                                         
-                                        <TextBlock Text="Folder Salvat:" FontSize="9" Foreground="#8c9cb3"/>
+                                        <TextBlock Text="Folder Salvat:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
                                         <TextBlock Text="{Binding CollectionOutputDir, StringFormat='{}{0}\\[Luna-An]\\'}" FontSize="11" Foreground="White" Margin="0,0,0,10" TextWrapping="Wrap"/>
                                         
-                                        <TextBlock Text="Folder Echipament:" FontSize="9" Foreground="#8c9cb3"/>
+                                        <TextBlock Text="Folder Echipament:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
                                         <TextBlock Text="{Binding SelectedTargetType, StringFormat='{}{}[Prefix]_{0}_[NumeHost]'}" FontSize="11" Foreground="White" Margin="0,0,0,10"/>
 
-                                        <TextBlock Text="Nume Fișiere Redenumite:" FontSize="9" Foreground="#8c9cb3"/>
+                                        <TextBlock Text="Nume Fișiere Redenumite:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
                                         <TextBlock Text="[Prefix]_[NumeHost]_[NumeArtefact]_[Data].[ext]" FontSize="11" Foreground="White" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
@@ -1156,13 +1170,13 @@
 
                             <!-- Run Action -->
                             <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
-                                <Button Content="PORNEȘTE CULEGERE TELEMETRIE FORENSICĂ" Command="{Binding StartCollectionCommand}" IsEnabled="{Binding IsCollectionNotRunning}" Height="42" Background="#17243c" BorderBrush="#00f2fe" Foreground="#00f2fe"/>
+                                <Button Content="PORNEȘTE CULEGERE TELEMETRIE FORENSICĂ" Command="{Binding StartCollectionCommand}" IsEnabled="{Binding IsCollectionNotRunning}" Height="42" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" Foreground="{StaticResource PrimaryAccentBrush}"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <!-- Right: Console Log terminal -->
-                    <Border Grid.Column="1" Background="#05070a" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="18">
+                    <Border Grid.Column="1" Background="#05070a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="18">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1182,10 +1196,10 @@
                                         </Style>
                                     </Ellipse.Style>
                                 </Ellipse>
-                                <TextBlock Text="LOG ACTIVITATE COLECTOR" FontSize="11" FontWeight="Bold" Foreground="#8c9cb3" VerticalAlignment="Center"/>
+                                <TextBlock Text="LOG ACTIVITATE COLECTOR" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <TextBox Grid.Row="1" Text="{Binding CollectionLogs}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="#00ff87" BorderThickness="0" FontFamily="Consolas" FontSize="12" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                            <TextBox Grid.Row="1" Text="{Binding CollectionLogs}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="{StaticResource SuccessBrush}" BorderThickness="0" FontFamily="Consolas" FontSize="12" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -1193,27 +1207,27 @@
         </TabControl>
 
         <!-- STATUS BAR -->
-        <Border Grid.Row="2" Background="#070a12" BorderThickness="0,1,0,0" BorderBrush="#1e2538" Padding="24,0">
+        <Border Grid.Row="2" Background="#070a12" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderBrush}" Padding="24,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding StatusMessage}" Foreground="#8c9cb3" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Ellipse Width="6" Height="6" Fill="#00ff87" Margin="0,0,8,0"/>
-                    <TextBlock Text="SYSTEM SECURE SHIELD ACTIVE" Foreground="#00ff87" FontWeight="Bold" FontSize="10"/>
+                    <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0"/>
+                    <TextBlock Text="SYSTEM SECURE SHIELD ACTIVE" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- GLOBAL LOADING OVERLAY -->
         <Grid Grid.RowSpan="3" Background="#d2000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border Background="#121622" BorderBrush="#252f47" BorderThickness="1" CornerRadius="6" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
+            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
                 <StackPanel>
-                    <ProgressBar IsIndeterminate="True" Height="4" Foreground="#00f2fe" Background="#1c2028" BorderThickness="0" Margin="0,0,0,24"/>
+                    <ProgressBar IsIndeterminate="True" Height="4" Foreground="{StaticResource PrimaryAccentBrush}" Background="#1c2028" BorderThickness="0" Margin="0,0,0,24"/>
                     <TextBlock Text="Procesare în Curs..." Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="#8c9cb3" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
         </Grid>

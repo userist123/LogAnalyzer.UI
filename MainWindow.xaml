@@ -958,22 +958,6 @@
                                     <TextBox Text="{Binding CollectionOutputDir, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" IsReadOnly="True"/>
                                     <Button Content="Răsfoiește..." Command="{Binding SelectCollectionOutputDirCommand}" Grid.Column="1" Margin="6,0,0,0" Width="90"/>
                                 </Grid>
-                                
-                                <Border Height="1" Background="#1e2538" Margin="0,8,0,18"/>
-
-                                <!-- Syslog settings -->
-                                <TextBlock Text="RECEPTOR UDP SYSLOG (DATA CENTER DIODE):" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="3,0,0,6"/>
-                                <Grid Margin="0,0,0,18">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Text="{Binding SyslogPort, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" ToolTip="Portul UDP de ascultare pentru primirea syslog stream."/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
-                                        <Button Content="Pornire Receptor" Command="{Binding StartSyslogCommand}" IsEnabled="{Binding IsSyslogInactive}" Width="130"/>
-                                        <Button Content="Oprire" Command="{Binding StopSyslogCommand}" IsEnabled="{Binding IsSyslogActive}" Margin="4,0,0,0" Width="70"/>
-                                    </StackPanel>
-                                </Grid>
                             </StackPanel>
 
                             <!-- Collector status info -->

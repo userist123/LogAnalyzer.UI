@@ -18,7 +18,8 @@ public sealed class SqlCipherDatabase : IDisposable
         {
             DataSource = fullPath,
             Mode = SqliteOpenMode.ReadWriteCreate,
-            Cache = SqliteCacheMode.Shared
+            Cache = SqliteCacheMode.Shared,
+            Pooling = false
         }.ToString());
         _connection.Open();
         ApplyKey(keyStore.GetOrCreateKey());

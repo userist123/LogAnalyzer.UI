@@ -8,6 +8,7 @@ using LogAnalyzer.Infrastructure;
 using LogAnalyzer.Infrastructure.Parsers;
 using LogAnalyzer.Infrastructure.Services;
 using LogAnalyzer.UI.ViewModels;
+using LogAnalyzer.UI.Services;
 using LogAnalyzer.UI.Views;
 
 namespace LogAnalyzer.UI
@@ -39,8 +40,15 @@ namespace LogAnalyzer.UI
                 services.AddSingleton<AuditLogService>();
                 services.AddSingleton<PluginManagerService>();
                 services.AddSingleton<KnowledgeBaseService>();
-                services.AddSingleton<LicenseService>();
-                
+                services.AddSingleton<LogAnalyzer.Core.Services.LicenseService>();
+
+                var applicationDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "LogAnalyzer");
+                Directory.CreateDirectory(applicationDataPath);
+                services.AddSingleton<SecurePathService>();
+                services.AddSingleton(sp => new ChainOfCustodyService(Path.Combine(applicationDataPath, "chain-of-custody.ndjson")));
+                services.AddSingleton<EvidenceIntakeService>();
                 // Motoarele din Infrastructure
                 services.AddSingleton<IEventParser, EvtxParser>();
                 services.AddSingleton<IAnalysisEngine, AnalysisEngine>();
@@ -71,7 +79,7 @@ namespace LogAnalyzer.UI
                 File.AppendAllText(debugLogPath, "SplashWindow shown.\n");
 
                 // 2. Verificăm licența
-                var licenseService = ServiceProvider.GetRequiredService<LicenseService>();
+                var licenseService = ServiceProvider.GetRequiredService<LogAnalyzer.Core.Services.LicenseService>();
                 File.AppendAllText(debugLogPath, $"Verifying license... (IsActivated: {licenseService.IsActivated()})\n");
                 if (!licenseService.IsActivated())
                 {

@@ -15,6 +15,7 @@ using LogAnalyzer.Core.Models;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Services;
 using Microsoft.Win32;
+using LogAnalyzer.UI.Services;
 
 namespace LogAnalyzer.UI.ViewModels
 {
@@ -28,6 +29,7 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly PluginManagerService _pluginManager;
         private readonly IDatabaseService _databaseService;
         private readonly IAuditCollectionService _collectionService;
+        private readonly EvidenceIntakeService _evidenceIntake;
 
         private const int PageSize = 100;
 
@@ -80,7 +82,7 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _timelineTotalPages = 1;
 
         // Audit Data Collection Properties
-        public ObservableCollection<string> TargetTypes { get; } = new() { "PC", "Server", "NAS", "DataCenter" };
+        public ObservableCollection<string> TargetTypes { get; } = new() { "PC", "Server", "NAS" };
         [ObservableProperty] private string _selectedTargetType = "PC";
         [ObservableProperty] private string _collectionOutputDir = "C:\\fișiere audit";
         [ObservableProperty] private string _collectionHostname = "PC-AUDIT";
@@ -134,7 +136,7 @@ namespace LogAnalyzer.UI.ViewModels
         public MainViewModel(
             IEventParser eventParser, IAnalysisEngine analysisEngine, IRegistryParser registryParser,
             AuditLogService auditService, KnowledgeBaseService kbService, PluginManagerService pluginManager,
-            IDatabaseService databaseService, IAuditCollectionService collectionService)
+            IDatabaseService databaseService, IAuditCollectionService collectionService, EvidenceIntakeService evidenceIntake)
         {
             _eventParser = eventParser;
             _analysisEngine = analysisEngine;
@@ -144,6 +146,7 @@ namespace LogAnalyzer.UI.ViewModels
             _pluginManager = pluginManager;
             _databaseService = databaseService;
             _collectionService = collectionService;
+            _evidenceIntake = evidenceIntake;
 
             SelectedProfile = Profiles.First();
 
@@ -484,9 +487,25 @@ namespace LogAnalyzer.UI.ViewModels
             Events.Clear(); RegistryArtifacts.Clear(); DetectedIssues.Clear(); TimelineItems.Clear();
             _databaseService.ClearDatabase();
 
+            var acceptedFiles = new List<string>();
+            var rejectedFiles = new List<string>();
+
             await Task.Run(() =>
             {
-                var evtxFiles = allFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
+                foreach (var file in allFiles)
+                {
+                    try
+                    {
+                        _evidenceIntake.Import(file, Environment.UserName);
+                        acceptedFiles.Add(file);
+                    }
+                    catch (Exception ex)
+                    {
+                        rejectedFiles.Add($"{Path.GetFileName(file)}: {ex.Message}");
+                    }
+                }
+
+                var evtxFiles = acceptedFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
                 int totalEvtxProcessed = 0;
                 foreach (var file in evtxFiles)
                 {
@@ -536,7 +555,7 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                var regFiles = allFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
+                var regFiles = acceptedFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
                 int totalRegProcessed = 0;
                 foreach (var file in regFiles)
                 {
@@ -563,7 +582,7 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                var datFiles = allFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
+                var datFiles = acceptedFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
                 foreach (var file in datFiles)
                 {
                     try 
@@ -615,8 +634,9 @@ namespace LogAnalyzer.UI.ViewModels
             
             SelectedTabIndex = 0; 
             IsLoading = false;
-            StatusMessage = $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate.";
-        }
+            StatusMessage = rejectedFiles.Count == 0
+                ? $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate."
+                : $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte salvate; {rejectedFiles.Count} fișiere au fost respinse și nu au fost procesate.";        }
 
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);
 

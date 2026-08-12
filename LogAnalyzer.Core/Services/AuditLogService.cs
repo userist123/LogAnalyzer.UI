@@ -1,38 +1,28 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace LogAnalyzer.Core.Services;
-
-public sealed class AuditLogService
+namespace LogAnalyzer.Core.Services
 {
-    private readonly List<string> _entries = new();
-    private string _lastHash = "GENESIS";
-    private readonly string? _logPath;
-
-    public AuditLogService() { }
-
-    public AuditLogService(string logPath)
+    public class AuditLogService
     {
-        _logPath = logPath;
-        var directory = Path.GetDirectoryName(Path.GetFullPath(logPath));
-        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+        private readonly string _logFile;
+        private static readonly object _lock = new object();
+
+        public AuditLogService()
+        {
+            string auditDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AuditLogs");
+            if (!Directory.Exists(auditDir)) Directory.CreateDirectory(auditDir);
+            
+            _logFile = Path.Combine(auditDir, $"SOC_Audit_{DateTime.Now:yyyyMMdd}.log");
+        }
+
+        public void LogAction(string actionType, string details)
+        {
+            lock (_lock)
+            {
+                string logEntry = $"[{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss UTC}] [{actionType}] {details}{Environment.NewLine}";
+                File.AppendAllText(_logFile, logEntry);
+            }
+        }
     }
-
-    public void LogAction(string action, string details) => LogAction("analyst", action, details);
-
-    public void LogAction(string actor, string action, string details)
-    {
-        var timestamp = DateTimeOffset.UtcNow.ToString("O");
-        var line = $"{timestamp}|{actor}|{action}|{details}|{_lastHash}";
-        var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(line))).ToLowerInvariant();
-        var record = $"{line}|{hash}";
-        _entries.Add(record);
-        _lastHash = hash;
-        if (_logPath != null) File.AppendAllText(_logPath, record + Environment.NewLine, new UTF8Encoding(false));
-    }
-
-    public IReadOnlyList<string> GetEntries() => _entries;
 }

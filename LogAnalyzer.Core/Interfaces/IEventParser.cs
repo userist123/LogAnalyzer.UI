@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using LogAnalyzer.Core.Models;
 
-namespace LogAnalyzer.Core.Interfaces;
-
-public interface IEventParser
+namespace LogAnalyzer.Core.Interfaces
 {
-    IEnumerable<ParsedEvent> ParseEvtxFile(string filePath);
+    public interface IEventParser
+    {
+        IEnumerable<ParsedEvent> ParseEvtxFile(string filePath);
+    }
 }

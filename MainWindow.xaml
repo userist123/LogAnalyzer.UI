@@ -360,10 +360,25 @@
                     <RadioButton Content="COLECTARE DATE AUDIT" Style="{StaticResource HeaderTab1Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="1"/>
                 </StackPanel>
 
-                <!-- Status Badge -->
+                <!-- Telemetry & Status Badge -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
+                        <TextBlock Text="OPERATOR:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding OperatorName}" FontSize="10" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
+                        <TextBlock Text="DB CACHE:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DatabaseSize}" FontSize="10" Foreground="#00ff87" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
+                        <TextBlock Text="LICENȚĂ:" FontSize="9" Foreground="#8c9cb3" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding LicenseTier}" FontSize="10" Foreground="#f9d423" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    </StackPanel>
                     <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="4" Padding="10,5">
-                        <TextBlock Text="COMMAND NODE SECURE" FontSize="10" FontWeight="Bold" Foreground="#00f2fe"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="6" Height="6" Fill="#00ff87" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="COMMAND NODE ONLINE" FontSize="9" FontWeight="Bold" Foreground="#00f2fe" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
                 </StackPanel>
             </Grid>
@@ -487,15 +502,15 @@
                                         </Border>
                                     </UniformGrid>
 
-                                    <!-- Middle Split: Active Alerts Grid & Matrix Heatmap -->
+                                      <!-- Middle Split: Active Alerts Grid & Matrix Heatmap -->
                                     <Grid Grid.Row="2" Margin="8">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="400"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Alerts DataGrid Panel -->
-                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="18" Margin="0,0,18,0">
+                                        <Border Grid.Column="0" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="18" Margin="0,0,18,0">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
@@ -504,43 +519,158 @@
                                                 <TextBlock Text="Alerte Securitate Corelate (Threat Log)" FontSize="14" FontWeight="Bold" Margin="3,0,0,12" Foreground="White"/>
                                                 <DataGrid Grid.Row="1" ItemsSource="{Binding IssuesView}" SelectedItem="{Binding SelectedIssue}" AutoGenerateColumns="False" IsReadOnly="True">
                                                     <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
-                                                        <DataGridTextColumn Header="Tehnică MITRE" Binding="{Binding MitreTechniqueId}" Width="110"/>
-                                                        <DataGridTextColumn Header="Tip Alertă" Binding="{Binding Title}" Width="220"/>
+                                                        <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="80"/>
+                                                        <DataGridTextColumn Header="Tehnică" Binding="{Binding MitreTechniqueId}" Width="80"/>
+                                                        <DataGridTextColumn Header="Tip Alertă" Binding="{Binding Title}" Width="160"/>
                                                         <DataGridTextColumn Header="Descriere Analiză Forenzică" Binding="{Binding Explanation}" Width="*"/>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                             </Grid>
                                         </Border>
 
-                                        <!-- Dynamic MITRE ATT&CK Matrix Heatmap Widget -->
-                                        <Border Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="18">
+                                        <!-- Dynamic MITRE ATT&CK Matrix Heatmap Widget (Structured Grid) -->
+                                        <Border Grid.Column="1" Background="#121622" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="8" Padding="14">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Harta Tacticilor MITRE ATT&amp;CK" FontSize="14" FontWeight="Bold" Margin="3,0,0,15" Foreground="White"/>
+                                                <TextBlock Text="Matricea de Corelare Tactică MITRE ATT&amp;CK" FontSize="13" FontWeight="Bold" Margin="3,0,0,12" Foreground="White"/>
                                                 
-                                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                                    <ItemsControl ItemsSource="{Binding AttackTechniques}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <WrapPanel Orientation="Horizontal"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Width="170" Height="62" Margin="4" Padding="6">
-                                                                    <StackPanel VerticalAlignment="Center">
-                                                                        <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="11" Foreground="#00f2fe" HorizontalAlignment="Center"/>
-                                                                        <TextBlock Text="{Binding Name}" FontSize="9.5" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </Border>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </ScrollViewer>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    
+                                                    <!-- Column 1: Access & Exec -->
+                                                    <Border Grid.Column="0" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Row="0" Text="ACCES / EXECUȚIE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                                <ItemsControl ItemsSource="{Binding AccessExecTechniques}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                                <StackPanel VerticalAlignment="Center">
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- Column 2: Persistence & PrivEsc -->
+                                                    <Border Grid.Column="1" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Row="0" Text="PERSISTENȚĂ / PRIV" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                                <ItemsControl ItemsSource="{Binding PersistencePrivEscTechniques}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                                <StackPanel VerticalAlignment="Center">
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- Column 3: Defense Evasion -->
+                                                    <Border Grid.Column="2" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Row="0" Text="EVAZIUNE APĂRARE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                                <ItemsControl ItemsSource="{Binding DefenseEvasionTechniques}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                                <StackPanel VerticalAlignment="Center">
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- Column 4: Credential Access -->
+                                                    <Border Grid.Column="3" BorderBrush="#1e2538" BorderThickness="0,0,1,0" Margin="2,0">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Row="0" Text="ACCES CREDENȚIALE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                                <ItemsControl ItemsSource="{Binding CredentialAccessTechniques}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                                <StackPanel VerticalAlignment="Center">
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- Column 5: Impact -->
+                                                    <Border Grid.Column="4" Margin="2,0">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Row="0" Text="IMPACT / AFECTARE" FontSize="8.5" FontWeight="Bold" Foreground="#8c9cb3" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                                <ItemsControl ItemsSource="{Binding ImpactTechniques}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                                <StackPanel VerticalAlignment="Center">
+                                                                                    <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="#00f2fe" HorizontalAlignment="Center"/>
+                                                                                    <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
                                             </Grid>
                                         </Border>
                                     </Grid>
@@ -671,13 +801,59 @@
                         <TabItem>
                             <Grid Margin="18">
                                 <Grid.ColumnDefinitions>
+                                    <!-- Sidebar category navigator -->
+                                    <ColumnDefinition Width="215"/>
+                                    <!-- Main Table -->
                                     <ColumnDefinition Width="*"/>
+                                    <!-- Splitter -->
                                     <ColumnDefinition Width="Auto"/>
+                                    <!-- Details Inspector -->
                                     <ColumnDefinition Width="380"/>
                                 </Grid.ColumnDefinitions>
 
+                                <!-- Left Sidebar: Registry Hive Categories -->
+                                <Border Grid.Column="0" Background="#0c0e17" BorderBrush="#1e2538" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,12,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="STRUCTURĂ HIVE REGISTRY" FontSize="9" FontWeight="Bold" Foreground="#8c9cb3" Margin="5,0,0,12"/>
+                                        <ListBox Grid.Row="1" ItemsSource="{Binding RegistryCategories}" SelectedItem="{Binding SelectedRegistryCategory}" Background="Transparent" BorderThickness="0">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Margin" Value="0,2"/>
+                                                    <Setter Property="Padding" Value="8,6"/>
+                                                    <Setter Property="Foreground" Value="#8c9cb3"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ListBoxItem">
+                                                                <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsSelected" Value="True">
+                                                                        <Setter Property="Background" Value="#17243c"/>
+                                                                        <Setter Property="Foreground" Value="#00f2fe"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#101826"/>
+                                                                        <Setter Property="Foreground" Value="White"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                        </ListBox>
+                                    </Grid>
+                                </Border>
+
                                 <!-- Table & Search -->
-                                <Grid Grid.Column="0">
+                                <Grid Grid.Column="1" Margin="0,0,6,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="*"/>
@@ -688,8 +864,8 @@
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Hive" Binding="{Binding HiveType}" Width="90"/>
                                             <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="130"/>
-                                            <DataGridTextColumn Header="Cale Registru" Binding="{Binding KeyPath}" Width="320"/>
-                                            <DataGridTextColumn Header="Valoare" Binding="{Binding ValueName}" Width="140"/>
+                                            <DataGridTextColumn Header="Cale Registru" Binding="{Binding KeyPath}" Width="250"/>
+                                            <DataGridTextColumn Header="Valoare" Binding="{Binding ValueName}" Width="130"/>
                                             <DataGridTextColumn Header="Date Valoare" Binding="{Binding ValueData}" Width="*"/>
                                         </DataGrid.Columns>
                                         <DataGrid.InputBindings>
@@ -713,10 +889,10 @@
                                     </Grid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                <GridSplitter Grid.Column="2" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
 
                                 <!-- Right side -->
-                                <Grid Grid.Column="2">
+                                <Grid Grid.Column="3">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="140"/>

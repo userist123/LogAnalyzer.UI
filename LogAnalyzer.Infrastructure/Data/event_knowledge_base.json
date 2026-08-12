@@ -1,0 +1,22 @@
+{
+  "Signatures": [
+    {
+      "EventId": 4625,
+      "Provider": "Microsoft-Windows-Security-Auditing",
+      "Severity": "Suspicious",
+      "HumanTitle": "Failed Logon Attempt",
+      "Explanation": "Un cont a eșuat la autentificare. Volume mari indică un posibil atac de tip brute-force.",
+      "RemediationTemplate": "Get-EventLog -LogName Security -InstanceId 4625 -Newest 50 | Select-Object TimeGenerated, Message",
+      "ThresholdForAlert": 5
+    },
+    {
+      "EventId": 7031,
+      "Provider": "Service Control Manager",
+      "Severity": "Error",
+      "HumanTitle": "Service Crash",
+      "Explanation": "Un serviciu Windows s-a oprit neașteptat. Poate indica fișiere corupte sau interferențe.",
+      "RemediationTemplate": "Restart-Service -Name '{ServiceName}' -Force",
+      "ThresholdForAlert": 3
+    }
+  ]
+}

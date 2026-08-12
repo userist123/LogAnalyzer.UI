@@ -1,12 +1,22 @@
 using System.Collections.Generic;
+using System.Threading;
+using LogAnalyzer.Core.Models;
 
-namespace LogAnalyzer.Core.Services;
-
-public sealed class PluginManagerService
+namespace LogAnalyzer.Core.Services
 {
-    private readonly List<string> _loadedPlugins = new();
+    public interface IPluginParser
+    {
+        string SupportedFileExtension { get; }
+        IAsyncEnumerable<ParsedEvent> ParseArtifactAsync(string filePath, CancellationToken token);
+    }
 
-    public IReadOnlyList<string> LoadedPlugins => _loadedPlugins;
+    public class PluginManagerService
+    {
+        public List<IPluginParser> LoadedParsers { get; } = new();
 
-    public void RegisterPlugin(string pluginName) => _loadedPlugins.Add(pluginName);
+        public PluginManagerService()
+        {
+            // Aici se vor încărca dinamic DLL-urile terțe folosind Reflection în etapele următoare
+        }
+    }
 }

@@ -81,6 +81,20 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _timelineCurrentPage = 1;
         [ObservableProperty] private int _timelineTotalPages = 1;
 
+        // Cyber Telemetry & System Status
+        [ObservableProperty] private string _operatorName = "-";
+        [ObservableProperty] private string _databaseSize = "0.0 MB";
+        [ObservableProperty] private string _licenseTier = "Standard Edition";
+
+        // Registry Sidebar Categories
+        public ObservableCollection<string> RegistryCategories { get; } = new()
+        {
+            "Toate Cheile",
+            "Persistență (Run/Autorun)",
+            "Configurație (Sistem)"
+        };
+        [ObservableProperty] private string _selectedRegistryCategory = "Toate Cheile";
+
         // Audit Data Collection Properties
         public ObservableCollection<string> TargetTypes { get; } = new() { "PC", "Server", "NAS" };
         [ObservableProperty] private string _selectedTargetType = "PC";
@@ -133,6 +147,12 @@ namespace LogAnalyzer.UI.ViewModels
         partial void OnTimelineCurrentPageChanged(int value) => ReloadTimelineFromDb();
         partial void OnHideVerifiedAlertsChanged(bool value) => IssuesView?.Refresh();
 
+        partial void OnSelectedRegistryCategoryChanged(string value)
+        {
+            RegistryCurrentPage = 1;
+            ReloadRegistryFromDb();
+        }
+
         public MainViewModel(
             IEventParser eventParser, IAnalysisEngine analysisEngine, IRegistryParser registryParser,
             AuditLogService auditService, KnowledgeBaseService kbService, PluginManagerService pluginManager,
@@ -164,6 +184,10 @@ namespace LogAnalyzer.UI.ViewModels
             InitializeProcessTree();
             InitializeSigmaRules();
             PopulateMitreMatrix();
+
+            OperatorName = $"{Environment.UserName.ToUpper()} @ {Environment.MachineName.ToUpper()}";
+            LicenseTier = "Enterprise Air-Gapped";
+            UpdateDatabaseSize();
         }
 
         private void ReloadEvtxFromDb()
@@ -185,10 +209,20 @@ namespace LogAnalyzer.UI.ViewModels
         {
             try
             {
-                int count = _databaseService.GetRegistryArtifactsCount(SearchArtifactsText);
+                string searchPayload = SearchArtifactsText;
+                if (SelectedRegistryCategory == "Persistență (Run/Autorun)")
+                {
+                    searchPayload = $"[CAT:Persist]{SearchArtifactsText}";
+                }
+                else if (SelectedRegistryCategory == "Configurație (Sistem)")
+                {
+                    searchPayload = $"[CAT:Config]{SearchArtifactsText}";
+                }
+
+                int count = _databaseService.GetRegistryArtifactsCount(searchPayload);
                 RegistryTotalPages = Math.Max(1, (int)Math.Ceiling((double)count / PageSize));
                 
-                var list = _databaseService.GetRegistryArtifacts(PageSize, (RegistryCurrentPage - 1) * PageSize, SearchArtifactsText);
+                var list = _databaseService.GetRegistryArtifacts(PageSize, (RegistryCurrentPage - 1) * PageSize, searchPayload);
                 RegistryArtifacts.Clear();
                 foreach (var reg in list) RegistryArtifacts.Add(reg);
             }
@@ -631,6 +665,7 @@ namespace LogAnalyzer.UI.ViewModels
             ReloadRegistryFromDb();
             ReloadTimelineFromDb();
             ReloadDashboardStats();
+            UpdateDatabaseSize();
             
             SelectedTabIndex = 0; 
             IsLoading = false;
@@ -820,6 +855,42 @@ level: critical"
                 }
 
                 AttackTechniques.Add(tech);
+            }
+            OnPropertyChanged(nameof(AccessExecTechniques));
+            OnPropertyChanged(nameof(PersistencePrivEscTechniques));
+            OnPropertyChanged(nameof(DefenseEvasionTechniques));
+            OnPropertyChanged(nameof(CredentialAccessTechniques));
+            OnPropertyChanged(nameof(ImpactTechniques));
+        }
+
+        public IEnumerable<MitreTechnique> AccessExecTechniques => AttackTechniques.Where(t => t.TechId == "T1133" || t.TechId == "T1059.001" || t.TechId == "T1047");
+        public IEnumerable<MitreTechnique> PersistencePrivEscTechniques => AttackTechniques.Where(t => t.TechId == "T1547.001" || t.TechId == "T1136.001" || t.TechId == "T1098" || t.TechId == "T1543.003" || t.TechId == "T1548.002");
+        public IEnumerable<MitreTechnique> DefenseEvasionTechniques => AttackTechniques.Where(t => t.TechId == "T1070.001" || t.TechId == "T1562.001" || t.TechId == "T1027");
+        public IEnumerable<MitreTechnique> CredentialAccessTechniques => AttackTechniques.Where(t => t.TechId == "T1110" || t.TechId == "T1003.001");
+        public IEnumerable<MitreTechnique> ImpactTechniques => AttackTechniques.Where(t => t.TechId == "T1490");
+
+        private void UpdateDatabaseSize()
+        {
+            try
+            {
+                var dbPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "LogAnalyzer",
+                    "LogAnalyzer.db");
+                if (File.Exists(dbPath))
+                {
+                    long bytes = new FileInfo(dbPath).Length;
+                    double mb = bytes / (1024.0 * 1024.0);
+                    DatabaseSize = $"{mb:F1} MB";
+                }
+                else
+                {
+                    DatabaseSize = "0.0 MB";
+                }
+            }
+            catch
+            {
+                DatabaseSize = "Unknown";
             }
         }
     }

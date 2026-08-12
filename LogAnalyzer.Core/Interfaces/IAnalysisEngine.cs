@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using LogAnalyzer.Core.Models;
 
-namespace LogAnalyzer.Core.Interfaces;
-
-public interface IAnalysisEngine
+namespace LogAnalyzer.Core.Interfaces
 {
-    IEnumerable<DetectedIssue> AnalyzeEvents(List<ParsedEvent> events);
+    public interface IAnalysisEngine
+    {
+        IEnumerable<DetectedIssue> AnalyzeEvents(IEnumerable<ParsedEvent> events);
+        IEnumerable<DetectedIssue> AnalyzeRegistry(IEnumerable<RegistryArtifact> artifacts);
+    }
 }

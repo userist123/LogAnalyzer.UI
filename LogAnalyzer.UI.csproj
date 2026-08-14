@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
+  <ItemGroup Condition="Exists('..\LogAnalyzer.Core\LogAnalyzer.Core.csproj')">
     <ProjectReference Include="..\LogAnalyzer.Core\LogAnalyzer.Core.csproj" />
     <ProjectReference Include="..\LogAnalyzer.Infrastructure\LogAnalyzer.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\LogAnalyzer.Core\LogAnalyzer.Core.csproj')">
+    <ProjectReference Include="LogAnalyzer.Core\LogAnalyzer.Core.csproj" />
+    <ProjectReference Include="LogAnalyzer.Infrastructure\LogAnalyzer.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,14 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="LogAnalyzer.Core\**\*.cs" />
-    <Compile Remove="LogAnalyzer.Infrastructure\**\*.cs" />
     <Compile Remove="LogAnalyzer.UI.Tests\**\*.cs" />
-    <Page Remove="LogAnalyzer.Core\**\*.xaml" />
-    <Page Remove="LogAnalyzer.Infrastructure\**\*.xaml" />
     <Page Remove="LogAnalyzer.UI.Tests\**\*.xaml" />
-    <None Remove="LogAnalyzer.Core\**\*.csproj" />
-    <None Remove="LogAnalyzer.Infrastructure\**\*.csproj" />
     <None Remove="LogAnalyzer.UI.Tests\**\*.csproj" />
   </ItemGroup>
 

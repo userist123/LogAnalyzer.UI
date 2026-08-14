@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Models;
+using LogAnalyzer.Core.Services;
 using LogAnalyzer.Infrastructure.Engines;
 
 namespace LogAnalyzer.Infrastructure
@@ -10,8 +11,12 @@ namespace LogAnalyzer.Infrastructure
     public class AnalysisEngine : IAnalysisEngine
     {
         private readonly SigmaRuleEngine _sigmaEngine = new();
+        private readonly YaraRuleEngine _yaraEngine = new();
+        private readonly AnomalyDetectionEngine _anomalyEngine = new();
 
         public SigmaRuleEngine SigmaEngine => _sigmaEngine;
+        public YaraRuleEngine YaraEngine => _yaraEngine;
+        public AnomalyDetectionEngine AnomalyEngine => _anomalyEngine;
 
         public IEnumerable<DetectedIssue> AnalyzeEvents(IEnumerable<ParsedEvent> events)
         {
@@ -168,17 +173,43 @@ namespace LogAnalyzer.Infrastructure
                         Status = AlertStatus.Nouă
                     });
                 }
+                // Regula Triage 5: PowerShell History Suspect (EID 20109)
+                else if (ev.EventId == 20109 && ev.Level.Equals("High", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues.Add(new DetectedIssue
+                    {
+                        Title = "Comandă Suspectă Identificată în Istoricul PowerShell",
+                        Severity = "High",
+                        Explanation = $"Comandă din istoricul utilizatorului conține indicatori de recunoaștere sau descărcare automată: {ev.Message}",
+                        ComplianceTag = "MITRE ATT&CK - Command and Scripting Interpreter",
+                        MitreTechniqueId = "T1059.001",
+                        Status = AlertStatus.Nouă
+                    });
+                }
             }
 
-            // Evaluare dinamică a regulilor Sigma
+            // 1. Evaluare dinamică a regulilor Sigma
             var sigmaIssues = _sigmaEngine.EvaluateEvents(eventList);
             foreach (var sIssue in sigmaIssues)
             {
-                // Evităm duplicatele exacte de titlu dacă există deja o regulă nativă
                 if (!issues.Any(i => i.MitreTechniqueId == sIssue.MitreTechniqueId))
                 {
                     issues.Add(sIssue);
                 }
+            }
+
+            // 2. Evaluare Semnături YARA
+            var yaraIssues = _yaraEngine.Evaluate(eventList);
+            foreach (var yIssue in yaraIssues)
+            {
+                issues.Add(yIssue);
+            }
+
+            // 3. Evaluare Anomalii & Entropie
+            var anomalyIssues = _anomalyEngine.DetectAnomalies(eventList);
+            foreach (var aIssue in anomalyIssues)
+            {
+                issues.Add(aIssue);
             }
 
             return issues;

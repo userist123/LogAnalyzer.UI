@@ -891,6 +891,90 @@ namespace LogAnalyzer.UI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void PivotMitreTechnique(MitreTechnique? tech)
+        {
+            if (tech == null) return;
+            SearchEventsText = tech.TechId;
+            StatusMessage = $"Filtrare investigație pe Tehnica MITRE ATT&CK: {tech.Name} ({tech.TechId})";
+            SelectedTabIndex = 1;
+        }
+
+        [RelayCommand]
+        private void ExportStixJson()
+        {
+            var dialog = new SaveFileDialog { Filter = "STIX 2.1 Bundle (*.json)|*.json", FileName = $"STIX21_Incident_{DateTime.Now:yyyyMMdd_HHmmss}.json" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    StixMispExportService.ExportToStix21(dialog.FileName, DetectedIssues.ToList(), CurrentIocs.ToList(), _currentSessionHashes);
+                    StatusMessage = "✅ Export STIX 2.1 generat cu succes!";
+                }
+                catch (Exception ex)
+                {
+                    StatusMessage = $"Eroare STIX: {ex.Message}";
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ExportMispJson()
+        {
+            var dialog = new SaveFileDialog { Filter = "MISP Event JSON (*.json)|*.json", FileName = $"MISP_Event_{DateTime.Now:yyyyMMdd_HHmmss}.json" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    StixMispExportService.ExportToMispJson(dialog.FileName, DetectedIssues.ToList(), CurrentIocs.ToList(), OperatorName);
+                    StatusMessage = "✅ Export MISP JSON generat cu succes!";
+                }
+                catch (Exception ex)
+                {
+                    StatusMessage = $"Eroare MISP: {ex.Message}";
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void GenerateHostIsolationScript()
+        {
+            var dialog = new SaveFileDialog { Filter = "PowerShell Script (*.ps1)|*.ps1", FileName = $"Isolate_Host_{CollectionHostname}_{DateTime.Now:yyyyMMdd}.ps1" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    string script = IncidentResponsePlaybookService.GenerateHostIsolationScript(CollectionHostname);
+                    File.WriteAllText(dialog.FileName, script, Encoding.UTF8);
+                    StatusMessage = $"✅ Script de izolare rețea generat în: {dialog.FileName}";
+                }
+                catch (Exception ex)
+                {
+                    StatusMessage = $"Eroare generare script: {ex.Message}";
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void GenerateKillProcessScript()
+        {
+            var dialog = new SaveFileDialog { Filter = "PowerShell Script (*.ps1)|*.ps1", FileName = $"Kill_Malicious_ProcessTree_{DateTime.Now:yyyyMMdd}.ps1" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    int targetPid = SelectedEvent != null ? SelectedEvent.EventId : 5124;
+                    string script = IncidentResponsePlaybookService.GenerateKillProcessTreeScript(targetPid, "SuspiciousProcess.exe");
+                    File.WriteAllText(dialog.FileName, script, Encoding.UTF8);
+                    StatusMessage = $"✅ Script de terminare procese generat în: {dialog.FileName}";
+                }
+                catch (Exception ex)
+                {
+                    StatusMessage = $"Eroare generare script: {ex.Message}";
+                }
+            }
+        }
+
         private async Task ProcessFilesAsync(string[] allFiles)
         {
             IsLoading = true;

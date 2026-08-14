@@ -36,8 +36,6 @@ namespace LogAnalyzer.Infrastructure.Parsers
 
             if (lines.Length <= 1) yield break;
 
-            string header = lines[0].Trim();
-
             for (int i = 1; i < lines.Length; i++)
             {
                 if (cancellationToken.IsCancellationRequested) yield break;
@@ -46,7 +44,6 @@ namespace LogAnalyzer.Infrastructure.Parsers
                 if (string.IsNullOrWhiteSpace(line)) continue;
 
                 var columns = ParseCsvLine(line);
-
                 ParsedEvent? evt = null;
 
                 if (fileName.Contains("dnscache"))
@@ -80,6 +77,22 @@ namespace LogAnalyzer.Infrastructure.Parsers
                 else if (fileName.Contains("netstat"))
                 {
                     evt = ParseNetstat(columns, machineName, fileTime);
+                }
+                else if (fileName.Contains("powershellhistory"))
+                {
+                    evt = ParsePowerShellHistory(columns, machineName, fileTime);
+                }
+                else if (fileName.Contains("usbhistory"))
+                {
+                    evt = ParseUsbHistory(columns, machineName, fileTime);
+                }
+                else if (fileName.Contains("activesessions"))
+                {
+                    evt = ParseActiveSessions(columns, machineName, fileTime);
+                }
+                else if (fileName.Contains("netroutes"))
+                {
+                    evt = ParseNetRoutes(columns, machineName, fileTime);
                 }
 
                 if (evt != null)
@@ -285,6 +298,99 @@ namespace LogAnalyzer.Infrastructure.Parsers
                 XmlData = $"<NetConnection><Local>{localAddr}:{localPort}</Local><Remote>{remoteAddr}:{remotePort}</Remote><State>{state}</State><PID>{owningPid}</PID></NetConnection>",
                 OfficialDescription = "Conexiune TCP/UDP activă la momentul investigației.",
                 PotentialCriticality = "Network Telemetry"
+            };
+        }
+
+        private ParsedEvent? ParsePowerShellHistory(List<string> cols, string machine, DateTime time)
+        {
+            if (cols.Count < 2) return null;
+            string user = cols[0];
+            string command = cols.Count > 1 ? cols[1] : string.Empty;
+
+            bool isSuspicious = command.Contains("download", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("-enc", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("bypass", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("mimikatz", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("invoke-", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("net user", StringComparison.OrdinalIgnoreCase) ||
+                                command.Contains("whoami", StringComparison.OrdinalIgnoreCase);
+
+            return new ParsedEvent
+            {
+                EventId = 20109,
+                TimeCreated = time,
+                ProviderName = "Triage-PowerShellHistory",
+                Level = isSuspicious ? "High" : "Info",
+                MachineName = machine,
+                Message = $"[PS History - {user}] {command}",
+                XmlData = $"<PSHistory><User>{user}</User><Command>{command}</Command></PSHistory>",
+                OfficialDescription = isSuspicious ? "Comandă PowerShell suspectă găsită în istoricul consolei utilizatorului." : "Comandă PowerShell extrasă din PSReadLine history.",
+                PotentialCriticality = isSuspicious ? "Command Line Suspicion" : "Command Trace"
+            };
+        }
+
+        private ParsedEvent? ParseUsbHistory(List<string> cols, string machine, DateTime time)
+        {
+            if (cols.Count < 2) return null;
+            string device = cols[0];
+            string serial = cols.Count > 1 ? cols[1] : string.Empty;
+            string friendly = cols.Count > 2 ? cols[2] : device;
+
+            return new ParsedEvent
+            {
+                EventId = 20110,
+                TimeCreated = time,
+                ProviderName = "Triage-UsbHistory",
+                Level = "Info",
+                MachineName = machine,
+                Message = $"[USB Stor] Dispozitiv: {friendly} | ID: {device} | Serial: {serial}",
+                XmlData = $"<UsbDevice><Device>{device}</Device><Serial>{serial}</Serial><FriendlyName>{friendly}</FriendlyName></UsbDevice>",
+                OfficialDescription = "Dispozitiv de stocare USB montat pe sistem (istoric USBSTOR).",
+                PotentialCriticality = "Physical Media Trace"
+            };
+        }
+
+        private ParsedEvent? ParseActiveSessions(List<string> cols, string machine, DateTime time)
+        {
+            if (cols.Count < 3) return null;
+            string session = cols[0];
+            string user = cols[1];
+            string state = cols.Count > 3 ? cols[3] : "Active";
+
+            bool isRdp = session.Contains("rdp", StringComparison.OrdinalIgnoreCase);
+
+            return new ParsedEvent
+            {
+                EventId = 20111,
+                TimeCreated = time,
+                ProviderName = "Triage-ActiveSessions",
+                Level = isRdp ? "Warning" : "Info",
+                MachineName = machine,
+                Message = $"[Sesiune Activă] Sesiune: {session} | Utilizator: {user} | Stare: {state}",
+                XmlData = $"<Session><Name>{session}</Name><User>{user}</User><State>{state}</State></Session>",
+                OfficialDescription = isRdp ? "Sesiune RDP (Remote Desktop) activă pe stație." : "Sesiune utilizator conectat.",
+                PotentialCriticality = isRdp ? "Remote Access Session" : "Local Session"
+            };
+        }
+
+        private ParsedEvent? ParseNetRoutes(List<string> cols, string machine, DateTime time)
+        {
+            if (cols.Count < 2) return null;
+            string dest = cols[0];
+            string nextHop = cols.Count > 1 ? cols[1] : string.Empty;
+            string iface = cols.Count > 3 ? cols[3] : string.Empty;
+
+            return new ParsedEvent
+            {
+                EventId = 20112,
+                TimeCreated = time,
+                ProviderName = "Triage-NetRoutes",
+                Level = "Info",
+                MachineName = machine,
+                Message = $"[Rută Rețea] Destinație: {dest} -> Next Hop: {nextHop} (Interfață: {iface})",
+                XmlData = $"<Route><Dest>{dest}</Dest><NextHop>{nextHop}</NextHop><Interface>{iface}</Interface></Route>",
+                OfficialDescription = "Tabelă de rutare IP a sistemului culeasă la audit.",
+                PotentialCriticality = "Network Topology"
             };
         }
 

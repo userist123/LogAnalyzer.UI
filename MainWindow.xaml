@@ -643,7 +643,10 @@
                                                                 <ItemsControl ItemsSource="{Binding AccessExecTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4" Cursor="Hand" ToolTip="Click pentru filtrare investiga?ie pe aceasta tehnica">
+                                                                                <Border.InputBindings>
+                                                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotMitreTechniqueCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                                                                </Border.InputBindings>
                                                                                 <StackPanel VerticalAlignment="Center">
                                                                                     <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
@@ -668,7 +671,10 @@
                                                                 <ItemsControl ItemsSource="{Binding PersistencePrivEscTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4" Cursor="Hand" ToolTip="Click pentru filtrare investiga?ie pe aceasta tehnica">
+                                                                                <Border.InputBindings>
+                                                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotMitreTechniqueCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                                                                </Border.InputBindings>
                                                                                 <StackPanel VerticalAlignment="Center">
                                                                                     <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
@@ -693,7 +699,10 @@
                                                                 <ItemsControl ItemsSource="{Binding DefenseEvasionTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4" Cursor="Hand" ToolTip="Click pentru filtrare investiga?ie pe aceasta tehnica">
+                                                                                <Border.InputBindings>
+                                                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotMitreTechniqueCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                                                                </Border.InputBindings>
                                                                                 <StackPanel VerticalAlignment="Center">
                                                                                     <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
@@ -718,7 +727,10 @@
                                                                 <ItemsControl ItemsSource="{Binding CredentialAccessTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4" Cursor="Hand" ToolTip="Click pentru filtrare investiga?ie pe aceasta tehnica">
+                                                                                <Border.InputBindings>
+                                                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotMitreTechniqueCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                                                                </Border.InputBindings>
                                                                                 <StackPanel VerticalAlignment="Center">
                                                                                     <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
@@ -743,7 +755,10 @@
                                                                 <ItemsControl ItemsSource="{Binding ImpactTechniques}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4">
+                                                                            <Border Background="{Binding DetectionColor}" BorderBrush="{Binding BorderColor}" BorderThickness="1.5" CornerRadius="4" Height="50" Margin="2" Padding="4" Cursor="Hand" ToolTip="Click pentru filtrare investiga?ie pe aceasta tehnica">
+                                                                                <Border.InputBindings>
+                                                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotMitreTechniqueCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                                                                </Border.InputBindings>
                                                                                 <StackPanel VerticalAlignment="Center">
                                                                                     <TextBlock Text="{Binding TechId}" FontWeight="Bold" FontSize="9.5" Foreground="{StaticResource PrimaryAccentBrush}" HorizontalAlignment="Center"/>
                                                                                     <TextBlock Text="{Binding Name}" FontSize="8" Foreground="LightGray" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
@@ -1567,5 +1582,6 @@
         </Grid>
     </Grid>
 </Window>
+
 
 

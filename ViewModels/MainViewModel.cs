@@ -74,6 +74,18 @@ namespace LogAnalyzer.UI.ViewModels
         // Session / Module Management
         [ObservableProperty] private int _selectedModuleIndex = 0; // 0 for Forensics, 1 for Collection
 
+        // AI / Heuristic Analysis Properties
+        public ObservableCollection<AiAnomalyItem> AiAnomalies { get; set; } = new();
+        [ObservableProperty] private int _aiRiskScore = 0;
+        [ObservableProperty] private string _aiRiskLevel = "SCĂZUT (Normal)";
+        [ObservableProperty] private string _aiRiskColor = "#22c55e";
+        [ObservableProperty] private int _aiHighEntropyCount = 0;
+        [ObservableProperty] private int _aiMasqueradingCount = 0;
+        [ObservableProperty] private int _aiOffHoursCount = 0;
+        [ObservableProperty] private int _aiYaraMatchesCount = 0;
+        [ObservableProperty] private string _aiExecutiveSummary = "Sistemul este pregătit. Încărcați jurnale sau fișiere de triage pentru a iniția analiza euristică și calculul de entropie.";
+        [ObservableProperty] private string _aiTacticalRecommendation = "1. Încărcați jurnalele EVTX sau folderul de triage.\n2. Examinați scorul de entropie al comenzilor PowerShell.\n3. Verificați alertele de securitate și corelările Sigma/YARA.";
+
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;
         [ObservableProperty] private int _totalEventsCount;
@@ -311,6 +323,7 @@ namespace LogAnalyzer.UI.ViewModels
             OperatorName = $"{Environment.UserName.ToUpper()} @ {Environment.MachineName.ToUpper()}";
             LicenseTier = "Enterprise Air-Gapped";
             UpdateDatabaseSize();
+            RunAiAnalysis();
         }
 
         private void ReloadEvtxFromDb()
@@ -1197,6 +1210,7 @@ namespace LogAnalyzer.UI.ViewModels
             ReloadTimelineFromDb();
             ReloadDashboardStats();
             UpdateDatabaseSize();
+            RunAiAnalysis();
             
             SelectedTabIndex = 0; 
             IsLoading = false;
@@ -1364,6 +1378,106 @@ namespace LogAnalyzer.UI.ViewModels
                 DatabaseSize = "Unknown";
             }
         }
+
+        [RelayCommand]
+        public void RunAiAnalysis()
+        {
+            if (_analysisEngine is AnalysisEngine ae)
+            {
+                var eventsForAnalysis = _databaseService.GetEvents(50000, 0, null, null, null).ToList();
+                var anomalies = ae.AnomalyEngine.DetectAnomalies(eventsForAnalysis);
+                var yaraMatches = ae.YaraEngine.Evaluate(eventsForAnalysis);
+
+                AiAnomalies.Clear();
+                int entropyCount = 0;
+                int masqCount = 0;
+                int offHoursCount = 0;
+
+                foreach (var a in anomalies)
+                {
+                    string type = "Anomalie Comportamentală";
+                    double score = 4.0;
+                    if (a.Title.Contains("Entropie"))
+                    {
+                        type = "Entropie Shannon";
+                        entropyCount++;
+                        score = 5.2;
+                    }
+                    else if (a.Title.Contains("Masquerading"))
+                    {
+                        type = "Process Masquerading";
+                        masqCount++;
+                        score = 7.8;
+                    }
+                    else if (a.Title.Contains("Nocturnă") || a.Title.Contains("Off-Hours"))
+                    {
+                        type = "Autentificare Nocturnă";
+                        offHoursCount++;
+                        score = 3.5;
+                    }
+
+                    AiAnomalies.Add(new AiAnomalyItem
+                    {
+                        AnomalyType = type,
+                        TargetEntity = a.RelatedEvents.FirstOrDefault()?.MachineName ?? "TargetHost",
+                        Details = a.Explanation,
+                        Score = score,
+                        Severity = a.Severity,
+                        SeverityColor = a.Severity == "Critical" ? "#ef4444" : a.Severity == "High" ? "#f97316" : "#f59e0b",
+                        MitreId = a.MitreTechniqueId ?? "T1027",
+                        Timestamp = a.RelatedEvents.FirstOrDefault()?.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss") ?? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    });
+                }
+
+                foreach (var y in yaraMatches)
+                {
+                    AiAnomalies.Add(new AiAnomalyItem
+                    {
+                        AnomalyType = "Semnătură YARA",
+                        TargetEntity = y.RelatedEvents.FirstOrDefault()?.MachineName ?? "TargetHost",
+                        Details = y.Explanation,
+                        Score = 8.5,
+                        Severity = y.Severity,
+                        SeverityColor = "#ef4444",
+                        MitreId = y.MitreTechniqueId ?? "T1059",
+                        Timestamp = y.RelatedEvents.FirstOrDefault()?.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss") ?? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    });
+                }
+
+                AiHighEntropyCount = entropyCount;
+                AiMasqueradingCount = masqCount;
+                AiOffHoursCount = offHoursCount;
+                AiYaraMatchesCount = yaraMatches.Count;
+
+                int totalCount = anomalies.Count + yaraMatches.Count;
+                if (totalCount > 10)
+                {
+                    AiRiskScore = Math.Min(98, 60 + totalCount * 3);
+                    AiRiskLevel = "CRITIC";
+                    AiRiskColor = "#ef4444";
+                    AiExecutiveSummary = $"ATENȚIE: Analiza AI a detectat {totalCount} anomalii de securitate severe! Au fost identificate scripturi cu entropie extremă, procese masquerading și potriviri de semnături YARA.";
+                    AiTacticalRecommendation = "1. Izolați imediat stația folosind butonul 'Generare Script Izolare'.\n2. Terminați procesele suspecte identificate.\n3. Revocați credențialele conturilor afectate.\n4. Exportați raportul în format STIX 2.1 / MISP.";
+                }
+                else if (totalCount > 0)
+                {
+                    AiRiskScore = Math.Min(75, 40 + totalCount * 5);
+                    AiRiskLevel = "MODERAT / RIDICAT";
+                    AiRiskColor = "#f59e0b";
+                    AiExecutiveSummary = $"Analiza AI a identificat {totalCount} anomalii comportamentale ce necesită investigație preliminară.";
+                    AiTacticalRecommendation = "1. Examinați detaliile anomaliilor din tabelul de mai jos.\n2. Verificați legitimizarea comenzilor cu administratorul de sistem.";
+                }
+                else
+                {
+                    AiRiskScore = 12;
+                    AiRiskLevel = "SCĂZUT (Normal)";
+                    AiRiskColor = "#22c55e";
+                    AiExecutiveSummary = "Analiza AI nu a identificat anomalii critice de entropie sau comportament în jurnalele curente.";
+                    AiTacticalRecommendation = "Mențineți monitorizarea periodică a evenimentelor și a registrelor.";
+                }
+
+                StatusMessage = $"✅ Analiză AI finalizată: {totalCount} anomalii detectate (Scor Risc: {AiRiskScore}/100)";
+            }
+        }
     }
 
     public class ProcessNode
@@ -1404,5 +1518,17 @@ namespace LogAnalyzer.UI.ViewModels
         public string DetectionColor { get; set; } = "#121622";
         public string BorderColor { get; set; } = "#1e2538";
         public string Severity { get; set; } = "None";
+    }
+
+    public class AiAnomalyItem
+    {
+        public string AnomalyType { get; set; } = string.Empty;
+        public string TargetEntity { get; set; } = string.Empty;
+        public string Details { get; set; } = string.Empty;
+        public double Score { get; set; }
+        public string Severity { get; set; } = "High";
+        public string SeverityColor { get; set; } = "#ef4444";
+        public string MitreId { get; set; } = "T1027";
+        public string Timestamp { get; set; } = string.Empty;
     }
 }

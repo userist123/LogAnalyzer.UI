@@ -1,17 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Models;
+using LogAnalyzer.Infrastructure.Engines;
 
 namespace LogAnalyzer.Infrastructure
 {
     public class AnalysisEngine : IAnalysisEngine
     {
+        private readonly SigmaRuleEngine _sigmaEngine = new();
+
+        public SigmaRuleEngine SigmaEngine => _sigmaEngine;
+
         public IEnumerable<DetectedIssue> AnalyzeEvents(IEnumerable<ParsedEvent> events)
         {
             var issues = new List<DetectedIssue>();
-            
-            foreach (var ev in events)
+            var eventList = events as IList<ParsedEvent> ?? events.ToList();
+
+            foreach (var ev in eventList)
             {
                 if (ev == null) continue;
 
@@ -109,8 +116,71 @@ namespace LogAnalyzer.Infrastructure
                         });
                     }
                 }
+                // Regula Triage 1: Driver Kernel Nesemnat (Rootkit / BYOVD)
+                else if (ev.EventId == 20102 && ev.Level.Equals("Critical", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues.Add(new DetectedIssue
+                    {
+                        Title = "Driver Kernel Nesemnat Detectat (Rootkit / BYOVD)",
+                        Severity = "Critical",
+                        Explanation = $"Driver de kernel nesemnat sau cu certificat invalid identificat pe [{ev.MachineName}]. Reprezintă un risc major de securitate (Ring 0 exploit / rootkit).",
+                        ComplianceTag = "CIS Benchmark - Kernel Integrity",
+                        MitreTechniqueId = "T1068",
+                        Status = AlertStatus.Nouă
+                    });
+                }
+                // Regula Triage 2: Excludere Defender (Defense Evasion)
+                else if (ev.EventId == 20105)
+                {
+                    issues.Add(new DetectedIssue
+                    {
+                        Title = "Excludere Antivirus Windows Defender (Defense Evasion)",
+                        Severity = "Critical",
+                        Explanation = $"Excludere de cale sau proces configurată în Windows Defender pe [{ev.MachineName}]. Programele rău-intenționate folosesc excluderi pentru a ocoli detecția.",
+                        ComplianceTag = "NIST SP 800-53 - SI-3",
+                        MitreTechniqueId = "T1562.001",
+                        Status = AlertStatus.Nouă
+                    });
+                }
+                // Regula Triage 3: Scheduled Task Suspect
+                else if (ev.EventId == 20103 && ev.Level.Equals("High", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues.Add(new DetectedIssue
+                    {
+                        Title = "Sarcină Programată Suspectă (Persistence)",
+                        Severity = "High",
+                        Explanation = $"Sarcină programată ce apelează scripturi din directoare temporare (%TEMP% / %APPDATA%) identificată pe [{ev.MachineName}].",
+                        ComplianceTag = "ISO 27001 - A.12.5.1",
+                        MitreTechniqueId = "T1053.005",
+                        Status = AlertStatus.Nouă
+                    });
+                }
+                // Regula Triage 4: DNS Cache către domeniu suspect
+                else if (ev.EventId == 20101 && ev.Level.Equals("Warning", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues.Add(new DetectedIssue
+                    {
+                        Title = "Interogare DNS către Domeniu Suspect (C2 Communication)",
+                        Severity = "High",
+                        Explanation = $"Rezoluție DNS recentă către un domeniu cu reputație suspectă sau dynamic DNS identificată pe [{ev.MachineName}].",
+                        ComplianceTag = "NIST SP 800-53 - SC-7",
+                        MitreTechniqueId = "T1071.004",
+                        Status = AlertStatus.Nouă
+                    });
+                }
             }
-            
+
+            // Evaluare dinamică a regulilor Sigma
+            var sigmaIssues = _sigmaEngine.EvaluateEvents(eventList);
+            foreach (var sIssue in sigmaIssues)
+            {
+                // Evităm duplicatele exacte de titlu dacă există deja o regulă nativă
+                if (!issues.Any(i => i.MitreTechniqueId == sIssue.MitreTechniqueId))
+                {
+                    issues.Add(sIssue);
+                }
+            }
+
             return issues;
         }
 

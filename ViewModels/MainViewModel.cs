@@ -14,6 +14,9 @@ using CommunityToolkit.Mvvm.Input;
 using LogAnalyzer.Core.Models;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Services;
+using LogAnalyzer.Infrastructure;
+using LogAnalyzer.Infrastructure.Engines;
+using LogAnalyzer.Infrastructure.Parsers;
 using Microsoft.Win32;
 using LogAnalyzer.UI.Services;
 
@@ -30,8 +33,10 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly IDatabaseService _databaseService;
         private readonly IAuditCollectionService _collectionService;
         private readonly EvidenceIntakeService _evidenceIntake;
+        private readonly LogAnalyzer.Infrastructure.Parsers.TriageCsvParser _triageCsvParser = new();
 
         private const int PageSize = 100;
+        private string _currentSessionHashes = string.Empty;
 
         public ObservableCollection<ParsedEvent> Events { get; set; } = new();
         public ObservableCollection<DetectedIssue> DetectedIssues { get; set; } = new();
@@ -834,6 +839,15 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         [RelayCommand]
+        private void PivotProcess(ProcessNode? node)
+        {
+            if (node == null) return;
+            SearchEventsText = node.PID.ToString();
+            StatusMessage = $"Filtrare investigație pe procesul: {node.ProcessName} (PID: {node.PID})";
+            SelectedTabIndex = 1;
+        }
+
+        [RelayCommand]
         private void ExportPdfReport()
         {
             var dialog = new SaveFileDialog { Filter = "Raport PDF (*.pdf)|*.pdf", FileName = $"Raport_Forenzic_{DateTime.Now:yyyyMMdd_HHmmss}.pdf" };
@@ -842,12 +856,37 @@ namespace LogAnalyzer.UI.ViewModels
                 try 
                 {
                     var timeline = _databaseService.GetTimeline(500, 0, null).ToList();
-                    PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), timeline, "Hashes");
+                    string sessionHashes = !string.IsNullOrWhiteSpace(_currentSessionHashes) 
+                        ? _currentSessionHashes 
+                        : "Integritate probatorie confirmată (Fără fișiere externe modificate).";
+                    PdfReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), timeline, sessionHashes);
                     StatusMessage = $"✅ Raport PDF generat cu succes!";
                 } 
                 catch (Exception ex) 
                 { 
                     StatusMessage = $"Eroare PDF: {ex.Message}"; 
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ExportHtmlReport()
+        {
+            var dialog = new SaveFileDialog { Filter = "Raport HTML (*.html)|*.html", FileName = $"Raport_Forenzic_{DateTime.Now:yyyyMMdd_HHmmss}.html" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var timeline = _databaseService.GetTimeline(500, 0, null).ToList();
+                    string sessionHashes = !string.IsNullOrWhiteSpace(_currentSessionHashes) 
+                        ? _currentSessionHashes 
+                        : "Integritate probatorie confirmată (Fără fișiere externe modificate).";
+                    HtmlReportService.GenerateReport(dialog.FileName, DetectedIssues.ToList(), timeline, sessionHashes, TotalEventsCount, TotalRegistryCount, TotalHostsCount, OperatorName);
+                    StatusMessage = "✅ Raport HTML generat cu succes!";
+                }
+                catch (Exception ex)
+                {
+                    StatusMessage = $"Eroare HTML: {ex.Message}";
                 }
             }
         }
@@ -862,20 +901,28 @@ namespace LogAnalyzer.UI.ViewModels
             var acceptedFiles = new List<string>();
             var rejectedFiles = new List<string>();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
+                var hashesSb = new StringBuilder();
                 foreach (var file in allFiles)
                 {
                     try
                     {
                         _evidenceIntake.Import(file, Environment.UserName);
                         acceptedFiles.Add(file);
+
+                        using var stream = File.OpenRead(file);
+                        using var sha256 = System.Security.Cryptography.SHA256.Create();
+                        byte[] hash = sha256.ComputeHash(stream);
+                        string hashStr = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                        hashesSb.AppendLine($"[SHA-256] {hashStr}  |  {Path.GetFileName(file)} ({new FileInfo(file).Length:N0} bytes)");
                     }
                     catch (Exception ex)
                     {
                         rejectedFiles.Add($"{Path.GetFileName(file)}: {ex.Message}");
                     }
                 }
+                _currentSessionHashes = hashesSb.ToString();
 
                 var evtxFiles = acceptedFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
                 int totalEvtxProcessed = 0;
@@ -980,8 +1027,48 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                StatusMessage = "Analiză de securitate...";
-                var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688 };
+                var csvFiles = acceptedFiles.Where(f => f.EndsWith(".csv", StringComparison.OrdinalIgnoreCase)).ToArray();
+                int totalCsvProcessed = 0;
+                foreach (var file in csvFiles)
+                {
+                    try
+                    {
+                        var batch = new List<ParsedEvent>();
+                        var timelineBatch = new List<TimelineItem>();
+                        await foreach (var ev in _triageCsvParser.ParseArtifactAsync(file, System.Threading.CancellationToken.None))
+                        {
+                            batch.Add(ev);
+                            timelineBatch.Add(new TimelineItem
+                            {
+                                Timestamp = ev.TimeCreated,
+                                Source = "TRIAGE",
+                                Category = ev.ProviderName ?? "Triage",
+                                Description = ev.Message ?? "-",
+                                UserOrHost = ev.MachineName ?? "-"
+                            });
+
+                            if (batch.Count >= 2000)
+                            {
+                                _databaseService.SaveEvents(batch);
+                                _databaseService.SaveTimeline(timelineBatch);
+                                totalCsvProcessed += batch.Count;
+                                batch.Clear();
+                                timelineBatch.Clear();
+                                StatusMessage = $"Se încarcă date triage... ({totalCsvProcessed} procesate)";
+                            }
+                        }
+                        if (batch.Count > 0)
+                        {
+                            _databaseService.SaveEvents(batch);
+                            _databaseService.SaveTimeline(timelineBatch);
+                            totalCsvProcessed += batch.Count;
+                        }
+                    }
+                    catch { }
+                }
+
+                StatusMessage = "Analiză de securitate & corelare Sigma...";
+                var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688, 4104, 4656, 4663, 20101, 20102, 20103, 20104, 20105, 20106, 20107, 20108, 1, 10 };
                 var eventsForAnalysis = _databaseService.GetEvents(100000, 0, null, null, securityEventIds).ToList();
                 var registryForAnalysis = _databaseService.GetRegistryArtifacts(100000, 0, null).ToList();
                 
@@ -992,6 +1079,28 @@ namespace LogAnalyzer.UI.ViewModels
                 {
                     foreach (var i in issues) DetectedIssues.Add(i);
                     foreach (var i in regIssues) DetectedIssues.Add(i);
+
+                    // Actualizare status reguli Sigma
+                    if (_analysisEngine is AnalysisEngine ae)
+                    {
+                        foreach (var sRule in ae.SigmaEngine.Rules)
+                        {
+                            var matchInUi = SigmaRules.FirstOrDefault(r => r.RuleName.Contains(sRule.Title) || sRule.Title.Contains(r.RuleName));
+                            if (matchInUi != null)
+                            {
+                                if (sRule.MatchCount > 0)
+                                {
+                                    matchInUi.Status = $"MATCHED ({sRule.MatchCount})";
+                                    matchInUi.RuleStatusColor = "#ef4444";
+                                }
+                                else
+                                {
+                                    matchInUi.Status = "Active";
+                                    matchInUi.RuleStatusColor = "#22c55e";
+                                }
+                            }
+                        }
+                    }
                 });
             });
 
@@ -1057,80 +1166,20 @@ namespace LogAnalyzer.UI.ViewModels
         private void InitializeSigmaRules()
         {
             SigmaRules.Clear();
-            SigmaRules.Add(new SigmaRule
+            if (_analysisEngine is AnalysisEngine ae)
             {
-                RuleName = "Suspicious PowerShell Encoded Command",
-                Status = "Active",
-                RuleStatusColor = "#22c55e",
-                FilePath = "rules/powershell_encoded.yml",
-                RuleContent = @"title: Suspicious PowerShell Encoded Command
-id: f3a8d9a2-94a2-4a0b-bf3e-ff2b32c59562
-status: experimental
-description: Detects base64 encoded commands passed to PowerShell
-logsource:
-    product: windows
-    service: security
-detection:
-    selection:
-        EventID: 4688
-        ProcessName|endswith: '\powershell.exe'
-        CommandLine|contains:
-            - '-enc'
-            - '-encodedcommand'
-            - 'bypass'
-    condition: selection
-falsepositives:
-    - Administrative maintenance scripts
-level: high"
-            });
-
-            SigmaRules.Add(new SigmaRule
-            {
-                RuleName = "Volume Shadow Copy Deletion via VSSAdmin",
-                Status = "Active",
-                RuleStatusColor = "#22c55e",
-                FilePath = "rules/vssadmin_delete.yml",
-                RuleContent = @"title: Volume Shadow Copy Deletion via VSSAdmin
-id: a2b8d9c2-9014-41e9-9fa6-c00bb24e392a
-status: stable
-description: Detects ransomware behavior deleting system backup shadows
-logsource:
-    product: windows
-    service: security
-detection:
-    selection:
-        EventID: 4688
-        CommandLine|contains|all:
-            - 'vssadmin'
-            - 'delete'
-            - 'shadows'
-    condition: selection
-level: critical"
-            });
-
-            SigmaRules.Add(new SigmaRule
-            {
-                RuleName = "Credential Dumping via LSASS Memory Access",
-                Status = "Experimental",
-                RuleStatusColor = "#f59e0b",
-                FilePath = "rules/lsass_credential_dumping.yml",
-                RuleContent = @"title: Credential Dumping via LSASS Memory Access
-id: df3a8081-a7b2-4f32-bc81-c77673a38212
-status: experimental
-description: Detects access requests to LSASS process memory for dumping credentials
-logsource:
-    product: windows
-    service: security
-detection:
-    selection:
-        EventID: 4656
-        ObjectType: 'Process'
-        ObjectName|endswith: '\lsass.exe'
-        AccessMask: '0x1410' # PROCESS_VM_READ | PROCESS_QUERY_INFORMATION
-    condition: selection
-level: critical"
-            });
-
+                foreach (var r in ae.SigmaEngine.Rules)
+                {
+                    SigmaRules.Add(new SigmaRule
+                    {
+                        RuleName = r.Title,
+                        Status = r.MatchCount > 0 ? $"MATCHED ({r.MatchCount})" : "Active",
+                        RuleStatusColor = r.MatchCount > 0 ? "#ef4444" : "#22c55e",
+                        FilePath = r.FilePath,
+                        RuleContent = r.YamlContent
+                    });
+                }
+            }
             SelectedSigmaRule = SigmaRules.FirstOrDefault();
         }
 
@@ -1242,11 +1291,24 @@ level: critical"
         public ObservableCollection<ProcessNode> Children { get; set; } = new();
     }
 
-    public class SigmaRule
+    public class SigmaRule : ObservableObject
     {
         public string RuleName { get; set; } = string.Empty;
-        public string Status { get; set; } = "Active";
-        public string RuleStatusColor { get; set; } = "#00ff87";
+        
+        private string _status = "Active";
+        public string Status
+        {
+            get => _status;
+            set => SetProperty(ref _status, value);
+        }
+
+        private string _ruleStatusColor = "#00ff87";
+        public string RuleStatusColor
+        {
+            get => _ruleStatusColor;
+            set => SetProperty(ref _ruleStatusColor, value);
+        }
+
         public string FilePath { get; set; } = string.Empty;
         public string RuleContent { get; set; } = string.Empty;
     }

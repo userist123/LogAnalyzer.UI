@@ -1,19 +1,19 @@
-name: .NET Build
+name: .NET Build & MVP Package
 
 on:
   push:
     branches:
       - main
-      - faza1-securizare-conformitate
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  build-test:
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -27,8 +27,53 @@ jobs:
       - name: Restore
         run: dotnet restore
 
-      - name: Build
+      - name: Build (Release)
         run: dotnet build --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+      - name: Test (Release)
+        run: dotnet test LogAnalyzer.UI.Tests/LogAnalyzer.UI.Tests.csproj --configuration Release --logger "trx;LogFileName=test-results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: LogAnalyzer.UI.Tests/TestResults/**/*.trx
+          if-no-files-found: ignore
+
+  package-mvp:
+    needs: build-test
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Publish (win-x64 single-file)
+        run: dotnet publish LogAnalyzer.UI.csproj -c Release -p:PublishProfile=win-x64-singlefile
+
+      - name: Verify publish output
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem "publish/win-x64/*.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $exe) {
+            Write-Host "::error::Nu exista niciun .exe in publish/win-x64"
+            exit 1
+          }
+          Write-Host "OK: $($exe.Name) ($([math]::Round($exe.Length/1MB,1)) MB)"
+          if (Test-Path "publish/win-x64/Categories") {
+            Write-Host "OK: Categories prezent in output"
+          } else {
+            Write-Host "::warning::Categories lipseste din output - verifica CopyToOutputDirectory in LogAnalyzer.UI.csproj"
+          }
+
+      - name: Upload MVP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LogAnalyzer-MVP-win-x64
+          path: publish/win-x64
+          retention-days: 30

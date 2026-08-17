@@ -97,6 +97,8 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly CaseUcoExportService _caseUcoService = new();
         private readonly MitreMatrixCoverageEngine _mitreMatrixEngine = new();
         private readonly SigmaCorrelationEngine _correlationEngine = new();
+        private readonly SuperTimelineExportService _timelineExportService = new();
+        private readonly DfirCasePackagingService _casePackagingService = new();
 
         [ObservableProperty] private AttackStoryline _currentStoryline = new();
         [ObservableProperty] private MitreMatrixHeatmap _mitreHeatmap = new();
@@ -1602,6 +1604,67 @@ namespace LogAnalyzer.UI.ViewModels
             var result = _provenanceLedger.ValidateLedgerIntegrity();
             ProvenanceStatusMessage = result.Message;
             StatusMessage = result.Message;
+        }
+
+        [RelayCommand]
+        private void ExportSuperTimeline()
+        {
+            var dialog = new SaveFileDialog { Filter = "Plaso CSV Super-Timeline (*.csv)|*.csv", FileName = $"SuperTimeline_Plaso_{DateTime.Now:yyyyMMdd_HHmmss}.csv" };
+            if (dialog.ShowDialog() == true)
+            {
+                var events = _databaseService.GetEvents(100000, 0, null, null, null);
+                var reg = _databaseService.GetRegistryArtifacts(50000, 0, null);
+                _timelineExportService.ExportPlasoCsv(dialog.FileName, events, new List<ForensicArtifact>(), reg);
+                _provenanceLedger.AppendEntry("SUPERTIMELINE_EXPORTED", dialog.FileName, "-", "Exportat Super-Timeline standardizat Plaso / Timesketch CSV.");
+                StatusMessage = "✅ Super-Timeline Plaso CSV exportat cu succes!";
+            }
+        }
+
+        [RelayCommand]
+        private void SealDfirCaseBundle()
+        {
+            var dialog = new SaveFileDialog { Filter = "Pachet Caz Forenzic Sigilat (*.dfirbundle.zip)|*.dfirbundle.zip", FileName = $"DFIR_CASE_SEALED_{DateTime.Now:yyyyMMdd_HHmmss}.dfirbundle.zip" };
+            if (dialog.ShowDialog() == true)
+            {
+                string ucoJson = _caseUcoService.ExportCaseJsonLd(
+                    Guid.NewGuid().ToString("N").Substring(0, 8),
+                    OperatorName,
+                    "Unitate Forenzică / Echipa SOC",
+                    new List<ForensicArtifact>(),
+                    _provenanceLedger.GetEntries());
+
+                string nis2Draft = _nis2Service.GenerateDnscDraft(
+                    Nis2Stage.Notification_72h,
+                    "Entitate Esențială / Companie Securizată",
+                    "RO12345678",
+                    CurrentStoryline.IncidentTitle,
+                    "Stații de Lucru & Servere de Domeniu",
+                    DateTime.UtcNow.AddHours(-6),
+                    CurrentStoryline,
+                    TotalEventsCount,
+                    TotalAlertsCount);
+
+                string tempCsv = Path.GetTempFileName();
+                var events = _databaseService.GetEvents(20000, 0, null, null, null);
+                var reg = _databaseService.GetRegistryArtifacts(10000, 0, null);
+                _timelineExportService.ExportPlasoCsv(tempCsv, events, new List<ForensicArtifact>(), reg);
+                string csvContent = File.ReadAllText(tempCsv);
+                try { File.Delete(tempCsv); } catch { }
+
+                string zipSha = _casePackagingService.PackageAndSealCase(
+                    dialog.FileName,
+                    Guid.NewGuid().ToString("N").Substring(0, 8).ToUpperInvariant(),
+                    CurrentStoryline.IncidentTitle,
+                    "Unitate Forenzică / Echipa SOC",
+                    OperatorName,
+                    _provenanceLedger.GetEntries(),
+                    ucoJson,
+                    nis2Draft,
+                    csvContent);
+
+                _provenanceLedger.AppendEntry("CASE_SEALED_BUNDLE", dialog.FileName, zipSha, $"Pachet caz forenzic sigilat cu succes. SHA-256 Sigiliu: {zipSha}");
+                StatusMessage = $"🔒 Pachet Caz Sigilat cu Succes! Hash Sigiliu SHA-256: {zipSha.Substring(0, 16)}...";
+            }
         }
 
         private void UpdateStorylineAndAptAttribution()

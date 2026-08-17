@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Interfaces
@@ -8,8 +9,14 @@ namespace LogAnalyzer.Core.Interfaces
     {
         string ParserName { get; }
         string SupportedFileExtension { get; }
-        
-        // Returnăm datele asincron, rând cu rând, pentru a nu bloca niciodată interfața
         IAsyncEnumerable<ParsedEvent> ParseArtifactAsync(string filePath, CancellationToken cancellationToken);
+    }
+
+    public interface IForensicArtifactParser
+    {
+        string ArtifactCategory { get; }
+        string SupportedExtension { get; }
+        bool CanParse(string filePath);
+        Task<List<ForensicArtifact>> ParseAsync(string filePath, string hostId, CancellationToken cancellationToken = default);
     }
 }

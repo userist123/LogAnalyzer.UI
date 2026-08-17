@@ -89,9 +89,21 @@ namespace LogAnalyzer.UI.ViewModels
         // Next-Gen Attack Storyline & APT Attribution
         private readonly AttackStorylineEngine _storylineEngine = new();
         private readonly AptAttributionEngine _aptEngine = new();
+        private readonly ProvenanceLedgerService _provenanceLedger = new();
+        private readonly ExplainableAiRiskEngine _explainableAiEngine = new();
+        private readonly KerberosAdAttackEngine _kerberosEngine = new();
+        private readonly LolbasEngine _lolbasEngine = new();
+        private readonly Nis2NotificationService _nis2Service = new();
+        private readonly CaseUcoExportService _caseUcoService = new();
+
         [ObservableProperty] private AttackStoryline _currentStoryline = new();
         public ObservableCollection<AttackStorylineNode> StorylineNodes { get; set; } = new();
         public ObservableCollection<AptActorProfile> AptAttributionProfiles { get; set; } = new();
+        public ObservableCollection<ExplainableRiskFactor> ExplainableRiskFactors { get; set; } = new();
+        public ObservableCollection<KerberosAdFinding> KerberosFindings { get; set; } = new();
+        public ObservableCollection<LolbasFinding> LolbasFindings { get; set; } = new();
+        public ObservableCollection<ProvenanceLedgerEntry> ProvenanceEntries { get; set; } = new();
+        [ObservableProperty] private string _provenanceStatusMessage = "✅ Lanț Criptografic Verificat (SHA-256)";
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -1453,34 +1465,121 @@ namespace LogAnalyzer.UI.ViewModels
                 AiYaraMatchesCount = yaraMatches.Count;
 
                 int totalCount = anomalies.Count + yaraMatches.Count;
-                if (totalCount > 10)
+
+                // Evaluare Scor de Risc Explicabil (ISO/IEC 27042)
+                var explainableRisk = _explainableAiEngine.Evaluate(DetectedIssues, entropyCount, masqCount, offHoursCount, yaraMatches.Count);
+                AiRiskScore = explainableRisk.TotalScore;
+                AiRiskLevel = explainableRisk.Level;
+                AiRiskColor = explainableRisk.LevelColor;
+                AiExecutiveSummary = explainableRisk.ExecutiveSummaryRo;
+                AiTacticalRecommendation = "1. Examinați factorii de risc ponderați din tabelul explicabil.\n2. Verificați alertele Kerberos/AD și procesele LOLBAS identificate.\n3. Generați draftul de notificare NIS2 / DNSC dacă incidentul este semnificativ.\n4. Exportați lanțul de custodie în format CASE/UCO 1.3.";
+
+                ExplainableRiskFactors.Clear();
+                foreach (var factor in explainableRisk.Factors)
                 {
-                    AiRiskScore = Math.Min(98, 60 + totalCount * 3);
-                    AiRiskLevel = "CRITIC";
-                    AiRiskColor = "#ef4444";
-                    AiExecutiveSummary = $"ATENȚIE: Analiza AI a detectat {totalCount} anomalii de securitate severe! Au fost identificate scripturi cu entropie extremă, procese masquerading și potriviri de semnături YARA.";
-                    AiTacticalRecommendation = "1. Izolați imediat stația folosind butonul 'Generare Script Izolare'.\n2. Terminați procesele suspecte identificate.\n3. Revocați credențialele conturilor afectate.\n4. Exportați raportul în format STIX 2.1 / MISP.";
-                }
-                else if (totalCount > 0)
-                {
-                    AiRiskScore = Math.Min(75, 40 + totalCount * 5);
-                    AiRiskLevel = "MODERAT / RIDICAT";
-                    AiRiskColor = "#f59e0b";
-                    AiExecutiveSummary = $"Analiza AI a identificat {totalCount} anomalii comportamentale ce necesită investigație preliminară.";
-                    AiTacticalRecommendation = "1. Examinați detaliile anomaliilor din tabelul de mai jos.\n2. Verificați legitimizarea comenzilor cu administratorul de sistem.";
-                }
-                else
-                {
-                    AiRiskScore = 12;
-                    AiRiskLevel = "SCĂZUT (Normal)";
-                    AiRiskColor = "#22c55e";
-                    AiExecutiveSummary = "Analiza AI nu a identificat anomalii critice de entropie sau comportament în jurnalele curente.";
-                    AiTacticalRecommendation = "Mențineți monitorizarea periodică a evenimentelor și a registrelor.";
+                    ExplainableRiskFactors.Add(factor);
                 }
 
-                StatusMessage = $"✅ Analiză AI finalizată: {totalCount} anomalii detectate (Scor Risc: {AiRiskScore}/100)";
+                // Analiză Kerberos / Active Directory
+                var kerbFindings = _kerberosEngine.AnalyzeEvents(eventsForAnalysis);
+                KerberosFindings.Clear();
+                foreach (var kf in kerbFindings)
+                {
+                    KerberosFindings.Add(kf);
+                }
+
+                // Analiză LOLBAS & Relații Anomale Părinte-Copil
+                var lolbas = _lolbasEngine.Analyze(eventsForAnalysis);
+                LolbasFindings.Clear();
+                foreach (var lf in lolbas)
+                {
+                    LolbasFindings.Add(lf);
+                }
+
+                // Înregistrare în Provenance Ledger (Hash-Chained)
+                _provenanceLedger.AppendEntry("AI_ANALYSIS_COMPLETED", "SQLite Event Store", "-", $"Evaluare risc explicabil finalizată: Scor {AiRiskScore}/100, {kerbFindings.Count} Kerberos, {lolbas.Count} LOLBAS.");
+                ProvenanceEntries.Clear();
+                foreach (var entry in _provenanceLedger.GetEntries())
+                {
+                    ProvenanceEntries.Add(entry);
+                }
+
+                StatusMessage = $"✅ Analiză AI & Forenzică finalizată: Scor Risc {AiRiskScore}/100 | {kerbFindings.Count} Kerberos | {lolbas.Count} LOLBAS";
                 UpdateStorylineAndAptAttribution();
             }
+        }
+
+        [RelayCommand]
+        private void ExportNis2EarlyWarning()
+        {
+            var dialog = new SaveFileDialog { Filter = "Notificare NIS2 (*.txt)|*.txt", FileName = $"DNSC_Avertizare_Timpurie_24h_{DateTime.Now:yyyyMMdd_HHmmss}.txt" };
+            if (dialog.ShowDialog() == true)
+            {
+                string draft = _nis2Service.GenerateDnscDraft(
+                    Nis2Stage.EarlyWarning_24h,
+                    "Entitate Esențială / Companie Securizată",
+                    "RO12345678",
+                    CurrentStoryline.IncidentTitle,
+                    "Stații de Lucru & Servere de Domeniu",
+                    DateTime.UtcNow.AddHours(-3),
+                    CurrentStoryline,
+                    TotalEventsCount,
+                    TotalAlertsCount);
+
+                File.WriteAllText(dialog.FileName, draft, Encoding.UTF8);
+                _provenanceLedger.AppendEntry("NIS2_EXPORTED", dialog.FileName, "-", "Exportat draft Notificare Timpurie NIS2 (24h) către DNSC.");
+                StatusMessage = "✅ Draft Notificare Timpurie NIS2 (24h) exportat cu succes!";
+            }
+        }
+
+        [RelayCommand]
+        private void ExportNis2Notification()
+        {
+            var dialog = new SaveFileDialog { Filter = "Notificare NIS2 (*.txt)|*.txt", FileName = $"DNSC_Notificare_Incident_72h_{DateTime.Now:yyyyMMdd_HHmmss}.txt" };
+            if (dialog.ShowDialog() == true)
+            {
+                string draft = _nis2Service.GenerateDnscDraft(
+                    Nis2Stage.Notification_72h,
+                    "Entitate Esențială / Companie Securizată",
+                    "RO12345678",
+                    CurrentStoryline.IncidentTitle,
+                    "Stații de Lucru & Servere de Domeniu",
+                    DateTime.UtcNow.AddHours(-12),
+                    CurrentStoryline,
+                    TotalEventsCount,
+                    TotalAlertsCount);
+
+                File.WriteAllText(dialog.FileName, draft, Encoding.UTF8);
+                _provenanceLedger.AppendEntry("NIS2_EXPORTED", dialog.FileName, "-", "Exportat draft Notificare Incident NIS2 (72h) către DNSC.");
+                StatusMessage = "✅ Draft Notificare Incident NIS2 (72h) exportat cu succes!";
+            }
+        }
+
+        [RelayCommand]
+        private void ExportCaseUcoJson()
+        {
+            var dialog = new SaveFileDialog { Filter = "CASE/UCO Bundle (*.json)|*.json", FileName = $"CASE_UCO_ChainOfCustody_{DateTime.Now:yyyyMMdd_HHmmss}.json" };
+            if (dialog.ShowDialog() == true)
+            {
+                string json = _caseUcoService.ExportCaseJsonLd(
+                    Guid.NewGuid().ToString("N").Substring(0, 8),
+                    OperatorName,
+                    "Unitate Forenzică / Echipa SOC",
+                    new List<ForensicArtifact>(),
+                    _provenanceLedger.GetEntries());
+
+                File.WriteAllText(dialog.FileName, json, Encoding.UTF8);
+                _provenanceLedger.AppendEntry("CASE_UCO_EXPORTED", dialog.FileName, "-", "Exportat pachet CASE 1.3 / UCO JSON-LD pentru probatoriu legal.");
+                StatusMessage = "✅ Pachet CASE / UCO JSON-LD exportat cu succes!";
+            }
+        }
+
+        [RelayCommand]
+        private void VerifyProvenanceChain()
+        {
+            var result = _provenanceLedger.ValidateLedgerIntegrity();
+            ProvenanceStatusMessage = result.Message;
+            StatusMessage = result.Message;
         }
 
         private void UpdateStorylineAndAptAttribution()

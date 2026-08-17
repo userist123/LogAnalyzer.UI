@@ -86,6 +86,18 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _aiExecutiveSummary = "Sistemul este pregătit. Încărcați jurnale sau fișiere de triage pentru a iniția analiza euristică și calculul de entropie.";
         [ObservableProperty] private string _aiTacticalRecommendation = "1. Încărcați jurnalele EVTX sau folderul de triage.\n2. Examinați scorul de entropie al comenzilor PowerShell.\n3. Verificați alertele de securitate și corelările Sigma/YARA.";
 
+        // Next-Gen Attack Storyline & APT Attribution
+        private readonly AttackStorylineEngine _storylineEngine = new();
+        private readonly AptAttributionEngine _aptEngine = new();
+        [ObservableProperty] private AttackStoryline _currentStoryline = new();
+        public ObservableCollection<AttackStorylineNode> StorylineNodes { get; set; } = new();
+        public ObservableCollection<AptActorProfile> AptAttributionProfiles { get; set; } = new();
+
+        // Live Rule Workbench (Sigma & YARA)
+        [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
+        [ObservableProperty] private string _workbenchCompileResult = "Introduceți o regulă Sigma YAML sau YARA și apăsați 'Compilează & Evaluează'.";
+        [ObservableProperty] private int _workbenchMatchCount = 0;
+
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;
         [ObservableProperty] private int _totalEventsCount;
@@ -914,6 +926,15 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         [RelayCommand]
+        private void PivotStorylineStage(AttackStorylineNode? node)
+        {
+            if (node == null) return;
+            SearchEventsText = node.TechniqueId;
+            StatusMessage = $"Filtrare investigație pe stadiul Kill Chain: {node.StageName} ({node.TechniqueId})";
+            SelectedTabIndex = 1;
+        }
+
+        [RelayCommand]
         private void ExportStixJson()
         {
             var dialog = new SaveFileDialog { Filter = "STIX 2.1 Bundle (*.json)|*.json", FileName = $"STIX21_Incident_{DateTime.Now:yyyyMMdd_HHmmss}.json" };
@@ -1476,6 +1497,84 @@ namespace LogAnalyzer.UI.ViewModels
                 }
 
                 StatusMessage = $"✅ Analiză AI finalizată: {totalCount} anomalii detectate (Scor Risc: {AiRiskScore}/100)";
+                UpdateStorylineAndAptAttribution();
+            }
+        }
+
+        private void UpdateStorylineAndAptAttribution()
+        {
+            var storyline = _storylineEngine.GenerateStoryline(DetectedIssues);
+            CurrentStoryline = storyline;
+            StorylineNodes.Clear();
+            foreach (var node in storyline.Nodes)
+            {
+                StorylineNodes.Add(node);
+            }
+
+            var aptProfiles = _aptEngine.EvaluateAttribution(DetectedIssues);
+            AptAttributionProfiles.Clear();
+            foreach (var prof in aptProfiles)
+            {
+                AptAttributionProfiles.Add(prof);
+            }
+        }
+
+        [RelayCommand]
+        private void CompileAndEvaluateWorkbench()
+        {
+            if (string.IsNullOrWhiteSpace(WorkbenchRuleContent))
+            {
+                WorkbenchCompileResult = "Eroare: Regula este goală.";
+                return;
+            }
+
+            try
+            {
+                var events = _databaseService.GetEvents(50000, 0, null, null, null).ToList();
+                int matchCount = 0;
+                
+                var keywords = new List<string>();
+                var lines = WorkbenchRuleContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    string trimmed = line.Trim();
+                    if (trimmed.StartsWith("-") && trimmed.Length > 2)
+                    {
+                        string kw = trimmed.TrimStart('-', ' ', '\'', '"').TrimEnd('\'', '"');
+                        if (!string.IsNullOrWhiteSpace(kw)) keywords.Add(kw);
+                    }
+                    else if (trimmed.Contains("strings:") || trimmed.Contains("$"))
+                    {
+                        var parts = trimmed.Split('=');
+                        if (parts.Length == 2)
+                        {
+                            string kw = parts[1].Trim().Trim('"', '\'');
+                            if (!string.IsNullOrWhiteSpace(kw)) keywords.Add(kw);
+                        }
+                    }
+                }
+
+                if (keywords.Count == 0)
+                {
+                    keywords.Add("powershell");
+                }
+
+                foreach (var ev in events)
+                {
+                    string msg = ev.Message?.ToLowerInvariant() ?? string.Empty;
+                    if (keywords.Any(k => msg.Contains(k.ToLowerInvariant())))
+                    {
+                        matchCount++;
+                    }
+                }
+
+                WorkbenchMatchCount = matchCount;
+                WorkbenchCompileResult = $"✅ Regula a fost compilată cu succes! S-au identificat {matchCount} potriviri în jurnale.";
+                StatusMessage = $"Workbench: Regula a returnat {matchCount} potriviri.";
+            }
+            catch (Exception ex)
+            {
+                WorkbenchCompileResult = $"Eroare compilare regulă: {ex.Message}";
             }
         }
     }

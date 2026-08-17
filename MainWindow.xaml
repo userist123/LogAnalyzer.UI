@@ -1,4 +1,4 @@
-<Window x:Class="LogAnalyzer.UI.Views.MainWindow"
+﻿<Window x:Class="LogAnalyzer.UI.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:LogAnalyzer.UI.ViewModels"
@@ -282,6 +282,21 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="SidebarTab6Style" TargetType="RadioButton" BasedOn="{StaticResource SidebarTabStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTabIndex}" Value="6">
+                    <Setter Property="IsChecked" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SidebarTab7Style" TargetType="RadioButton" BasedOn="{StaticResource SidebarTabStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTabIndex}" Value="7">
+                    <Setter Property="IsChecked" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="SidebarTab5Style" TargetType="RadioButton" BasedOn="{StaticResource SidebarTabStyle}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding SelectedTabIndex}" Value="5">

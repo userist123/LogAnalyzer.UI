@@ -105,29 +105,41 @@
             </Style.Triggers>
         </Style>
 
-        <!-- TextBox Style (Premium Rounded, Violet Accent) -->
+        <!-- Universal Dark High-Contrast TextBox Style -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Foreground" Value="#f8fafc"/>
+            <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="CaretBrush" Value="{StaticResource PrimaryAccentBrush}"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CaretBrush" Value="#a78bfa"/>
+            <Setter Property="SelectionBrush" Value="#7c3aed"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                                CornerRadius="5"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#38bdf8"/>
+                            </Trigger>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
-                                <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#8b5cf6"/>
+                                <Setter TargetName="border" Property="Background" Value="#11172e"/>
+                            </Trigger>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#080b16"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#1b2035"/>
+                                <Setter Property="Foreground" Value="#cbd5e1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -135,15 +147,83 @@
             </Setter>
         </Style>
 
-        <!-- ComboBox Style -->
-        <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
+        <!-- Custom Dark ComboBox Toggle Button Template -->
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="24" />
+                </Grid.ColumnDefinitions>
+                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="5" Background="#0c1020" BorderBrush="#22304c" BorderThickness="1" />
+                <Path x:Name="Arrow" Grid.Column="1" Fill="#38bdf8" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#38bdf8"/>
+                    <Setter TargetName="Border" Property="Background" Value="#11172e"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#8b5cf6"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <!-- Custom Dark ComboBoxItem Style -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Foreground" Value="#f8fafc"/>
             <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="11.5"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#1e293b"/>
+                                <Setter Property="Foreground" Value="#38bdf8"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#2e1065"/>
+                                <Setter Property="Foreground" Value="#c4b5fd"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Complete Custom Dark ComboBox Style -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="#f8fafc"/>
+            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="BorderBrush" Value="#22304c"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"/>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="10,3,28,3" VerticalAlignment="Center" HorizontalAlignment="Left" TextElement.Foreground="#f8fafc" />
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#0c1020" BorderThickness="1" BorderBrush="#38bdf8" CornerRadius="4" Margin="0,2,0,0">
+                                        <ScrollViewer Margin="2" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Circular" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!-- High-Density Professional DataGrid -->
@@ -545,20 +625,22 @@
                             <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Name"/>
                         </StackPanel>
 
-                        <!-- Navigation Items -->
-                        <StackPanel Grid.Row="1" Margin="10,5">
-                            <RadioButton Content="📊 Command Dashboard" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
-                            <RadioButton Content="📁 Jurnale EVTX Windows" Style="{StaticResource SidebarTab1Style}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
-                            <RadioButton Content="🔑 Registru Offline" Style="{StaticResource SidebarTab2Style}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
-                            <RadioButton Content="🚨 Alerte Securitate" Style="{StaticResource SidebarTab3Style}" Command="{Binding NavigateCommand}" CommandParameter="3"/>
-                            <RadioButton Content="⏱ Cronologie Incident" Style="{StaticResource SidebarTab4Style}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
-                            <RadioButton Content="🧠 Analiză AI &amp; Euristică" Style="{StaticResource SidebarTab5Style}" Command="{Binding NavigateCommand}" CommandParameter="5"/>
-                            <RadioButton Content="🗺️ Narativă Atac &amp; Kill Chain" Style="{StaticResource SidebarTab6Style}" Command="{Binding NavigateCommand}" CommandParameter="6"/>
-                            <RadioButton Content="🕵️ Profil Grupare APT &amp; CTI" Style="{StaticResource SidebarTab7Style}" Command="{Binding NavigateCommand}" CommandParameter="7"/>
-                            <RadioButton Content="🛡️ Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTab8Style}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
-                            <RadioButton Content="📜 Lanț Custodie &amp; NIS2" Style="{StaticResource SidebarTab9Style}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
-                            <RadioButton Content="🎯 Matrice MITRE &amp; DeTT&amp;CT" Style="{StaticResource SidebarTab10Style}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
-                        </StackPanel>
+                        <!-- Navigation Items (Scrollable for perfect fit on any resolution) -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6,2">
+                            <StackPanel Margin="4,2">
+                                <RadioButton Content="📊 Command Dashboard" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
+                                <RadioButton Content="📁 Jurnale EVTX Windows" Style="{StaticResource SidebarTab1Style}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
+                                <RadioButton Content="🔑 Registru Offline" Style="{StaticResource SidebarTab2Style}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
+                                <RadioButton Content="🚨 Alerte Securitate" Style="{StaticResource SidebarTab3Style}" Command="{Binding NavigateCommand}" CommandParameter="3"/>
+                                <RadioButton Content="⏱ Cronologie Incident" Style="{StaticResource SidebarTab4Style}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
+                                <RadioButton Content="🧠 Analiză AI &amp; Euristică" Style="{StaticResource SidebarTab5Style}" Command="{Binding NavigateCommand}" CommandParameter="5"/>
+                                <RadioButton Content="🗺️ Narativă Atac &amp; Kill Chain" Style="{StaticResource SidebarTab6Style}" Command="{Binding NavigateCommand}" CommandParameter="6"/>
+                                <RadioButton Content="🕵️ Profil Grupare APT &amp; CTI" Style="{StaticResource SidebarTab7Style}" Command="{Binding NavigateCommand}" CommandParameter="7"/>
+                                <RadioButton Content="🛡️ Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTab8Style}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
+                                <RadioButton Content="📜 Lanț Custodie &amp; NIS2" Style="{StaticResource SidebarTab9Style}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
+                                <RadioButton Content="🎯 Matrice MITRE &amp; DeTT&amp;CT" Style="{StaticResource SidebarTab10Style}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
+                            </StackPanel>
+                        </ScrollViewer>
 
                         <!-- Action Group -->
                         <StackPanel Grid.Row="2" Margin="18">

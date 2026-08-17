@@ -90,6 +90,21 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Action Button Style (Subtle Dark Slate with Cyan Border) -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#131b2e"/>
+            <Setter Property="Foreground" Value="#38bdf8"/>
+            <Setter Property="BorderBrush" Value="#2563eb"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1e293b"/>
+                    <Setter Property="BorderBrush" Value="#38bdf8"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- TextBox Style (Premium Rounded, Violet Accent) -->
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>

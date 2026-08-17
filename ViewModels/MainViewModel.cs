@@ -95,14 +95,19 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly LolbasEngine _lolbasEngine = new();
         private readonly Nis2NotificationService _nis2Service = new();
         private readonly CaseUcoExportService _caseUcoService = new();
+        private readonly MitreMatrixCoverageEngine _mitreMatrixEngine = new();
+        private readonly SigmaCorrelationEngine _correlationEngine = new();
 
         [ObservableProperty] private AttackStoryline _currentStoryline = new();
+        [ObservableProperty] private MitreMatrixHeatmap _mitreHeatmap = new();
         public ObservableCollection<AttackStorylineNode> StorylineNodes { get; set; } = new();
         public ObservableCollection<AptActorProfile> AptAttributionProfiles { get; set; } = new();
         public ObservableCollection<ExplainableRiskFactor> ExplainableRiskFactors { get; set; } = new();
         public ObservableCollection<KerberosAdFinding> KerberosFindings { get; set; } = new();
         public ObservableCollection<LolbasFinding> LolbasFindings { get; set; } = new();
         public ObservableCollection<ProvenanceLedgerEntry> ProvenanceEntries { get; set; } = new();
+        public ObservableCollection<MitreTacticColumn> MitreTacticColumns { get; set; } = new();
+        public ObservableCollection<MultiEventCorrelationFinding> MultiEventCorrelations { get; set; } = new();
         [ObservableProperty] private string _provenanceStatusMessage = "✅ Lanț Criptografic Verificat (SHA-256)";
 
         // Live Rule Workbench (Sigma & YARA)
@@ -1496,15 +1501,32 @@ namespace LogAnalyzer.UI.ViewModels
                     LolbasFindings.Add(lf);
                 }
 
+                // Corelare Multi-Eveniment Temporală (ex: Brute-Force -> Logon Success, Ransomware VSS Delete)
+                var multiCorrelations = _correlationEngine.CorrelateEvents(eventsForAnalysis);
+                MultiEventCorrelations.Clear();
+                foreach (var mc in multiCorrelations)
+                {
+                    MultiEventCorrelations.Add(mc);
+                }
+
+                // Generare Matrice & Heatmap MITRE ATT&CK (DeTT&CT Coverage)
+                var heatmap = _mitreMatrixEngine.GenerateHeatmap(DetectedIssues);
+                MitreHeatmap = heatmap;
+                MitreTacticColumns.Clear();
+                foreach (var col in heatmap.Columns)
+                {
+                    MitreTacticColumns.Add(col);
+                }
+
                 // Înregistrare în Provenance Ledger (Hash-Chained)
-                _provenanceLedger.AppendEntry("AI_ANALYSIS_COMPLETED", "SQLite Event Store", "-", $"Evaluare risc explicabil finalizată: Scor {AiRiskScore}/100, {kerbFindings.Count} Kerberos, {lolbas.Count} LOLBAS.");
+                _provenanceLedger.AppendEntry("AI_ANALYSIS_COMPLETED", "SQLite Event Store", "-", $"Evaluare risc explicabil finalizată: Scor {AiRiskScore}/100, {kerbFindings.Count} Kerberos, {lolbas.Count} LOLBAS, {multiCorrelations.Count} Scenarii Corelate, {heatmap.TotalObservedTechniques} Tehnici MITRE.");
                 ProvenanceEntries.Clear();
                 foreach (var entry in _provenanceLedger.GetEntries())
                 {
                     ProvenanceEntries.Add(entry);
                 }
 
-                StatusMessage = $"✅ Analiză AI & Forenzică finalizată: Scor Risc {AiRiskScore}/100 | {kerbFindings.Count} Kerberos | {lolbas.Count} LOLBAS";
+                StatusMessage = $"✅ Analiză AI finalizată: Risc {AiRiskScore}/100 | {kerbFindings.Count} Kerberos | {lolbas.Count} LOLBAS | {multiCorrelations.Count} Lanțuri Corelate";
                 UpdateStorylineAndAptAttribution();
             }
         }

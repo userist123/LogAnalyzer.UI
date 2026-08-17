@@ -627,13 +627,16 @@ namespace LogAnalyzer.UI.ViewModels
                 return;
             }
 
+            var assessment = ForensicEventKnowledgeService.GetAssessment(value);
+
             UpdateInspector(value.MachineName ?? "-", value.ProviderName ?? "-", value.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss"), value.Message ?? "");
 
             SelectedEventProperties.Add(new("ID Eveniment", value.EventId.ToString()));
+            SelectedEventProperties.Add(new("Titlu Evaluare", assessment.TitleRo));
+            SelectedEventProperties.Add(new("Severitate", assessment.SeverityRo));
             SelectedEventProperties.Add(new("Sursă Jurnal", value.ProviderName ?? "-"));
-            SelectedEventProperties.Add(new("Nivel Severitate", value.Level ?? "-"));
             SelectedEventProperties.Add(new("Nume Echipament", value.MachineName ?? "-"));
-            SelectedEventProperties.Add(new("Data Colectare", value.TimeCreated.ToString("g")));
+            SelectedEventProperties.Add(new("Data Colectare", value.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss")));
 
             if (!string.IsNullOrWhiteSpace(value.XmlData))
             {
@@ -653,30 +656,9 @@ namespace LogAnalyzer.UI.ViewModels
                 catch { }
             }
 
-            if (value.EventId == 4625)
-            {
-                SelectedEventThreatScenario = "Atac de tip Brute Force sau Spraying de parole vizând contul de utilizator.";
-                SelectedEventMitreMapping = "Credential Access - Brute Force (T1110)";
-                SelectedEventMitigation = "1. Blocarea temporară a contului afectat.\n2. Verificarea IP-ului sursă din detaliile XML.\n3. Activarea autentificării multi-factor (MFA).\n4. Revizuirea politicilor de complexitate a parolelor.";
-            }
-            else if (value.EventId == 4720 || value.EventId == 4732)
-            {
-                SelectedEventThreatScenario = "Crearea unui cont local nou sau adăugarea unui cont în grupul de administratori locali.";
-                SelectedEventMitreMapping = "Persistence - Local Account (T1136.001)";
-                SelectedEventMitigation = "1. Validarea creării contului cu administratorii IT.\n2. Verificarea procesului care a inițiat modificarea.\n3. Eliminarea imediată a contului dacă este neautorizat.\n4. Auditarea drepturilor de administrator local.";
-            }
-            else if (value.EventId == 1102 || value.EventId == 104)
-            {
-                SelectedEventThreatScenario = "Curățarea sau ștergerea jurnalele de evenimente (EVTX) de securitate/sistem pentru a șterge urmele atacului.";
-                SelectedEventMitreMapping = "Defense Evasion - Indicator Removal (T1070.001)";
-                SelectedEventMitigation = "1. Identificarea utilizatorului și PID-ului procesului responsabil.\n2. Inspectarea activității imediate anterioare a host-ului.\n3. Centralizarea obligatorie a log-urilor pe un server extern (Syslog/SIEM air-gapped).";
-            }
-            else
-            {
-                SelectedEventThreatScenario = value.OfficialDescription ?? "Activitate de sistem înregistrată pentru analiză forenzică standard.";
-                SelectedEventMitreMapping = string.IsNullOrWhiteSpace(value.PotentialCriticality) ? "Traseu de Audit Standard" : $"{value.PotentialCriticality} - Reference ID {value.EventId}";
-                SelectedEventMitigation = value.TacticalExample ?? "1. Verificați legitimitatea procesului apelant.\n2. Comparați timestamp-ul cu baseline-ul de activitate al utilizatorului.";
-            }
+            SelectedEventThreatScenario = assessment.ThreatScenarioRo;
+            SelectedEventMitreMapping = assessment.MitreTtpRo;
+            SelectedEventMitigation = assessment.ContainmentPlaybookRo;
         }
 
         partial void OnSelectedArtifactChanged(RegistryArtifact? value)

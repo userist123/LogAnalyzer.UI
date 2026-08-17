@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Models;
+using LogAnalyzer.Core.Services;
 
 namespace LogAnalyzer.Infrastructure
 {
@@ -32,15 +33,26 @@ namespace LogAnalyzer.Infrastructure
                     string level = "Info";
                     try { level = record.LevelDisplayName ?? "Info"; } catch { }
 
-                    yield return new ParsedEvent
+                    string xml = string.Empty;
+                    try { xml = record.ToXml() ?? string.Empty; } catch { }
+
+                    var ev = new ParsedEvent
                     {
                         EventId = (int)record.Id,
                         TimeCreated = record.TimeCreated ?? DateTime.Now,
                         ProviderName = record.ProviderName ?? "Windows",
                         Level = level,
                         MachineName = record.MachineName ?? "Local",
-                        Message = msg
+                        Message = msg,
+                        XmlData = xml
                     };
+
+                    var assessment = ForensicEventKnowledgeService.GetAssessment(ev);
+                    ev.OfficialDescription = assessment.ThreatScenarioRo;
+                    ev.TacticalExample = assessment.ContainmentPlaybookRo;
+                    ev.PotentialCriticality = assessment.MitreTtpRo;
+
+                    yield return ev;
                 }
             }
             #pragma warning restore CA1416

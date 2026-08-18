@@ -818,8 +818,36 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand]
         private async Task LoadFolderAsync()
         {
-            var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Selectează folderul cu loguri" };
-            if (dialog.ShowDialog() == true) await ProcessFilesAsync(Directory.GetFiles(dialog.FolderName));
+            var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Selectează folderul cu loguri sau mediul de stocare" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fileList = new List<string>();
+                    var di = new DirectoryInfo(dialog.FolderName);
+                    foreach (var fi in di.EnumerateFiles("*.*", new EnumerationOptions { IgnoreInaccessible = true, RecurseSubdirectories = true }))
+                    {
+                        fileList.Add(fi.FullName);
+                    }
+                    if (fileList.Count == 0)
+                    {
+                        fileList.AddRange(Directory.GetFiles(dialog.FolderName));
+                    }
+                    await ProcessFilesAsync(fileList.ToArray());
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        var rootFiles = Directory.GetFiles(dialog.FolderName);
+                        await ProcessFilesAsync(rootFiles);
+                    }
+                    catch (Exception innerEx)
+                    {
+                        StatusMessage = $"Eroare la citirea directorului: {innerEx.Message}";
+                    }
+                }
+            }
         }
 
         [RelayCommand]
@@ -1030,7 +1058,7 @@ namespace LogAnalyzer.UI.ViewModels
                         _evidenceIntake.Import(file, Environment.UserName);
                         acceptedFiles.Add(file);
 
-                        using var stream = File.OpenRead(file);
+                        using var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
                         using var sha256 = System.Security.Cryptography.SHA256.Create();
                         byte[] hash = sha256.ComputeHash(stream);
                         string hashStr = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();

@@ -105,7 +105,7 @@ namespace LogAnalyzer.Infrastructure.Parsers
         private static string ComputeFileSha256(string filePath)
         {
             using var sha = SHA256.Create();
-            using var stream = File.OpenRead(filePath);
+            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
             return Convert.ToHexString(sha.ComputeHash(stream)).ToLowerInvariant();
         }
     }

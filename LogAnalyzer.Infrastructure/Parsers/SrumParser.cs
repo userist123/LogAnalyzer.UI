@@ -36,7 +36,7 @@ namespace LogAnalyzer.Infrastructure.Parsers
 
                     // ESE Database SRUDB.dat Header Verification (0x89abcdef magic)
                     byte[] header = new byte[16];
-                    using (var fs = File.OpenRead(filePath))
+                    using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
                     {
                         fs.Read(header, 0, 16);
                     }
@@ -74,7 +74,7 @@ namespace LogAnalyzer.Infrastructure.Parsers
         private static string ComputeSha256(string filePath)
         {
             using var sha = SHA256.Create();
-            using var stream = File.OpenRead(filePath);
+            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
             return Convert.ToHexString(sha.ComputeHash(stream)).ToLowerInvariant();
         }
     }

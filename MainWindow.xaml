@@ -2269,13 +2269,34 @@
             </Grid>
         </Border>
 
-        <!-- GLOBAL LOADING OVERLAY -->
-        <Grid Grid.RowSpan="3" Background="#d2000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
+        <!-- GLOBAL LOADING OVERLAY STEP-BY-STEP -->
+        <Grid Grid.RowSpan="3" Background="#e60b0d13" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="8" Padding="32" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Effect="{DynamicResource CardShadow}">
                 <StackPanel>
-                    <ProgressBar IsIndeterminate="True" Height="4" Foreground="{StaticResource PrimaryAccentBrush}" Background="#1c2028" BorderThickness="0" Margin="0,0,0,24"/>
-                    <TextBlock Text="Procesare în Curs..." Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <!-- Header -->
+                    <DockPanel LastChildFill="False" Margin="0,0,0,16">
+                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                            <Ellipse Width="8" Height="8" Fill="{StaticResource PrimaryAccentBrush}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="PROCESARE &amp; INGESTIE FORENZICĂ" Foreground="White" FontSize="13" FontWeight="Bold" LetterSpacing="0.8"/>
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding LoadingProgress, StringFormat='{}{0:F0}%'}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </DockPanel>
+
+                    <!-- Step Title -->
+                    <Border Background="#161b26" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,16">
+                        <TextBlock Text="{Binding LoadingStepTitle}" Foreground="#e2e8f0" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Deterministic Progress Bar -->
+                    <Grid Margin="0,0,0,14">
+                        <ProgressBar Value="{Binding LoadingProgress}" Minimum="0" Maximum="100" Height="8" Foreground="{StaticResource PrimaryAccentBrush}" Background="#1c2028" BorderThickness="0"/>
+                    </Grid>
+
+                    <!-- Sub-Detail (File / Record Counter) -->
+                    <TextBlock Text="{Binding LoadingSubDetail}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="11" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,0,6"/>
+
+                    <!-- Overall Status -->
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="10" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
         </Grid>

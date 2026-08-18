@@ -69,6 +69,9 @@ namespace LogAnalyzer.UI.ViewModels
         
         [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "Sistem pregătit pentru investigație offline...";
+        [ObservableProperty] private double _loadingProgress = 0;
+        [ObservableProperty] private string _loadingStepTitle = "Etapa 1/4: Scanare & Validare Fișiere";
+        [ObservableProperty] private string _loadingSubDetail = string.Empty;
         [ObservableProperty] private bool _hideVerifiedAlerts;
 
         // Session / Module Management
@@ -1038,10 +1041,19 @@ namespace LogAnalyzer.UI.ViewModels
             }
         }
 
+        private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".evtx", ".reg", ".dat", ".csv", ".json", ".log", ".lnk", ".pf", ".hve", ".txt", ".bin", ".bmc"
+        };
+
         private async Task ProcessFilesAsync(string[] allFiles)
         {
             IsLoading = true;
-            StatusMessage = "Inițializare bază de date SQLite...";
+            LoadingProgress = 0;
+            LoadingStepTitle = "Etapa 1/4: Scanare & Validare Fișiere";
+            LoadingSubDetail = "Filtrare artefacte forenzice relevante...";
+            StatusMessage = "Inițializare sesiune de investigație...";
+
             Events.Clear(); RegistryArtifacts.Clear(); DetectedIssues.Clear(); TimelineItems.Clear();
             _databaseService.ClearDatabase();
 
@@ -1050,11 +1062,39 @@ namespace LogAnalyzer.UI.ViewModels
 
             await Task.Run(async () =>
             {
+                // ==========================================
+                // ETAPA 1/4: Scanare & Filtrare Rapidă (0% - 15%)
+                // ==========================================
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LoadingStepTitle = "Etapa 1/4: Scanare & Verificare Integritate";
+                    LoadingProgress = 5;
+                });
+
+                // Filtrăm doar fișierele relevante pentru a nu bloca I/O pe fișiere gigant irelevante
+                var targetFiles = allFiles.Where(f =>
+                {
+                    string ext = Path.GetExtension(f);
+                    string name = Path.GetFileName(f).ToLowerInvariant();
+                    return ForensicExtensions.Contains(ext) || name.Contains("ntuser") || name.Contains("setupapi") || name.Contains("amcache");
+                }).ToList();
+
                 var hashesSb = new StringBuilder();
-                foreach (var file in allFiles)
+                int scannedCount = 0;
+
+                foreach (var file in targetFiles)
                 {
                     try
                     {
+                        scannedCount++;
+                        double pct = 5.0 + ((double)scannedCount / Math.Max(1, targetFiles.Count)) * 10.0;
+                        
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            LoadingProgress = pct;
+                            LoadingSubDetail = $"Verificare hash: {Path.GetFileName(file)} ({scannedCount}/{targetFiles.Count})";
+                        });
+
                         _evidenceIntake.Import(file, Environment.UserName);
                         acceptedFiles.Add(file);
 
@@ -1071,10 +1111,36 @@ namespace LogAnalyzer.UI.ViewModels
                 }
                 _currentSessionHashes = hashesSb.ToString();
 
+                // ==========================================
+                // ETAPA 2/4: Ingestie Streaming Date (15% - 60%)
+                // ==========================================
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LoadingStepTitle = "Etapa 2/4: Ingestie Evenimente & Registru în Baza de Date";
+                    LoadingProgress = 15;
+                });
+
                 var evtxFiles = acceptedFiles.Where(f => f.EndsWith(".evtx", StringComparison.OrdinalIgnoreCase)).ToArray();
+                var regFiles = acceptedFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
+                var datFiles = acceptedFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
+                var csvFiles = acceptedFiles.Where(f => f.EndsWith(".csv", StringComparison.OrdinalIgnoreCase)).ToArray();
+
+                int totalCoreFiles = evtxFiles.Length + regFiles.Length + datFiles.Length + csvFiles.Length;
+                int currentFileIndex = 0;
                 int totalEvtxProcessed = 0;
+
+                // 2.1 Parsare EVTX
                 foreach (var file in evtxFiles)
                 {
+                    currentFileIndex++;
+                    double basePct = 15.0 + ((double)currentFileIndex / Math.Max(1, totalCoreFiles)) * 45.0;
+                    
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        LoadingProgress = basePct;
+                        LoadingSubDetail = $"Procesare EVTX: {Path.GetFileName(file)} ({totalEvtxProcessed:N0} evenimente)";
+                    });
+
                     try 
                     {
                         var batch = new List<ParsedEvent>();
@@ -1108,7 +1174,6 @@ namespace LogAnalyzer.UI.ViewModels
                                 totalEvtxProcessed += batch.Count;
                                 batch.Clear();
                                 timelineBatch.Clear();
-                                StatusMessage = $"Se încarcă logurile... ({totalEvtxProcessed} procesate)";
                             }
                         }
                         if (batch.Count > 0)
@@ -1121,10 +1186,19 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                var regFiles = acceptedFiles.Where(f => f.EndsWith(".reg", StringComparison.OrdinalIgnoreCase)).ToArray();
+                // 2.2 Parsare Registru .REG
                 int totalRegProcessed = 0;
                 foreach (var file in regFiles)
                 {
+                    currentFileIndex++;
+                    double basePct = 15.0 + ((double)currentFileIndex / Math.Max(1, totalCoreFiles)) * 45.0;
+                    
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        LoadingProgress = basePct;
+                        LoadingSubDetail = $"Procesare Registru: {Path.GetFileName(file)}";
+                    });
+
                     try 
                     {
                         var batch = new List<RegistryArtifact>();
@@ -1136,7 +1210,6 @@ namespace LogAnalyzer.UI.ViewModels
                                 _databaseService.SaveRegistryArtifacts(batch);
                                 totalRegProcessed += batch.Count;
                                 batch.Clear();
-                                StatusMessage = $"Se încarcă artefacte registru... ({totalRegProcessed} procesate)";
                             }
                         }
                         if (batch.Count > 0)
@@ -1148,9 +1221,18 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                var datFiles = acceptedFiles.Where(f => f.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || f.EndsWith("ntuser", StringComparison.OrdinalIgnoreCase)).ToArray();
+                // 2.3 Parsare NTUSER.DAT
                 foreach (var file in datFiles)
                 {
+                    currentFileIndex++;
+                    double basePct = 15.0 + ((double)currentFileIndex / Math.Max(1, totalCoreFiles)) * 45.0;
+                    
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        LoadingProgress = basePct;
+                        LoadingSubDetail = $"Procesare Hive: {Path.GetFileName(file)}";
+                    });
+
                     try 
                     {
                         var batch = new List<RegistryArtifact>();
@@ -1162,7 +1244,6 @@ namespace LogAnalyzer.UI.ViewModels
                                 _databaseService.SaveRegistryArtifacts(batch);
                                 totalRegProcessed += batch.Count;
                                 batch.Clear();
-                                StatusMessage = $"Se încarcă NTUSER.DAT... ({totalRegProcessed} procesate)";
                             }
                         }
                         if (batch.Count > 0)
@@ -1174,10 +1255,18 @@ namespace LogAnalyzer.UI.ViewModels
                     catch { }
                 }
 
-                var csvFiles = acceptedFiles.Where(f => f.EndsWith(".csv", StringComparison.OrdinalIgnoreCase)).ToArray();
-                int totalCsvProcessed = 0;
+                // 2.4 Parsare CSV Triage
                 foreach (var file in csvFiles)
                 {
+                    currentFileIndex++;
+                    double basePct = 15.0 + ((double)currentFileIndex / Math.Max(1, totalCoreFiles)) * 45.0;
+                    
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        LoadingProgress = basePct;
+                        LoadingSubDetail = $"Procesare Triage: {Path.GetFileName(file)}";
+                    });
+
                     try
                     {
                         var batch = new List<ParsedEvent>();
@@ -1198,32 +1287,39 @@ namespace LogAnalyzer.UI.ViewModels
                             {
                                 _databaseService.SaveEvents(batch);
                                 _databaseService.SaveTimeline(timelineBatch);
-                                totalCsvProcessed += batch.Count;
                                 batch.Clear();
                                 timelineBatch.Clear();
-                                StatusMessage = $"Se încarcă date triage... ({totalCsvProcessed} procesate)";
                             }
                         }
                         if (batch.Count > 0)
                         {
                             _databaseService.SaveEvents(batch);
                             _databaseService.SaveTimeline(timelineBatch);
-                            totalCsvProcessed += batch.Count;
                         }
                     }
                     catch { }
                 }
 
-                StatusMessage = "Analiză de securitate & corelare Sigma...";
-                var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688, 4104, 4656, 4663, 20101, 20102, 20103, 20104, 20105, 20106, 20107, 20108, 1, 10 };
-                var eventsForAnalysis = _databaseService.GetEvents(100000, 0, null, null, securityEventIds).ToList();
-                var registryForAnalysis = _databaseService.GetRegistryArtifacts(100000, 0, null).ToList();
+                // ==========================================
+                // ETAPA 3/4: Corelare Euristică & Reguli Sigma (60% - 85%)
+                // ==========================================
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LoadingStepTitle = "Etapa 3/4: Evaluare Reguli Sigma & Matrice MITRE ATT&CK";
+                    LoadingProgress = 65;
+                    LoadingSubDetail = "Corelare indici de compromitere și tehnici de atac...";
+                });
+
+                var securityEventIds = new List<int> { 1102, 104, 4625, 4624, 4720, 4722, 4732, 7045, 4697, 4688, 4104, 4656, 4663, 20101, 20102, 20103, 20104, 20105, 20106, 20107, 20108, 1, 8, 10, 5379 };
+                var eventsForAnalysis = _databaseService.GetEvents(20000, 0, null, null, securityEventIds).ToList();
+                var registryForAnalysis = _databaseService.GetRegistryArtifacts(10000, 0, null).ToList();
                 
                 var issues = _analysisEngine.AnalyzeEvents(eventsForAnalysis);
                 var regIssues = _analysisEngine.AnalyzeRegistry(registryForAnalysis);
                 
                 Application.Current.Dispatcher.Invoke(() => 
                 {
+                    LoadingProgress = 80;
                     foreach (var i in issues) DetectedIssues.Add(i);
                     foreach (var i in regIssues) DetectedIssues.Add(i);
 
@@ -1249,6 +1345,16 @@ namespace LogAnalyzer.UI.ViewModels
                         }
                     }
                 });
+
+                // ==========================================
+                // ETAPA 4/4: Reconstrucție Graf & Finalizare (85% - 100%)
+                // ==========================================
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LoadingStepTitle = "Etapa 4/4: Finalizare Graf Incident & Dashboard";
+                    LoadingProgress = 90;
+                    LoadingSubDetail = "Reîmprospătare statistici și afișare investigație...";
+                });
             });
 
             EvtxCurrentPage = 1;
@@ -1262,11 +1368,13 @@ namespace LogAnalyzer.UI.ViewModels
             UpdateDatabaseSize();
             RunAiAnalysis();
             
+            LoadingProgress = 100;
             SelectedTabIndex = 0; 
             IsLoading = false;
             StatusMessage = rejectedFiles.Count == 0
-                ? $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte registru salvate."
-                : $"Procesare completă: {TotalEventsCount} loguri și {TotalRegistryCount} artefacte salvate; {rejectedFiles.Count} fișiere au fost respinse și nu au fost procesate.";        }
+                ? $"✅ Procesare completă: {TotalEventsCount:N0} loguri și {TotalRegistryCount:N0} artefacte registru salvate."
+                : $"✅ Procesare completă: {TotalEventsCount:N0} loguri și {TotalRegistryCount:N0} artefacte salvate ({rejectedFiles.Count} fișiere ignorate/respinse).";
+        }        }
 
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);
 

@@ -13,14 +13,14 @@ namespace LogAnalyzer.Infrastructure.Parsers
 {
     public class AntiForensicsArtifactsParser : IForensicArtifactParser
     {
-        public string ArtifactCategory => "Anti-Forensics, Defender MPLog & UserAssist";
+        public string ArtifactCategory => "Anti-Forensics, Defender MPLog, EventTranscript & PCA";
         public string SupportedExtension => ".log";
 
         public bool CanParse(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath)) return false;
             string name = Path.GetFileName(filePath).ToLowerInvariant();
-            return name.Contains("mplog") || name.Contains("userassist") || name.Contains("pca") || name.Contains("eventtranscript");
+            return name.Contains("mplog") || name.Contains("userassist") || name.Contains("pca") || name.Contains("applaunch") || name.Contains("eventtranscript") || name.EndsWith(".db") || name.EndsWith(".txt") || name.EndsWith(".log");
         }
 
         public async Task<List<ForensicArtifact>> ParseAsync(string filePath, string hostId, CancellationToken cancellationToken = default)
@@ -35,44 +35,111 @@ namespace LogAnalyzer.Infrastructure.Parsers
                     string sha256 = ComputeFileSha256(filePath);
                     string fileName = Path.GetFileName(filePath).ToLowerInvariant();
 
+                    // 1. Microsoft Protection Log (MPLog)
                     if (fileName.Contains("mplog"))
                     {
-                        // Parsăm fișierul Microsoft Protection Log (MPLog) pentru extragere de SHA-256 al malware-ului șters
                         var lines = File.ReadAllLines(filePath);
                         var shaRegex = new Regex(@"[0-9a-fA-F]{64}", RegexOptions.Compiled);
-                        int extractedHashes = 0;
+                        var threatRegex = new Regex(@"(?:Threat|Trojan|Backdoor|Ransom|Exploit|Hacktool|Virus|Malware):[\w\./\-]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                        int count = 0;
 
                         foreach (var line in lines)
                         {
-                            if (line.Contains("Threat") || line.Contains("Quarantine") || line.Contains("Detection"))
+                            if (line.Contains("Threat") || line.Contains("Quarantine") || line.Contains("Detection") || line.Contains("Signature"))
                             {
-                                var match = shaRegex.Match(line);
-                                string foundSha = match.Success ? match.Value : "-";
+                                var matchSha = shaRegex.Match(line);
+                                var matchThreat = threatRegex.Match(line);
+
+                                string foundSha = matchSha.Success ? matchSha.Value : "N/A";
+                                string foundThreat = matchThreat.Success ? matchThreat.Value : "Detecție Nespecificată";
 
                                 results.Add(new ForensicArtifact
                                 {
                                     HostId = hostId,
-                                    ArtifactType = "Defender MPLog",
-                                    Name = "Detecție & Carantină Malware",
+                                    ArtifactType = "Defender MPLog (Contra-Anti-Forensics)",
+                                    Name = foundThreat,
                                     SourceFilePath = filePath,
                                     SourceSha256 = sha256,
                                     Timestamp = File.GetLastWriteTimeUtc(filePath),
                                     TimestampSemantics = TimeSemantics.Recorded,
                                     Strength = EvidenceStrength.ExecutionProven,
-                                    Summary = $"Jurnal Defender MPLog: {line.Trim()}",
+                                    Summary = $"[JURNAL MPLog] Defender a detectat '{foundThreat}'. Hash SHA-256 binar: {foundSha}. Sursă linie: {line.Trim()}",
                                     MitreTechniqueId = "T1562.001",
                                     Properties = new Dictionary<string, string>
                                     {
-                                        { "Linie MPLog", line.Trim() },
-                                        { "Hash SHA-256 extras", foundSha },
-                                        { "Forță Probatorie", "Execuție Certă / Interceptare Antivirus" }
+                                        { "Amenințare", foundThreat },
+                                        { "Hash SHA-256 Extras", foundSha },
+                                        { "Forță Probatorie", "Execuție Certă / Interceptare Antivirus" },
+                                        { "Linie MPLog", line.Trim() }
                                     }
                                 });
-                                extractedHashes++;
-                                if (extractedHashes >= 50) break;
+                                count++;
+                                if (count >= 50) break;
                             }
                         }
                     }
+                    // 2. PCA (Program Compatibility Assistant - PcaAppLaunchDic.txt pe Win11)
+                    else if (fileName.Contains("pca") || fileName.Contains("applaunch"))
+                    {
+                        var lines = File.ReadAllLines(filePath);
+                        foreach (var line in lines)
+                        {
+                            if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("#")) continue;
+
+                            var parts = line.Split('|');
+                            string exePath = parts[0].Trim();
+                            DateTime launchTime = DateTime.UtcNow;
+
+                            if (parts.Length > 1 && DateTime.TryParse(parts[1], out var parsedDt))
+                            {
+                                launchTime = parsedDt.ToUniversalTime();
+                            }
+
+                            results.Add(new ForensicArtifact
+                            {
+                                HostId = hostId,
+                                ArtifactType = "PCA Program Compatibility Execution",
+                                Name = Path.GetFileName(exePath),
+                                SourceFilePath = filePath,
+                                SourceSha256 = sha256,
+                                Timestamp = launchTime,
+                                TimestampSemantics = TimeSemantics.LastExecution,
+                                Strength = EvidenceStrength.ExecutionProven,
+                                Summary = $"Execuție înregistrată de PCA (Windows 11): '{exePath}' la {launchTime:yyyy-MM-dd HH:mm:ss} UTC.",
+                                MitreTechniqueId = "T1059",
+                                Properties = new Dictionary<string, string>
+                                {
+                                    { "Cale Executabil", exePath },
+                                    { "Data Execuției (UTC)", launchTime.ToString("yyyy-MM-dd HH:mm:ss") },
+                                    { "Forță Probatorie", "Execuție Certă (PCA Engine)" }
+                                }
+                            });
+                        }
+                    }
+                    // 3. EventTranscript.db
+                    else if (fileName.Contains("eventtranscript"))
+                    {
+                        results.Add(new ForensicArtifact
+                        {
+                            HostId = hostId,
+                            ArtifactType = "EventTranscript.db (Supraviețuitor Ștergere Loguri)",
+                            Name = "Diagnostic Event Transcript",
+                            SourceFilePath = filePath,
+                            SourceSha256 = sha256,
+                            Timestamp = File.GetLastWriteTimeUtc(filePath),
+                            TimestampSemantics = TimeSemantics.Recorded,
+                            Strength = EvidenceStrength.ExecutionProven,
+                            Summary = $"Baza de date EventTranscript.db recuperată de pe [{hostId}]. Păstrează istoricul de telemetrie chiar dacă evenimentele EVTX au fost șterse de atacator.",
+                            MitreTechniqueId = "T1070.001",
+                            Properties = new Dictionary<string, string>
+                            {
+                                { "Sursă Fișier", filePath },
+                                { "Dimensiune Bază", $"{new FileInfo(filePath).Length / 1024:N0} KB" },
+                                { "Contra-Anti-Forensics", "Rezistent la golirea manuală a canalelor Windows Event Log (EID 1102 / 104)" }
+                            }
+                        });
+                    }
+                    // 4. Generic carved
                     else
                     {
                         results.Add(new ForensicArtifact

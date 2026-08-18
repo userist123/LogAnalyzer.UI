@@ -7,7 +7,7 @@ namespace LogAnalyzer.Core.Services
 {
     public class KerberosAdFinding
     {
-        public string AttackType { get; set; } = string.Empty; // ex: "Kerberoasting", "AS-REP Roasting", "Pass-the-Hash", "DCSync"
+        public string AttackType { get; set; } = string.Empty; // ex: "Kerberoasting", "AS-REP Roasting", "Pass-the-Hash", "DCSync", "Golden Ticket"
         public string Severity { get; set; } = "Critical";
         public string Description { get; set; } = string.Empty;
         public string TargetAccount { get; set; } = string.Empty;
@@ -33,7 +33,7 @@ namespace LogAnalyzer.Core.Services
                 (e.Message != null && e.Message.Contains("0x17"))
             ).ToList();
 
-            if (rc4Requests.Count >= 3)
+            if (rc4Requests.Count >= 2)
             {
                 findings.Add(new KerberosAdFinding
                 {
@@ -51,8 +51,8 @@ namespace LogAnalyzer.Core.Services
             // 2. Detecție AS-REP Roasting (EID 4768 / 4771 - Pre-autentificare Kerberos lipsă sau eșuată)
             var asRepEvents = eventList.Where(e => e.EventId == 4768 || e.EventId == 4771).ToList();
             var noPreAuth = asRepEvents.Where(e => 
-                (e.Message != null && e.Message.Contains("Pre-authentication failed")) ||
-                (e.XmlData != null && e.XmlData.Contains("0x18"))
+                (e.Message != null && (e.Message.Contains("Pre-authentication failed") || e.Message.Contains("Pre-Auth Type: 0") || e.Message.Contains("Pre-Authentication Type: 0"))) ||
+                (e.XmlData != null && (e.XmlData.Contains("0x18") || e.XmlData.Contains("PreAuthType>0<")))
             ).ToList();
 
             if (noPreAuth.Count > 0)
@@ -71,7 +71,7 @@ namespace LogAnalyzer.Core.Services
             }
 
             // 3. Detecție Pass-the-Hash / Overpass-the-Hash (EID 4624 Tip 9 NewCredentials)
-            var type9Logons = eventList.Where(e => e.EventId == 4624 && e.XmlData != null && e.XmlData.Contains("LogonType>9")).ToList();
+            var type9Logons = eventList.Where(e => e.EventId == 4624 && ((e.XmlData != null && e.XmlData.Contains("LogonType>9")) || (e.Message != null && e.Message.Contains("Logon Type:\t\t9")))).ToList();
             if (type9Logons.Count > 0)
             {
                 findings.Add(new KerberosAdFinding
@@ -84,6 +84,46 @@ namespace LogAnalyzer.Core.Services
                     MitreTechniqueId = "T1550.002",
                     ContainmentActionRo = "1. Adăugați administratorii în grupul 'Protected Users'.\n2. Activați funcționalitatea Windows Defender Credential Guard.\n3. Blocați NTLM în rețea în favoarea Kerberos exclusiv.",
                     DetectedAt = type9Logons.Max(r => r.TimeCreated)
+                });
+            }
+
+            // 4. Detecție DCSync (EID 4662 pe GUID-urile de replicare Active Directory)
+            // DS-Replication-Get-Changes: 1131f6aa-9c07-11d1-f79f-00c04fc2dcd2
+            // DS-Replication-Get-Changes-All: 1131f6ad-9c07-11d1-f79f-00c04fc2dcd2
+            var dcSyncEvents = eventList.Where(e => e.EventId == 4662 && e.Message != null && 
+                (e.Message.Contains("1131f6aa-9c07-11d1-f79f-00c04fc2dcd2", StringComparison.OrdinalIgnoreCase) || 
+                 e.Message.Contains("1131f6ad-9c07-11d1-f79f-00c04fc2dcd2", StringComparison.OrdinalIgnoreCase) ||
+                 (e.XmlData != null && (e.XmlData.Contains("1131f6aa") || e.XmlData.Contains("1131f6ad"))))).ToList();
+
+            if (dcSyncEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "DCSync Attack (Extragere Hash-uri Active Directory)",
+                    Severity = "Critical",
+                    Description = $"Detectată o tentativă de replicare directă a bazei de date Active Directory (DS-Replication) de la un cont non-DC. Tehnica DCSync permite atacatorilor să ceară hash-ul parolei oricărui utilizator (inclusiv KRBTGT și Administrator) imitând un Domain Controller legitim.",
+                    TargetAccount = "Domain Controller NTDS.dit",
+                    ClientIp = "Cont Replicare Neautorizat",
+                    MitreTechniqueId = "T1003.006",
+                    ContainmentActionRo = "1. Izolați imediat stația sursă de la care s-a emis cererea de replicare.\n2. Revocați drepturile de 'Replicating Directory Changes' pentru toate conturile non-DC.\n3. Rotiți de urgență parola contului krbtgt de două ori la interval de 24 de ore.",
+                    DetectedAt = dcSyncEvents.Max(r => r.TimeCreated)
+                });
+            }
+
+            // 5. Detecție Golden Ticket / Privilegiu Special Nelimitat (EID 4672)
+            var specialPrivLogons = eventList.Where(e => e.EventId == 4672 && e.Message != null && e.Message.Contains("SeEnableDelegationPrivilege")).ToList();
+            if (specialPrivLogons.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "Golden Ticket / Delegare Neregulamentară",
+                    Severity = "Critical",
+                    Description = $"Autentificare cu privilegii de delegare de sistem (SeEnableDelegationPrivilege) fără o cerere TGT legitimă corelată. Indică o posibilă utilizare a unui bilet Kerberos falsificat (Golden Ticket).",
+                    TargetAccount = "SYSTEM / Delegated Admin",
+                    ClientIp = "Localhost",
+                    MitreTechniqueId = "T1558.001",
+                    ContainmentActionRo = "1. Rotiți imediat cheile contului KRBTGT.\n2. Auditați lista de tichete Kerberos active pe Domain Controller folosind 'klist'.",
+                    DetectedAt = specialPrivLogons.Max(r => r.TimeCreated)
                 });
             }
 

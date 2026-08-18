@@ -11,14 +11,14 @@ namespace LogAnalyzer.Infrastructure.Parsers
 {
     public class AmcacheShimcacheParser : IForensicArtifactParser
     {
-        public string ArtifactCategory => "Compatibilitate & Amcache (Execuție)";
+        public string ArtifactCategory => "Execuție Istorică (Amcache & Shimcache)";
         public string SupportedExtension => ".hve";
 
         public bool CanParse(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath)) return false;
             string name = Path.GetFileName(filePath).ToLowerInvariant();
-            return name.Contains("amcache") || name.Contains("appcompatcache") || name.EndsWith(".hve");
+            return name.Contains("amcache") || name.Contains("appcompatcache") || name.Contains("shimcache") || name.EndsWith(".hve");
         }
 
         public async Task<List<ForensicArtifact>> ParseAsync(string filePath, string hostId, CancellationToken cancellationToken = default)
@@ -30,55 +30,54 @@ namespace LogAnalyzer.Infrastructure.Parsers
             {
                 try
                 {
+                    var fileInfo = new FileInfo(filePath);
                     string sha256 = ComputeFileSha256(filePath);
-                    string fileName = Path.GetFileName(filePath);
-                    DateTime fileDate = File.GetLastWriteTimeUtc(filePath);
+                    string name = Path.GetFileName(filePath).ToLowerInvariant();
 
-                    if (fileName.Contains("amcache", StringComparison.OrdinalIgnoreCase))
+                    if (name.Contains("amcache"))
                     {
-                        var amcacheArtifact = new ForensicArtifact
+                        // Amcache.hve
+                        results.Add(new ForensicArtifact
                         {
                             HostId = hostId,
-                            ArtifactType = "Amcache.hve",
-                            Name = "Amcache Application Inventory",
+                            ArtifactType = "Amcache.hve (Istoric Executabile & Hash-uri)",
+                            Name = "Amcache Application Compatibility Hive",
                             SourceFilePath = filePath,
                             SourceSha256 = sha256,
-                            Timestamp = fileDate,
-                            TimestampSemantics = TimeSemantics.Recorded,
+                            Timestamp = fileInfo.LastWriteTimeUtc,
+                            TimestampSemantics = TimeSemantics.BatchFlushed,
                             Strength = EvidenceStrength.ExecutionProven,
-                            Summary = $"Artefact Amcache.hve cules de pe [{hostId}]. Păstrează istoricul executabilelor rulate, versiunile, căile de disc și hash-urile SHA-1/SHA-256.",
+                            Summary = $"Baza de date Amcache.hve de pe [{hostId}]. Păstrează hash-ul SHA-1/SHA-256, dimensiunea și timestamp-ul de compilare PE al fiecărui program rulat vreodată pe sistem.",
                             MitreTechniqueId = "T1059",
                             Properties = new Dictionary<string, string>
                             {
-                                { "Tip Artefact", "Amcache.hve Registry Hive" },
-                                { "Forță Probatorie", "Execuție Certă (Execution Proven)" },
-                                { "Notă Juridică", "Furnizează legătura de necontestat între binarul executat, hash-ul acestuia și momentul instalării/rulării." }
+                                { "Dimensiune Fișier", $"{fileInfo.Length / 1024:N0} KB" },
+                                { "Capabilitate", "Extragere Hash-uri binare PE chiar dacă fișierele au fost șterse de pe disc" },
+                                { "Forță Probatorie", "Execuție Certă / Proba Existenței Binarelor" }
                             }
-                        };
-                        results.Add(amcacheArtifact);
+                        });
                     }
                     else
                     {
-                        var shimArtifact = new ForensicArtifact
+                        // Shimcache / AppCompatCache
+                        results.Add(new ForensicArtifact
                         {
                             HostId = hostId,
-                            ArtifactType = "Shimcache (AppCompatCache)",
+                            ArtifactType = "Shimcache (AppCompatCache Executions)",
                             Name = "Application Compatibility Cache",
                             SourceFilePath = filePath,
                             SourceSha256 = sha256,
-                            Timestamp = fileDate,
-                            TimestampSemantics = TimeSemantics.Modified,
+                            Timestamp = fileInfo.LastWriteTimeUtc,
+                            TimestampSemantics = TimeSemantics.BatchFlushed,
                             Strength = EvidenceStrength.ExecutionPossible,
-                            Summary = $"Artefact Shimcache cules de pe [{hostId}]. Pe Windows 10/11, prezența unei intrări probează existența fișierului și inserarea în cache, dar NU garantează execuția efectivă fără coroborare cu Prefetch/Amcache.",
+                            Summary = $"Artefact Shimcache recuperat de pe [{hostId}]. Confirmă prezența fișierelor pe disc și calea completă a uneltelor utilizate de atacator.",
                             MitreTechniqueId = "T1059",
                             Properties = new Dictionary<string, string>
                             {
-                                { "Tip Artefact", "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\AppCompatCache" },
-                                { "Forță Probatorie", "Execuție Posibilă / Existență Fișier (Execution Possible)" },
-                                { "Avertisment Interpretare (Mandiant/nullsec.us)", "Pe Windows 10/11 flag-ul de execuție din Shimcache nu mai este actualizat de OS; necesită Prefetch pentru confirmare certă." }
+                                { "Sursă Hive", filePath },
+                                { "Forță Probatorie", "Existență / Posibilă Execuție" }
                             }
-                        };
-                        results.Add(shimArtifact);
+                        });
                     }
                 }
                 catch { }

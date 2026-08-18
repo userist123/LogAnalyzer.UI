@@ -1213,8 +1213,15 @@
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Row="0" Text="EDITOR REGULI SIGMA / YARA LIVE" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,6"/>
                                                 <TextBox Grid.Row="1" Text="{Binding WorkbenchRuleContent, UpdateSourceTrigger=PropertyChanged}" Background="#0a0e1a" Foreground="#00ff87" FontFamily="Consolas" FontSize="11" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="6"/>
-                                                <Button Grid.Row="2" Content="⚡ Compilează &amp; Evaluează Regula" Command="{Binding CompileAndEvaluateWorkbenchCommand}" Style="{StaticResource AccentButtonStyle}" Margin="0,8,0,6" Height="30"/>
-                                                <TextBlock Grid.Row="3" Text="{Binding WorkbenchCompileResult}" Foreground="#38bdf8" FontSize="10.5" TextWrapping="Wrap"/>
+                                                <Grid Grid.Row="2" Margin="0,8,0,6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0" Content="⚡ Compilează &amp; Evaluează" Command="{Binding CompileAndEvaluateWorkbenchCommand}" Style="{StaticResource AccentButtonStyle}" Height="30" Margin="0,0,4,0"/>
+                                                    <Button Grid.Column="1" Content="🔍 Transpilează SPL/KQL" Command="{Binding TranspileWorkbenchRuleCommand}" Style="{StaticResource ActionButtonStyle}" Height="30" Margin="4,0,0,0"/>
+                                                </Grid>
+                                                <TextBox Grid.Row="3" Text="{Binding WorkbenchCompileResult}" IsReadOnly="True" Background="#060912" Foreground="#38bdf8" FontFamily="Consolas" FontSize="10.5" TextWrapping="Wrap" MaxHeight="140" VerticalScrollBarVisibility="Auto" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="6"/>
                                             </Grid>
                                         </TabItem>
                                     </TabControl>
@@ -1508,8 +1515,10 @@
                                             <Grid Grid.Row="0" Margin="0,0,0,6">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto" MinWidth="130"/>
-                                                    <ColumnDefinition Width="Auto" MinWidth="150"/>
+                                                    <ColumnDefinition Width="Auto" MinWidth="110"/>
+                                                    <ColumnDefinition Width="Auto" MinWidth="110"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
                                                 
                                                 <!-- Search Text -->
@@ -1525,7 +1534,11 @@
                                                 </ComboBox>
                                                 
                                                 <!-- Event ID text filter -->
-                                                <TextBox Grid.Column="2" Text="{Binding FilterEventId, UpdateSourceTrigger=PropertyChanged}" Padding="8,4" ToolTip="Filtrare după ID-uri Evenimente specifice (ex: 4624, 4625)"/>
+                                                <TextBox Grid.Column="2" Text="{Binding FilterEventId, UpdateSourceTrigger=PropertyChanged}" Padding="8,4" Margin="0,0,6,0" ToolTip="Filtrare după ID-uri Evenimente specifice (ex: 4624, 4625)"/>
+
+                                                <!-- Advanced Action Buttons -->
+                                                <Button Grid.Column="3" Content="⏱ Diff Baseline" Command="{Binding RunTimelineDiffCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0" Margin="0,0,6,0" ToolTip="Compară cu o imagine curată (Baseline / Golden Image)"/>
+                                                <Button Grid.Column="4" Content="📡 Analiză C2" Command="{Binding RunC2BeaconingAnalysisCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0" ToolTip="Detector statistic de periodicitate C2 Beaconing"/>
                                             </Grid>
                                             
                                             <!-- Row 2: Quick Toggles (Severity, Use Cases) -->

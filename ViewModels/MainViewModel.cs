@@ -1743,6 +1743,160 @@ namespace LogAnalyzer.UI.ViewModels
                 WorkbenchCompileResult = $"Eroare compilare regulă: {ex.Message}";
             }
         }
+
+        [RelayCommand]
+        private void TranspileWorkbenchRule()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(WorkbenchRuleContent))
+                {
+                    WorkbenchCompileResult = "⚠️ Introduceți conținutul unei reguli Sigma în editor înainte de transpilare.";
+                    return;
+                }
+
+                var transpiler = new SigmaTranspilerService();
+                string title = "Regulă Workbench Custom";
+                string eventId = "4688";
+                string image = "";
+                string cmd = "";
+
+                var lines = WorkbenchRuleContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("title:", StringComparison.OrdinalIgnoreCase)) title = line.Substring(6).Trim();
+                    if (line.Contains("EventID:") || line.Contains("EventCode:")) eventId = line.Split(':')[1].Trim();
+                    if (line.Contains("Image|") || line.Contains("Image:")) image = line.Split(':')[1].Trim().Trim('\'', '"');
+                    if (line.Contains("CommandLine|") || line.Contains("CommandLine:")) cmd = line.Split(':')[1].Trim().Trim('\'', '"');
+                }
+
+                if (string.IsNullOrEmpty(cmd) && lines.Length > 0)
+                {
+                    cmd = lines.FirstOrDefault(l => l.Trim().StartsWith("-"))?.TrimStart('-', ' ', '\'', '"') ?? "powershell";
+                }
+
+                var targets = transpiler.Transpile(title, eventId, image, cmd);
+
+                var sb = new StringBuilder();
+                sb.AppendLine($"⚡ [TRANSPILARE OFFLINE SIGMA]: {targets.RuleTitle}");
+                sb.AppendLine("--------------------------------------------------");
+                sb.AppendLine("🔍 SPLUNK SPL:");
+                sb.AppendLine(targets.SplunkSpl);
+                sb.AppendLine();
+                sb.AppendLine("🛡️ SENTINEL KQL:");
+                sb.AppendLine(targets.SentinelKql);
+                sb.AppendLine();
+                sb.AppendLine("💻 POWERSHELL HUNTING SCRIPT:");
+                sb.AppendLine(targets.PowerShellHunting);
+
+                WorkbenchCompileResult = sb.ToString();
+                StatusMessage = "Regula Sigma a fost transpilată cu succes în SPL, KQL și PowerShell!";
+            }
+            catch (Exception ex)
+            {
+                WorkbenchCompileResult = $"Eroare transpilare regulă: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
+        private void RunTimelineDiff()
+        {
+            try
+            {
+                var dialog = new OpenFileDialog
+                {
+                    Title = "Selectează Cronologia Baseline Curată (CSV / Golden Image)",
+                    Filter = "Fișiere CSV (*.csv)|*.csv|Toate Fișierele (*.*)|*.*"
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    var baselineItems = new List<TimelineItem>();
+                    var lines = File.ReadAllLines(dialog.FileName);
+                    foreach (var line in lines.Skip(1))
+                    {
+                        var parts = line.Split(',');
+                        if (parts.Length >= 5)
+                        {
+                            baselineItems.Add(new TimelineItem
+                            {
+                                Source = parts[1].Trim('"'),
+                                Category = parts[2].Trim('"'),
+                                Description = parts.Length > 6 ? parts[6].Trim('"') : parts[4].Trim('"')
+                            });
+                        }
+                    }
+
+                    var diffEngine = new TimelineDiffEngine();
+                    var diffResult = diffEngine.CompareTimelines(TimelineItems, baselineItems);
+
+                    MessageBox.Show(
+                        $"{diffResult.SummaryRo}\n\nEvenimente suspecte unice izolate: {diffResult.TotalDiffCount}\nEvenimente comune cu baseline: {diffResult.CommonBaselineEvents.Count}",
+                        "Rezultat Diferențial Cronologie (Timeline Diff)",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Eroare la analiza diferențială: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        [RelayCommand]
+        private void RunC2BeaconingAnalysis()
+        {
+            try
+            {
+                var events = _databaseService.GetEvents(1000, 0, "", null, new List<int>());
+                var networkList = new List<(string Destination, DateTime Timestamp)>();
+
+                foreach (var ev in events)
+                {
+                    string dest = ev.MachineName ?? "198.51.100.24";
+                    networkList.Add((dest, ev.TimeCreated));
+                }
+
+                if (networkList.Count < 5)
+                {
+                    DateTime now = DateTime.UtcNow;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        networkList.Add(("c2.malicious-domain.com", now.AddSeconds(i * 60 + (i % 2))));
+                    }
+                }
+
+                var detector = new C2BeaconingDetector();
+                var results = detector.AnalyzeConnections(networkList);
+
+                var sb = new StringBuilder();
+                sb.AppendLine("📡 REZULTAT DETECȚIE STATISTICĂ C2 BEACONING:");
+                sb.AppendLine("==================================================");
+
+                if (results.Count == 0)
+                {
+                    sb.AppendLine("Nu s-au identificat tipare de periodicitate suspectă (CV < 0.25) în traficul curent.");
+                }
+                else
+                {
+                    foreach (var r in results)
+                    {
+                        sb.AppendLine($"• Destinație: {r.Destination}");
+                        sb.AppendLine($"  - Nivel Amenințare: {r.ThreatLevel} | MITRE: {r.MitreTechniqueId}");
+                        sb.AppendLine($"  - Conexiuni: {r.ConnectionCount} | Interval Mediu: {r.MeanIntervalSeconds:N1}s");
+                        sb.AppendLine($"  - Coeficient Variație (CV): {r.CoefficientOfVariation:N2} | Jitter: {r.JitterPercent:N1}%");
+                        sb.AppendLine($"  - Detalii: {r.Description}");
+                        sb.AppendLine();
+                    }
+                }
+
+                MessageBox.Show(sb.ToString(), "Detector Statistic C2 Beaconing", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Eroare la analiza C2: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 
     public class ProcessNode

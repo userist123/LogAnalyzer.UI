@@ -1,7 +1,7 @@
 <Window x:Class="LogAnalyzer.UI.Views.ActivationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Activare Licență LogAnalyzer Enterprise" Height="440" Width="580"
+        Title="Activare Licență LogAnalyzer Enterprise" Height="460" Width="600"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
         AllowsTransparency="True" Background="Transparent" Foreground="#f8fafc">
 
@@ -22,15 +22,28 @@
             <Setter Property="Foreground" Value="#f8fafc"/>
             <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="MinHeight" Value="38"/>
             <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="CaretBrush" Value="#a78bfa"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Focusable="False" 
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Stretch"
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
@@ -64,10 +77,10 @@
             <!-- Inputs -->
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
                 <TextBlock Text="IDENTIFICATOR HARDWARE UNIC (HWID):" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,0,0,6"/>
-                <TextBox x:Name="TxtHardwareId" Foreground="{StaticResource CyberBlueBrush}" IsReadOnly="True" TextAlignment="Center" Margin="0,0,0,16"/>
+                <TextBox x:Name="TxtHardwareId" Height="40" Foreground="{StaticResource CyberBlueBrush}" IsReadOnly="True" TextAlignment="Center" Margin="0,0,0,16"/>
 
                 <TextBlock Text="INTRODUCEȚI CHEIA DE ACTIVARE (20 CARACTERE):" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,0,0,6"/>
-                <TextBox x:Name="TxtLicenseKey" BorderBrush="{StaticResource PrimaryAccentBrush}" TextAlignment="Center" Margin="0,0,0,16"/>
+                <TextBox x:Name="TxtLicenseKey" Height="40" BorderBrush="{StaticResource PrimaryAccentBrush}" TextAlignment="Center" Margin="0,0,0,16"/>
             </StackPanel>
 
             <!-- Actions -->

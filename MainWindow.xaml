@@ -111,11 +111,12 @@
             <Setter Property="Foreground" Value="#f8fafc"/>
             <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Padding" Value="8,4"/>
             <Setter Property="CaretBrush" Value="#a78bfa"/>
             <Setter Property="SelectionBrush" Value="#7c3aed"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="MinHeight" Value="28"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -125,8 +126,12 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="5"
-                                SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                SnapsToDevicePixels="True"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" 
+                                          VerticalAlignment="Center"
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -236,13 +241,14 @@
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="6,0,0,0"/>
+            <Setter Property="Padding" Value="8,0,0,0"/>
+            <Setter Property="MinHeight" Value="22"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
-                        <Grid Background="Transparent">
+                        <Grid Background="Transparent" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="18"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border x:Name="CheckBorder" Grid.Column="0" Width="16" Height="16" CornerRadius="3"
@@ -255,7 +261,7 @@
                                       Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              VerticalAlignment="Center"
                                               HorizontalAlignment="Left" RecognizesAccessKey="True"/>
                         </Grid>
                         <ControlTemplate.Triggers>

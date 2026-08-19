@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup Condition="Exists('..\LogAnalyzer.Core\LogAnalyzer.Core.csproj')">
+    <ProjectReference Include="..\LogAnalyzer.Core\LogAnalyzer.Core.csproj" />
+    <ProjectReference Include="..\LogAnalyzer.Infrastructure\LogAnalyzer.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\LogAnalyzer.Core\LogAnalyzer.Core.csproj')">
+    <ProjectReference Include="LogAnalyzer.Core\LogAnalyzer.Core.csproj" />
+    <ProjectReference Include="LogAnalyzer.Infrastructure\LogAnalyzer.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+    <PackageReference Include="QuestPDF" Version="2026.7.2" />
+    <PackageReference Include="DiscUtils.Registry" Version="0.16.13" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.10" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="10.0.10" />
+    <PackageReference Include="System.Management" Version="10.0.10" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.10" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>LogAnalyzer.Network</AssemblyName>
+    <OutputPath>bin\Network\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <DefineConstants>$(DefineConstants);NETWORK_EDITION</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="Categories\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="LogAnalyzer.Core\**" />
+    <Compile Remove="LogAnalyzer.Infrastructure\**" />
+    <Compile Remove="LogAnalyzer.UI.Tests\**" />
+    <EmbeddedResource Remove="LogAnalyzer.Core\**" />
+    <EmbeddedResource Remove="LogAnalyzer.Infrastructure\**" />
+    <EmbeddedResource Remove="LogAnalyzer.UI.Tests\**" />
+    <None Remove="LogAnalyzer.Core\**" />
+    <None Remove="LogAnalyzer.Infrastructure\**" />
+    <None Remove="LogAnalyzer.UI.Tests\**" />
+  </ItemGroup>
+
+</Project>

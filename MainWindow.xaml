@@ -2277,7 +2277,7 @@
                     <DockPanel LastChildFill="False" Margin="0,0,0,16">
                         <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
                             <Ellipse Width="8" Height="8" Fill="{StaticResource PrimaryAccentBrush}" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="PROCESARE &amp; INGESTIE FORENZICĂ" Foreground="White" FontSize="13" FontWeight="Bold" LetterSpacing="0.8"/>
+                            <TextBlock Text="PROCESARE &amp; INGESTIE FORENZICĂ" Foreground="White" FontSize="13" FontWeight="Bold"/>
                         </StackPanel>
                         <TextBlock DockPanel.Dock="Right" Text="{Binding LoadingProgress, StringFormat='{}{0:F0}%'}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
                     </DockPanel>

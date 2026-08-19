@@ -1374,7 +1374,7 @@ namespace LogAnalyzer.UI.ViewModels
             StatusMessage = rejectedFiles.Count == 0
                 ? $"✅ Procesare completă: {TotalEventsCount:N0} loguri și {TotalRegistryCount:N0} artefacte registru salvate."
                 : $"✅ Procesare completă: {TotalEventsCount:N0} loguri și {TotalRegistryCount:N0} artefacte salvate ({rejectedFiles.Count} fișiere ignorate/respinse).";
-        }        }
+        }
 
         private bool FilterIssues(object obj) => !(HideVerifiedAlerts && ((DetectedIssue)obj).IsVerified);
 

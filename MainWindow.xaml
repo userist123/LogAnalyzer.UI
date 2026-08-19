@@ -482,6 +482,13 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="SidebarTab11Style" TargetType="RadioButton" BasedOn="{StaticResource SidebarTabStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTabIndex}" Value="11">
+                    <Setter Property="IsChecked" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
         <!-- Glassmorphic card styling -->
         <Style x:Key="GlassCardStyle" TargetType="Border">
@@ -695,6 +702,7 @@
                                 <RadioButton Content="🛡️ Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTab8Style}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
                                 <RadioButton Content="📜 Lanț Custodie &amp; NIS2" Style="{StaticResource SidebarTab9Style}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
                                 <RadioButton Content="🎯 Matrice MITRE &amp; DeTT&amp;CT" Style="{StaticResource SidebarTab10Style}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
+                                <RadioButton Content="🔴 Monitorizare Live (SOC)" Style="{StaticResource SidebarTab11Style}" Command="{Binding NavigateCommand}" CommandParameter="11" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </ScrollViewer>
 
@@ -2153,6 +2161,106 @@
                                         </ItemsControl>
                                     </ScrollViewer>
                                 </Border>
+                            </Grid>
+                        </TabItem>
+
+                        <!-- TAB 11: REAL-TIME LIVE MONITORING & SOC STREAM (Network Edition) -->
+                        <TabItem>
+                            <Grid Margin="24">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Top Toolbar Controls -->
+                                <Border Grid.Row="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="16" Margin="0,0,0,18">
+                                    <DockPanel LastChildFill="False">
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                            <TextBlock Text="GAZDĂ MONITORIZATĂ:" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                            <TextBox Text="{Binding LiveRemoteTargetHost, UpdateSourceTrigger=PropertyChanged}" Width="160" Margin="0,0,16,0" VerticalAlignment="Center"/>
+                                            
+                                            <Button Content="▶ PORNEȘTE MONITORIZARE LIVE" Command="{Binding StartLiveMonitoringCommand}" Background="#052e16" BorderBrush="#22c55e" Foreground="#22c55e" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
+                                            <Button Content="⏹ OPREȘTE" Command="{Binding StopLiveMonitoringCommand}" Background="#3f1218" BorderBrush="#ef4444" Foreground="#ef4444" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
+                                            <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="12,6"/>
+                                        </StackPanel>
+
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Border Background="#0f172a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6" Margin="0,0,12,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="EVENIMENTE CAPTURATE: " FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                    <TextBlock Text="{Binding TotalLiveEventsCaptured, StringFormat='{}{0:N0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <Border Background="#0f172a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6">
+                                                <TextBlock Text="{Binding LiveMonitoringStatusText}" FontSize="10" FontWeight="Bold" Foreground="#22c55e"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+
+                                <!-- Split Grid: Left = Live Events Feed, Right = Live Alerts -->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Left: Live Events Ticker DataGrid -->
+                                    <Border Grid.Column="0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,12,0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="🔴 FLUX LIVE DE EVENIMENTE (STREAMING REAL-TIME)" FontSize="11" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                                            <DataGrid Grid.Row="1" ItemsSource="{Binding LiveStreamingEvents}" AutoGenerateColumns="False" IsReadOnly="True" Background="Transparent" BorderThickness="0" RowHeight="32" HeadersVisibility="Column">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeCreated, StringFormat='{}{0:HH:mm:ss.fff}'}" Width="95"/>
+                                                    <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="55"/>
+                                                    <DataGridTextColumn Header="Nivel" Binding="{Binding Level}" Width="75"/>
+                                                    <DataGridTextColumn Header="Provider" Binding="{Binding ProviderName}" Width="130"/>
+                                                    <DataGridTextColumn Header="Host" Binding="{Binding MachineName}" Width="90"/>
+                                                    <DataGridTextColumn Header="Mesaj Eveniment" Binding="{Binding Message}" Width="*"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Right: Live Detected Alerts -->
+                                    <Border Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource DangerBrush}" BorderThickness="1" CornerRadius="6" Padding="14">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                                                <TextBlock DockPanel.Dock="Left" Text="🚨 ALERTE DETECTATE ÎN TIMP REAL" FontSize="11" FontWeight="Bold" Foreground="{StaticResource DangerBrush}" VerticalAlignment="Center"/>
+                                                <Border DockPanel.Dock="Right" Background="{StaticResource DangerBrush}" CornerRadius="10" Padding="8,2">
+                                                    <TextBlock Text="{Binding LiveAlerts.Count, StringFormat='{}{0} Alerte'}" FontSize="10" FontWeight="Bold" Foreground="White"/>
+                                                </Border>
+                                            </DockPanel>
+
+                                            <ListBox Grid.Row="1" ItemsSource="{Binding LiveAlerts}" SelectedItem="{Binding SelectedLiveAlert}" Background="Transparent" BorderThickness="0">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Background="#161b26" BorderBrush="{StaticResource DangerBrush}" BorderThickness="1" CornerRadius="6" Padding="12" Margin="0,0,0,10">
+                                                            <StackPanel>
+                                                                <DockPanel LastChildFill="False" Margin="0,0,0,6">
+                                                                    <TextBlock DockPanel.Dock="Left" Text="{Binding Title}" FontSize="11" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" MaxWidth="280"/>
+                                                                    <Border DockPanel.Dock="Right" Background="#3f1218" BorderBrush="{StaticResource DangerBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2">
+                                                                        <TextBlock Text="{Binding Severity}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"/>
+                                                                    </Border>
+                                                                </DockPanel>
+                                                                <TextBlock Text="{Binding MitreTechniqueId, StringFormat='MITRE: {0}'}" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,4"/>
+                                                                <TextBlock Text="{Binding Explanation}" FontSize="9.5" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </TabItem>
                     </TabControl>

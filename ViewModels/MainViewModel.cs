@@ -14,9 +14,11 @@ using CommunityToolkit.Mvvm.Input;
 using LogAnalyzer.Core.Models;
 using LogAnalyzer.Core.Interfaces;
 using LogAnalyzer.Core.Services;
+using LogAnalyzer.Core.Services.Network;
 using LogAnalyzer.Infrastructure;
 using LogAnalyzer.Infrastructure.Engines;
 using LogAnalyzer.Infrastructure.Parsers;
+using LogAnalyzer.Infrastructure.Watchers;
 using Microsoft.Win32;
 using LogAnalyzer.UI.Services;
 
@@ -201,6 +203,17 @@ namespace LogAnalyzer.UI.ViewModels
         };
 
         [ObservableProperty] private DfirProfile? _selectedProfile;
+
+        // Live Security Monitoring (Real-Time EDR & Streaming)
+        private LiveEventLogWatcherService? _liveWatcher;
+        private readonly LiveSecurityMonitoringEngine _liveEngine = new();
+        public ObservableCollection<ParsedEvent> LiveStreamingEvents { get; } = new();
+        public ObservableCollection<DetectedIssue> LiveAlerts { get; } = new();
+        [ObservableProperty] private bool _isLiveMonitoringActive;
+        [ObservableProperty] private string _liveMonitoringStatusText = "⏹ Monitorizare oprită. Apăsați 'Pornește Monitorizare Live'.";
+        [ObservableProperty] private int _totalLiveEventsCaptured = 0;
+        [ObservableProperty] private string _liveRemoteTargetHost = "localhost";
+        [ObservableProperty] private DetectedIssue? _selectedLiveAlert;
 
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
@@ -1051,6 +1064,64 @@ namespace LogAnalyzer.UI.ViewModels
                     StatusMessage = $"Eroare generare script: {ex.Message}";
                 }
             }
+        }
+
+        [RelayCommand]
+        private void StartLiveMonitoring()
+        {
+            if (IsLiveMonitoringActive) return;
+
+            _liveWatcher = new LiveEventLogWatcherService();
+            _liveWatcher.OnStatusChanged += status =>
+            {
+                Application.Current?.Dispatcher?.Invoke(() => LiveMonitoringStatusText = status);
+            };
+            _liveWatcher.OnErrorOccurred += ex =>
+            {
+                Application.Current?.Dispatcher?.Invoke(() => LiveMonitoringStatusText = $"Eroare live: {ex.Message}");
+            };
+            _liveWatcher.OnEventReceived += ev =>
+            {
+                Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    TotalLiveEventsCaptured++;
+                    if (LiveStreamingEvents.Count > 200)
+                    {
+                        LiveStreamingEvents.RemoveAt(LiveStreamingEvents.Count - 1);
+                    }
+                    LiveStreamingEvents.Insert(0, ev);
+
+                    var alert = _liveEngine.EvaluateLiveEvent(ev);
+                    if (alert != null)
+                    {
+                        LiveAlerts.Insert(0, alert);
+                        StatusMessage = $"🚨 ALERTĂ LIVE DETECTATĂ: {alert.Title}";
+                    }
+                });
+            };
+
+            _liveWatcher.StartWatching(LiveRemoteTargetHost);
+            IsLiveMonitoringActive = true;
+        }
+
+        [RelayCommand]
+        private void StopLiveMonitoring()
+        {
+            if (!IsLiveMonitoringActive) return;
+            _liveWatcher?.StopWatching();
+            _liveWatcher?.Dispose();
+            _liveWatcher = null;
+            IsLiveMonitoringActive = false;
+            LiveMonitoringStatusText = "⏹ Monitorizare în timp real oprită.";
+        }
+
+        [RelayCommand]
+        private void ClearLiveFeed()
+        {
+            LiveStreamingEvents.Clear();
+            LiveAlerts.Clear();
+            TotalLiveEventsCaptured = 0;
+            LiveMonitoringStatusText = "Feed live curățat.";
         }
 
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)

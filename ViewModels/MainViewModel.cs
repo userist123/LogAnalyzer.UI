@@ -224,6 +224,8 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private bool _isCountermeasureModalVisible;
         [ObservableProperty] private DetectedIssue? _activeCountermeasureAlert;
         [ObservableProperty] private CountermeasurePlaybook? _activeCountermeasurePlaybook;
+        [ObservableProperty] private bool _isAutoShieldTriggered;
+        [ObservableProperty] private string _autoShieldMessage = string.Empty;
 
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
@@ -1156,6 +1158,27 @@ namespace LogAnalyzer.UI.ViewModels
                         // Open interactive emergency countermeasure modal for Critical & High attacks
                         if (alert.Severity == "Critical" || alert.Severity == "High")
                         {
+                            // EMERGENCY AUTOMATIC INITIATIVE (< 10ms): Auto-freeze & Auto-Isolate before human clicks
+                            if (alert.Severity == "Critical")
+                            {
+                                string? procToKill = null;
+                                string msgLower = (ev.Message ?? string.Empty).ToLowerInvariant();
+                                if (msgLower.Contains("powershell")) procToKill = "powershell";
+                                else if (msgLower.Contains("certutil")) procToKill = "certutil";
+                                else if (msgLower.Contains("vssadmin")) procToKill = "vssadmin";
+                                else if (msgLower.Contains("curl")) procToKill = "curl";
+                                else if (msgLower.Contains("mshta")) procToKill = "mshta";
+
+                                var autoRes = SystemDefenseExecutionService.ExecuteInstantAutoContainment(procToKill);
+                                IsAutoShieldTriggered = true;
+                                AutoShieldMessage = autoRes.Message;
+                                _auditService.LogAction("AUTO_EMERGENCY_CONTAINMENT", $"{OperatorName} - {autoRes.Message}");
+                            }
+                            else
+                            {
+                                IsAutoShieldTriggered = false;
+                            }
+
                             ActiveCountermeasureAlert = alert;
                             ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, ev.MachineName);
                             IsCountermeasureModalVisible = true;

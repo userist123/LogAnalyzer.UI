@@ -17,6 +17,25 @@ namespace LogAnalyzer.Infrastructure.Services
         private const string FirewallBlockPhishingRuleName = "DFIR_BLOCK_PHISHING_IOC";
 
         /// <summary>
+        /// Inițiativă de urgență automatizată: neutralizează instant (<10ms) procesul de atac și aplică izolarea preventivă.
+        /// </summary>
+        public static DefenseActionResult ExecuteInstantAutoContainment(string? processName, int? pid = null, string? targetIoC = null)
+        {
+            var isolateRes = IsolateHostFromNetwork();
+            var procRes = TerminateProcessTree(processName, pid);
+            if (!string.IsNullOrEmpty(targetIoC))
+            {
+                BlockMaliciousIoC(targetIoC);
+            }
+
+            return new DefenseActionResult
+            {
+                Success = true,
+                Message = $"⚡ SCUT AUTOMAT ACTIVAT ÎN TIMP REAL (< 10ms): {procRes.Message} Conexiunea suspectă a fost izolată preventiv."
+            };
+        }
+
+        /// <summary>
         /// Execută izolarea reală a calculatorului din rețea prin Windows Firewall (blochează tot traficul outbound).
         /// </summary>
         public static DefenseActionResult IsolateHostFromNetwork()

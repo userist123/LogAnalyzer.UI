@@ -1312,8 +1312,8 @@ namespace LogAnalyzer.UI.ViewModels
             if (alert != null)
             {
                 LiveAlerts.Insert(0, alert);
-                CurrentLiveToastAlert = alert;
-                IsLiveToastVisible = true;
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "Procesul suspect a fost neutralizat instant și conexiunea izolată preventiv!";
                 ActiveCountermeasureAlert = alert;
                 ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, Environment.MachineName);
                 IsCountermeasureModalVisible = true;
@@ -1353,6 +1353,8 @@ namespace LogAnalyzer.UI.ViewModels
                 LiveAlerts.Insert(0, alert);
                 CurrentLiveToastAlert = alert;
                 IsLiveToastVisible = true;
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "Procesul de descărcare payload a fost neutralizat instant și conexiunea izolată preventiv!";
                 ActiveCountermeasureAlert = alert;
                 ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, Environment.MachineName);
                 IsCountermeasureModalVisible = true;

@@ -2463,7 +2463,7 @@
         </Border>
 
         <!-- REAL-TIME INTERACTIVE EMERGENCY COUNTERMEASURE MODAL (Cyber Defense Action Center) -->
-        <Grid Grid.RowSpan="3" Background="#cc000000" Visibility="{Binding IsCountermeasureModalVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Grid.RowSpan="3" Panel.ZIndex="99999" Background="#cc000000" Visibility="{Binding IsCountermeasureModalVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Border Background="#0f111a" BorderBrush="{StaticResource DangerBrush}" BorderThickness="2" CornerRadius="10" Padding="28" Width="680" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource CardShadow}">
                 <Grid>
                     <Grid.RowDefinitions>

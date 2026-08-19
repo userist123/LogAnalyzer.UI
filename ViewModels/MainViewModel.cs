@@ -383,7 +383,13 @@ namespace LogAnalyzer.UI.ViewModels
             PopulateMitreMatrix();
 
             OperatorName = $"{Environment.UserName.ToUpper()} @ {Environment.MachineName.ToUpper()}";
+#if !AIR_GAPPED_EDITION
+            LicenseTier = "Enterprise Network SOC (Live EDR)";
+            SelectedTabIndex = 11; // Open directly on Real-Time Live SOC Stream
+            StartLiveMonitoring();
+#else
             LicenseTier = "Enterprise Air-Gapped";
+#endif
             UpdateDatabaseSize();
             RunAiAnalysis();
         }
@@ -1088,19 +1094,57 @@ namespace LogAnalyzer.UI.ViewModels
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     TotalLiveEventsCaptured++;
+                    TotalEventsCount++;
+
+                    // 1. Live stream table
                     if (LiveStreamingEvents.Count > 200)
                     {
                         LiveStreamingEvents.RemoveAt(LiveStreamingEvents.Count - 1);
                     }
                     LiveStreamingEvents.Insert(0, ev);
 
+                    // 2. Main EVTX table (Auto Live Ingestion)
+                    if (Events.Count > 300)
+                    {
+                        Events.RemoveAt(Events.Count - 1);
+                    }
+                    Events.Insert(0, ev);
+
+                    // 3. Timeline stream (Live Chronology)
+                    if (TimelineItems.Count > 300)
+                    {
+                        TimelineItems.RemoveAt(TimelineItems.Count - 1);
+                    }
+                    TimelineItems.Insert(0, new TimelineItem
+                    {
+                        Timestamp = ev.TimeCreated,
+                        Source = ev.ProviderName,
+                        Category = "Live Event",
+                        UserOrHost = ev.MachineName,
+                        Description = ev.Message
+                    });
+
+                    // 4. Real-time Security Evaluation
                     var alert = _liveEngine.EvaluateLiveEvent(ev);
                     if (alert != null)
                     {
                         LiveAlerts.Insert(0, alert);
+                        DetectedIssues.Insert(0, alert);
                         CurrentLiveToastAlert = alert;
                         IsLiveToastVisible = true;
                         StatusMessage = $"🚨 ALERTĂ LIVE DETECTATĂ: {alert.Title}";
+
+                        // Highlight MITRE ATT&CK Matrix live
+                        if (!string.IsNullOrEmpty(alert.MitreTechniqueId))
+                        {
+                            var tech = AttackTechniques.FirstOrDefault(t => t.TechId.Equals(alert.MitreTechniqueId, StringComparison.OrdinalIgnoreCase));
+                            if (tech != null)
+                            {
+                                tech.DetectionColor = "#3f1218";
+                                tech.BorderColor = "#ef4444";
+                                tech.Severity = alert.Severity;
+                            }
+                        }
 
                         try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
 

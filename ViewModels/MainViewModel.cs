@@ -215,6 +215,7 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _totalLiveEventsCaptured = 0;
         [ObservableProperty] private string _liveRemoteTargetHost = "localhost";
         [ObservableProperty] private DetectedIssue? _selectedLiveAlert;
+        [ObservableProperty] private ParsedEvent? _selectedLiveStreamingEvent;
         [ObservableProperty] private bool _isLiveToastVisible;
         [ObservableProperty] private DetectedIssue? _currentLiveToastAlert;
         private System.Timers.Timer? _toastAutoDismissTimer;
@@ -226,6 +227,64 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private CountermeasurePlaybook? _activeCountermeasurePlaybook;
         [ObservableProperty] private bool _isAutoShieldTriggered;
         [ObservableProperty] private string _autoShieldMessage = string.Empty;
+
+        // Full Raw Event Detail Properties for Modal & Inspector
+        [ObservableProperty] private string _rawEventMessage = string.Empty;
+        [ObservableProperty] private string _rawEventId = string.Empty;
+        [ObservableProperty] private string _rawEventProvider = string.Empty;
+        [ObservableProperty] private string _rawEventTimestamp = string.Empty;
+        [ObservableProperty] private string _rawEventHost = string.Empty;
+
+        partial void OnSelectedLiveAlertChanged(DetectedIssue? value)
+        {
+            if (value != null)
+            {
+                OpenAlertModal(value, value.RelatedEvents?.FirstOrDefault()?.MachineName ?? Environment.MachineName);
+            }
+        }
+
+        partial void OnSelectedLiveStreamingEventChanged(ParsedEvent? value)
+        {
+            if (value != null)
+            {
+                var dummyAlert = new DetectedIssue
+                {
+                    Title = $"Eveniment Securitate EID {value.EventId} ({value.ProviderName})",
+                    Severity = value.Level ?? "Information",
+                    Explanation = value.Message ?? string.Empty,
+                    MitreTechniqueId = "T1059 (Event Log Triage)",
+                    RelatedEvents = new List<ParsedEvent> { value }
+                };
+                OpenAlertModal(dummyAlert, value.MachineName ?? Environment.MachineName);
+            }
+        }
+
+        public void OpenAlertModal(DetectedIssue alert, string hostname)
+        {
+            ActiveCountermeasureAlert = alert;
+            ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, hostname);
+            var ev = alert.RelatedEvents?.FirstOrDefault();
+            RawEventMessage = ev?.Message ?? alert.Explanation ?? string.Empty;
+            RawEventId = ev != null ? $"EID: {ev.EventId} | Nivel: {ev.Level}" : "EID: 9999 (Security Detection)";
+            RawEventProvider = ev?.ProviderName ?? "LogAnalyzer Real-Time Sensor";
+            RawEventTimestamp = ev?.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss.fff") ?? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            RawEventHost = ev?.MachineName ?? hostname;
+            IsCountermeasureModalVisible = true;
+        }
+
+        [RelayCommand]
+        private void CopyRawEventMessage()
+        {
+            if (!string.IsNullOrEmpty(RawEventMessage))
+            {
+                try
+                {
+                    Clipboard.SetText(RawEventMessage);
+                    StatusMessage = "📋 Detalii eveniment copiate în Clipboard.";
+                }
+                catch {}
+            }
+        }
 
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
@@ -1155,10 +1214,10 @@ namespace LogAnalyzer.UI.ViewModels
                             }
                         }
 
-                        // Open interactive emergency countermeasure modal for Critical & High attacks
-                        if (alert.Severity == "Critical" || alert.Severity == "High")
+                        // Open interactive emergency countermeasure & detail inspection modal for ALL alerts
+                        if (alert != null)
                         {
-                            // EMERGENCY AUTOMATIC INITIATIVE (< 10ms): Auto-freeze & Auto-Isolate before human clicks
+                            // EMERGENCY AUTOMATIC INITIATIVE (< 10ms): Auto-freeze & Auto-Isolate for Critical attacks
                             if (alert.Severity == "Critical")
                             {
                                 string? procToKill = null;
@@ -1179,20 +1238,20 @@ namespace LogAnalyzer.UI.ViewModels
                                 IsAutoShieldTriggered = false;
                             }
 
-                            ActiveCountermeasureAlert = alert;
-                            ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, ev.MachineName);
-                            IsCountermeasureModalVisible = true;
+                            OpenAlertModal(alert, ev.MachineName);
 
                             // Persist full Attacker Intelligence Forensic Event into DB and Timeline
-                            var intel = ActiveCountermeasurePlaybook.AttackerIntel;
+                            var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
                             var dossierEvent = new ParsedEvent
                             {
                                 EventId = 9999,
-                                Level = "Critical",
+                                Level = alert.Severity ?? "Warning",
                                 MachineName = ev.MachineName,
                                 ProviderName = "DFIR-ThreatIntelligence-Attribution",
                                 TimeCreated = DateTime.Now,
                                 Message = $"[DOSAR FORENZIC ATACATOR & ATRIBUIRE CTI]\n" +
+                                          $"• Alertă: {alert.Title}\n" +
+                                          $"• Severitate: {alert.Severity}\n" +
                                           $"• Actor Cibernetic: {intel.LikelyActorName}\n" +
                                           $"• C2 / IP / Domeniu: {intel.SourceIpOrDomain}\n" +
                                           $"• Origine Geografică: {intel.ActorCountryOrOrigin}\n" +
@@ -1212,7 +1271,7 @@ namespace LogAnalyzer.UI.ViewModels
                                 Timestamp = DateTime.Now,
                                 Source = "DFIR-ThreatIntelligence",
                                 Category = "CTI_ATTACKER_DOSSIER",
-                                Severity = "Critical",
+                                Severity = alert.Severity,
                                 MitreTags = alert.MitreTechniqueId,
                                 UserOrHost = intel.TargetUserOrAccount,
                                 Description = $"Dosar identificare atacator: {intel.LikelyActorName} ({intel.SourceIpOrDomain}) | Unelte: {intel.KnownToolsUsed}"

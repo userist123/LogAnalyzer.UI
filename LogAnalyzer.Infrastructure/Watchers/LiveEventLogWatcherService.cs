@@ -10,6 +10,7 @@ namespace LogAnalyzer.Infrastructure.Watchers
         private EventLogWatcher? _securityWatcher;
         private EventLogWatcher? _sysmonWatcher;
         private EventLogWatcher? _powerShellWatcher;
+        private EventLogWatcher? _classicPowerShellWatcher;
         private EventLogWatcher? _systemWatcher;
         private bool _isRunning;
 
@@ -46,8 +47,9 @@ namespace LogAnalyzer.Infrastructure.Watchers
                 // 2. Canal Sysmon
                 TrySubscribeChannel(session, "Microsoft-Windows-Sysmon/Operational", "*", ref _sysmonWatcher);
 
-                // 3. Canal PowerShell
+                // 3. Canal PowerShell Operational & Classic
                 TrySubscribeChannel(session, "Microsoft-Windows-PowerShell/Operational", "*", ref _powerShellWatcher);
+                TrySubscribeChannel(session, "Windows PowerShell", "*", ref _classicPowerShellWatcher);
 
                 // 4. Canal System
                 TrySubscribeChannel(session, "System", "*[System[(EventID=7045)]]", ref _systemWatcher);
@@ -128,6 +130,7 @@ namespace LogAnalyzer.Infrastructure.Watchers
             DisposeWatcher(ref _securityWatcher);
             DisposeWatcher(ref _sysmonWatcher);
             DisposeWatcher(ref _powerShellWatcher);
+            DisposeWatcher(ref _classicPowerShellWatcher);
             DisposeWatcher(ref _systemWatcher);
 
             _isRunning = false;

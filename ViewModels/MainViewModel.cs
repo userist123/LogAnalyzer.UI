@@ -895,19 +895,48 @@ namespace LogAnalyzer.UI.ViewModels
 
         private void EscalateToAlert(object item)
         {
-            string title = "Alertă Manuală Escalată", msg = "Artefact suspect identificat.";
-            if (item is ParsedEvent ev) { title = $"EID {ev.EventId}"; msg = ev.Message ?? ""; }
-            else if (item is RegistryArtifact reg) { title = $"Registru Suspect"; msg = reg.ValueData ?? ""; }
-            else if (item is TimelineItem tl) { title = tl.Category ?? "Investigație"; msg = tl.Description ?? ""; }
+            string title = "Alertă Manuală Escalată", msg = "Artefact suspect identificat.", mitre = "T1059 (Manual Triage)", host = Environment.MachineName;
+            var relatedEvs = new List<ParsedEvent>();
+            
+            if (item is ParsedEvent ev) 
+            { 
+                title = $"EID {ev.EventId} ({ev.ProviderName})"; 
+                msg = ev.Message ?? ""; 
+                host = ev.MachineName ?? Environment.MachineName;
+                relatedEvs.Add(ev);
+            }
+            else if (item is RegistryArtifact reg) 
+            { 
+                title = $"Registru Suspect: {reg.KeyPath}"; 
+                msg = reg.ValueData ?? ""; 
+                mitre = "T1547.001 (Registry Run Keys)";
+            }
+            else if (item is TimelineItem tl) 
+            { 
+                title = tl.Category ?? "Investigație Incident"; 
+                msg = tl.Description ?? ""; 
+                mitre = tl.MitreTags ?? "T1059";
+                host = tl.UserOrHost ?? Environment.MachineName;
+            }
 
-            var newAlert = new DetectedIssue { Title = title, Severity = "High", Explanation = msg, Status = AlertStatus.Nouă };
+            var newAlert = new DetectedIssue 
+            { 
+                Title = title, 
+                Severity = "Critical", 
+                Explanation = msg, 
+                MitreTechniqueId = mitre,
+                RelatedEvents = relatedEvs,
+                Status = AlertStatus.Nouă 
+            };
             
             Application.Current.Dispatcher.Invoke(() => 
             {
                 DetectedIssues.Insert(0, newAlert);
+                LiveAlerts.Insert(0, newAlert);
                 IssuesView?.Refresh();
                 ReloadDashboardStats();
-                StatusMessage = "✅ Alertă manuală adăugată!";
+                StatusMessage = "🚨 Alertă escaladată în Centrul de Combatere & Live SOC!";
+                OpenAlertModal(newAlert, host);
             });
         }
 

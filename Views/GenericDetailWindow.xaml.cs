@@ -20,9 +20,8 @@ namespace LogAnalyzer.UI.Views
 
         private void Escalate_Click(object sender, RoutedEventArgs e)
         {
-            _escalateAction?.Invoke(_item);
-            MessageBox.Show("Artefact escaladat cu succes în Alerte!", "SOC", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
+            _escalateAction?.Invoke(_item);
         }
 
         private void TitleBar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

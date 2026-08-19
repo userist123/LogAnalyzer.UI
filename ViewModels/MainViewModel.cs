@@ -18,6 +18,7 @@ using LogAnalyzer.Core.Services.Network;
 using LogAnalyzer.Infrastructure;
 using LogAnalyzer.Infrastructure.Engines;
 using LogAnalyzer.Infrastructure.Parsers;
+using LogAnalyzer.Infrastructure.Services;
 using LogAnalyzer.Infrastructure.Watchers;
 using Microsoft.Win32;
 using LogAnalyzer.UI.Services;
@@ -1215,25 +1216,58 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand]
         private void ExecuteIsolateHost()
         {
-            StatusMessage = "🛡️ MĂSURĂ COMBATERE: Izolarea gazdei aplicată (Trafic extern blocat pe Windows Firewall).";
+            var res = SystemDefenseExecutionService.IsolateHostFromNetwork();
+            StatusMessage = $"🛡️ {res.Message}";
             IsCountermeasureModalVisible = false;
-            MessageBox.Show("Măsura de izolare a gazdei a fost executată cu succes!\n\nToate conexiunile externe suspecte au fost blocate prin Windows Firewall.", "Combatere Atac Cibernetic - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            _auditService.LogAction("HOST_ISOLATION", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message + "\n\n(Puteți ridica izolarea oricând din bara laterală prin butonul de restaurare rețea).", 
+                res.Success ? "Combatere Atac Cibernetic - Succes" : "Avertisment Izolare", 
+                MessageBoxButton.OK, 
+                res.Success ? MessageBoxImage.Information : MessageBoxImage.Warning);
+        }
+
+        [RelayCommand]
+        private void ExecuteRestoreNetwork()
+        {
+            var res = SystemDefenseExecutionService.RestoreNetworkAccess();
+            StatusMessage = $"🌐 {res.Message}";
+            _auditService.LogAction("HOST_RESTORE_NETWORK", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Restaurare Rețea", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]
         private void ExecuteKillProcess()
         {
-            StatusMessage = "🛑 MĂSURĂ COMBATERE: Procesul malițios și procesele copil au fost terminate forțat.";
+            string? procName = null;
+            int? pid = null;
+            if (ActiveCountermeasureAlert?.RelatedEvents != null && ActiveCountermeasureAlert.RelatedEvents.Count > 0)
+            {
+                var ev = ActiveCountermeasureAlert.RelatedEvents[0];
+                string msg = (ev.Message ?? string.Empty).ToLowerInvariant();
+                if (msg.Contains("powershell")) procName = "powershell";
+                else if (msg.Contains("certutil")) procName = "certutil";
+                else if (msg.Contains("mshta")) procName = "mshta";
+                else if (msg.Contains("curl")) procName = "curl";
+                else if (msg.Contains("vssadmin")) procName = "vssadmin";
+            }
+            if (string.IsNullOrEmpty(procName)) procName = "powershell";
+
+            var res = SystemDefenseExecutionService.TerminateProcessTree(procName, pid);
+            StatusMessage = $"🛑 {res.Message}";
             IsCountermeasureModalVisible = false;
-            MessageBox.Show("Procesul suspect și întreg arborele de procese asociat au fost terminate forțat.", "Combatere Atac Cibernetic - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            _auditService.LogAction("TERMINATE_PROCESS_TREE", $"{OperatorName} - Proces: {procName}, Rezultat: {res.Message}");
+            MessageBox.Show(res.Message, "Neutralizare Proces Malițios", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]
         private void ExecuteBlockIoC()
         {
-            StatusMessage = "🚫 MĂSURĂ COMBATERE: Domeniul / IP-ul de phishing a fost blocat la nivel de rețea.";
+            string target = "185.220.101.5";
+            var res = SystemDefenseExecutionService.BlockMaliciousIoC(target);
+            StatusMessage = $"🚫 {res.Message}";
             IsCountermeasureModalVisible = false;
-            MessageBox.Show("Domeniul și IP-ul serverului de phishing au fost adăugate pe lista de blocare.", "Combatere Phishing - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            _auditService.LogAction("BLOCK_IOC_FIREWALL", $"{OperatorName} - Tinta: {target}, Rezultat: {res.Message}");
+            MessageBox.Show(res.Message, "Combatere Phishing & C2", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]

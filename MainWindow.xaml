@@ -626,12 +626,6 @@
                     <TextBlock Text="COMMAND CENTER v2.5" FontSize="10" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Module Switcher (Hidden in Air-Gapped Mode) -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <RadioButton Content="ANALIZĂ FORENZICĂ" Style="{StaticResource HeaderTab0Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="0"/>
-                    <RadioButton Content="COLECTARE DATE AUDIT" Style="{StaticResource HeaderTab1Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="1"/>
-                </StackPanel>
-
                 <!-- Telemetry & Status Badge -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
@@ -682,14 +676,14 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Profile Selection -->
-                        <StackPanel Grid.Row="0" Margin="18,18,18,12">
+                        <!-- Profile Selection (Visible only in Air-Gapped offline mode) -->
+                        <StackPanel Grid.Row="0" Margin="18,18,18,12" Visibility="{Binding IsAirGappedMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="PROFIL FILTRARE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="3,0,0,6"/>
                             <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Name"/>
                         </StackPanel>
 
-                        <!-- Navigation Items (Scrollable for perfect fit on any resolution) -->
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6,2">
+                        <!-- Navigation Items (Air-Gapped Full Forensic Offline Navigation) -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6,2" Visibility="{Binding IsAirGappedMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Margin="4,2">
                                 <RadioButton Content="📊 Command Dashboard" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
                                 <RadioButton Content="📁 Jurnale EVTX Windows" Style="{StaticResource SidebarTab1Style}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
@@ -702,7 +696,19 @@
                                 <RadioButton Content="🛡️ Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTab8Style}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
                                 <RadioButton Content="📜 Lanț Custodie &amp; NIS2" Style="{StaticResource SidebarTab9Style}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
                                 <RadioButton Content="🎯 Matrice MITRE &amp; DeTT&amp;CT" Style="{StaticResource SidebarTab10Style}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
-                                <RadioButton Content="🔴 Monitorizare Live (SOC)" Style="{StaticResource SidebarTab11Style}" Command="{Binding NavigateCommand}" CommandParameter="11" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!-- Navigation Items (Network Edition Clean 5-Tab Live SOC Navigation) -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="6,12" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Margin="4,2">
+                                <TextBlock Text="MONITORIZARE &amp; RĂSPUNS LIVE" FontSize="8.5" FontWeight="Black" Foreground="{StaticResource PrimaryAccentBrush}" Margin="12,6,0,8"/>
+                                <RadioButton Content="🔴 Monitorizare Live &amp; SOC" Style="{StaticResource SidebarTab11Style}" Command="{Binding NavigateCommand}" CommandParameter="11"/>
+                                <RadioButton Content="📊 Tablou Comandă (Dashboard)" Style="{StaticResource SidebarTab0Style}" Command="{Binding NavigateCommand}" CommandParameter="0"/>
+                                <RadioButton Content="🗺️ Narativă Atac &amp; Kill Chain" Style="{StaticResource SidebarTab6Style}" Command="{Binding NavigateCommand}" CommandParameter="6"/>
+                                <RadioButton Content="⏱ Cronologie Incident Live" Style="{StaticResource SidebarTab4Style}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
+                                <RadioButton Content="🎯 Matrice MITRE ATT&amp;CK" Style="{StaticResource SidebarTab10Style}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
+                                <RadioButton Content="📜 Lanț Custodie &amp; Rapoarte" Style="{StaticResource SidebarTab9Style}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
                             </StackPanel>
                         </ScrollViewer>
 

@@ -74,6 +74,18 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _loadingSubDetail = string.Empty;
         [ObservableProperty] private bool _hideVerifiedAlerts;
 
+#if AIR_GAPPED_EDITION
+        [ObservableProperty] private bool _isAirGappedMode = true;
+        [ObservableProperty] private bool _isNetworkMode = false;
+        [ObservableProperty] private string _systemModeBadgeText = "🛡️ AIR-GAPPED STANDALONE";
+        [ObservableProperty] private string _securityShieldStatusText = "IZOLARE FIZICĂ STRICTĂ — PROTOCOL AIR-GAPPED CONFORM HG 585 / NATO";
+#else
+        [ObservableProperty] private bool _isAirGappedMode = false;
+        [ObservableProperty] private bool _isNetworkMode = true;
+        [ObservableProperty] private string _systemModeBadgeText = "🌐 NETWORK SOC EDITION";
+        [ObservableProperty] private string _securityShieldStatusText = "SCUT DE SECURITATE DISPOZITIV & REȚEA ACTIV";
+#endif
+
         // Session / Module Management
         [ObservableProperty] private int _selectedModuleIndex = 0; // 0 for Forensics, 1 for Collection
 

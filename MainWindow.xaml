@@ -619,8 +619,8 @@
                     <TextBlock Text="COMMAND CENTER v2.5" FontSize="10" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Module Switcher -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <!-- Module Switcher (Hidden in Air-Gapped Mode) -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <RadioButton Content="ANALIZĂ FORENZICĂ" Style="{StaticResource HeaderTab0Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="0"/>
                     <RadioButton Content="COLECTARE DATE AUDIT" Style="{StaticResource HeaderTab1Style}" Command="{Binding SwitchModuleCommand}" CommandParameter="1"/>
                 </StackPanel>
@@ -642,7 +642,7 @@
                     <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10,5">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="NOD DE COMANDA ONLINE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SystemModeBadgeText}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -2264,7 +2264,7 @@
                 <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0"/>
-                    <TextBlock Text="SCUT DE SECURITATE DISPOZITIV ACTIV" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
+                    <TextBlock Text="{Binding SecurityShieldStatusText}" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
                 </StackPanel>
             </Grid>
         </Border>

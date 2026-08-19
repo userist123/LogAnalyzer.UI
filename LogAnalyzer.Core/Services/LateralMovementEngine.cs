@@ -72,9 +72,9 @@ namespace LogAnalyzer.Core.Services
                     });
                 }
                 // 3. Network Share Authentication (EID 4624 LogonType 3 - SMB / RPC)
-                else if (ev.EventId == 4624 && ev.Message != null && ev.Message.Contains("Logon Type:		3") && !ev.Message.Contains("ANONYMOUS"))
+                else if (ev.EventId == 4624 && ev.Message != null && ev.Message.Contains("Logon Type:\t\t3") && !ev.Message.Contains("ANONYMOUS"))
                 {
-                    string clientIp = ExtractIp(ev.Message);
+                    string? clientIp = ExtractIp(ev.Message);
                     if (!string.IsNullOrEmpty(clientIp) && clientIp != "127.0.0.1" && clientIp != "::1" && clientIp != "-")
                     {
                         nodesSet.Add(clientIp);

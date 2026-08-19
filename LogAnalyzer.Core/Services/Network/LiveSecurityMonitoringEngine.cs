@@ -19,7 +19,26 @@ namespace LogAnalyzer.Core.Services.Network
             string msg = (ev.Message ?? string.Empty).ToLowerInvariant();
             string provider = (ev.ProviderName ?? string.Empty).ToLowerInvariant();
 
-            // 1. Ransomware & Shadow Copy Deletion (EID 4688 / Sysmon 1 / PowerShell 4104)
+            // 1. Phishing & Malicious Payload Staging (T1566 / T1204 / T1105)
+            if (msg.Contains("certutil") && (msg.Contains("urlcache") || msg.Contains("-f http")) ||
+                msg.Contains("mshta") && (msg.Contains("http://") || msg.Contains("https://")) ||
+                msg.Contains("curl") && (msg.Contains("http://") || msg.Contains("https://")) && (msg.Contains("-o") || msg.Contains(">")) ||
+                (msg.Contains("downloads") || msg.Contains("appdata\\local\\temp")) && (msg.Contains(".iso") || msg.Contains(".hta") || msg.Contains(".vbs") || msg.Contains(".lnk") || msg.Contains(".js")) && (msg.Contains("wscript") || msg.Contains("cscript")) ||
+                msg.Contains("tentativa phishing") || msg.Contains("phishing") || msg.Contains("simulare phishing"))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🎣 ALERTĂ CRITICĂ: Tentativă de Phishing / Descărcare Payload Malițios",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1566.001",
+                    MitreTacticName = "Initial Access",
+                    Explanation = $"A fost interceptată o tentativă de phishing / inginerie socială sau descărcare de payload din sursă externă pe [{ev.MachineName}]. Se recomandă izolarea imediată și blocarea conexiunilor C2.",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 2. Ransomware & Shadow Copy Deletion (EID 4688 / Sysmon 1 / PowerShell 4104)
             if (msg.Contains("vssadmin") && (msg.Contains("delete") || msg.Contains("shadows")) ||
                 msg.Contains("bcdedit") && msg.Contains("recoveryenabled") ||
                 msg.Contains("wbadmin") && msg.Contains("delete") && msg.Contains("catalog"))

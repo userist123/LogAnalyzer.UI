@@ -214,6 +214,9 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _totalLiveEventsCaptured = 0;
         [ObservableProperty] private string _liveRemoteTargetHost = "localhost";
         [ObservableProperty] private DetectedIssue? _selectedLiveAlert;
+        [ObservableProperty] private bool _isLiveToastVisible;
+        [ObservableProperty] private DetectedIssue? _currentLiveToastAlert;
+        private System.Timers.Timer? _toastAutoDismissTimer;
 
         // Trigger DB reloading when search parameters change
         partial void OnSearchEventsTextChanged(string value)
@@ -1095,7 +1098,20 @@ namespace LogAnalyzer.UI.ViewModels
                     if (alert != null)
                     {
                         LiveAlerts.Insert(0, alert);
+                        CurrentLiveToastAlert = alert;
+                        IsLiveToastVisible = true;
                         StatusMessage = $"🚨 ALERTĂ LIVE DETECTATĂ: {alert.Title}";
+
+                        try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+
+                        _toastAutoDismissTimer?.Stop();
+                        _toastAutoDismissTimer = new System.Timers.Timer(7000);
+                        _toastAutoDismissTimer.AutoReset = false;
+                        _toastAutoDismissTimer.Elapsed += (s, e) =>
+                        {
+                            Application.Current?.Dispatcher?.Invoke(() => IsLiveToastVisible = false);
+                        };
+                        _toastAutoDismissTimer.Start();
                     }
                 });
             };
@@ -1121,7 +1137,50 @@ namespace LogAnalyzer.UI.ViewModels
             LiveStreamingEvents.Clear();
             LiveAlerts.Clear();
             TotalLiveEventsCaptured = 0;
+            IsLiveToastVisible = false;
             LiveMonitoringStatusText = "Feed live curățat.";
+        }
+
+        [RelayCommand]
+        private void DismissLiveToast()
+        {
+            IsLiveToastVisible = false;
+        }
+
+        [RelayCommand]
+        private void SimulateLiveAlert()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 4104,
+                Level = "Warning",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-PowerShell",
+                TimeCreated = DateTime.Now,
+                Message = "Creating Scriptblock text: powershell.exe -enc VwByAGkAdABlAC0ASABvAHMAdAAgACIAVABlAHMAdAAiAA== -nop -w hidden # downloadstring iex"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                CurrentLiveToastAlert = alert;
+                IsLiveToastVisible = true;
+                StatusMessage = $"🚨 SIMULARE ALERTĂ: {alert.Title}";
+
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+
+                _toastAutoDismissTimer?.Stop();
+                _toastAutoDismissTimer = new System.Timers.Timer(7000);
+                _toastAutoDismissTimer.AutoReset = false;
+                _toastAutoDismissTimer.Elapsed += (s, e) =>
+                {
+                    Application.Current?.Dispatcher?.Invoke(() => IsLiveToastVisible = false);
+                };
+                _toastAutoDismissTimer.Start();
+            }
         }
 
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)

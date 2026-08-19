@@ -10,19 +10,19 @@ namespace LogAnalyzer.Core.Services.Network
         private DateTime _lastCleanupUtc = DateTime.UtcNow;
 
         /// <summary>
-        /// Evaluează în memorie un eveniment nou sosit în timp real și returnează o alertă dacă se detectează un atac.
+        /// Evaluează în memorie un eveniment nou sosit în timp real și returnează o alertă dacă se detectează un atac sau anomalie.
         /// </summary>
         public DetectedIssue? EvaluateLiveEvent(ParsedEvent ev)
         {
             if (ev == null) return null;
 
             string msg = (ev.Message ?? string.Empty).ToLowerInvariant();
+            string provider = (ev.ProviderName ?? string.Empty).ToLowerInvariant();
 
-            // 1. Ransomware & Shadow Copy Deletion (EID 4688 / Sysmon 1)
-            if ((ev.EventId == 4688 || ev.EventId == 1) &&
-                (msg.Contains("vssadmin") && msg.Contains("delete") && msg.Contains("shadows") ||
-                 msg.Contains("bcdedit") && msg.Contains("recoveryenabled") && msg.Contains("no") ||
-                 msg.Contains("wbadmin") && msg.Contains("delete") && msg.Contains("catalog")))
+            // 1. Ransomware & Shadow Copy Deletion (EID 4688 / Sysmon 1 / PowerShell 4104)
+            if (msg.Contains("vssadmin") && (msg.Contains("delete") || msg.Contains("shadows")) ||
+                msg.Contains("bcdedit") && msg.Contains("recoveryenabled") ||
+                msg.Contains("wbadmin") && msg.Contains("delete") && msg.Contains("catalog"))
             {
                 return new DetectedIssue
                 {
@@ -36,10 +36,11 @@ namespace LogAnalyzer.Core.Services.Network
                 };
             }
 
-            // 2. PowerShell Codificat / Obfuscat / Bypass (EID 4104 / EID 4688 / Sysmon 1)
-            if ((ev.EventId == 4104 || ev.EventId == 4688 || ev.EventId == 1) &&
-                (msg.Contains("-enc") || msg.Contains("-encodedcommand") || msg.Contains("downloadstring") || 
-                 msg.Contains("iex(") || msg.Contains("bypass -nop -w hidden")))
+            // 2. PowerShell Codificat / Obfuscat / Download Cradle / Bypass (EID 4104 / EID 4688 / Sysmon 1 / Engine 400)
+            if (msg.Contains("-enc") || msg.Contains("-encodedcommand") || msg.Contains("downloadstring") || 
+                msg.Contains("iex(") || msg.Contains("bypass") || msg.Contains("downloadfile") ||
+                msg.Contains("invoke-webrequest") || msg.Contains("invoke-expression") || msg.Contains("w hidden") ||
+                (provider.Contains("powershell") && (msg.Contains("scriptblock") && msg.Contains("-enc"))))
             {
                 return new DetectedIssue
                 {
@@ -47,16 +48,14 @@ namespace LogAnalyzer.Core.Services.Network
                     Severity = "High",
                     MitreTechniqueId = "T1059.001",
                     MitreTacticName = "Execution",
-                    Explanation = $"A fost interceptată o execuție suspectă de script PowerShell ascuns pe [{ev.MachineName}]. Comanda încearcă descărcarea de payload direct în memorie sau eludarea politicilor de execuție.",
+                    Explanation = $"A fost interceptată o execuție suspectă de script PowerShell ascuns/obfuscat pe [{ev.MachineName}]. Comanda încearcă descărcarea de payload direct în memorie sau eludarea politicilor de execuție.",
                     CreatedAt = DateTime.UtcNow,
                     RelatedEvents = new List<ParsedEvent> { ev }
                 };
             }
 
-            // 3. Acces Memorie LSASS / Mimikatz (Sysmon EID 10 / Security EID 4656 / 4663)
-            if ((ev.EventId == 10 || ev.EventId == 4656 || ev.EventId == 4663) &&
-                msg.Contains("lsass.exe") &&
-                (msg.Contains("0x1010") || msg.Contains("0x1fffff")))
+            // 3. Acces Memorie LSASS / Mimikatz / Procdump
+            if (msg.Contains("lsass.exe") && (msg.Contains("0x1010") || msg.Contains("0x1fffff") || msg.Contains("mimikatz") || msg.Contains("sekurlsa") || msg.Contains("logonpasswords")))
             {
                 return new DetectedIssue
                 {
@@ -64,14 +63,31 @@ namespace LogAnalyzer.Core.Services.Network
                     Severity = "Critical",
                     MitreTechniqueId = "T1003.001",
                     MitreTacticName = "Credential Access",
-                    Explanation = $"Un proces a solicitat drepturi de acces la memoria procesului de autentificare LSASS (GrantedAccess: 0x1010 / 0x1FFFFF) pe [{ev.MachineName}]. Indicator puternic de atac cu unelte de tip Mimikatz sau Procdump.",
+                    Explanation = $"Un proces a solicitat drepturi de acces la memoria procesului de autentificare LSASS pe [{ev.MachineName}]. Indicator puternic de atac cu unelte de tip Mimikatz sau Procdump.",
                     CreatedAt = DateTime.UtcNow,
                     RelatedEvents = new List<ParsedEvent> { ev }
                 };
             }
 
-            // 4. Creare Cont Administrator Nou (EID 4720 + EID 4732)
-            if (ev.EventId == 4720 || ev.EventId == 4732)
+            // 4. Recunoaștere Privilegii / Utilizatori (whoami /priv, net user, net localgroup administrators)
+            if (msg.Contains("whoami") && (msg.Contains("/priv") || msg.Contains("/all") || msg.Contains("/groups")) ||
+                msg.Contains("net localgroup") && msg.Contains("administrators") ||
+                msg.Contains("net group \"domain admins\""))
+            {
+                return new DetectedIssue
+                {
+                    Title = "⚠️ ALERTĂ MEDIE: Activitate de Recunoaștere & Enumerare Privilegii (Discovery)",
+                    Severity = "Medium",
+                    MitreTechniqueId = "T1033",
+                    MitreTacticName = "Discovery",
+                    Explanation = $"Comandă de enumerare a privilegiilor utilizatorului sau a membrilor grupurilor de administratori executată pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 5. Creare Cont Administrator Nou (EID 4720 + EID 4732)
+            if (ev.EventId == 4720 || ev.EventId == 4732 || (msg.Contains("net user") && msg.Contains("/add")))
             {
                 return new DetectedIssue
                 {
@@ -79,14 +95,14 @@ namespace LogAnalyzer.Core.Services.Network
                     Severity = "Medium",
                     MitreTechniqueId = "T1136.001",
                     MitreTacticName = "Persistence",
-                    Explanation = $"A fost creat un cont local nou sau a fost adăugat un membru într-un grup administrativ pe [{ev.MachineName}]. Verificați dacă acțiunea a fost autorizată.",
+                    Explanation = $"A fost creat un cont local nou sau a fost adăugat un membru într-un grup administrativ pe [{ev.MachineName}].",
                     CreatedAt = DateTime.UtcNow,
                     RelatedEvents = new List<ParsedEvent> { ev }
                 };
             }
 
-            // 5. Curățare Jurnal de Securitate (Anti-Forensics EID 1102 / 104)
-            if (ev.EventId == 1102 || ev.EventId == 104)
+            // 6. Curățare Jurnal de Securitate (Anti-Forensics EID 1102 / 104)
+            if (ev.EventId == 1102 || ev.EventId == 104 || (msg.Contains("wevtutil") && (msg.Contains("cl") || msg.Contains("clear-log"))))
             {
                 return new DetectedIssue
                 {
@@ -100,8 +116,8 @@ namespace LogAnalyzer.Core.Services.Network
                 };
             }
 
-            // 6. Instalare Serviciu Nou / Lateral Movement (EID 7045)
-            if (ev.EventId == 7045)
+            // 7. Instalare Serviciu Nou / Lateral Movement (EID 7045)
+            if (ev.EventId == 7045 || msg.Contains("psexec") || msg.Contains("psexesvc"))
             {
                 bool isPsExec = msg.Contains("psexec") || msg.Contains("psexesvc");
                 return new DetectedIssue
@@ -116,7 +132,7 @@ namespace LogAnalyzer.Core.Services.Network
                 };
             }
 
-            // 7. Eșecuri Repetate de Autentificare / Brute Force (EID 4625)
+            // 8. Eșecuri Repetate de Autentificare / Brute Force (EID 4625)
             if (ev.EventId == 4625)
             {
                 TrackFailedLogon(ev.MachineName ?? "Unknown");
@@ -133,6 +149,21 @@ namespace LogAnalyzer.Core.Services.Network
                         RelatedEvents = new List<ParsedEvent> { ev }
                     };
                 }
+            }
+
+            // 9. Comenzi de Test / Simulare
+            if (msg.Contains("simulare dfir") || msg.Contains("test alert"))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🚨 ALERTĂ LIVE (TEST SIMULAT): Detecție Semnătură Activă",
+                    Severity = "High",
+                    MitreTechniqueId = "T1059.001",
+                    MitreTacticName = "Execution",
+                    Explanation = $"A fost interceptată o simulare de alertă de securitate live pe [{ev.MachineName}]. Pipeline-ul de detecție și toast pop-up funcționează perfect.",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
             }
 
             return null;

@@ -2181,6 +2181,7 @@
                                             
                                             <Button Content="▶ PORNEȘTE MONITORIZARE LIVE" Command="{Binding StartLiveMonitoringCommand}" Background="#052e16" BorderBrush="#22c55e" Foreground="#22c55e" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
                                             <Button Content="⏹ OPREȘTE" Command="{Binding StopLiveMonitoringCommand}" Background="#3f1218" BorderBrush="#ef4444" Foreground="#ef4444" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
+                                            <Button Content="🧪 Simulează Alertă Pop-Up" Command="{Binding SimulateLiveAlertCommand}" Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="12,6" Margin="0,0,10,0"/>
                                             <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="12,6"/>
                                         </StackPanel>
 
@@ -2408,6 +2409,46 @@
                 </StackPanel>
             </Border>
         </Grid>
+
+        <!-- REAL-TIME LIVE POP-UP ALERT TOAST (Overlaid) -->
+        <Border Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,70,24,0" Width="440" 
+                Visibility="{Binding IsLiveToastVisible, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Background="#180709" BorderBrush="{StaticResource DangerBrush}" BorderThickness="2" CornerRadius="8" Padding="16" Effect="{DynamicResource CardShadow}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Toast Header -->
+                <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,8">
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="10" Height="10" Fill="{StaticResource DangerBrush}" Margin="0,0,8,0"/>
+                        <TextBlock Text="🚨 DETECȚIE ÎN TIMP REAL" FontSize="11" FontWeight="Black" Foreground="{StaticResource DangerBrush}"/>
+                    </StackPanel>
+                    <Button DockPanel.Dock="Right" Content="✕" Command="{Binding DismissLiveToastCommand}" Background="Transparent" Foreground="{StaticResource TextSecondaryBrush}" BorderThickness="0" FontWeight="Bold" FontSize="12" Width="24" Height="24" Cursor="Hand"/>
+                </DockPanel>
+
+                <!-- Toast Body -->
+                <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                    <TextBlock Text="{Binding CurrentLiveToastAlert.Title}" FontSize="12" FontWeight="Bold" Foreground="White" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <DockPanel LastChildFill="False" Margin="0,0,0,6">
+                        <Border DockPanel.Dock="Left" Background="#3f1218" BorderBrush="{StaticResource DangerBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2">
+                            <TextBlock Text="{Binding CurrentLiveToastAlert.Severity, StringFormat='NIVEL: {0}'}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"/>
+                        </Border>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding CurrentLiveToastAlert.MitreTechniqueId, StringFormat='MITRE ATT&amp;CK: {0}'}" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <TextBlock Text="{Binding CurrentLiveToastAlert.Explanation}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" MaxHeight="60" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <!-- Toast Footer / Action -->
+                <DockPanel Grid.Row="2" LastChildFill="False" Margin="0,4,0,0">
+                    <TextBlock DockPanel.Dock="Left" Text="Eveniment înregistrat automat în registru." FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                    <Button DockPanel.Dock="Right" Content="OK / Închide" Command="{Binding DismissLiveToastCommand}" Background="{StaticResource Surface3Brush}" Foreground="White" FontSize="10" Padding="12,4"/>
+                </DockPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
 

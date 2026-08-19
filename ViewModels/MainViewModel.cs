@@ -1182,6 +1182,43 @@ namespace LogAnalyzer.UI.ViewModels
                             ActiveCountermeasureAlert = alert;
                             ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, ev.MachineName);
                             IsCountermeasureModalVisible = true;
+
+                            // Persist full Attacker Intelligence Forensic Event into DB and Timeline
+                            var intel = ActiveCountermeasurePlaybook.AttackerIntel;
+                            var dossierEvent = new ParsedEvent
+                            {
+                                EventId = 9999,
+                                Level = "Critical",
+                                MachineName = ev.MachineName,
+                                ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                                TimeCreated = DateTime.Now,
+                                Message = $"[DOSAR FORENZIC ATACATOR & ATRIBUIRE CTI]\n" +
+                                          $"• Actor Cibernetic: {intel.LikelyActorName}\n" +
+                                          $"• C2 / IP / Domeniu: {intel.SourceIpOrDomain}\n" +
+                                          $"• Origine Geografică: {intel.ActorCountryOrOrigin}\n" +
+                                          $"• Motivație: {intel.Motivation}\n" +
+                                          $"• Țintă: {intel.TargetUserOrAccount}\n" +
+                                          $"• Proces Malițios: {intel.AttackProcessPath}\n" +
+                                          $"• Semnătură SHA-256: {intel.AttackHashSha256}\n" +
+                                          $"• Unelte Detectate: {intel.KnownToolsUsed}\n" +
+                                          $"• Recomandare Apărare: {intel.DefenseRecommendation}"
+                            };
+
+                            TotalLiveEventsCaptured++;
+                            LiveStreamingEvents.Insert(0, dossierEvent);
+                            Events.Insert(0, dossierEvent);
+                            TimelineItems.Insert(0, new TimelineItem
+                            {
+                                Timestamp = DateTime.Now,
+                                Source = "DFIR-ThreatIntelligence",
+                                Category = "CTI_ATTACKER_DOSSIER",
+                                Severity = "Critical",
+                                MitreTags = alert.MitreTechniqueId,
+                                UserOrHost = intel.TargetUserOrAccount,
+                                Description = $"Dosar identificare atacator: {intel.LikelyActorName} ({intel.SourceIpOrDomain}) | Unelte: {intel.KnownToolsUsed}"
+                            });
+
+                            _auditService.LogAction("THREAT_ACTOR_DOSSIER_STORED", $"{OperatorName} - Atacator: {intel.LikelyActorName}, C2: {intel.SourceIpOrDomain}, Hash: {intel.AttackHashSha256}");
                         }
 
                         try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
@@ -1319,6 +1356,42 @@ namespace LogAnalyzer.UI.ViewModels
                 IsCountermeasureModalVisible = true;
                 StatusMessage = $"🚨 SIMULARE ALERTĂ: {alert.Title}";
 
+                var intel = ActiveCountermeasurePlaybook.AttackerIntel;
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & ATRIBUIRE CTI]\n" +
+                              $"• Actor Cibernetic: {intel.LikelyActorName}\n" +
+                              $"• C2 / IP / Domeniu: {intel.SourceIpOrDomain}\n" +
+                              $"• Origine Geografică: {intel.ActorCountryOrOrigin}\n" +
+                              $"• Motivație: {intel.Motivation}\n" +
+                              $"• Țintă: {intel.TargetUserOrAccount}\n" +
+                              $"• Proces Malițios: {intel.AttackProcessPath}\n" +
+                              $"• Semnătură SHA-256: {intel.AttackHashSha256}\n" +
+                              $"• Unelte Detectate: {intel.KnownToolsUsed}\n" +
+                              $"• Recomandare Apărare: {intel.DefenseRecommendation}"
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_ATTACKER_DOSSIER",
+                    Severity = "Critical",
+                    MitreTags = alert.MitreTechniqueId,
+                    UserOrHost = intel.TargetUserOrAccount,
+                    Description = $"Dosar identificare atacator: {intel.LikelyActorName} ({intel.SourceIpOrDomain}) | Unelte: {intel.KnownToolsUsed}"
+                });
+
+                _auditService.LogAction("THREAT_ACTOR_DOSSIER_STORED", $"{OperatorName} - Atacator: {intel.LikelyActorName}, C2: {intel.SourceIpOrDomain}, Hash: {intel.AttackHashSha256}");
+
                 try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
 
                 _toastAutoDismissTimer?.Stop();
@@ -1359,6 +1432,42 @@ namespace LogAnalyzer.UI.ViewModels
                 ActiveCountermeasurePlaybook = _countermeasureEngine.GeneratePlaybook(alert, Environment.MachineName);
                 IsCountermeasureModalVisible = true;
                 StatusMessage = $"🎣 PHISHING DETECTAT: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook.AttackerIntel;
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & ATRIBUIRE CTI]\n" +
+                              $"• Actor Cibernetic: {intel.LikelyActorName}\n" +
+                              $"• C2 / IP / Domeniu: {intel.SourceIpOrDomain}\n" +
+                              $"• Origine Geografică: {intel.ActorCountryOrOrigin}\n" +
+                              $"• Motivație: {intel.Motivation}\n" +
+                              $"• Țintă: {intel.TargetUserOrAccount}\n" +
+                              $"• Proces Malițios: {intel.AttackProcessPath}\n" +
+                              $"• Semnătură SHA-256: {intel.AttackHashSha256}\n" +
+                              $"• Unelte Detectate: {intel.KnownToolsUsed}\n" +
+                              $"• Recomandare Apărare: {intel.DefenseRecommendation}"
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_ATTACKER_DOSSIER",
+                    Severity = "Critical",
+                    MitreTags = alert.MitreTechniqueId,
+                    UserOrHost = intel.TargetUserOrAccount,
+                    Description = $"Dosar identificare atacator: {intel.LikelyActorName} ({intel.SourceIpOrDomain}) | Unelte: {intel.KnownToolsUsed}"
+                });
+
+                _auditService.LogAction("THREAT_ACTOR_DOSSIER_STORED", $"{OperatorName} - Atacator: {intel.LikelyActorName}, C2: {intel.SourceIpOrDomain}, Hash: {intel.AttackHashSha256}");
 
                 try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
             }

@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services.Network
@@ -45,7 +48,8 @@ namespace LogAnalyzer.Core.Services.Network
         {
             var playbook = new CountermeasurePlaybook
             {
-                ThreatLevel = alert.Severity
+                ThreatLevel = alert.Severity,
+                AttackerIntel = ExtractDynamicAttackerIntel(alert, hostname)
             };
 
             string titleLower = (alert.Title ?? string.Empty).ToLowerInvariant();
@@ -57,19 +61,6 @@ namespace LogAnalyzer.Core.Services.Network
                 playbook.AttackCategory = "🎣 Tentativă de Phishing & Descărcare Payload";
                 playbook.ImmediateObjective = "Blocarea accesului la serverul atacatorului, oprirea descărcării de malware și prevenirea furtului de credențiale.";
                 playbook.ForensicsGuidance = "Verificați folderul %TEMP% și Downloads pentru fișiere .LNK, .ISO, .VBS sau .HTA. Extrageți domeniul din comanda curl/powershell și adăugați-l pe lista neagră.";
-
-                playbook.AttackerIntel = new AttackerIntelligenceDetails
-                {
-                    SourceIpOrDomain = "http://evil-phishing-portal.com (IP: 185.220.101.5 / Tor Proxy)",
-                    LikelyActorName = "Storm-0539 / TA558 (Cartel Phishing & Initial Access Broker)",
-                    ActorCountryOrOrigin = "Infrastructură Bulletproof / Nod de Ieșire Olanda",
-                    Motivation = "Furt de Credențiale / Sesiuni & Vânzare Acces Rețea",
-                    TargetUserOrAccount = $"{Environment.UserName} @ {Environment.MachineName}",
-                    AttackProcessPath = "powershell.exe / certutil.exe (Descărcare container .ISO)",
-                    AttackHashSha256 = "d41d8cd98f00b204e9800998ecf8427e (Clasificare: Phishing Dropper)",
-                    KnownToolsUsed = "CertUtil LOLBAS, HTA Stager, Evilginx, PowerShell WebRequest",
-                    DefenseRecommendation = "Blocare IP pe firewall, resetare forțată tokeni O365/Entra ID și ștergere fișiere din Downloads."
-                };
 
                 playbook.Actions.Add(new CountermeasureAction
                 {
@@ -105,19 +96,6 @@ namespace LogAnalyzer.Core.Services.Network
                 playbook.ImmediateObjective = "Izolarea instantanee a calculatorului din rețea pentru a opri propagarea laterală și protejarea share-urilor de rețea.";
                 playbook.ForensicsGuidance = "Realizați un dump de memorie RAM înainte de oprirea stației pentru recuperarea eventualelor chei de decriptare din memorie.";
 
-                playbook.AttackerIntel = new AttackerIntelligenceDetails
-                {
-                    SourceIpOrDomain = "Local Subnet / Mișcare Laterală (Port 445 SMB / 3389 RDP)",
-                    LikelyActorName = "LockBit 3.0 / BlackCat (ALPHV) Ransomware Syndicate",
-                    ActorCountryOrOrigin = "Europa de Est / Rusia (Grupare de Criminalitate Cibernetică)",
-                    Motivation = "Extorcare Financiară & Șantaj prin Criptare Masivă de Date",
-                    TargetUserOrAccount = $"{Environment.UserName} (Drepturi Administrative Locale)",
-                    AttackProcessPath = "vssadmin.exe / bcdedit.exe (Ștergere Copii Shadow Copy)",
-                    AttackHashSha256 = "8f14e45fceea167a5a36dedd4bea2543 (Ransomware Dropper)",
-                    KnownToolsUsed = "vssadmin, bcdedit, Cobalt Strike Beacon, PSExec",
-                    DefenseRecommendation = "Izolare imediată a stației din rețea pentru prevenirea infectării serverelor de backup."
-                };
-
                 playbook.Actions.Add(new CountermeasureAction
                 {
                     Title = "🛡️ IZOLEAZĂ GAZDA DIN REȚEA (TAIERE TRAFIC)",
@@ -142,19 +120,6 @@ namespace LogAnalyzer.Core.Services.Network
                 playbook.AttackCategory = "🚨 Tentativă Furt Credențiale (Mimikatz / LSASS)";
                 playbook.ImmediateObjective = "Protejarea bazei de date de securitate SAM/LSA și resetarea imediată a conturilor administrative active pe stație.";
                 playbook.ForensicsGuidance = "Activați Windows Defender Credential Guard (LSA Protection) prin registru pentru a preveni citirea directă a memoriei LSASS.";
-
-                playbook.AttackerIntel = new AttackerIntelligenceDetails
-                {
-                    SourceIpOrDomain = "Local Process Injection / Memory Access",
-                    LikelyActorName = "APT28 (Fancy Bear) / Lazarus Group / FIN6",
-                    ActorCountryOrOrigin = "Actor Statal / Advanced Persistent Threat (APT)",
-                    Motivation = "Spionaj Cibernetic & Compromitere Domain Controller",
-                    TargetUserOrAccount = "NT AUTHORITY\\SYSTEM & Conturi Domain Admin",
-                    AttackProcessPath = "lsass.exe (Citire Memorie Proces)",
-                    AttackHashSha256 = "c3ab8ff13720e8ad9047dd39466b3c89 (Mimikatz / Sekurlsa DLL)",
-                    KnownToolsUsed = "Mimikatz, Procdump, Sekurlsa, Nanodump",
-                    DefenseRecommendation = "Activare LSA Protection (RunAsPPL) și resetare Kerberos KRBTGT pe domeniu."
-                };
 
                 playbook.Actions.Add(new CountermeasureAction
                 {
@@ -181,19 +146,6 @@ namespace LogAnalyzer.Core.Services.Network
                 playbook.ImmediateObjective = "Limitarea accesului atacatorului, colectarea artefactelor de memorie și blocarea persistenței.";
                 playbook.ForensicsGuidance = "Verificați cheile de autorun din Registru (Run/RunOnce) și Task-urile programate (Scheduled Tasks).";
 
-                playbook.AttackerIntel = new AttackerIntelligenceDetails
-                {
-                    SourceIpOrDomain = "Conexiune Locală / Suspicioasă",
-                    LikelyActorName = "Actor Cibernetic Necunoscut / Script Automatizat",
-                    ActorCountryOrOrigin = "Infrastructură Externă Anonimizată",
-                    Motivation = "Reconnoaștere & Escaladare Privilegii",
-                    TargetUserOrAccount = Environment.UserName,
-                    AttackProcessPath = "cmd.exe / powershell.exe",
-                    AttackHashSha256 = "e3b0c44298fc1c149afbf4c8996fb924",
-                    KnownToolsUsed = "Living-off-the-Land (LOLBAS)",
-                    DefenseRecommendation = "Inspectare procese active și blocare porturi neutilizate."
-                };
-
                 playbook.Actions.Add(new CountermeasureAction
                 {
                     Title = "🛡️ Izolează Gazda din Rețea",
@@ -214,6 +166,89 @@ namespace LogAnalyzer.Core.Services.Network
             }
 
             return playbook;
+        }
+
+        private AttackerIntelligenceDetails ExtractDynamicAttackerIntel(DetectedIssue alert, string hostname)
+        {
+            var intel = new AttackerIntelligenceDetails();
+            string rawContent = alert.Explanation ?? string.Empty;
+            string userHost = $"{Environment.UserName} @ {hostname}";
+
+            if (alert.RelatedEvents != null && alert.RelatedEvents.Count > 0)
+            {
+                var ev = alert.RelatedEvents[0];
+                rawContent += " " + (ev.Message ?? string.Empty);
+                if (!string.IsNullOrEmpty(ev.MachineName)) userHost = $"{Environment.UserName} @ {ev.MachineName}";
+            }
+
+            intel.TargetUserOrAccount = userHost;
+
+            // 1. Extract URL or IP
+            var urlMatch = Regex.Match(rawContent, @"https?://[a-zA-Z0-9\-\.]+(?::\d+)?(?:/[^\s""'>]*)?", RegexOptions.IgnoreCase);
+            var ipMatch = Regex.Match(rawContent, @"\b(?:\d{1,3}\.){3}\d{1,3}\b");
+
+            if (urlMatch.Success)
+            {
+                intel.SourceIpOrDomain = urlMatch.Value;
+            }
+            else if (ipMatch.Success)
+            {
+                intel.SourceIpOrDomain = $"IP: {ipMatch.Value} (Remote C2)";
+            }
+            else
+            {
+                intel.SourceIpOrDomain = "Local Process / Subrețea Internă (127.0.0.1 / SMB)";
+            }
+
+            // 2. Extract Process
+            if (rawContent.Contains("vssadmin", StringComparison.OrdinalIgnoreCase)) intel.AttackProcessPath = "vssadmin.exe (Shadow Copy Deletion)";
+            else if (rawContent.Contains("certutil", StringComparison.OrdinalIgnoreCase)) intel.AttackProcessPath = "certutil.exe (URL Cache Downloader)";
+            else if (rawContent.Contains("powershell", StringComparison.OrdinalIgnoreCase)) intel.AttackProcessPath = "powershell.exe (ScriptBlock Execution)";
+            else if (rawContent.Contains("mshta", StringComparison.OrdinalIgnoreCase)) intel.AttackProcessPath = "mshta.exe (HTML Application Host)";
+            else if (rawContent.Contains("curl", StringComparison.OrdinalIgnoreCase)) intel.AttackProcessPath = "curl.exe (Web Payload Downloader)";
+            else intel.AttackProcessPath = "cmd.exe / powershell.exe";
+
+            // 3. Compute SHA256 of command
+            using var sha = SHA256.Create();
+            byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(rawContent));
+            intel.AttackHashSha256 = BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
+
+            // 4. Attribution based on technique
+            string tech = (alert.MitreTechniqueId ?? string.Empty).ToUpperInvariant();
+            if (tech.Contains("T1490") || rawContent.Contains("ransomware", StringComparison.OrdinalIgnoreCase))
+            {
+                intel.LikelyActorName = "LockBit 3.0 / BlackCat (ALPHV) Syndicate";
+                intel.ActorCountryOrOrigin = "Grupare Cybercrime / Europa de Est";
+                intel.Motivation = "Extorcare Financiară & Criptare Date";
+                intel.KnownToolsUsed = "vssadmin, bcdedit, Cobalt Strike Beacon, PSExec";
+                intel.DefenseRecommendation = "Izolare imediată a stației din rețea pentru protejarea share-urilor.";
+            }
+            else if (tech.Contains("T1566") || rawContent.Contains("phishing", StringComparison.OrdinalIgnoreCase))
+            {
+                intel.LikelyActorName = "Storm-0539 / TA558 (Cartel Phishing & Initial Access)";
+                intel.ActorCountryOrOrigin = "Infrastructură Bulletproof / IP Proxy Olanda";
+                intel.Motivation = "Furt de Credențiale / Sesiuni & Vânzare Acces Rețea";
+                intel.KnownToolsUsed = "CertUtil LOLBAS, HTA Stager, Evilginx, PowerShell WebRequest";
+                intel.DefenseRecommendation = "Blocare URL pe firewall și resetare forțată a token-urilor.";
+            }
+            else if (tech.Contains("T1003") || rawContent.Contains("lsass", StringComparison.OrdinalIgnoreCase))
+            {
+                intel.LikelyActorName = "APT28 (Fancy Bear) / Lazarus Group";
+                intel.ActorCountryOrOrigin = "Actor Statal / Advanced Persistent Threat (APT)";
+                intel.Motivation = "Spionaj Cibernetic & Escaladare Privilegii Administrative";
+                intel.KnownToolsUsed = "Mimikatz, Procdump, Sekurlsa, Nanodump";
+                intel.DefenseRecommendation = "Activare LSA Protection (RunAsPPL) și resetare conturi administrative.";
+            }
+            else
+            {
+                intel.LikelyActorName = "Actor Cibernetic Necunoscut / Script Automatizat";
+                intel.ActorCountryOrOrigin = "Infrastructură Externă Anonimizată";
+                intel.Motivation = "Reconnoaștere & Escaladare Privilegii";
+                intel.KnownToolsUsed = "Living-off-the-Land (LOLBAS)";
+                intel.DefenseRecommendation = "Inspectare procese active și blocare porturi neutilizate.";
+            }
+
+            return intel;
         }
     }
 }

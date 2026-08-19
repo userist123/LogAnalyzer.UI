@@ -1532,6 +1532,74 @@ namespace LogAnalyzer.UI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void SimulateLateralMovementAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 7045,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Service Control Manager",
+                TimeCreated = DateTime.Now,
+                Message = "A service was installed in the system.\nService Name: PSEXESVC\nService File Name: %SystemRoot%\\PSEXESVC.exe\nService Type: user mode service\nService Account: NT AUTHORITY\\SYSTEM\nClient Process Id: 4328\nSource Network Address: 192.168.1.145 (Pivot Compromised Host)"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = new DetectedIssue
+            {
+                Title = "ALERTĂ CRITICĂ: Mișcare Laterală & Instalare Serviciu de la Distanță (PsExec / SMB)",
+                Severity = "Critical",
+                Explanation = "Atacatorul a pătruns deja pe un alt nod din rețea (192.168.1.145) și încearcă propagarea laterală pe această stație prin crearea de la distanță a serviciului PSEXESVC.exe cu privilegii SYSTEM.",
+                MitreTechniqueId = "T1021.002 (SMB/Windows Admin Shares) & T1543.003 (Windows Service)",
+                RelatedEvents = new List<ParsedEvent> { simEvent }
+            };
+
+            LiveAlerts.Insert(0, alert);
+            IsAutoShieldTriggered = true;
+            AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Conexiunea cu stația compromisă 192.168.1.145 a fost blocată pe firewall!";
+            
+            OpenAlertModal(alert, Environment.MachineName);
+            StatusMessage = $"🚨 ATAC DETECTAT: {alert.Title}";
+
+            var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+            var dossierEvent = new ParsedEvent
+            {
+                EventId = 9999,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                TimeCreated = DateTime.Now,
+                Message = $"[DOSAR FORENZIC ATACATOR & DEPLASARE LATERALĂ]\n" +
+                          $"• Fază Kill Chain: Lateral Movement & Privilege Escalation (Post-Breach)\n" +
+                          $"• Nod Compromis Sursă: 192.168.1.145 (Pivot Intern)\n" +
+                          $"• Metodă Execuție: PsExec Service / SMB Admin Share (C$ / IPC$)\n" +
+                          $"• Cont Compromis: NT AUTHORITY\\SYSTEM / DOMAIN\\Administrator\n" +
+                          $"• Proces Malițios: %SystemRoot%\\PSEXESVC.exe\n" +
+                          $"• Recomandare Apărare: Izolare imediată a stației sursă 192.168.1.145 și resetare bilete Kerberos TGT."
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, dossierEvent);
+            Events.Insert(0, dossierEvent);
+            TimelineItems.Insert(0, new TimelineItem
+            {
+                Timestamp = DateTime.Now,
+                Source = "DFIR-ThreatIntelligence",
+                Category = "CTI_LATERAL_MOVEMENT",
+                Severity = "Critical",
+                MitreTags = "T1021.002 / T1543.003",
+                UserOrHost = "192.168.1.145 -> " + Environment.MachineName,
+                Description = "Detectat atacator deja pătruns în rețea realizând mișcare laterală via PsExec Service"
+            });
+
+            _auditService.LogAction("LATERAL_MOVEMENT_BLOCKED", $"{OperatorName} - Atacator pivot: 192.168.1.145, Metodă: PSEXESVC");
+            try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+        }
+
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
             ".evtx", ".reg", ".dat", ".csv", ".json", ".log", ".lnk", ".pf", ".hve", ".txt", ".bin", ".bmc"

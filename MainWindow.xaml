@@ -2262,18 +2262,28 @@
                                             
                                             <Button Content="▶ PORNEȘTE MONITORIZARE LIVE" Command="{Binding StartLiveMonitoringCommand}" Background="#052e16" BorderBrush="#22c55e" Foreground="#22c55e" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
                                             <Button Content="⏹ OPREȘTE" Command="{Binding StopLiveMonitoringCommand}" Background="#3f1218" BorderBrush="#ef4444" Foreground="#ef4444" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
-                                            <Button Content="🧪 Generic" Command="{Binding SimulateLiveAlertCommand}" Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🎣 Phishing" Command="{Binding SimulatePhishingAttackCommand}" Background="#3b0764" BorderBrush="#c084fc" Foreground="#c084fc" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🏹 Mișcare Laterală" Command="{Binding SimulateLateralMovementAttackCommand}" Background="#1e3a8a" BorderBrush="#60a5fa" Foreground="#60a5fa" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="☣️ Kernel BYOVD" Command="{Binding SimulateByovdAttackCommand}" Background="#450a0a" BorderBrush="#f87171" Foreground="#f87171" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="💉 Hollowing RAM" Command="{Binding SimulateProcessHollowingAttackCommand}" Background="#064e3b" BorderBrush="#34d399" Foreground="#34d399" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🔌 BadUSB" Command="{Binding SimulateBadUsbAttackCommand}" Background="#78350f" BorderBrush="#fbbf24" Foreground="#fbbf24" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🍪 Infostealer" Command="{Binding SimulateMfaBypassStealerAttackCommand}" Background="#831843" BorderBrush="#f472b6" Foreground="#f472b6" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="📡 Responder" Command="{Binding SimulateLlmnrPoisoningAttackCommand}" Background="#042f2e" BorderBrush="#2dd4bf" Foreground="#2dd4bf" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🥔 Potato PrivEsc" Command="{Binding SimulatePotatoPrivEscAttackCommand}" Background="#713f12" BorderBrush="#facc15" Foreground="#facc15" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🔬 Siliciu CPU" Command="{Binding SimulateCpuSiliconAttackCommand}" Background="#312e81" BorderBrush="#a5b4fc" Foreground="#a5b4fc" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🔊 Air-Gap Fans" Command="{Binding SimulateAcousticFanAttackCommand}" Background="#14532d" BorderBrush="#86efac" Foreground="#86efac" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
-                                            <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="8,6"/>
+                                            <!-- Buton Unic Simulare cu Meniu Dropdown -->
+                                            <Button Content="🎯 Simulează Atac Cibernetic (11 Scenarii)  ▾" 
+                                                    Click="SimulateMenuButton_Click"
+                                                    Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0">
+                                                <Button.ContextMenu>
+                                                    <ContextMenu Background="#090d16" BorderBrush="#818cf8" BorderThickness="1">
+                                                        <MenuItem Header="🧪 1. Alertă Generic SOC (Signature Match)" Command="{Binding SimulateLiveAlertCommand}" Foreground="#818cf8" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🎣 2. Phishing &amp; Dropper (T1566)" Command="{Binding SimulatePhishingAttackCommand}" Foreground="#c084fc" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🏹 3. Mișcare Laterală PsExec (T1021.002)" Command="{Binding SimulateLateralMovementAttackCommand}" Foreground="#60a5fa" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="☣️ 4. Exploit Kernel Ring 0 / BYOVD (T1068)" Command="{Binding SimulateByovdAttackCommand}" Foreground="#f87171" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="💉 5. Injecție Memorie &amp; Hollowing (T1055.012)" Command="{Binding SimulateProcessHollowingAttackCommand}" Foreground="#34d399" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🔌 6. Atac Fizic BadUSB / Rubber Ducky (T1052.001)" Command="{Binding SimulateBadUsbAttackCommand}" Foreground="#fbbf24" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🍪 7. Infostealer &amp; Bypass MFA (T1539 / T1556)" Command="{Binding SimulateMfaBypassStealerAttackCommand}" Foreground="#f472b6" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="📡 8. Otrăvire Rețea Responder / NTLM (T1557.001)" Command="{Binding SimulateLlmnrPoisoningAttackCommand}" Foreground="#2dd4bf" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🥔 9. Escaladare Potato / SeImpersonate (T1134.001)" Command="{Binding SimulatePotatoPrivEscAttackCommand}" Foreground="#facc15" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🔬 10. Atac Siliciu CPU &amp; Rowhammer (T1499)" Command="{Binding SimulateCpuSiliconAttackCommand}" Foreground="#a5b4fc" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🔊 11. Exfiltrare Acustică Air-Gap Fans (T1048)" Command="{Binding SimulateAcousticFanAttackCommand}" Foreground="#86efac" FontWeight="SemiBold" Margin="4,2"/>
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+                                            </Button>
+
+                                            <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="10,6"/>
                                         </StackPanel>
 
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">

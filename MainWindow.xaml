@@ -3,24 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:LogAnalyzer.UI.ViewModels"
         Title="LogAnalyzer Enterprise - Threat Triage &amp; Incident Response Command Center" Height="850" Width="1450"
-        WindowStartupLocation="CenterScreen" Background="#070812" Foreground="#a7adc2">
+        WindowStartupLocation="CenterScreen" Background="#080C14" Foreground="#94A3B8">
 
     <Window.Resources>
-        <!-- Premium Visual DNA - Electric Violet & Deep Navy Theme Palette -->
-        <SolidColorBrush x:Key="BgBrush" Color="#070812"/>
-        <SolidColorBrush x:Key="SurfaceBrush" Color="#0c0f1c"/>
-        <SolidColorBrush x:Key="Surface2Brush" Color="#111528"/>
-        <SolidColorBrush x:Key="Surface3Brush" Color="#151a31"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#1b2035"/>
-        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#8b5cf6"/>
-        <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#4f46e5"/>
-        <SolidColorBrush x:Key="SuccessBrush" Color="#22c55e"/>
-        <SolidColorBrush x:Key="DangerBrush" Color="#ef4444"/>
-        <SolidColorBrush x:Key="WarningBrush" Color="#f59e0b"/>
+        <!-- Obsidian Tactical Visual DNA - Command Center Theme Palette -->
+        <SolidColorBrush x:Key="BgBrush" Color="#080C14"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#0D1322"/>
+        <SolidColorBrush x:Key="Surface2Brush" Color="#121A2D"/>
+        <SolidColorBrush x:Key="Surface3Brush" Color="#18233C"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#1E2C48"/>
+        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#7C3AED"/>
+        <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#6D28D9"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#10B981"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#EF4444"/>
+        <SolidColorBrush x:Key="WarningBrush" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="CyanAccentBrush" Color="#00E5FF"/>
         
-        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#f5f7ff"/>
-        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#a7adc2"/>
-        <SolidColorBrush x:Key="TextMutedBrush" Color="#6f758b"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMutedBrush" Color="#64748B"/>
         
         <!-- Button Style (Rounded, Subtle Gradient, Professional Accent) -->
         <Style TargetType="Button">
@@ -611,7 +612,7 @@
         </Grid.RowDefinitions>
 
         <!-- TOP HEADER -->
-        <Border Grid.Row="0" Background="#070a12" BorderThickness="0,0,0,1" BorderBrush="#121622" Padding="24,0">
+        <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush}" Padding="20,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -621,8 +622,8 @@
 
                 <!-- Brand Logo -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="🛡️ LOGANALYZER" FontWeight="Black" FontSize="16" Foreground="White"/>
-                    <Border Margin="12,0" Width="1.5" Height="16" Background="#1e2538"/>
+                    <TextBlock Text="🛡️ LOGANALYZER" FontWeight="Black" FontSize="16" Foreground="{StaticResource TextPrimaryBrush}"/>
+                    <Border Margin="12,0" Width="1.5" Height="16" Background="{StaticResource BorderBrush}"/>
                     <TextBlock Text="COMMAND CENTER v2.5" FontSize="10" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
@@ -630,11 +631,11 @@
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
                         <TextBlock Text="OPERATOR:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding OperatorName}" FontSize="10" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        <TextBlock Text="{Binding OperatorName}" FontSize="10" Foreground="{StaticResource TextPrimaryBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
                         <TextBlock Text="DB CACHE:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding DatabaseSize}" FontSize="10" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        <TextBlock Text="{Binding DatabaseSize}" FontSize="10" Foreground="{StaticResource TextPrimaryBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
                         <TextBlock Text="LICENȚĂ:" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
@@ -643,7 +644,7 @@
                     <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10,5">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding SystemModeBadgeText}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SystemModeBadgeText}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -663,13 +664,13 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <!-- Left Sidebar (Navigation & Controls) -->
-                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="220"/>
                         <!-- Main Content View -->
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Left Sidebar -->
-                    <Grid Grid.Column="0" Background="#070a12" Margin="0,0,1,0">
+                    <Grid Grid.Column="0" Background="{StaticResource SurfaceBrush}" Margin="0,0,1,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -2483,7 +2484,7 @@
         </TabControl>
 
         <!-- STATUS BAR -->
-        <Border Grid.Row="2" Background="#070a12" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderBrush}" Padding="24,0">
+        <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderBrush}" Padding="20,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -2492,7 +2493,7 @@
                 <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0"/>
-                    <TextBlock Text="{Binding SecurityShieldStatusText}" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
+                    <TextBlock Text="● SCUT DE SECURITATE DISPOZITIV &amp; REȚEA ACTIV" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10"/>
                 </StackPanel>
             </Grid>
         </Border>

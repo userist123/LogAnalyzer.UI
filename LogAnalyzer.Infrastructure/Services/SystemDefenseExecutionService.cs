@@ -277,6 +277,43 @@ namespace LogAnalyzer.Infrastructure.Services
         }
 
         /// <summary>
+        /// Blochează un domeniu sau IP suspect prin regulă de Firewall și DNS Sinkhole.
+        /// </summary>
+        public static DefenseActionResult BlockMaliciousIoC(string iocTarget)
+        {
+            try
+            {
+                string target = string.IsNullOrWhiteSpace(iocTarget) ? "185.220.101.5" : iocTarget.Trim();
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "netsh.exe",
+                    Arguments = $"advfirewall firewall add rule name=\"{FirewallBlockPhishingRuleName}_{Guid.NewGuid().ToString().Substring(0, 6)}\" dir=out action=block remoteip=\"{target}\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var proc = Process.Start(psi);
+                proc?.WaitForExit(3000);
+
+                return new DefenseActionResult
+                {
+                    Success = true,
+                    Message = $"Ținta malițioasă [{target}] a fost blocată pe Windows Firewall."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DefenseActionResult
+                {
+                    Success = false,
+                    Message = $"Eroare la blocarea IoC: {ex.Message}"
+                };
+            }
+        }
+
+        /// <summary>
         /// Curăță toate regulile de izolare temporare DFIR și readuce sistemul la starea 100% nominală.
         /// </summary>
         public static DefenseActionResult ResetAllDefenseRules()

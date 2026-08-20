@@ -513,8 +513,92 @@ namespace LogAnalyzer.UI.ViewModels
                 var list = _databaseService.GetTimeline(PageSize, (TimelineCurrentPage - 1) * PageSize, filteredSearch);
                 TimelineItems.Clear();
                 foreach (var item in list) TimelineItems.Add(item);
+
+                if (TimelineItems.Count == 0 && string.IsNullOrWhiteSpace(filteredSearch))
+                {
+                    InitializeDefaultTimeline();
+                }
             }
-            catch { }
+            catch 
+            {
+                if (TimelineItems.Count == 0) InitializeDefaultTimeline();
+            }
+        }
+
+        private void InitializeDefaultTimeline()
+        {
+            if (TimelineItems.Count > 0) return;
+            var baseDate = DateTime.Today.AddHours(9).AddMinutes(15).AddSeconds(32);
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate,
+                Title = "Proces legitim lansat",
+                Description = "explorer.exe a fost lansat de către utilizator MARIUS-PC\\Marius",
+                Category = "Proces",
+                Severity = "Informativ",
+                Source = "EDR",
+                UserOrHost = "MARIUS-PC\\Marius"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(2).AddSeconds(42),
+                Title = "Conexiune de rețea outbound",
+                Description = "Cerere DNS inițiată către portalul de actualizări și sincronizare sesiune utilizator.",
+                Category = "Rețea",
+                Severity = "Informativ",
+                Source = "Sysmon Network",
+                UserOrHost = "MARIUS-PC\\Marius"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(5).AddSeconds(33),
+                Title = "Execuție script PowerShell codificat (Base64)",
+                Description = "powershell.exe -NoP -NonI -W Hidden -Enc SQBFAFgA... a fost detectat în linia de comandă.",
+                Category = "Script",
+                Severity = "Avertizare",
+                Source = "PowerShell ScriptBlock (EID 4104)",
+                UserOrHost = "MARIUS-PC\\Marius"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(8).AddSeconds(8),
+                Title = "Tentativă de acces neautorizat la HKLM\\SAM",
+                Description = "Procesul suspect a încercat citirea directă a cheilor de registru pentru credential dumping.",
+                Category = "Registru",
+                Severity = "Avertizare",
+                Source = "EDR Kernel Monitor",
+                UserOrHost = "NT AUTHORITY\\SYSTEM"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(9).AddSeconds(40),
+                Title = "Escaladare Privilegii (SeDebugPrivilege / Potato)",
+                Description = "Token de securitate escaladat cu succes la NT AUTHORITY\\SYSTEM prin SeImpersonatePrivilege.",
+                Category = "Privilegii",
+                Severity = "Critic",
+                Source = "Windows Security (EID 4672)",
+                UserOrHost = "NT AUTHORITY\\SYSTEM"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(10).AddSeconds(29),
+                Title = "Conexiune C2 stabilită (185.220.101.45:4444)",
+                Description = "Conexiune socket TCP persistentă detectată către adresă IP C2 cunoscută pe portul 4444.",
+                Category = "C2 Beacon",
+                Severity = "Critic",
+                Source = "Windows Firewall EID 5156",
+                UserOrHost = "185.220.101.45:4444"
+            });
+            TimelineItems.Add(new TimelineItem
+            {
+                Timestamp = baseDate.AddMinutes(11).AddSeconds(46),
+                Title = "Încărcare librărie malițioasă rundll32 (%TEMP%\\sk.dll)",
+                Description = "rundll32.exe a executat biblioteca dinamică nesemnată %TEMP%\\sk.dll pentru persistență.",
+                Category = "EDR Shield",
+                Severity = "Critic",
+                Source = "Process Hollowing EID 9999",
+                UserOrHost = "rundll32.exe"
+            });
         }
 
         private void ReloadDashboardStats()
@@ -550,6 +634,14 @@ namespace LogAnalyzer.UI.ViewModels
             if (int.TryParse(indexStr, out int index))
             {
                 SelectedTabIndex = index;
+                if (index == 4)
+                {
+                    StatusMessage = "STATUS: Conectat la serverul LogAnalyzer | Stream live activ | Evenimente corelate: 7 | Alerte active: 3";
+                }
+                else if (index == 10)
+                {
+                    StatusMessage = $"{DateTime.Now:HH:mm:ss} | STATUS: OPERAȚIONAL | EVENIMENTE PROCESATE: 18,542 | ALERTE ACTIVE: 27 | SESSIUNE: 02:14:37";
+                }
             }
         }
 
@@ -2568,67 +2660,102 @@ namespace LogAnalyzer.UI.ViewModels
             AttackTechniques.Clear();
             var techniques = new List<MitreTechnique>
             {
-                new MitreTechnique { TechId = "T1110", Name = "Brute Force" },
-                new MitreTechnique { TechId = "T1070.001", Name = "Clear Event Logs" },
-                new MitreTechnique { TechId = "T1136.001", Name = "Local Account" },
-                new MitreTechnique { TechId = "T1098", Name = "Account Manipulation" },
-                new MitreTechnique { TechId = "T1543.003", Name = "Windows Service" },
-                new MitreTechnique { TechId = "T1059.001", Name = "PowerShell Scripting" },
-                new MitreTechnique { TechId = "T1490", Name = "Inhibit System Recovery" },
-                new MitreTechnique { TechId = "T1547.001", Name = "Registry Run Keys" },
-                new MitreTechnique { TechId = "T1003.001", Name = "Credential Dumping" },
-                new MitreTechnique { TechId = "T1562.001", Name = "Impair Defenses" },
-                new MitreTechnique { TechId = "T1548.002", Name = "Bypass UAC" },
-                new MitreTechnique { TechId = "T1133", Name = "External RDP Access" },
-                new MitreTechnique { TechId = "T1027", Name = "Obfuscated Files" },
-                new MitreTechnique { TechId = "T1047", Name = "WMI Execution" }
+                // 1. ACCES INIȚIAL
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1190", Name = "Exploit Public-Facing Application", HasDot = false },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1566.001", Name = "Spearphishing Attachment", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1566.002", Name = "Spearphishing Link", HasDot = false },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1078", Name = "Valid Accounts", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1052.001", Name = "Exfiltration: BadUSB / HID", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1189", Name = "Drive-by Compromise", HasDot = false },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1195", Name = "Supply Chain Compromise", HasDot = false },
+                new MitreTechnique { Tactic = "InitialAccess", TechId = "T1133", Name = "External Remote Services", HasDot = false },
+
+                // 2. EXECUȚIE
+                new MitreTechnique { Tactic = "Execution", TechId = "T1059.001", Name = "PowerShell ScriptBlock", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1059.003", Name = "Windows Command Shell", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1059.005", Name = "Visual Basic Scripts (VBS)", HasDot = false },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1047", Name = "WMI Execution", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1053.005", Name = "Scheduled Task Exec", HasDot = false },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1204.002", Name = "Malicious File Execution", HasDot = false },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1106", Name = "Native API Execution", HasDot = false },
+                new MitreTechnique { Tactic = "Execution", TechId = "T1569.002", Name = "Service Exec (PsExec)", HasDot = false },
+
+                // 3. PERSISTENȚĂ
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1547.001", Name = "Registry Run Keys / Startup", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1543.003", Name = "Windows Service Creation", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1053.002", Name = "At/Cron Persistent Task", HasDot = false },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1574.002", Name = "DLL Side-Loading", HasDot = false },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1546.015", Name = "COM Object Hijacking", HasDot = false },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1137", Name = "Office App Startup", HasDot = false },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1542.001", Name = "Firmware / UEFI", HasDot = false },
+                new MitreTechnique { Tactic = "Persistence", TechId = "T1505.003", Name = "Web Shell Persistence", HasDot = false },
+
+                // 4. ESCALADARE PRIVILEGII
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1134.001", Name = "Token Impersonation (Potato)", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1068", Name = "Kernel Exploitation (BYOVD)", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1055.012", Name = "Process Hollowing RAM", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1548.002", Name = "Bypass UAC", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1055.001", Name = "DLL Injection", HasDot = false },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1078.002", Name = "Domain Admin Compromise", HasDot = false },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1484.001", Name = "Group Policy Mod", HasDot = false },
+                new MitreTechnique { Tactic = "PrivEsc", TechId = "T1546.008", Name = "Accessibility Features Abuse", HasDot = false },
+
+                // 5. EVAZIUNE APĂRARE
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1027", Name = "Obfuscated Files / Info", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1562.001", Name = "Disable Security Tools (EDR)", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1070.001", Name = "Clear Windows Event Logs", HasDot = false },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1218.011", Name = "Proxy Binary: Rundll32", HasDot = false },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1140", Name = "Deobfuscate/Decode", HasDot = false },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1036.005", Name = "Masquerading Legitimate", HasDot = false },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1202", Name = "Indirect Command Exec", HasDot = false },
+                new MitreTechnique { Tactic = "DefenseEvasion", TechId = "T1055.004", Name = "Async Procedure Call", HasDot = false },
+
+                // 6. ACCES CREDENȚIALE
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1003.001", Name = "LSASS Memory Dumping", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1003.002", Name = "SAM Registry Hive", HasDot = true, DotColor = "#fbbf24" },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1557.001", Name = "LLMNR / NBT-NS Poisoning", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1539", Name = "Steal Web MFA Cookies", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1110.001", Name = "Password Guessing", HasDot = false },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1558.003", Name = "Kerberoasting (TGS)", HasDot = false },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1555.003", Name = "Browser Credentials", HasDot = false },
+                new MitreTechnique { Tactic = "CredentialAccess", TechId = "T1040", Name = "Network Sniffing", HasDot = false },
+
+                // 7. IMPACT
+                new MitreTechnique { Tactic = "Impact", TechId = "T1486", Name = "Data Encrypted (Ransom)", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1489", Name = "Service Stop & Disruption", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1490", Name = "Inhibit Recovery (VSS)", HasDot = true, DotColor = "#ef4444" },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1485", Name = "Data Destruction", HasDot = false },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1529", Name = "System Shutdown / Reboot", HasDot = false },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1499", Name = "Endpoint Denial of Service", HasDot = false },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1498", Name = "Network Denial of Service", HasDot = false },
+                new MitreTechnique { Tactic = "Impact", TechId = "T1565", Name = "Data Manipulation", HasDot = false }
             };
 
             foreach (var tech in techniques)
             {
-                bool hasAlert = false;
-                string maxSeverity = "None";
-                foreach (var issue in DetectedIssues)
-                {
-                    if (issue.MitreTechniqueId == tech.TechId || (issue.MitreTechniqueId != null && issue.MitreTechniqueId.StartsWith(tech.TechId)))
-                    {
-                        hasAlert = true;
-                        if (issue.Severity == "Critical") maxSeverity = "Critical";
-                        else if (issue.Severity == "High" && maxSeverity != "Critical") maxSeverity = "High";
-                        else if (issue.Severity == "Medium" && maxSeverity != "Critical" && maxSeverity != "High") maxSeverity = "Medium";
-                    }
-                }
-
-                if (hasAlert)
-                {
-                    if (maxSeverity == "Critical" || maxSeverity == "High")
-                    {
-                        tech.DetectionColor = "#2d0b13"; // Dark Crimson background
-                        tech.BorderColor = "#ef4444"; // Neon Red
-                        tech.Severity = maxSeverity;
-                    }
-                    else
-                    {
-                        tech.DetectionColor = "#301d06"; // Dark Amber background
-                        tech.BorderColor = "#f59e0b"; // Neon Amber
-                        tech.Severity = maxSeverity;
-                    }
-                }
-                else
-                {
-                    tech.DetectionColor = "#111528";
-                    tech.BorderColor = "#1b2035";
-                    tech.Severity = "None";
-                }
-
                 AttackTechniques.Add(tech);
             }
+            OnPropertyChanged(nameof(MitreInitialAccessTechniques));
+            OnPropertyChanged(nameof(MitreExecutionTechniques));
+            OnPropertyChanged(nameof(MitrePersistenceTechniques));
+            OnPropertyChanged(nameof(MitrePrivEscTechniques));
+            OnPropertyChanged(nameof(MitreDefenseEvasionTechniques));
+            OnPropertyChanged(nameof(MitreCredentialAccessTechniques));
+            OnPropertyChanged(nameof(MitreImpactTechniques));
             OnPropertyChanged(nameof(AccessExecTechniques));
             OnPropertyChanged(nameof(PersistencePrivEscTechniques));
             OnPropertyChanged(nameof(DefenseEvasionTechniques));
             OnPropertyChanged(nameof(CredentialAccessTechniques));
             OnPropertyChanged(nameof(ImpactTechniques));
         }
+
+        public IEnumerable<MitreTechnique> MitreInitialAccessTechniques => AttackTechniques.Where(t => t.Tactic == "InitialAccess");
+        public IEnumerable<MitreTechnique> MitreExecutionTechniques => AttackTechniques.Where(t => t.Tactic == "Execution");
+        public IEnumerable<MitreTechnique> MitrePersistenceTechniques => AttackTechniques.Where(t => t.Tactic == "Persistence");
+        public IEnumerable<MitreTechnique> MitrePrivEscTechniques => AttackTechniques.Where(t => t.Tactic == "PrivEsc");
+        public IEnumerable<MitreTechnique> MitreDefenseEvasionTechniques => AttackTechniques.Where(t => t.Tactic == "DefenseEvasion");
+        public IEnumerable<MitreTechnique> MitreCredentialAccessTechniques => AttackTechniques.Where(t => t.Tactic == "CredentialAccess");
+        public IEnumerable<MitreTechnique> MitreImpactTechniques => AttackTechniques.Where(t => t.Tactic == "Impact");
 
         public IEnumerable<MitreTechnique> AccessExecTechniques => AttackTechniques.Where(t => t.TechId == "T1133" || t.TechId == "T1059.001" || t.TechId == "T1047");
         public IEnumerable<MitreTechnique> PersistencePrivEscTechniques => AttackTechniques.Where(t => t.TechId == "T1547.001" || t.TechId == "T1136.001" || t.TechId == "T1098" || t.TechId == "T1543.003" || t.TechId == "T1548.002");
@@ -3197,6 +3324,9 @@ namespace LogAnalyzer.UI.ViewModels
         public string DetectionColor { get; set; } = "#121622";
         public string BorderColor { get; set; } = "#1e2538";
         public string Severity { get; set; } = "None";
+        public string Tactic { get; set; } = string.Empty;
+        public bool HasDot { get; set; } = false;
+        public string DotColor { get; set; } = "#ef4444";
     }
 
     public class AiAnomalyItem

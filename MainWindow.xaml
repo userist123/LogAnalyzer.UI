@@ -1579,185 +1579,134 @@
                             </Grid>
                         </TabItem>
 
-                        <!-- TAB 4: TIMELINE -->
+                        <!-- TAB 4: TIMELINE (Cronologie Incident Live) -->
                         <TabItem>
-                            <Grid Margin="18">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="380"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <!-- Forensic Filter Console Panel -->
-                                    <Border Grid.Row="0" Margin="0,0,0,10" Padding="8" CornerRadius="6" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            
-                                            <!-- Row 1: Search Text & Presets -->
-                                            <Grid Grid.Row="0" Margin="0,0,0,6">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto" MinWidth="110"/>
-                                                    <ColumnDefinition Width="Auto" MinWidth="110"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                
-                                                <!-- Search Text -->
-                                                <Grid Grid.Column="0" Margin="0,0,6,0">
-                                                    <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Padding="8,4" ToolTip="Căutare rapidă în timeline..." />
-                                                </Grid>
-                                                
-                                                <!-- Timeframe Preset -->
-                                                <ComboBox Grid.Column="1" Margin="0,0,6,0" SelectedValue="{Binding FilterTimeframePreset}" SelectedValuePath="Content">
-                                                    <ComboBoxItem IsSelected="True">Toate</ComboBoxItem>
-                                                    <ComboBoxItem>Ultima zi</ComboBoxItem>
-                                                    <ComboBoxItem>Ultimele 7 zile</ComboBoxItem>
-                                                </ComboBox>
-                                                
-                                                <!-- Event ID text filter -->
-                                                <TextBox Grid.Column="2" Text="{Binding FilterEventId, UpdateSourceTrigger=PropertyChanged}" Padding="8,4" Margin="0,0,6,0" ToolTip="Filtrare după ID-uri Evenimente specifice (ex: 4624, 4625)"/>
+                            <Grid Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                                                <!-- Advanced Action Buttons -->
-                                                <Button Grid.Column="3" Content="⏱ Diff Baseline" Command="{Binding RunTimelineDiffCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0" Margin="0,0,6,0" ToolTip="Compară cu o imagine curată (Baseline / Golden Image)"/>
-                                                <Button Grid.Column="4" Content="📡 Analiză C2" Command="{Binding RunC2BeaconingAnalysisCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0" ToolTip="Detector statistic de periodicitate C2 Beaconing"/>
-                                            </Grid>
-                                            
-                                            <!-- Row 2: Quick Toggles (Severity, Use Cases) -->
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                
-                                                <!-- Severity Badges Checklist -->
-                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="Severitate:" FontSize="10.5" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold"/>
-                                                    <CheckBox IsChecked="{Binding FilterCritical}" Content="Critic" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterHigh}" Content="Ridicata" Foreground="{StaticResource DangerBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterMedium}" Content="Medie" Foreground="{StaticResource WarningBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterInfo}" Content="Info" Foreground="{StaticResource SuccessBrush}" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                </StackPanel>
-                                                
-                                                <!-- Quick Use Cases -->
-                                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="Filtre SOC Rapide:" FontSize="10.5" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold"/>
-                                                    <CheckBox IsChecked="{Binding FilterFailedLogins}" Content="Autentificări Eșuate (4625)" Margin="0,0,12,0" FontSize="11" VerticalContentAlignment="Center"/>
-                                                    <CheckBox IsChecked="{Binding FilterPrivEsc}" Content="Modificări Cont/Grup (4720/4732)" FontSize="11" VerticalContentAlignment="Center"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Grid>
-                                    </Border>
-                                    <DataGrid Grid.Row="1" ItemsSource="{Binding TimelineItems}" SelectedItem="{Binding SelectedTimelineItem}" AutoGenerateColumns="False" IsReadOnly="True">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Timestamp Eveniment" Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
-                                            <DataGridTextColumn Header="Sursă" Binding="{Binding Source}" Width="90"/>
-                                            <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="150"/>
-                                            <DataGridTextColumn Header="Utilizator / Host" Binding="{Binding UserOrHost}" Width="130"/>
-                                            <DataGridTextColumn Header="Mesaj Detaliat Eveniment" Binding="{Binding Description}" Width="*"/>
-                                        </DataGrid.Columns>
-                                        <DataGrid.InputBindings>
-                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                        </DataGrid.InputBindings>
-                                    </DataGrid>
-                                    <Grid Grid.Row="2" Margin="0,10,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Afișare paginată: 100 rânduri / pagină" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
-                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <Button Content="◀ Precedenta" Command="{Binding PrevTimelinePageCommand}" Width="90" Margin="2,0"/>
-                                            <TextBlock Text="{Binding TimelineCurrentPage}" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontWeight="Bold"/>
-                                            <TextBlock Text=" / " VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                            <TextBlock Text="{Binding TimelineTotalPages}" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                            <Button Content="Următoarea ▶" Command="{Binding NextTimelinePageCommand}" Width="90" Margin="2,0"/>
-                                        </StackPanel>
-                                    </Grid>
+                                <!-- Title Row & Badges -->
+                                <Grid Grid.Row="0" Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Cronologie Incident Live" FontSize="18" FontWeight="ExtraBold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                        <Border Margin="12,0,0,0" BorderBrush="{StaticResource PrimaryAccentBrush}" Background="#1a7c5cff" BorderThickness="1" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
+                                            <TextBlock Text="TIMP REAL" FontSize="9.5" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                                        </Border>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Width="220" Padding="8,4" Margin="0,0,8,0" ToolTip="Căutare rapidă în timeline..."/>
+                                        <Button Content="⏱ Diff Baseline" Command="{Binding RunTimelineDiffCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0" Margin="0,0,6,0"/>
+                                        <Button Content="📡 Analiză C2" Command="{Binding RunC2BeaconingAnalysisCommand}" Style="{StaticResource ActionButtonStyle}" Height="28" Padding="8,0"/>
+                                    </StackPanel>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                <!-- Main Timeline Content -->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Vertical Timeline Feed -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Splitter -->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Rezumat Cronologic Right Panel -->
+                                        <ColumnDefinition Width="320"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TabControl Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                                    <TabControl.Resources>
-                                        <Style TargetType="TabItem">
-                                            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                            <Setter Property="Padding" Value="10,6"/>
-                                            <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="TabItem">
-                                                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                                                                <ContentPresenter x:Name="ContentSite" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            </Border>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsSelected" Value="True">
-                                                                    <Setter Property="Foreground" Value="White"/>
-                                                                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBrush}"/>
-                                                                    <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Foreground" Value="White"/>
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                        </Style>
-                                    </TabControl.Resources>
-                                    
-                                    <!-- Tab 1: Properties -->
-                                    <TabItem Header="Proprietăți Parsate">
-                                        <Grid Margin="10">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="PROPRIETĂȚI CRONOLOGICE EVENIMENT" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,8"/>
-                                            <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedEventProperties}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" Background="Transparent" BorderThickness="0" GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Disabled">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="Proprietate" Binding="{Binding Key}" Width="130" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                                    <DataGridTextColumn Header="Valoare" Binding="{Binding Value}" Width="*" Foreground="White"/>
-                                                </DataGrid.Columns>
-                                            </DataGrid>
-                                        </Grid>
-                                    </TabItem>
+                                    <!-- Timeline Scrollable Feed -->
+                                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,12,0">
+                                        <ItemsControl ItemsSource="{Binding TimelineItems}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,0,0,14">
+                                                        <Grid.ColumnDefinitions>
+                                                            <!-- Timestamp monospace cyan -->
+                                                            <ColumnDefinition Width="150"/>
+                                                            <!-- Timeline axis with dot -->
+                                                            <ColumnDefinition Width="28"/>
+                                                            <!-- Event Card -->
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
 
-                                    <!-- Tab 2: Security Assessment -->
-                                    <TabItem Header="Analiză Securitate">
-                                        <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
-                                            <StackPanel>
-                                                <TextBlock Text="EVALUARE AMENINȚĂRI SOC" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,10"/>
-                                                
-                                                <!-- Mitre Mapping Section -->
-                                                <Border Margin="0,0,0,10" Padding="8" CornerRadius="4" Background="#1c1f30" BorderBrush="Orange" BorderThickness="1">
-                                                    <StackPanel>
-                                                        <TextBlock Text="Mapare MITRE ATT&amp;CK:" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                                        <TextBlock Text="{Binding SelectedEventMitreMapping}" FontSize="11" FontWeight="Bold" Foreground="White"/>
-                                                    </StackPanel>
-                                                </Border>
-                                                
-                                                <!-- Scenario Description -->
-                                                <TextBlock Text="Scenariu Amenințare:" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
-                                                <TextBlock Text="{Binding SelectedEventThreatScenario}" TextWrapping="Wrap" FontSize="11" Foreground="White" Margin="0,0,0,12"/>
-                                                
-                                                <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,12"/>
-                                                
-                                                <!-- Action Playbook -->
-                                                <TextBlock Text="Recomandări Containment &amp; Playbook:" FontSize="10" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" Margin="0,0,0,6"/>
-                                                <TextBox Text="{Binding SelectedEventMitigation}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Segoe UI" FontSize="11.5" AcceptsReturn="True"/>
+                                                        <!-- Timestamp -->
+                                                        <TextBlock Grid.Column="0" Text="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" FontFamily="Consolas" FontSize="11" FontWeight="Bold" Foreground="#22d3ee" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,12,0"/>
+
+                                                        <!-- Vertical line and dot -->
+                                                        <Grid Grid.Column="1">
+                                                            <Rectangle Width="2" Fill="#3a2a6b" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                                                            <Ellipse Width="10" Height="10" Fill="{Binding DotColor}" VerticalAlignment="Top" Margin="0,12,0,0">
+                                                                <Ellipse.Effect>
+                                                                    <DropShadowEffect Color="{Binding DotColor}" BlurRadius="6" ShadowDepth="0" Opacity="0.8"/>
+                                                                </Ellipse.Effect>
+                                                            </Ellipse>
+                                                        </Grid>
+
+                                                        <!-- Event Card -->
+                                                        <Border Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14,12" Margin="6,0,0,0">
+                                                            <StackPanel>
+                                                                <TextBlock Text="{Binding Title, FallbackValue='Eveniment Forenzic'}" FontSize="12.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4"/>
+                                                                <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,8" LineHeight="16"/>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="TIP: " FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                                                                    <TextBlock Text="{Binding Category}" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,8,0"/>
+                                                                    <TextBlock Text="•  SEVERITATE: " FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                                                                    <TextBlock Text="{Binding Severity}" FontSize="9.5" FontWeight="Bold" Foreground="{Binding SeverityColor}" Margin="0,0,8,0"/>
+                                                                    <TextBlock Text="•  SURSĂ: " FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                                                                    <TextBlock Text="{Binding Source}" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+                                    <GridSplitter Grid.Column="1" Width="3" Background="{StaticResource BorderBrush}" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="4,0"/>
+
+                                    <!-- Rezumat Cronologic Right Panel -->
+                                    <Border Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="18" Margin="8,0,0,0" VerticalAlignment="Top">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                                <TextBlock Text="📋 " FontSize="13"/>
+                                                <TextBlock Text="Rezumat Cronologic" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                            </StackPanel>
+
+                                            <!-- Total Evenimente -->
+                                            <TextBlock Text="TOTAL EVENIMENTE CORELAȚIE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="{Binding TimelineItems.Count, FallbackValue='7'}" FontSize="20" FontWeight="Black" FontFamily="Consolas" Foreground="#22d3ee" Margin="0,0,0,14"/>
+
+                                            <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,14"/>
+
+                                            <!-- Prima Detectie -->
+                                            <TextBlock Text="PRIMA DETECȚIE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="2025-05-24 09:15:32" FontSize="11" FontWeight="Bold" FontFamily="Consolas" Foreground="#22d3ee" Margin="0,0,0,14"/>
+
+                                            <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,14"/>
+
+                                            <!-- Ultima Activitate -->
+                                            <TextBlock Text="ULTIMA ACTIVITATE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="2025-05-24 09:27:18" FontSize="11" FontWeight="Bold" FontFamily="Consolas" Foreground="#22d3ee" Margin="0,0,0,14"/>
+
+                                            <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,14"/>
+
+                                            <!-- Nivel Maxim -->
+                                            <TextBlock Text="NIVEL MAXIM ATINS" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="🚨 CRITIC (3 alerte)" FontSize="11" FontWeight="ExtraBold" Foreground="{StaticResource DangerBrush}" Margin="0,0,0,16"/>
+
+                                            <!-- Shield Note -->
+                                            <Border Background="#1022ff88" BorderBrush="{StaticResource SuccessBrush}" BorderThickness="1" CornerRadius="6" Padding="10">
+                                                <TextBlock Text="🛡️ Scutul EDR a neutralizat procesul și a izolat automat conexiunea C2." FontSize="10" Foreground="{StaticResource SuccessBrush}" TextWrapping="Wrap" LineHeight="14"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </TabItem>
@@ -2142,107 +2091,256 @@
                             </Grid>
                         </TabItem>
 
-                        <!-- TAB 10: MITRE ATT&CK HEATMAP & DeTT&CT MATRIX -->
+                        <!-- TAB 10: MATRICEA DE CORELARE TACTICĂ MITRE ATT&CK -->
                         <TabItem>
-                            <Grid Margin="24">
+                            <Grid Margin="20">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <!-- Title and Summary Stats -->
-                                <Grid Grid.Row="0" Margin="0,0,0,18">
+                                <!-- Title and Badge -->
+                                <Grid Grid.Row="0" Margin="0,0,0,16">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="🎯 Matrice Vizuală MITRE ATT&amp;CK &amp; Grad Acoperire DeTT&amp;CT" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
-                                        <TextBlock Text="Harta de căldură (Heatmap) a tehnicilor de atac identificate în sesiune corelate cu vizibilitatea senzorilor și a regulilor Sigma" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Matricea de Corelare Tactică MITRE ATT&amp;CK" FontSize="18" FontWeight="ExtraBold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                        <Border Margin="12,0,0,0" BorderBrush="{StaticResource PrimaryAccentBrush}" Background="#1a7c5cff" BorderThickness="1" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
+                                            <TextBlock Text="ENTERPRISE MATRIX" FontSize="9.5" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                                        </Border>
                                     </StackPanel>
-                                    <Border Grid.Column="1" Background="#0b1329" BorderBrush="#00d4ff" BorderThickness="1.5" CornerRadius="8" Padding="14,6">
+                                    <Border Grid.Column="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="12,6">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="ACOPERIRE VIZIBILITATE DETT&amp;CT: " FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding MitreHeatmap.OverallVisibilityCoverage, StringFormat='{}{0}%'}" FontSize="14" FontWeight="Bold" Foreground="#00ff87" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            <TextBlock Text="ACOPERIRE VIZIBILITATE DETT&amp;CT: " FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Text="88.4%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" VerticalAlignment="Center" Margin="6,0,0,0"/>
                                         </StackPanel>
                                     </Border>
                                 </Grid>
 
-                                <!-- Multi-Event Correlation Bar -->
-                                <Border Grid.Row="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,16">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Text="Lanțuri de Atac Multi-Eveniment Corelate Temporal (Multi-Stage Scenarios)" FontSize="11.5" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,8"/>
-                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding MultiEventCorrelations}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border Background="#0e1322" BorderBrush="#ef4444" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,6">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <StackPanel>
-                                                                <TextBlock Text="{Binding AttackScenario}" FontSize="11.5" FontWeight="Bold" Foreground="#ef4444"/>
-                                                                <TextBlock Text="{Binding Description}" FontSize="10.5" Foreground="White" TextWrapping="Wrap" Margin="0,2,0,0"/>
-                                                            </StackPanel>
-                                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,0,0,0">
-                                                                <Border Background="#1b2336" CornerRadius="4" Padding="6,2">
-                                                                    <TextBlock Text="{Binding MitreTechniqueId}" FontSize="9" FontWeight="Bold" Foreground="#38bdf8"/>
-                                                                </Border>
-                                                            </StackPanel>
-                                                        </Grid>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </Border>
+                                <!-- 7-Column Grid Matrix -->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- MITRE 12-Tactic Grid Matrix -->
-                                <Border Grid.Row="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                        <ItemsControl ItemsSource="{Binding MitreTacticColumns}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border Width="165" Background="#0a0d16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,8,0" Padding="8">
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="*"/>
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0" Text="{Binding TacticName}" FontSize="10.5" FontWeight="Bold" Foreground="#00d4ff" TextAlignment="Center" TextWrapping="Wrap"/>
-                                                            <Border Grid.Row="1" Height="1" Background="#1e2538" Margin="0,6,0,8"/>
-                                                            <ItemsControl Grid.Row="2" ItemsSource="{Binding Techniques}">
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <Border Background="{Binding StatusColor}" BorderBrush="#334155" BorderThickness="1" CornerRadius="4" Margin="0,0,0,6" Padding="6" ToolTip="{Binding TooltipText}">
-                                                                            <StackPanel>
-                                                                                <TextBlock Text="{Binding TechniqueId}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                                                                <TextBlock Text="{Binding TechniqueName}" FontSize="9.5" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" Margin="0,2,0,0"/>
-                                                                                <TextBlock Text="{Binding DetectedCount, StringFormat='Detecții: {0}'}" FontSize="8.5" FontWeight="Bold" Foreground="#f59e0b" Visibility="{Binding IsDetected, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,4,0,0"/>
-                                                                            </StackPanel>
-                                                                        </Border>
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                            </ItemsControl>
-                                                        </Grid>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </ScrollViewer>
-                                </Border>
+                                    <!-- COLOANA 1: ACCES INIȚIAL -->
+                                    <Border Grid.Column="0" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="ACCES INIȚIAL" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitreInitialAccessTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 2: EXECUȚIE -->
+                                    <Border Grid.Column="1" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="EXECUȚIE" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitreExecutionTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 3: PERSISTENȚĂ -->
+                                    <Border Grid.Column="2" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="PERSISTENȚĂ" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitrePersistenceTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 4: ESCALADARE PRIVILEGII -->
+                                    <Border Grid.Column="3" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="ESCALADARE PRIVILEGII" FontSize="9" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitrePrivEscTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 5: EVAZIUNE APĂRARE -->
+                                    <Border Grid.Column="4" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="EVAZIUNE APĂRARE" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitreDefenseEvasionTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 6: ACCES CREDENȚIALE -->
+                                    <Border Grid.Column="5" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,6,0" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="ACCES CREDENȚIALE" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitreCredentialAccessTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- COLOANA 7: IMPACT -->
+                                    <Border Grid.Column="6" Background="#0b0e17" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#18152e" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,6" Margin="0,0,0,8">
+                                                <TextBlock Text="IMPACT" FontSize="9.5" FontWeight="Black" Foreground="White" TextAlignment="Center"/>
+                                            </Border>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding MitreImpactTechniques}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                                                                <Grid>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding TechId}" FontSize="10" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryAccentBrush}" FontFamily="Consolas"/>
+                                                                        <TextBlock Text="{Binding Name}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Ellipse Width="7" Height="7" Fill="{Binding DotColor}" Visibility="{Binding HasDot, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </TabItem>
 

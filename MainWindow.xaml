@@ -2267,7 +2267,8 @@
                                                     Click="SimulateMenuButton_Click"
                                                     Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0">
                                                 <Button.ContextMenu>
-                                                    <ContextMenu Background="#090d16" BorderBrush="#818cf8" BorderThickness="1">
+                                                    <ContextMenu Background="#090d16" BorderBrush="#818cf8" BorderThickness="1"
+                                                                 DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                                         <MenuItem Header="🧪 1. Alertă Generic SOC (Signature Match)" Command="{Binding SimulateLiveAlertCommand}" Foreground="#818cf8" FontWeight="SemiBold" Margin="4,2"/>
                                                         <MenuItem Header="🎣 2. Phishing &amp; Dropper (T1566)" Command="{Binding SimulatePhishingAttackCommand}" Foreground="#c084fc" FontWeight="SemiBold" Margin="4,2"/>
                                                         <MenuItem Header="🏹 3. Mișcare Laterală PsExec (T1021.002)" Command="{Binding SimulateLateralMovementAttackCommand}" Foreground="#60a5fa" FontWeight="SemiBold" Margin="4,2"/>

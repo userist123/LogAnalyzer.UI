@@ -15,6 +15,7 @@ namespace LogAnalyzer.UI.Views
         {
             if (sender is System.Windows.Controls.Button btn && btn.ContextMenu != null)
             {
+                btn.ContextMenu.DataContext = btn.DataContext;
                 btn.ContextMenu.PlacementTarget = btn;
                 btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
                 btn.ContextMenu.IsOpen = true;

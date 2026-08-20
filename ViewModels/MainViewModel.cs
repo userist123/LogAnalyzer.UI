@@ -1753,6 +1753,249 @@ namespace LogAnalyzer.UI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void SimulateBadUsbAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 2003,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-DriverFrameworks-UserMode",
+                TimeCreated = DateTime.Now,
+                Message = "Unauthorized USB HID Device detected (BadUSB / Rubber Ducky).\nDevice Instance: USB\\VID_16C0&PID_0486\\HID_KEYBOARD_INJECTOR\nTelemetry: High-speed automated keystroke burst (>1200 CPM) spawning hidden powershell.exe"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Portul USB malițios a fost blocat și procesul de shell neutralizat!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 ATAC FIZIC DETECTAT: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & ATAC FIZIC BADUSB]\n" +
+                              $"• Tip Amenințare: Hardware Keystroke Injection (BadUSB / Rubber Ducky)\n" +
+                              $"• Dispozitiv Compromis: USB HID Keyboard (VID 16C0 / PID 0486)\n" +
+                              $"• Țintă: Ocolire restricții software prin emulare tastatură fizică\n" +
+                              $"• Recomandare Apărare: Deconectare fizică imediată și aplicare politică P16-P18 Hardware Telemetry."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_BADUSB_HARDWARE",
+                    Severity = "Critical",
+                    MitreTags = "T1052.001",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Atac fizic BadUSB interceptat și oprit prin izolarea portului și neutralizarea shell-ului."
+                });
+
+                _auditService.LogAction("BADUSB_ATTACK_BLOCKED", $"{OperatorName} - VID/PID: 16C0/0486, BadUSB Keystroke Injection");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
+        [RelayCommand]
+        private void SimulateMfaBypassStealerAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 4663,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-Security-Auditing",
+                TimeCreated = DateTime.Now,
+                Message = "An attempt was made to access an object.\nProcess Name: C:\\Users\\Marius\\AppData\\Local\\Temp\\stealc.exe (Lumma / Stealc Infostealer)\nObject Name: %LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Network\\Cookies (OAuth Session Tokens & MFA Bypass Cookies)\nAccess Request: ReadData / Extract SQLite DB"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Infostealerul stealc.exe a fost oprit și exfiltrarea de tokeni blocată!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 INFOSTEALER DETECTAT: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & INFOSTEALER / BYPASS MFA]\n" +
+                              $"• Tip Amenințare: Furt Cookie-uri Sesiune OAuth & Credențiale Browser (AiTM / Stealer)\n" +
+                              $"• Binar Malițios: stealc.exe (Lumma / Stealc Infostealer Family)\n" +
+                              $"• Bază Date Țintă: Chrome Network Cookies & Login Data (MFA Session Tokens)\n" +
+                              $"• Recomandare Apărare: Revocare imediată a tuturor token-urilor M365 și resetare forțată a parolei."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_INFOSTEALER_AITM",
+                    Severity = "Critical",
+                    MitreTags = "T1539 / T1556",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Infostealer neutralizat înainte de exfiltrarea bazelor de date de cookie-uri și parole din browser."
+                });
+
+                _auditService.LogAction("INFOSTEALER_BLOCKED", $"{OperatorName} - Binar: stealc.exe, Target: Chrome Cookies & MFA Tokens");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
+        [RelayCommand]
+        private void SimulateLlmnrPoisoningAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 5156,
+                Level = "Warning",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-Security-Auditing",
+                TimeCreated = DateTime.Now,
+                Message = "The Windows Filtering Platform has permitted a connection.\nApplication: System / LLMNR-Responder\nSource Port: 5355 (UDP) | Remote IP: 192.168.1.188 (Rogue Host - Responder.py)\nProtocol: LLMNR / NBT-NS Poisoning capturing NTLMv2 hashes"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Porturile LLMNR/NetBIOS au fost blocate pe firewall împotriva capturii NTLM!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 OTRĂVIRE REȚEA DETECTATĂ: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "High",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & OTRĂVIRE REȚEA LAN]\n" +
+                              $"• Tip Amenințare: LLMNR / NBT-NS Spoofing & NTLMv2 Hash Capture (Responder / Inveigh)\n" +
+                              $"• Nod Atacator LAN: 192.168.1.188 (Rogue Responder Host)\n" +
+                              $"• Protocol Vizat: UDP 5355 / UDP 137\n" +
+                              $"• Recomandare Apărare: Blocare porturi broadcast pe firewall și dezactivare definitivă LLMNR via GPO."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_LLMNR_RESPONDER",
+                    Severity = "High",
+                    MitreTags = "T1557.001",
+                    UserOrHost = "192.168.1.188 -> " + Environment.MachineName,
+                    Description = "Otrăvire de rețea locală Responder interceptată și porturile LLMNR blocate preventiv."
+                });
+
+                _auditService.LogAction("LLMNR_POISONING_BLOCKED", $"{OperatorName} - Rogue IP: 192.168.1.188, Tool: Responder");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
+        [RelayCommand]
+        private void SimulatePotatoPrivEscAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 4672,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-Security-Auditing",
+                TimeCreated = DateTime.Now,
+                Message = "Special privileges assigned to new logon.\nAccount Name: LOCAL SERVICE\nPrivileges: SeImpersonatePrivilege abused via PrintSpoofer.exe (Potato Family Exploit)\nTarget Privilege: NT AUTHORITY\\SYSTEM Token Creation"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Procesul PrintSpoofer.exe a fost terminat și escaladarea la SYSTEM oprită!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 ESCALADARE PRIVILEGII DETECTATĂ: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & ESCALADARE POTATO EXPLOIT]\n" +
+                              $"• Tip Amenințare: Token Impersonation & SeImpersonatePrivilege Abuse (PrintSpoofer / GodPotato)\n" +
+                              $"• Cont Sursă: LOCAL SERVICE -> Țintă: NT AUTHORITY\\SYSTEM\n" +
+                              $"• Recomandare Apărare: Neutralizare proces exploatator și auditare drepturi conturi de serviciu."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_POTATO_PRIVESC",
+                    Severity = "Critical",
+                    MitreTags = "T1134.001",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Tentativă de escaladare de privilegii PrintSpoofer neutralizată instant prin Scutul EDR."
+                });
+
+                _auditService.LogAction("POTATO_PRIVESC_BLOCKED", $"{OperatorName} - Exploit: PrintSpoofer, SeImpersonate to SYSTEM");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
             ".evtx", ".reg", ".dat", ".csv", ".json", ".log", ".lnk", ".pf", ".hve", ".txt", ".bin", ".bmc"

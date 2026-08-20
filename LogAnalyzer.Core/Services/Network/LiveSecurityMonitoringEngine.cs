@@ -205,7 +205,101 @@ namespace LogAnalyzer.Core.Services.Network
                 };
             }
 
-            // 11. Comenzi de Test / Simulare
+            // 11. Atac Fizic / Hardware (BadUSB / Rubber Ducky HID Injection T1052)
+            if (msg.Contains("rubber ducky") || msg.Contains("badusb") || msg.Contains("hid keyboard") || 
+                (msg.Contains("usb") && (msg.Contains("keystroke") || msg.Contains("payload injection"))))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🔌 ALERTĂ CRITICĂ: Atac Fizic BadUSB / Rubber Ducky (HID Keystroke Injection)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1052.001",
+                    MitreTacticName = "Initial Access",
+                    Explanation = $"A fost detectat un dispozitiv hardware neautorizat care simulează tastarea umană la viteză mare (BadUSB/Rubber Ducky) încercând injectarea de comenzi pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 12. Furt Sesiuni, Infostealere & Bypass MFA (AiTM / Evilginx / Token Theft T1556 / T1539)
+            if (msg.Contains("evilginx") || msg.Contains("evilproxy") || msg.Contains("lumma") || msg.Contains("redline") || 
+                msg.Contains("stealc") || (msg.Contains("cookie") && (msg.Contains("theft") || msg.Contains("exfiltrat"))) ||
+                (msg.Contains("appdata") && (msg.Contains("login data") || msg.Contains("web data")) && msg.Contains("sqlite")))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🍪 ALERTĂ CRITICĂ: Furt Token-uri Sesiune & Bypass MFA (Infostealer / AiTM)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1539 / T1556",
+                    MitreTacticName = "Credential Access",
+                    Explanation = $"Tentativă de extragere a bazelor de date cu credențiale și cookie-uri de sesiune OAuth/MFA din browser pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 13. Otrăvire Rețea Locală & Captură NTLM (LLMNR / NBT-NS Poisoning - Responder T1557.001)
+            if (msg.Contains("responder") || msg.Contains("llmnr") || msg.Contains("nbt-ns") || msg.Contains("inveigh") || msg.Contains("ntlm relay"))
+            {
+                return new DetectedIssue
+                {
+                    Title = "📡 ALERTĂ MARE: Otrăvire Rețea Locală & Captură NTLM (Responder / LLMNR Poisoning)",
+                    Severity = "High",
+                    MitreTechniqueId = "T1557.001",
+                    MitreTacticName = "Credential Access",
+                    Explanation = $"Activitate malițioasă de broadcast/spoofing LLMNR/NBT-NS detectată în subrețea pe [{ev.MachineName}]. Un atacator interceptează hash-urile de autentificare NTLMv2.",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 14. Abuz de Token-uri & Escaladare Privilegii (PrintSpoofer / Potato Exploits T1134)
+            if (msg.Contains("printspoofer") || msg.Contains("juicypotato") || msg.Contains("godpotato") || 
+                (msg.Contains("seimpersonateprivilege") && (msg.Contains("escalat") || msg.Contains("system"))))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🥔 ALERTĂ CRITICĂ: Escaladare Privilegii prin Abuz Token-uri (Potato / SeImpersonate)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1134.001",
+                    MitreTacticName = "Privilege Escalation",
+                    Explanation = $"Tentativă de escaladare la NT AUTHORITY\\SYSTEM prin exploatarea dreptului SeImpersonatePrivilege pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 15. Reguli Ascunse Cloud & Exfiltrare Email (M365 Forwarding Rules T1114.003)
+            if (msg.Contains("inboxrule") || msg.Contains("forwardingrule") || (msg.Contains("oauth") && msg.Contains("mail.readwrite")))
+            {
+                return new DetectedIssue
+                {
+                    Title = "☁️ ALERTĂ MARE: Reguli Ascunse de Redirecționare Email & Exfiltrare Cloud",
+                    Severity = "High",
+                    MitreTechniqueId = "T1114.003",
+                    MitreTacticName = "Collection",
+                    Explanation = $"Regulă automată suspectă de copiere/redirecționare a mesajelor de email către o destinație externă neautorizată pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 16. Hardware Side-Channel & Anomalie Fizică (Rowhammer / Speculative Execution T1499)
+            if (msg.Contains("rowhammer") || msg.Contains("spectre") || msg.Contains("meltdown") || msg.Contains("zenbleed") || msg.Contains("downfall"))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🔬 ALERTĂ CRITICĂ: Atac Hardware Side-Channel / Microarhitectură CPU (Rowhammer / Spectre)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1499 / Hardware",
+                    MitreTacticName = "Defense Evasion",
+                    Explanation = $"Anomalie critică de microarhitectură hardware detectată (Rowhammer DRAM bit-flip sau Speculative Execution Cache Leak) pe [{ev.MachineName}].",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 17. Comenzi de Test / Simulare
             if (msg.Contains("simulare dfir") || msg.Contains("test alert"))
             {
                 return new DetectedIssue

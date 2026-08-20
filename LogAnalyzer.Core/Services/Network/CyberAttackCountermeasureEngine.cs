@@ -189,7 +189,80 @@ namespace LogAnalyzer.Core.Services.Network
                     IsRecommended = true
                 });
             }
-            // 6. Default / Generic Hacking Incident
+            // 6. BadUSB / Rubber Ducky (T1052.001)
+            else if (titleLower.Contains("badusb") || titleLower.Contains("rubber ducky") || tech.Contains("T1052"))
+            {
+                playbook.AttackCategory = "🔌 Atac Fizic BadUSB / Rubber Ducky (HID Keystroke Injection)";
+                playbook.ImmediateObjective = "Blocarea portului USB, oprirea shell-ului deschis prin injectare de taste și aplicarea politicii P16-P18.";
+                playbook.ForensicsGuidance = "Inspectați jurnalele SetupAPI.dev.log pentru VID/PID-ul dispozitivului USB introdus. Deconectați fizic mediul extern.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Neutralizează Imediat Shell-urile Deschise (PowerShell / CMD)",
+                    Description = "Oprește toate procesele de consolă generate de atacul BadUSB.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Name 'powershell','cmd' -Force",
+                    IsRecommended = true
+                });
+            }
+            // 7. Furt Token-uri Sesiune & Infostealere (T1539 / T1556)
+            else if (titleLower.Contains("infostealer") || titleLower.Contains("token") || titleLower.Contains("cookie") || tech.Contains("T1539"))
+            {
+                playbook.AttackCategory = "🍪 Furt Sesiuni, Infostealere & Bypass MFA (AiTM / Stealer)";
+                playbook.ImmediateObjective = "Invalidarea token-urilor de autentificare cloud, oprirea procesului stealer și resetarea parolelor.";
+                playbook.ForensicsGuidance = "Verificați fișierele din %LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default și trimiteți revocare token în Entra ID.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🔑 Revocă Toate Sesiunile & Token-urile Active (M365 / Cloud)",
+                    Description = "Forțează deconectarea pe toate dispozitivele și cere re-autentificare completă cu MFA.",
+                    ActionType = "RevokeAuth",
+                    PowerShellSnippet = "Revoke-AzureADUserAllRefreshToken -ObjectId [UserObjectId]",
+                    IsRecommended = true
+                });
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Neutralizează Procesul Stealer & Blochează Exfiltrarea",
+                    Description = "Termină procesul care accesează fișierele de profil ale browserului.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Id [StealerPID] -Force",
+                    IsRecommended = true
+                });
+            }
+            // 8. Otrăvire Rețea Locală (LLMNR / Responder T1557.001)
+            else if (titleLower.Contains("responder") || titleLower.Contains("llmnr") || tech.Contains("T1557"))
+            {
+                playbook.AttackCategory = "📡 Otrăvire Rețea Locală & Captură NTLM (Responder / Poisoning)";
+                playbook.ImmediateObjective = "Blocarea traficului LLMNR/NBT-NS pe adaptor și identificarea IP-ului atacatorului în LAN.";
+                playbook.ForensicsGuidance = "Verificați tabela ARP ('arp -a') pentru a identifica adresa MAC a nodului care răspunde cu broadcast fals.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛡️ Dezactivează LLMNR & NetBIOS pe Firewall",
+                    Description = "Blochează porturile UDP 5355 (LLMNR) și 137 (NetBIOS) pentru a opri scurgerea hash-urilor NTLM.",
+                    ActionType = "BlockIoC",
+                    PowerShellSnippet = "New-NetFirewallRule -DisplayName 'Block_LLMNR' -Protocol UDP -LocalPort 5355,137 -Action Block",
+                    IsRecommended = true
+                });
+            }
+            // 9. Potato Exploits (T1134)
+            else if (titleLower.Contains("potato") || titleLower.Contains("seimpersonate") || tech.Contains("T1134"))
+            {
+                playbook.AttackCategory = "🥔 Escaladare Privilegii prin Abuz Token-uri (Potato / SeImpersonate)";
+                playbook.ImmediateObjective = "Oprirea procesului care încearcă imitarea token-ului SYSTEM și carantinarea serviciului afectat.";
+                playbook.ForensicsGuidance = "Inspectați procesele care dețin SeImpersonatePrivilege (ex: conturi de serviciu IIS, SQL).";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Neutralizează Procesul de Escaladare & Fiii",
+                    Description = "Termină forțat arborele de procese care încearcă crearea token-ului fals.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Id [TargetPID] -Force",
+                    IsRecommended = true
+                });
+            }
+            // 10. Default / Generic Hacking Incident
             else
             {
                 playbook.AttackCategory = "⚠️ Incident Cibernetic & Activitate Suspectă";

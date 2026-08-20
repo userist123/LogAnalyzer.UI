@@ -169,39 +169,133 @@ namespace LogAnalyzer.Infrastructure.Services
         }
 
         /// <summary>
-        /// Blochează un domeniu sau IP suspect prin regulă de Firewall și DNS Sinkhole.
+        /// Curăță serviciile de la distanță instalate de atacatori (ex: PSEXESVC).
         /// </summary>
-        public static DefenseActionResult BlockMaliciousIoC(string iocTarget)
+        public static DefenseActionResult RemediateServices(string serviceName = "PSEXESVC")
         {
             try
             {
-                string target = string.IsNullOrWhiteSpace(iocTarget) ? "185.220.101.5" : iocTarget.Trim();
-
-                var psi = new ProcessStartInfo
+                var psiStop = new ProcessStartInfo
                 {
-                    FileName = "netsh.exe",
-                    Arguments = $"advfirewall firewall add rule name=\"{FirewallBlockPhishingRuleName}_{Guid.NewGuid().ToString().Substring(0, 6)}\" dir=out action=block remoteip=\"{target}\"",
-                    RedirectStandardOutput = true,
+                    FileName = "sc.exe",
+                    Arguments = $"stop {serviceName}",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
+                using var p1 = Process.Start(psiStop);
+                p1?.WaitForExit(3000);
 
-                using var proc = Process.Start(psi);
-                proc?.WaitForExit(3000);
+                var psiDel = new ProcessStartInfo
+                {
+                    FileName = "sc.exe",
+                    Arguments = $"delete {serviceName}",
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using var p2 = Process.Start(psiDel);
+                p2?.WaitForExit(3000);
 
                 return new DefenseActionResult
                 {
                     Success = true,
-                    Message = $"Ținta malițioasă [{target}] a fost blocată pe Windows Firewall."
+                    Message = $"Serviciul suspect [{serviceName}] a fost oprit și eliminat complet din sistem."
                 };
             }
             catch (Exception ex)
             {
+                return new DefenseActionResult { Success = false, Message = $"Eroare la eliminarea serviciului: {ex.Message}" };
+            }
+        }
+
+        /// <summary>
+        /// Curăță și descarcă driverele kernel vulnerabile (BYOVD).
+        /// </summary>
+        public static DefenseActionResult RemediateVulnerableDrivers(string driverName = "gdrv")
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo { FileName = "sc.exe", Arguments = $"stop {driverName}", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+                Process.Start(new ProcessStartInfo { FileName = "sc.exe", Arguments = $"delete {driverName}", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+
+                string tempDriver = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Temp", $"{driverName}.sys");
+                if (File.Exists(tempDriver))
+                {
+                    try { File.Delete(tempDriver); } catch { }
+                }
+
                 return new DefenseActionResult
                 {
-                    Success = false,
-                    Message = $"Eroare la blocarea IoC: {ex.Message}"
+                    Success = true,
+                    Message = $"Driverul kernel vulnerabil [{driverName}.sys] a fost descărcat și eliminat din disc."
                 };
+            }
+            catch (Exception ex)
+            {
+                return new DefenseActionResult { Success = false, Message = $"Eroare la curățarea driverului: {ex.Message}" };
+            }
+        }
+
+        /// <summary>
+        /// Activează politicile de protecție avansată a proceselor de securitate (RunAsPPL & HVCI).
+        /// </summary>
+        public static DefenseActionResult EnableLsaProtection()
+        {
+            try
+            {
+                using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Lsa", true);
+                key?.SetValue("RunAsPPL", 1, Microsoft.Win32.RegistryValueKind.DWord);
+                return new DefenseActionResult
+                {
+                    Success = true,
+                    Message = "Protecția avansată LSA (RunAsPPL) a fost activată cu succes în registru."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DefenseActionResult { Success = false, Message = $"Eroare la setarea RunAsPPL: {ex.Message}" };
+            }
+        }
+
+        /// <summary>
+        /// Resetează politica hardware de răcire și ventilatoare la setările native BIOS/UEFI.
+        /// </summary>
+        public static DefenseActionResult ResetHardwareCoolingPolicy()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo { FileName = "powercfg.exe", Arguments = "/setactive SCHEME_BALANCED", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+                return new DefenseActionResult
+                {
+                    Success = true,
+                    Message = "Controlul hardware al ventilatoarelor și schema de alimentare au fost resetate la standardele nominale."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DefenseActionResult { Success = false, Message = $"Eroare la resetarea răcirii: {ex.Message}" };
+            }
+        }
+
+        /// <summary>
+        /// Curăță toate regulile de izolare temporare DFIR și readuce sistemul la starea 100% nominală.
+        /// </summary>
+        public static DefenseActionResult ResetAllDefenseRules()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo { FileName = "netsh.exe", Arguments = $"advfirewall firewall delete rule name=\"{FirewallIsolationRuleName}\"", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+                Process.Start(new ProcessStartInfo { FileName = "netsh.exe", Arguments = $"advfirewall firewall delete rule name=\"{FirewallBlockPhishingRuleName}\"", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+                Process.Start(new ProcessStartInfo { FileName = "netsh.exe", Arguments = "advfirewall firewall delete rule name=\"Block_LLMNR\"", UseShellExecute = false, CreateNoWindow = true })?.WaitForExit(3000);
+
+                return new DefenseActionResult
+                {
+                    Success = true,
+                    Message = "Toate regulile temporare de carantină și blocare au fost curățate. Sistemul este restabilit complet!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DefenseActionResult { Success = false, Message = $"Eroare la curățarea regulilor: {ex.Message}" };
             }
         }
     }

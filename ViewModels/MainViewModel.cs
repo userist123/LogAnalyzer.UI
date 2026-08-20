@@ -1384,6 +1384,53 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         [RelayCommand]
+        private void RemediateServicesAction()
+        {
+            var res = SystemDefenseExecutionService.RemediateServices("PSEXESVC");
+            StatusMessage = $"🧹 {res.Message}";
+            _auditService.LogAction("REMEDIATE_SERVICES", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Remediere Servicii Malițioase", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void RemediateDriversAction()
+        {
+            var res = SystemDefenseExecutionService.RemediateVulnerableDrivers("gdrv");
+            StatusMessage = $"☣️ {res.Message}";
+            _auditService.LogAction("REMEDIATE_DRIVERS", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Remediere Drivere Kernel BYOVD", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void RemediateLsaProtectionAction()
+        {
+            var res = SystemDefenseExecutionService.EnableLsaProtection();
+            StatusMessage = $"🛡️ {res.Message}";
+            _auditService.LogAction("ENABLE_LSA_PPL", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Activare Protecție LSA (RunAsPPL)", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void RemediateHardwareCoolingAction()
+        {
+            var res = SystemDefenseExecutionService.ResetHardwareCoolingPolicy();
+            StatusMessage = $"🔊 {res.Message}";
+            _auditService.LogAction("RESET_HARDWARE_COOLING", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Resetare Politică Răcire Hardware", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void RemediateResetAllRulesAction()
+        {
+            var res = SystemDefenseExecutionService.ResetAllDefenseRules();
+            IsAutoShieldTriggered = false;
+            AutoShieldMessage = string.Empty;
+            StatusMessage = $"♻️ {res.Message}";
+            _auditService.LogAction("RESET_ALL_DEFENSE_RULES", $"{OperatorName} - {res.Message}");
+            MessageBox.Show(res.Message, "Restaurare Totală Sistem Post-Incident", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
         private void ExecuteKillProcess()
         {
             string? procName = null;

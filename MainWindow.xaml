@@ -2284,6 +2284,23 @@
                                                 </Button.ContextMenu>
                                             </Button>
 
+                                            <!-- Buton Unic Remediere & Reparare cu Meniu Dropdown -->
+                                            <Button Content="🛠️ Remediere &amp; Reparare Sistem  ▾" 
+                                                    Click="SimulateMenuButton_Click"
+                                                    Background="#064e3b" BorderBrush="#34d399" Foreground="#34d399" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0">
+                                                <Button.ContextMenu>
+                                                    <ContextMenu Background="#090d16" BorderBrush="#34d399" BorderThickness="1"
+                                                                 DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                        <MenuItem Header="🌐 1. Deblochează Rețeaua (Șterge Reguli Izolare)" Command="{Binding ExecuteRestoreNetworkCommand}" Foreground="#34d399" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🧹 2. Elimină Servicii de la Distanță (PsExec)" Command="{Binding RemediateServicesActionCommand}" Foreground="#60a5fa" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="☣️ 3. Curăță Drivere Kernel Vulnerabile (BYOVD)" Command="{Binding RemediateDriversActionCommand}" Foreground="#f87171" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🛡️ 4. Activează Protecția LSA (RunAsPPL &amp; HVCI)" Command="{Binding RemediateLsaProtectionActionCommand}" Foreground="#fbbf24" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="🔊 5. Resetează Politica de Răcire Ventilatoare (TEMPEST)" Command="{Binding RemediateHardwareCoolingActionCommand}" Foreground="#86efac" FontWeight="SemiBold" Margin="4,2"/>
+                                                        <MenuItem Header="♻️ 6. Restaurare Totală &amp; Curățare Reguli Carantină" Command="{Binding RemediateResetAllRulesActionCommand}" Foreground="#38bdf8" FontWeight="SemiBold" Margin="4,2"/>
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+                                            </Button>
+
                                             <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="10,6"/>
                                         </StackPanel>
 

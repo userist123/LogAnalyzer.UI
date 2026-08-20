@@ -262,7 +262,57 @@ namespace LogAnalyzer.Core.Services.Network
                     IsRecommended = true
                 });
             }
-            // 10. Default / Generic Hacking Incident
+            // 10. Atac pe Siliciu CPU & Rowhammer (T1499)
+            else if (titleLower.Contains("siliciu") || titleLower.Contains("rowhammer") || titleLower.Contains("spectre") || tech.Contains("CPU Silicon"))
+            {
+                playbook.AttackCategory = "🔬 Atac pe Siliciu CPU & Memorie Fizică (Rowhammer / Spectre / Side-Channel)";
+                playbook.ImmediateObjective = "Neutralizarea procesului de hammering/cache-timing, activarea mitigărilor microcod și flush memorie RAM.";
+                playbook.ForensicsGuidance = "Verificați versiunea microcodului CPU cu 'Get-CimInstance Win32_Processor'. Asigurați-vă că mitigările Spectre/Meltdown sunt active în registry.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Oprește Procesul de Hammering / Cache-Timing",
+                    Description = "Termină procesul suspect cu activitate anormală de bucle de memorie sau măsurători de ceas de înaltă precizie.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Id [TargetPID] -Force",
+                    IsRecommended = true
+                });
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛡️ Activează Mitigările Speculative Execution în Registru",
+                    Description = "Setează cheile de registru recomandate de Microsoft pentru activarea izolării de memorie (KVA Shadow / Retpoline).",
+                    ActionType = "Harden",
+                    PowerShellSnippet = "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management' -Name 'FeatureSettingsOverride' -Value 0 -Type DWord",
+                    IsRecommended = true
+                });
+            }
+            // 11. Air-Gap & Exfiltrare Acustică Ventilatoare (Fansmitter / T1048)
+            else if (titleLower.Contains("acustic") || titleLower.Contains("ventilatoare") || titleLower.Contains("fansmitter") || tech.Contains("Air-Gap"))
+            {
+                playbook.AttackCategory = "🔊 Exfiltrare Acustică prin Ventilatoare (Air-Gap Jumping / Fansmitter)";
+                playbook.ImmediateObjective = "Resetarea controller-ului PWM hardware al ventilatoarelor, oprirea procesului de modulație și blocarea canalelor ascunse.";
+                playbook.ForensicsGuidance = "Inspectați procesele care apelează API-uri de control al vitezei ventilatoarelor (ex: WinRing0, OpenHardwareMonitor, ACPI calls).";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Neutralizează Procesul de Modulație Acustică",
+                    Description = "Oprește procesul care controlează turația ventilatoarelor pentru emiterea de cod Morse/audio.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Id [TargetPID] -Force",
+                    IsRecommended = true
+                });
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛡️ Resetează Politica de Răcire Hardware (Conform HG 585 / NATO TEMPEST)",
+                    Description = "Restabilește controlul automat BIOS/UEFI asupra ventilatoarelor și blochează apelurile I/O de la utilizator.",
+                    ActionType = "Harden",
+                    PowerShellSnippet = "powercfg /setactive SCHEME_BALANCED",
+                    IsRecommended = true
+                });
+            }
+            // 12. Default / Generic Hacking Incident
             else
             {
                 playbook.AttackCategory = "⚠️ Incident Cibernetic & Activitate Suspectă";

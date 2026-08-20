@@ -2271,6 +2271,8 @@
                                             <Button Content="🍪 Infostealer" Command="{Binding SimulateMfaBypassStealerAttackCommand}" Background="#831843" BorderBrush="#f472b6" Foreground="#f472b6" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
                                             <Button Content="📡 Responder" Command="{Binding SimulateLlmnrPoisoningAttackCommand}" Background="#042f2e" BorderBrush="#2dd4bf" Foreground="#2dd4bf" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
                                             <Button Content="🥔 Potato PrivEsc" Command="{Binding SimulatePotatoPrivEscAttackCommand}" Background="#713f12" BorderBrush="#facc15" Foreground="#facc15" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
+                                            <Button Content="🔬 Siliciu CPU" Command="{Binding SimulateCpuSiliconAttackCommand}" Background="#312e81" BorderBrush="#a5b4fc" Foreground="#a5b4fc" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
+                                            <Button Content="🔊 Air-Gap Fans" Command="{Binding SimulateAcousticFanAttackCommand}" Background="#14532d" BorderBrush="#86efac" Foreground="#86efac" FontWeight="Bold" Padding="8,6" Margin="0,0,6,0"/>
                                             <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="8,6"/>
                                         </StackPanel>
 

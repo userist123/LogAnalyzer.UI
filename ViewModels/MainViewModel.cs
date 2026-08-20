@@ -1996,6 +1996,128 @@ namespace LogAnalyzer.UI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void SimulateCpuSiliconAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 18,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-Kernel-WHEA",
+                TimeCreated = DateTime.Now,
+                Message = "Hardware Microarchitecture Side-Channel / Silicon Exploit detected.\nComponent: CPU Memory Controller / Speculative Execution Unit\nMechanism: Rowhammer High-Frequency DRAM Bit-Flipping & Spectre Cache Flush+Reload Leak\nTarget: Kernel Memory Isolation Boundary (KVA Shadow)"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Procesul de hammering pe siliciu a fost oprit și mitigările CPU activate!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 EXPLOIT SILICIU DETECTAT: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & ATAC PE SILICIU CPU / ROWHAMMER]\n" +
+                              $"• Tip Amenințare: Hardware Side-Channel / Microarchitectural Leak (Spectre / Rowhammer)\n" +
+                              $"• Nivel Exploit: Ring -1 (Silicon Hardware Boundary)\n" +
+                              $"• Obiectiv: Citire memorie kernel din cache și manipulare fizică a celulelor DRAM\n" +
+                              $"• Recomandare Apărare: Forțare microcod CPU actualizat, activare KVA Shadow și flush RAM."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_CPU_SILICON_EXPLOIT",
+                    Severity = "Critical",
+                    MitreTags = "T1499 / CPU Silicon",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Atac pe microarhitectura de siliciu CPU / Rowhammer interceptat și neutralizat."
+                });
+
+                _auditService.LogAction("CPU_SILICON_ATTACK_BLOCKED", $"{OperatorName} - Hardware Exploit: Rowhammer / Spectre Side-Channel");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
+        [RelayCommand]
+        private void SimulateAcousticFanAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 1048,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "DFIR-AirGap-Hardware-Sensor",
+                TimeCreated = DateTime.Now,
+                Message = "Acoustic Air-Gap Covert Channel detected (Fansmitter / TEMPEST Violation).\nMechanism: PWM Chassis Fan Speed High-Frequency Modulation (Acoustic Audio Data Broadcast)\nPayload: Encrypted data stream emitted as Morse/Acoustic wave to bypass physical network air-gap\nStandard: Violation of HG 585/2002 & NATO AC/35-D/1022 (Zero Emissivity)"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Controlul PWM al ventilatoarelor a fost resetat la hardware default și procesul oprit!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 EXFILTRARE ACUSTICĂ DETECTATĂ: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & EXFILTRARE ACUSTICĂ AIR-GAP]\n" +
+                              $"• Tip Amenințare: Acoustic Air-Gap Jumping / PWM Fan Modulation (Fansmitter)\n" +
+                              $"• Canal Exfiltrare: Emisie audio acustică prin vibrația ventilatoarelor PC-ului izolat\n" +
+                              $"• Standard Securitate: HG 585/2002 & NATO AC/35-D/1022 TEMPEST Zone 0\n" +
+                              $"• Recomandare Apărare: Resetare turație BIOS/UEFI, blocare drivere PWM I/O și izolare fonică."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_ACOUSTIC_AIRGAP",
+                    Severity = "Critical",
+                    MitreTags = "T1048 / Air-Gap TEMPEST",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Exfiltrare acustică prin ventilatoare (Fansmitter / Air-Gap Jumping) oprită și controlul hardware restabilit."
+                });
+
+                _auditService.LogAction("ACOUSTIC_AIRGAP_BLOCKED", $"{OperatorName} - Fansmitter Acoustic Covert Channel Blocked (TEMPEST)");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
             ".evtx", ".reg", ".dat", ".csv", ".json", ".log", ".lnk", ".pf", ".hve", ".txt", ".bin", ".bmc"

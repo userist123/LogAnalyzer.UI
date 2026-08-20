@@ -285,21 +285,37 @@ namespace LogAnalyzer.Core.Services.Network
             }
 
             // 16. Hardware Side-Channel & Anomalie Fizică (Rowhammer / Speculative Execution T1499)
-            if (msg.Contains("rowhammer") || msg.Contains("spectre") || msg.Contains("meltdown") || msg.Contains("zenbleed") || msg.Contains("downfall"))
+            if (msg.Contains("rowhammer") || msg.Contains("spectre") || msg.Contains("meltdown") || msg.Contains("zenbleed") || msg.Contains("downfall") || msg.Contains("cpu silicon"))
             {
                 return new DetectedIssue
                 {
-                    Title = "🔬 ALERTĂ CRITICĂ: Atac Hardware Side-Channel / Microarhitectură CPU (Rowhammer / Spectre)",
+                    Title = "🔬 ALERTĂ CRITICĂ: Atac pe Siliciu CPU & Memorie Fizică (Rowhammer / Spectre)",
                     Severity = "Critical",
-                    MitreTechniqueId = "T1499 / Hardware",
+                    MitreTechniqueId = "T1499 / CPU Silicon",
                     MitreTacticName = "Defense Evasion",
-                    Explanation = $"Anomalie critică de microarhitectură hardware detectată (Rowhammer DRAM bit-flip sau Speculative Execution Cache Leak) pe [{ev.MachineName}].",
+                    Explanation = $"Anomalie critică de microarhitectură pe siliciu detectată (Rowhammer DRAM bit-flip sau Speculative Execution Cache Leak) pe [{ev.MachineName}].",
                     CreatedAt = DateTime.UtcNow,
                     RelatedEvents = new List<ParsedEvent> { ev }
                 };
             }
 
-            // 17. Comenzi de Test / Simulare
+            // 17. Air-Gap Săritură & Exfiltrare Acustică / Ventilatoare (Fansmitter / Covert Channel T1048)
+            if (msg.Contains("fansmitter") || msg.Contains("acoustic") || msg.Contains("ventilatoare") || 
+                msg.Contains("pwm fan") || msg.Contains("air-gap covert channel") || msg.Contains("tempest"))
+            {
+                return new DetectedIssue
+                {
+                    Title = "🔊 ALERTĂ CRITICĂ: Exfiltrare Acustică prin Modulație Ventilatoare (Air-Gap Jumping / Fansmitter)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1048 / T1052 (Air-Gap)",
+                    MitreTacticName = "Exfiltration",
+                    Explanation = $"Tentativă de transmitere de date confidențiale din sistem izolat prin vibrații acustice generate de modulația PWM a ventilatoarelor pe [{ev.MachineName}]. Conform normelor HG 585 / NATO TEMPEST.",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 18. Comenzi de Test / Simulare
             if (msg.Contains("simulare dfir") || msg.Contains("test alert"))
             {
                 return new DetectedIssue

@@ -5,14 +5,15 @@
         WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
     
     <Window.Resources>
-        <SolidColorBrush x:Key="BgBrush" Color="#070812"/>
-        <SolidColorBrush x:Key="SurfaceBrush" Color="#0c0f1c"/>
-        <SolidColorBrush x:Key="Surface2Brush" Color="#111528"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#1e2538"/>
-        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#8b5cf6"/>
-        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#f5f7ff"/>
-        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#a7adc2"/>
-        <SolidColorBrush x:Key="DangerBrush" Color="#ef4444"/>
+        <SolidColorBrush x:Key="BgBrush" Color="#080C14"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#0D1322"/>
+        <SolidColorBrush x:Key="Surface2Brush" Color="#121A2D"/>
+        <SolidColorBrush x:Key="Surface3Brush" Color="#18233C"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#1E2C48"/>
+        <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#7C3AED"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#EF4444"/>
     </Window.Resources>
 
     <Window.Triggers>

@@ -28,8 +28,8 @@
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#151a31" Offset="0"/>
-                        <GradientStop Color="#0c0f1c" Offset="1"/>
+                        <GradientStop Color="#121a2d" Offset="0"/>
+                        <GradientStop Color="#080c14" Offset="1"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
@@ -58,7 +58,7 @@
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                             <GradientStop Color="#1a2035" Offset="0"/>
-                                            <GradientStop Color="#111528" Offset="1"/>
+                                            <GradientStop Color="#121a2d" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Setter.Value>
                                 </Setter>
@@ -93,13 +93,13 @@
 
         <!-- Action Button Style (Subtle Dark Slate with Cyan Border) -->
         <Style x:Key="ActionButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="#131b2e"/>
+            <Setter Property="Background" Value="#121a2d"/>
             <Setter Property="Foreground" Value="#38bdf8"/>
             <Setter Property="BorderBrush" Value="#2563eb"/>
             <Setter Property="Padding" Value="10,5"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1e293b"/>
+                    <Setter Property="Background" Value="#18233c"/>
                     <Setter Property="BorderBrush" Value="#38bdf8"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
@@ -108,7 +108,7 @@
 
         <!-- Universal Dark High-Contrast TextBox Style -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Background" Value="#0d1322"/>
             <Setter Property="Foreground" Value="#f8fafc"/>
             <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -140,11 +140,11 @@
                             </Trigger>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#8b5cf6"/>
-                                <Setter TargetName="border" Property="Background" Value="#11172e"/>
+                                <Setter TargetName="border" Property="Background" Value="#121a2d"/>
                             </Trigger>
                             <Trigger Property="IsReadOnly" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#080b16"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#1b2035"/>
+                                <Setter TargetName="border" Property="Background" Value="#080c14"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#1e2c48"/>
                                 <Setter Property="Foreground" Value="#cbd5e1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -160,13 +160,13 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="24" />
                 </Grid.ColumnDefinitions>
-                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="5" Background="#0c1020" BorderBrush="#22304c" BorderThickness="1" />
+                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="5" Background="#0d1322" BorderBrush="#22304c" BorderThickness="1" />
                 <Path x:Name="Arrow" Grid.Column="1" Fill="#38bdf8" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter TargetName="Border" Property="BorderBrush" Value="#38bdf8"/>
-                    <Setter TargetName="Border" Property="Background" Value="#11172e"/>
+                    <Setter TargetName="Border" Property="Background" Value="#121a2d"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter TargetName="Border" Property="BorderBrush" Value="#8b5cf6"/>
@@ -176,7 +176,7 @@
 
         <!-- Custom Dark ComboBoxItem Style -->
         <Style TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Background" Value="#0d1322"/>
             <Setter Property="Foreground" Value="#f8fafc"/>
             <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontSize" Value="11.5"/>
@@ -189,7 +189,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ItemBorder" Property="Background" Value="#1e293b"/>
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#18233c"/>
                                 <Setter Property="Foreground" Value="#38bdf8"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -205,7 +205,7 @@
         <!-- Complete Custom Dark ComboBox Style -->
         <Style TargetType="ComboBox">
             <Setter Property="Foreground" Value="#f8fafc"/>
-            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Background" Value="#0d1322"/>
             <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -219,7 +219,7 @@
                             <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="10,3,28,3" VerticalAlignment="Center" HorizontalAlignment="Left" TextElement.Foreground="#f8fafc" />
                             <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                                 <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#0c1020" BorderThickness="1" BorderBrush="#38bdf8" CornerRadius="4" Margin="0,2,0,0">
+                                    <Border x:Name="DropDownBorder" Background="#0d1322" BorderThickness="1" BorderBrush="#38bdf8" CornerRadius="4" Margin="0,2,0,0">
                                         <ScrollViewer Margin="2" SnapsToDevicePixels="True">
                                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                         </ScrollViewer>
@@ -235,7 +235,7 @@
         <!-- Universal Dark High-Contrast CheckBox Style -->
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-            <Setter Property="Background" Value="#0c1020"/>
+            <Setter Property="Background" Value="#0d1322"/>
             <Setter Property="BorderBrush" Value="#22304c"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -268,7 +268,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="CheckBorder" Property="Background" Value="#17243c"/>
+                                <Setter TargetName="CheckBorder" Property="Background" Value="#18233c"/>
                                 <Setter TargetName="CheckBorder" Property="BorderBrush" Value="#38bdf8"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -491,13 +491,9 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Glassmorphic card styling -->
+        <!-- Obsidian Tactical Card Styling -->
         <Style x:Key="GlassCardStyle" TargetType="Border">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="#111528" Opacity="0.85"/>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="{StaticResource Surface2Brush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="8"/>
@@ -549,7 +545,7 @@
         <!-- Vertical ScrollBar Template with Page Commands -->
         <ControlTemplate x:Key="ScrollBarVerticalTemplate" TargetType="ScrollBar">
             <Grid Background="Transparent">
-                <Border CornerRadius="5" Background="#111528" Opacity="0.4" Grid.Row="0" Grid.Column="0"/>
+                <Border CornerRadius="5" Background="#121a2d" Opacity="0.4" Grid.Row="0" Grid.Column="0"/>
                 <Track x:Name="PART_Track" IsDirectionReversed="True">
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarTrackButton}"/>
@@ -567,7 +563,7 @@
         <!-- Horizontal ScrollBar Template with Page Commands -->
         <ControlTemplate x:Key="ScrollBarHorizontalTemplate" TargetType="ScrollBar">
             <Grid Background="Transparent">
-                <Border CornerRadius="5" Background="#111528" Opacity="0.4" Grid.Row="0" Grid.Column="0"/>
+                <Border CornerRadius="5" Background="#121a2d" Opacity="0.4" Grid.Row="0" Grid.Column="0"/>
                 <Track x:Name="PART_Track" IsDirectionReversed="False">
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Command="ScrollBar.PageLeftCommand" Style="{StaticResource ScrollBarTrackButton}"/>
@@ -1198,7 +1194,7 @@
                                     </Border>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2c48" Margin="8,0"/>
 
                                 <!-- Right side details -->
                                 <Grid Grid.Column="2">
@@ -1260,7 +1256,7 @@
                                                     <TextBlock Text="EVALUARE AMENINȚĂRI SOC" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="0,0,0,10"/>
                                                     
                                                     <!-- Mitre Mapping Section -->
-                                                    <Border Margin="0,0,0,10" Padding="8" CornerRadius="4" Background="#1c1f30" BorderBrush="Orange" BorderThickness="1">
+                                                    <Border Margin="0,0,0,10" Padding="8" CornerRadius="4" Background="#121a2d" BorderBrush="Orange" BorderThickness="1">
                                                         <StackPanel>
                                                             <TextBlock Text="Mapare MITRE ATT&amp;CK:" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
                                                             <TextBlock Text="{Binding SelectedEventMitreMapping}" FontSize="11" FontWeight="Bold" Foreground="White"/>
@@ -1302,7 +1298,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Row="0" Text="EDITOR REGULI SIGMA / YARA LIVE" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,6"/>
-                                                <TextBox Grid.Row="1" Text="{Binding WorkbenchRuleContent, UpdateSourceTrigger=PropertyChanged}" Background="#0a0e1a" Foreground="#00ff87" FontFamily="Consolas" FontSize="11" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="6"/>
+                                                <TextBox Grid.Row="1" Text="{Binding WorkbenchRuleContent, UpdateSourceTrigger=PropertyChanged}" Background="#0a0e1a" Foreground="#22ff88" FontFamily="Consolas" FontSize="11" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="6"/>
                                                 <Grid Grid.Row="2" Margin="0,8,0,6">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
@@ -1380,7 +1376,7 @@
                                                                 </Border>
                                                                 <ControlTemplate.Triggers>
                                                                     <Trigger Property="IsSelected" Value="True">
-                                                                        <Setter Property="Background" Value="#17243c"/>
+                                                                        <Setter Property="Background" Value="#18233c"/>
                                                                         <Setter Property="Foreground" Value="#00f2fe"/>
                                                                     </Trigger>
                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -1434,7 +1430,7 @@
                                     </Grid>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="2" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                <GridSplitter Grid.Column="2" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2c48" Margin="8,0"/>
 
                                 <!-- Right side -->
                                 <Grid Grid.Column="3">
@@ -1448,7 +1444,7 @@
                                                 <TextBlock Text="DETALII HIVE REGISTRU" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
                                                 <TextBlock Text="Sursă: Offline Registry Audit" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
                                                 <TextBlock Text="{Binding InspectorProviderName, StringFormat='Categorie: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
-                                                <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
+                                                <Border Height="1" Background="#1e2c48" Margin="0,0,0,12"/>
                                                 <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Consolas" FontSize="11" AcceptsReturn="True"/>
                                             </StackPanel>
                                         </ScrollViewer>
@@ -1545,7 +1541,7 @@
                                                     </ListBox.ItemTemplate>
                                                 </ListBox>
                                                 
-                                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2c48" Margin="8,0"/>
                                                 
                                                 <!-- Sigma Rule Code Content -->
                                                 <Border Grid.Column="2" Background="#05070a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12">
@@ -1563,7 +1559,7 @@
                                     </Border>
                                 </Grid>
 
-                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2538" Margin="8,0"/>
+                                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#1e2c48" Margin="8,0"/>
 
                                 <Border Grid.Column="2" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="16">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -1571,7 +1567,7 @@
                                             <TextBlock Text="INSPECTOR REGULI CORELATE" FontSize="12" FontWeight="Bold" Foreground="{StaticResource DangerBrush}" Margin="0,0,0,12"/>
                                             <TextBlock Text="Sursă: Threat Correlation Engine" FontWeight="Bold" FontSize="12" Margin="0,0,0,4"/>
                                             <TextBlock Text="{Binding InspectorTimeCreated, StringFormat='Corelat la: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
-                                            <Border Height="1" Background="#1e2538" Margin="0,0,0,12"/>
+                                            <Border Height="1" Background="#1e2c48" Margin="0,0,0,12"/>
                                             <TextBox Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="White" BorderThickness="0" FontFamily="Segoe UI" FontSize="12" AcceptsReturn="True"/>
                                         </StackPanel>
                                     </ScrollViewer>
@@ -1764,9 +1760,9 @@
                                 </UniformGrid>
 
                                 <!-- Executive Summary Box -->
-                                <Border Grid.Row="2" Background="#0b1329" BorderBrush="#00d4ff" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
+                                <Border Grid.Row="2" Background="#0d1322" BorderBrush="#22d3ee" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
                                     <StackPanel>
-                                        <TextBlock Text="Sinteză Executivă &amp; Recomandări Tactice:" FontSize="11" FontWeight="Bold" Foreground="#00d4ff" Margin="0,0,0,4"/>
+                                        <TextBlock Text="Sinteză Executivă &amp; Recomandări Tactice:" FontSize="11" FontWeight="Bold" Foreground="#22d3ee" Margin="0,0,0,4"/>
                                         <TextBlock Text="{Binding AiExecutiveSummary}" FontSize="11.5" Foreground="White" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
@@ -1821,9 +1817,9 @@
                                 </Grid>
 
                                 <!-- Summary Box -->
-                                <Border Grid.Row="1" Background="#0b1329" BorderBrush="#00d4ff" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
+                                <Border Grid.Row="1" Background="#0d1322" BorderBrush="#22d3ee" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding CurrentStoryline.IncidentTitle}" FontSize="13" FontWeight="Bold" Foreground="#00d4ff" Margin="0,0,0,4"/>
+                                        <TextBlock Text="{Binding CurrentStoryline.IncidentTitle}" FontSize="13" FontWeight="Bold" Foreground="#22d3ee" Margin="0,0,0,4"/>
                                         <TextBlock Text="{Binding CurrentStoryline.OverallSummary}" FontSize="11.5" LineHeight="17" Foreground="White" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
@@ -1840,7 +1836,7 @@
                                             <ItemsControl ItemsSource="{Binding StorylineNodes}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Border Background="#0e1322" BorderBrush="{Binding SeverityColor}" BorderThickness="1.5" CornerRadius="8" Margin="0,0,0,10" Padding="14" Cursor="Hand" ToolTip="Click pentru filtrare investigație pe acest stadiu">
+                                                        <Border Background="#121a2d" BorderBrush="{Binding SeverityColor}" BorderThickness="1.5" CornerRadius="8" Margin="0,0,0,10" Padding="14" Cursor="Hand" ToolTip="Click pentru filtrare investigație pe acest stadiu">
                                                             <Border.InputBindings>
                                                                 <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotStorylineStageCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
                                                             </Border.InputBindings>
@@ -1852,7 +1848,7 @@
                                                                 </Grid.ColumnDefinitions>
                                                                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0" HorizontalAlignment="Center">
                                                                     <TextBlock Text="{Binding StageIcon}" FontSize="24" HorizontalAlignment="Center"/>
-                                                                    <Border Background="#1b2336" CornerRadius="4" Padding="6,2" Margin="0,6,0,0">
+                                                                    <Border Background="#18233c" CornerRadius="4" Padding="6,2" Margin="0,6,0,0">
                                                                         <TextBlock Text="{Binding TechniqueId}" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                                                                     </Border>
                                                                 </StackPanel>
@@ -1912,16 +1908,16 @@
                                                                 <TextBlock Text="{Binding ActorName}" FontSize="13" FontWeight="Bold" Foreground="White"/>
                                                                 <TextBlock Text="{Binding Aliases, StringFormat='Aliasuri: {0}'}" FontSize="9.5" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0"/>
                                                             </StackPanel>
-                                                            <Border Background="#1b2336" BorderBrush="{Binding MatchColor}" BorderThickness="1" CornerRadius="12" Padding="10,3" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <Border Background="#18233c" BorderBrush="{Binding MatchColor}" BorderThickness="1" CornerRadius="12" Padding="10,3" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                                 <TextBlock Text="{Binding MatchScore, StringFormat='Potrivire: {0}%'}" FontSize="10" FontWeight="Bold" Foreground="{Binding MatchColor}"/>
                                                             </Border>
                                                         </Grid>
                                                         <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                                                            <TextBlock Text="{Binding Origin, StringFormat='Origine: {0}'}" FontSize="10.5" FontWeight="SemiBold" Foreground="#00d4ff"/>
+                                                            <TextBlock Text="{Binding Origin, StringFormat='Origine: {0}'}" FontSize="10.5" FontWeight="SemiBold" Foreground="#22d3ee"/>
                                                             <TextBlock Text="{Binding TargetSectors, StringFormat='Ținte: {0}'}" FontSize="10" Foreground="#e1e7f0" TextWrapping="Wrap" Margin="0,2,0,0"/>
                                                         </StackPanel>
                                                         <TextBlock Grid.Row="2" Text="{Binding KnownTools, StringFormat='Unelte cunoscute: {0}'}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,10"/>
-                                                        <ProgressBar Grid.Row="3" Value="{Binding MatchScore}" Maximum="100" Height="4" Margin="0,0,0,10" Foreground="{Binding MatchColor}" Background="#1b2336" BorderThickness="0"/>
+                                                        <ProgressBar Grid.Row="3" Value="{Binding MatchScore}" Maximum="100" Height="4" Margin="0,0,0,10" Foreground="{Binding MatchColor}" Background="#18233c" BorderThickness="0"/>
                                                         <StackPanel Grid.Row="4">
                                                             <TextBlock Text="Tehnici Corelate în Investigație:" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                                                             <ItemsControl ItemsSource="{Binding MatchedTechniques}">
@@ -1932,7 +1928,7 @@
                                                                 </ItemsControl.ItemsPanel>
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
-                                                                        <Border Background="#1b2336" BorderBrush="#38bdf8" BorderThickness="1" CornerRadius="4" Padding="6,2" Margin="2">
+                                                                        <Border Background="#18233c" BorderBrush="#38bdf8" BorderThickness="1" CornerRadius="4" Padding="6,2" Margin="2">
                                                                             <TextBlock Text="{Binding}" FontSize="8.5" FontWeight="Bold" Foreground="#38bdf8"/>
                                                                         </Border>
                                                                     </DataTemplate>
@@ -1994,7 +1990,7 @@
                                         <TextBlock Text="Execuții Binare LOLBAS &amp; Relații Anomale Părinte-Copil" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,10"/>
                                         <DataGrid Grid.Row="1" ItemsSource="{Binding LolbasFindings}" AutoGenerateColumns="False" IsReadOnly="True">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Binar LOLBAS" Binding="{Binding BinaryName}" Width="160" FontWeight="Bold" Foreground="#00d4ff"/>
+                                                <DataGridTextColumn Header="Binar LOLBAS" Binding="{Binding BinaryName}" Width="160" FontWeight="Bold" Foreground="#22d3ee"/>
                                                 <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="150"/>
                                                 <DataGridTextColumn Header="Tehnică MITRE" Binding="{Binding MitreTechniqueId}" Width="100"/>
                                                 <DataGridTextColumn Header="Comandă / Descriere" Binding="{Binding Description}" Width="*"/>
@@ -2022,7 +2018,7 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel VerticalAlignment="Center">
                                         <TextBlock Text="📜 Lanț Probatoriu de Custodie (ISO/IEC 27037) &amp; Conformitate NIS2" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
-                                        <TextBlock Text="{Binding ProvenanceStatusMessage}" FontSize="11" Foreground="#00ff87" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding ProvenanceStatusMessage}" FontSize="11" Foreground="#22ff88" FontWeight="SemiBold"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                                         <Button Content="🔍 Verifică Integritate Lanț" Command="{Binding VerifyProvenanceChainCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0" Padding="12,6"/>
@@ -2034,14 +2030,14 @@
                                 </Grid>
 
                                 <!-- NIS2 Compliance Overview Box -->
-                                <Border Grid.Row="1" Background="#0b1329" BorderBrush="#00d4ff" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
+                                <Border Grid.Row="1" Background="#0d1322" BorderBrush="#22d3ee" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,18">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel>
-                                            <TextBlock Text="Directiva NIS2 / OUG 155/2024 — Ceasul Obligațiilor Legale de Notificare către DNSC:" FontSize="11" FontWeight="Bold" Foreground="#00d4ff" Margin="0,0,0,4"/>
+                                            <TextBlock Text="Directiva NIS2 / OUG 155/2024 — Ceasul Obligațiilor Legale de Notificare către DNSC:" FontSize="11" FontWeight="Bold" Foreground="#22d3ee" Margin="0,0,0,4"/>
                                             <TextBlock Text="• Etapa 1: Avertizare Timpurie în max. 24 de ore de la detecție. • Etapa 2: Notificare completă în max. 72 de ore. • Etapa 3: Raport final de remediere în max. 1 lună." FontSize="11" Foreground="White"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
@@ -2062,7 +2058,7 @@
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}" Width="50" FontWeight="Bold"/>
                                                 <DataGridTextColumn Header="Data UTC" Binding="{Binding TimestampUtc, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
-                                                <DataGridTextColumn Header="Acțiune Forenzică" Binding="{Binding ActionType}" Width="160" FontWeight="SemiBold" Foreground="#00d4ff"/>
+                                                <DataGridTextColumn Header="Acțiune Forenzică" Binding="{Binding ActionType}" Width="160" FontWeight="SemiBold" Foreground="#22d3ee"/>
                                                 <DataGridTextColumn Header="Referință Probatorie" Binding="{Binding EvidenceReference}" Width="180"/>
                                                 <DataGridTextColumn Header="Hash Bloc (SHA-256)" Binding="{Binding EntryHash}" Width="200" FontFamily="Consolas" FontSize="10"/>
                                                 <DataGridTextColumn Header="Detalii Înregistrare" Binding="{Binding Details}" Width="*"/>
@@ -2386,13 +2382,13 @@
                                         </StackPanel>
 
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Border Background="#0f172a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6" Margin="0,0,12,0">
+                                            <Border Background="#0d1322" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6" Margin="0,0,12,0">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="EVENIMENTE CAPTURATE: " FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
                                                     <TextBlock Text="{Binding TotalLiveEventsCaptured, StringFormat='{}{0:N0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                                                 </StackPanel>
                                             </Border>
-                                            <Border Background="#0f172a" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6">
+                                            <Border Background="#0d1322" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,6">
                                                 <TextBlock Text="{Binding LiveMonitoringStatusText}" FontSize="10" FontWeight="Bold" Foreground="#22c55e"/>
                                             </Border>
                                         </StackPanel>
@@ -2547,7 +2543,7 @@
                                             <Setter Property="Fill" Value="#ff3366"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsCollectionRunning}" Value="True">
-                                                    <Setter Property="Fill" Value="#00ff87"/>
+                                                    <Setter Property="Fill" Value="#22ff88"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -2752,7 +2748,7 @@
                                     </DockPanel>
 
                                     <TextBlock Text="Mesaj Complet &amp; Payload / ScriptBlock Executat:" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,6,0,4"/>
-                                    <TextBox Text="{Binding RawEventMessage}" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="10.5" Background="#04060a" Foreground="#38bdf8" BorderBrush="#1e293b" BorderThickness="1" Padding="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,0,0,8"/>
+                                    <TextBox Text="{Binding RawEventMessage}" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="10.5" Background="#04060a" Foreground="#38bdf8" BorderBrush="#18233c" BorderThickness="1" Padding="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,0,0,8"/>
                                     <DockPanel LastChildFill="False">
                                         <Button DockPanel.Dock="Right" Content="📋 Copiază Mesaj Brut în Clipboard" Command="{Binding CopyRawEventMessageCommand}" Background="{StaticResource Surface3Brush}" Foreground="White" FontSize="10" Padding="12,4"/>
                                     </DockPanel>

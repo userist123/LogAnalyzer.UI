@@ -170,7 +170,42 @@ namespace LogAnalyzer.Core.Services.Network
                 }
             }
 
-            // 9. Comenzi de Test / Simulare
+            // 9. Exploits Kernel Ring 0 / BYOVD - Bring Your Own Vulnerable Driver (T1068 / T1543.003)
+            if (msg.Contains("gdrv.sys") || msg.Contains("mhyprot2.sys") || msg.Contains("procexp152.sys") || 
+                msg.Contains("dbutil") || msg.Contains("rtcore64.sys") || msg.Contains("kprocesshacker") ||
+                msg.Contains("byovd") || msg.Contains("loldrivers") || 
+                (msg.Contains("kernel driver") && (msg.Contains("installed") || msg.Contains("service installed") || msg.Contains("vulnerable driver"))))
+            {
+                return new DetectedIssue
+                {
+                    Title = "☣️ ALERTĂ CRITICĂ: Tentativă Încărcare Driver Kernel Vulnerabil (BYOVD / Ring 0)",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1068 / T1543.003",
+                    MitreTacticName = "Privilege Escalation",
+                    Explanation = $"A fost detectată tentativa de încărcare a unui driver de sistem vulnerabil cunoscut (BYOVD - Bring Your Own Vulnerable Driver) pe [{ev.MachineName}]. Atacatorii folosesc această tehnică pentru a eluda EDR-ul și a obține execuție de cod la nivel de Kernel Ring 0.",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 10. Injecții Exclusiv în Memorie / Process Hollowing (T1055 / T1055.012)
+            if (msg.Contains("process hollowing") || msg.Contains("reflective dll") || msg.Contains("process injection") ||
+                msg.Contains("virtualalloc") && (msg.Contains("page_execute_readwrite") || msg.Contains("0x40") || msg.Contains("writeprocessmemory")) ||
+                msg.Contains("injected") && (msg.Contains("notepad") || msg.Contains("calc") || msg.Contains("svchost") || msg.Contains("spoolsv") || msg.Contains("werfault")))
+            {
+                return new DetectedIssue
+                {
+                    Title = "💉 ALERTĂ CRITICĂ: Injecție Exclusivă în Memorie & Process Hollowing",
+                    Severity = "Critical",
+                    MitreTechniqueId = "T1055.012",
+                    MitreTacticName = "Defense Evasion",
+                    Explanation = $"A fost detectată o anomalie gravă de memorie RAM pe [{ev.MachineName}]: un proces legitim de sistem a fost golit și injectat cu cod malițios direct în memorie fără scriere de fișiere pe disc (Process Hollowing).",
+                    CreatedAt = DateTime.UtcNow,
+                    RelatedEvents = new List<ParsedEvent> { ev }
+                };
+            }
+
+            // 11. Comenzi de Test / Simulare
             if (msg.Contains("simulare dfir") || msg.Contains("test alert"))
             {
                 return new DetectedIssue

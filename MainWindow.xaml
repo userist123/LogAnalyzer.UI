@@ -2262,10 +2262,12 @@
                                             
                                             <Button Content="▶ PORNEȘTE MONITORIZARE LIVE" Command="{Binding StartLiveMonitoringCommand}" Background="#052e16" BorderBrush="#22c55e" Foreground="#22c55e" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
                                             <Button Content="⏹ OPREȘTE" Command="{Binding StopLiveMonitoringCommand}" Background="#3f1218" BorderBrush="#ef4444" Foreground="#ef4444" FontWeight="Bold" Padding="14,6" Margin="0,0,10,0"/>
-                                            <Button Content="🧪 Simulează Alertă" Command="{Binding SimulateLiveAlertCommand}" Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="12,6" Margin="0,0,10,0"/>
-                                            <Button Content="🎣 Simulează Phishing" Command="{Binding SimulatePhishingAttackCommand}" Background="#3b0764" BorderBrush="#c084fc" Foreground="#c084fc" FontWeight="Bold" Padding="12,6" Margin="0,0,10,0"/>
-                                            <Button Content="🏹 Simulează Mișcare Laterală" Command="{Binding SimulateLateralMovementAttackCommand}" Background="#1e3a8a" BorderBrush="#60a5fa" Foreground="#60a5fa" FontWeight="Bold" Padding="12,6" Margin="0,0,10,0"/>
-                                            <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="12,6"/>
+                                            <Button Content="🧪 Alertă Generic" Command="{Binding SimulateLiveAlertCommand}" Background="#1e1b4b" BorderBrush="#818cf8" Foreground="#818cf8" FontWeight="Bold" Padding="10,6" Margin="0,0,8,0"/>
+                                            <Button Content="🎣 Phishing" Command="{Binding SimulatePhishingAttackCommand}" Background="#3b0764" BorderBrush="#c084fc" Foreground="#c084fc" FontWeight="Bold" Padding="10,6" Margin="0,0,8,0"/>
+                                            <Button Content="🏹 Mișcare Laterală" Command="{Binding SimulateLateralMovementAttackCommand}" Background="#1e3a8a" BorderBrush="#60a5fa" Foreground="#60a5fa" FontWeight="Bold" Padding="10,6" Margin="0,0,8,0"/>
+                                            <Button Content="☣️ Exploit Kernel (BYOVD)" Command="{Binding SimulateByovdAttackCommand}" Background="#450a0a" BorderBrush="#f87171" Foreground="#f87171" FontWeight="Bold" Padding="10,6" Margin="0,0,8,0"/>
+                                            <Button Content="💉 Injecție Memorie" Command="{Binding SimulateProcessHollowingAttackCommand}" Background="#064e3b" BorderBrush="#34d399" Foreground="#34d399" FontWeight="Bold" Padding="10,6" Margin="0,0,8,0"/>
+                                            <Button Content="🗑️ Curăță Feed" Command="{Binding ClearLiveFeedCommand}" Background="{StaticResource Surface3Brush}" Foreground="{StaticResource TextSecondaryBrush}" Padding="10,6"/>
                                         </StackPanel>
 
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">

@@ -139,7 +139,57 @@ namespace LogAnalyzer.Core.Services.Network
                     IsRecommended = true
                 });
             }
-            // 4. Default / Generic Hacking Incident
+            // 4. Exploits Kernel Ring 0 & BYOVD (T1068 / T1543.003)
+            else if (titleLower.Contains("driver kernel") || titleLower.Contains("byovd") || tech.Contains("T1068"))
+            {
+                playbook.AttackCategory = "☣️ Exploit Kernel Ring 0 & Driver Vulnerabil (BYOVD)";
+                playbook.ImmediateObjective = "Oprirea imediată a serviciului driver vulnerabil, blocarea comunicării C2 și aplicarea politicii HVCI.";
+                playbook.ForensicsGuidance = "Verificați folderul C:\\Windows\\System32\\drivers pentru fișiere .sys nesemnate sau semnate cu certificate revocate. Rulați 'fltmc' și 'sc.exe query type= driver'.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛡️ Izolează Gazda din Rețea (Oprire Exfiltrare)",
+                    Description = "Taie orice conexiune externă pentru a împiedica atacatorul să preia controlul prin driverul kernel.",
+                    ActionType = "Isolate",
+                    PowerShellSnippet = "New-NetFirewallRule -DisplayName 'DFIR_Block_BYOVD' -Direction Outbound -Action Block",
+                    IsRecommended = true
+                });
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Oprește & Șterge Serviciul Driverului Vulnerabil",
+                    Description = "Oprește serviciul kernel instalat înainte de a apuca să dezactiveze componentele de securitate.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "sc.exe stop [NumeDriver]; sc.exe delete [NumeDriver]",
+                    IsRecommended = true
+                });
+            }
+            // 5. Injecție Memorie & Process Hollowing (T1055)
+            else if (titleLower.Contains("hollowing") || titleLower.Contains("injecție") || tech.StartsWith("T1055"))
+            {
+                playbook.AttackCategory = "💉 Injecție Exclusivă în Memorie & Process Hollowing (T1055)";
+                playbook.ImmediateObjective = "Neutralizarea procesului gazdă compromis în RAM și tăierea canalului de comunicare C2.";
+                playbook.ForensicsGuidance = "Efectuați un Process Dump complet pe PID-ul afectat pentru a extrage payload-ul necriptat direct din memoria RAM înainte de terminare.";
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛑 Neutralizează Procesul Gazdă Compromis (Kill Process Tree)",
+                    Description = "Oprește forțat procesul legitim injectat (ex: notepad.exe, svchost.exe neautorizat) și procesele copil create.",
+                    ActionType = "KillProcess",
+                    PowerShellSnippet = "Stop-Process -Id [TargetPID] -Force",
+                    IsRecommended = true
+                });
+
+                playbook.Actions.Add(new CountermeasureAction
+                {
+                    Title = "🛡️ Izolează Gazda pe Windows Firewall",
+                    Description = "Blochează traficul generat de payload-ul din memorie către IP-ul de comandă (C2).",
+                    ActionType = "Isolate",
+                    PowerShellSnippet = "New-NetFirewallRule -DisplayName 'DFIR_Block_Memory_C2' -Direction Outbound -Action Block",
+                    IsRecommended = true
+                });
+            }
+            // 6. Default / Generic Hacking Incident
             else
             {
                 playbook.AttackCategory = "⚠️ Incident Cibernetic & Activitate Suspectă";

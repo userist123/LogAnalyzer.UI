@@ -1629,6 +1629,130 @@ namespace LogAnalyzer.UI.ViewModels
             try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
         }
 
+        [RelayCommand]
+        private void SimulateByovdAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 7045,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Service Control Manager",
+                TimeCreated = DateTime.Now,
+                Message = "A service was installed in the system.\nService Name: gdrv\nService File Name: C:\\Windows\\Temp\\gdrv.sys (Known Vulnerable GIGABYTE Driver / BYOVD)\nService Type: kernel driver\nService Start Type: demand start\nService Account: \nThreat Intel: LOLDrivers Vulnerability CVE-2018-19320 (Arbitrary Ring 0 Kernel Memory Read/Write)"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Driverul kernel vulnerabil gdrv.sys a fost blocat și serviciul oprit instant!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 EXPLOIT KERNEL DETECTAT: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & EXPLOIT KERNEL BYOVD]\n" +
+                              $"• Tip Amenințare: Bring Your Own Vulnerable Driver (Ring 0 Defense Evasion)\n" +
+                              $"• Binar Vulnerabil: C:\\Windows\\Temp\\gdrv.sys (LOLDrivers Match)\n" +
+                              $"• CVE Asociat: CVE-2018-19320 (Kernel Privilege Escalation)\n" +
+                              $"• Țintă Atacator: Dezactivare EDR Hooks & Blind Security Sensors\n" +
+                              $"• Recomandare Apărare: Oprire serviciu 'sc.exe stop gdrv', ștergere binar .sys și activare Memory Integrity (HVCI)."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_KERNEL_BYOVD",
+                    Severity = "Critical",
+                    MitreTags = "T1068 / T1543.003",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Detectat atac BYOVD de eludare a securității prin încărcarea driverului kernel gdrv.sys"
+                });
+
+                _auditService.LogAction("BYOVD_EXPLOIT_BLOCKED", $"{OperatorName} - Driver vulnerabil: gdrv.sys, CVE-2018-19320");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
+        [RelayCommand]
+        private void SimulateProcessHollowingAttack()
+        {
+            var simEvent = new ParsedEvent
+            {
+                EventId = 10,
+                Level = "Critical",
+                MachineName = Environment.MachineName,
+                ProviderName = "Microsoft-Windows-Sysmon",
+                TimeCreated = DateTime.Now,
+                Message = "Process Injection / Memory Anomaly detected.\nSource Process: powershell.exe (PID 6120)\nTarget Process: C:\\Windows\\System32\\notepad.exe (PID 8412 - Injected)\nCall Trace: VirtualAllocEx(PAGE_EXECUTE_READWRITE) -> WriteProcessMemory -> CreateRemoteThread\nNetwork Beacon: notepad.exe (PID 8412) attempting outbound socket to 91.240.118.15:443 (Cobalt Strike C2)"
+            };
+
+            TotalLiveEventsCaptured++;
+            LiveStreamingEvents.Insert(0, simEvent);
+            Events.Insert(0, simEvent);
+
+            var alert = _liveEngine.EvaluateLiveEvent(simEvent);
+            if (alert != null)
+            {
+                LiveAlerts.Insert(0, alert);
+                IsAutoShieldTriggered = true;
+                AutoShieldMessage = "⚡ SCUT AUTOMAT EDR: Procesul hollowed notepad.exe (PID 8412) a fost neutralizat instant și conexiunea C2 izolată!";
+
+                OpenAlertModal(alert, Environment.MachineName);
+                StatusMessage = $"🚨 INJECȚIE MEMORIE DETECTATĂ: {alert.Title}";
+
+                var intel = ActiveCountermeasurePlaybook?.AttackerIntel ?? new();
+                var dossierEvent = new ParsedEvent
+                {
+                    EventId = 9999,
+                    Level = "Critical",
+                    MachineName = Environment.MachineName,
+                    ProviderName = "DFIR-ThreatIntelligence-Attribution",
+                    TimeCreated = DateTime.Now,
+                    Message = $"[DOSAR FORENZIC ATACATOR & INJECȚIE MEMORIE HOLLOWING]\n" +
+                              $"• Tehnică Atac: Process Hollowing & Remote Thread Injection (T1055.012)\n" +
+                              $"• Proces Gazdă Compromis în RAM: notepad.exe (PID 8412)\n" +
+                              $"• Sursă Injecție: powershell.exe (PID 6120)\n" +
+                              $"• Server C2 Contactat: 91.240.118.15:443 (Cobalt Strike Beacon)\n" +
+                              $"• Recomandare Apărare: Termină forțat arborele de procese și blochează IP-ul 91.240.118.15 pe firewall."
+                };
+
+                TotalLiveEventsCaptured++;
+                LiveStreamingEvents.Insert(0, dossierEvent);
+                Events.Insert(0, dossierEvent);
+                TimelineItems.Insert(0, new TimelineItem
+                {
+                    Timestamp = DateTime.Now,
+                    Source = "DFIR-ThreatIntelligence",
+                    Category = "CTI_PROCESS_HOLLOWING",
+                    Severity = "Critical",
+                    MitreTags = "T1055.012",
+                    UserOrHost = Environment.MachineName,
+                    Description = "Injecție exclusivă în memorie (Process Hollowing) neutralizată pe procesul notepad.exe (PID 8412)"
+                });
+
+                _auditService.LogAction("PROCESS_HOLLOWING_BLOCKED", $"{OperatorName} - Target: notepad.exe PID 8412, C2: 91.240.118.15");
+                try { System.Media.SystemSounds.Exclamation.Play(); } catch {}
+            }
+        }
+
         private static readonly HashSet<string> ForensicExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
             ".evtx", ".reg", ".dat", ".csv", ".json", ".log", ".lnk", ".pf", ".hve", ".txt", ".bin", ".bmc"

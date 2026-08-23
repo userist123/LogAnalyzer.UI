@@ -5,18 +5,6 @@ using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services
 {
-    public class AzureAdFinding
-    {
-        public string ActivityType { get; set; } = string.Empty; // "Impossible Travel Sign-In", "Global Admin Role Activated", "Conditional Access Policy Disabled", "Password Hash Sync Tampering"
-        public string UserPrincipalName { get; set; } = string.Empty;
-        public string Severity { get; set; } = "High";
-        public string SourceLocationOrIp { get; set; } = string.Empty;
-        public string MitreTechniqueId { get; set; } = "T1078.004";
-        public string Description { get; set; } = string.Empty;
-        public string RemediationActionRo { get; set; } = string.Empty;
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-    }
-
     public class AzureAdAuditEngine
     {
         public List<AzureAdFinding> Analyze(IEnumerable<ParsedEvent> events)
@@ -26,7 +14,6 @@ namespace LogAnalyzer.Core.Services
 
             var list = events.ToList();
 
-            // Detectare evenimente legate de Azure AD / Entra ID / ADFS / AAD Connect
             var azureEvents = list.Where(e => (e.ProviderName != null && (e.ProviderName.Contains("Azure", StringComparison.OrdinalIgnoreCase) || e.ProviderName.Contains("AD FS", StringComparison.OrdinalIgnoreCase) || e.ProviderName.Contains("Entra", StringComparison.OrdinalIgnoreCase))) ||
                                               (e.Message != null && (e.Message.Contains("AzureAD", StringComparison.OrdinalIgnoreCase) || e.Message.Contains("Entra ID", StringComparison.OrdinalIgnoreCase) || e.Message.Contains("Global Administrator", StringComparison.OrdinalIgnoreCase) || e.Message.Contains("Conditional Access", StringComparison.OrdinalIgnoreCase)))).ToList();
 
@@ -42,8 +29,8 @@ namespace LogAnalyzer.Core.Services
                         Severity = "Critical",
                         SourceLocationOrIp = "Cloud Identity / Entra ID",
                         MitreTechniqueId = "T1098.003",
-                        Description = "Detectată atribuirea sau activarea rolului de Global Administrator în tenantul Entra ID. Acces deplin asupra tuturor resurselor Microsoft 365 și Azure Cloud.",
-                        RemediationActionRo = "1. Verificați dacă activarea a fost efectuată prin fluxul aprobat Privileged Identity Management (PIM).\n2. Auditați dacă sesiunea a utilizat MFA rezistent la phishing (FIDO2 / WHfB).",
+                        Description = "DetectatÄƒ atribuirea sau activarea rolului de Global Administrator Ã®n tenantul Entra ID. Acces deplin asupra tuturor resurselor Microsoft 365 È™i Azure Cloud.",
+                        RemediationActionRo = "1. VerificaÈ›i dacÄƒ activarea a fost efectuatÄƒ prin fluxul aprobat Privileged Identity Management (PIM).\n2. AuditaÈ›i dacÄƒ sesiunea a utilizat MFA rezistent la phishing (FIDO2 / WHfB).",
                         Timestamp = e.TimeCreated
                     });
                 }
@@ -57,8 +44,8 @@ namespace LogAnalyzer.Core.Services
                         Severity = "High",
                         SourceLocationOrIp = "Multiple Geolocation IPs",
                         MitreTechniqueId = "T1078.004",
-                        Description = "Detectată autentificare din două locații geografice diferite într-un interval fizic imposibil de parcurs. Semnal cert de token theft sau sesiune compromisă.",
-                        RemediationActionRo = "1. Revocați imediat toate sesiunile active (Revoke-AzureADUserAllRefreshToken).\n2. Blocați temporar accesul contului până la resetarea parolei și MFA.",
+                        Description = "DetectatÄƒ autentificare din douÄƒ locaÈ›ii geografice diferite Ã®ntr-un interval fizic imposibil de parcurs. Semnal cert de token theft sau sesiune compromisÄƒ.",
+                        RemediationActionRo = "1. RevocaÈ›i imediat toate sesiunile active (Revoke-AzureADUserAllRefreshToken).\n2. BlocaÈ›i temporar accesul contului pÃ¢nÄƒ la resetarea parolei È™i MFA.",
                         Timestamp = e.TimeCreated
                     });
                 }

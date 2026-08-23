@@ -5,19 +5,6 @@ using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services
 {
-    public class AdAttributeDelta
-    {
-        public string ObjectClass { get; set; } = "User";
-        public string ObjectDn { get; set; } = string.Empty;
-        public string AttributeName { get; set; } = string.Empty;
-        public string OldValue { get; set; } = "-";
-        public string NewValue { get; set; } = "-";
-        public string Operation { get; set; } = "Value Added"; // "Value Added", "Value Deleted", "Value Modified"
-        public string ModifiedBy { get; set; } = "SYSTEM";
-        public string SecurityImpact { get; set; } = "Low";
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-    }
-
     public class AdAttributeDeltaEngine
     {
         public List<AdAttributeDelta> ExtractDeltas(IEnumerable<ParsedEvent> events)

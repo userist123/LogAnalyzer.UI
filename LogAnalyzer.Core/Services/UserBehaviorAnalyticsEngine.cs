@@ -5,18 +5,6 @@ using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services
 {
-    public class UbaAnomalyItem
-    {
-        public string Username { get; set; } = string.Empty;
-        public string AnomalyType { get; set; } = string.Empty; // "Off-Hours Logon", "Concurrent Workstations", "Brute-Force Followed by Success", "Anomalous RDP Access"
-        public string Severity { get; set; } = "High";
-        public string Description { get; set; } = string.Empty;
-        public string SourceIp { get; set; } = string.Empty;
-        public string Workstation { get; set; } = string.Empty;
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-        public double RiskWeight { get; set; } = 75.0;
-    }
-
     public class UserBehaviorAnalyticsEngine
     {
         public List<UbaAnomalyItem> Evaluate(IEnumerable<ParsedEvent> events)
@@ -26,112 +14,99 @@ namespace LogAnalyzer.Core.Services
 
             var list = events.ToList();
 
-            // 1. Logon în afara programului de lucru (23:00 - 05:30)
-            var offHours = list.Where(e => (e.EventId == 4624 || e.EventId == 4768) && (e.TimeCreated.Hour >= 23 || e.TimeCreated.Hour < 6)).ToList();
-            var groupedOffHours = offHours.GroupBy(e => ExtractUser(e)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$") && !g.Key.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase));
-
-            foreach (var g in groupedOffHours)
+            // 1. Detectare autentificare Ã®n afara orelor normale (23:00 - 06:00)
+            var offHoursLogons = list.Where(e => e.EventId == 4624 && (e.TimeCreated.Hour >= 23 || e.TimeCreated.Hour < 6)).ToList();
+            foreach (var e in offHoursLogons)
             {
-                var sample = g.First();
-                anomalies.Add(new UbaAnomalyItem
+                string user = ExtractUserFromMessage(e.Message);
+                if (!string.IsNullOrEmpty(user) && !user.EndsWith("$"))
                 {
-                    Username = g.Key,
-                    AnomalyType = "UBA: Autentificare în Afara Orelor Normale de Lucru",
-                    Severity = "Medium",
-                    Description = $"Utilizatorul '{g.Key}' s-a autentificat de {g.Count()} ori în intervalul orar 23:00 - 06:00. Necesită validare dacă activitatea corespunde unei ture de noapte autorizate sau unui acces neautorizat.",
-                    SourceIp = sample.MachineName ?? "Rețea Internă",
-                    Workstation = sample.MachineName ?? "Unknown",
-                    Timestamp = g.Max(e => e.TimeCreated),
-                    RiskWeight = 45.0
-                });
+                    anomalies.Add(new UbaAnomalyItem
+                    {
+                        Username = user,
+                        AnomalyType = "Autentificare Ã®n Afara Orelor Normale (Off-Hours Logon)",
+                        Severity = "High",
+                        RiskWeight = 75.0,
+                        Description = $"Utilizatorul {user} s-a autentificat la ora {e.TimeCreated:HH:mm:ss} pe staÈ›ia {e.MachineName}. Abatere comportamentalÄƒ de la programul de lucru autorizat.",
+                        Timestamp = e.TimeCreated
+                    });
+                }
             }
 
-            // 2. Sesiuni concurente pe mai multe stații în interval de sub 15 minute
-            var successfulLogons = list.Where(e => e.EventId == 4624).OrderBy(e => e.TimeCreated).ToList();
-            var userLogons = successfulLogons.GroupBy(e => ExtractUser(e)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$") && !g.Key.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase));
+            // 2. Detectare sesiuni concurente pe mai multe staÈ›ii Ã®n interval scurt
+            var logonsByUser = list.Where(e => e.EventId == 4624).GroupBy(e => ExtractUserFromMessage(e.Message)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$"));
 
-            foreach (var userGroup in userLogons)
+            foreach (var userGroup in logonsByUser)
             {
-                var stations = userGroup.Select(e => e.MachineName).Where(m => !string.IsNullOrEmpty(m)).Distinct().ToList();
-                if (stations.Count >= 2)
+                var userEvents = userGroup.OrderBy(e => e.TimeCreated).ToList();
+                for (int i = 0; i < userEvents.Count - 1; i++)
                 {
-                    var times = userGroup.Select(e => e.TimeCreated).ToList();
-                    var minTime = times.Min();
-                    var maxTime = times.Max();
-                    if ((maxTime - minTime).TotalMinutes < 15)
+                    var e1 = userEvents[i];
+                    var e2 = userEvents[i + 1];
+                    if (!string.Equals(e1.MachineName, e2.MachineName, StringComparison.OrdinalIgnoreCase) &&
+                        (e2.TimeCreated - e1.TimeCreated).TotalMinutes < 15)
                     {
                         anomalies.Add(new UbaAnomalyItem
                         {
                             Username = userGroup.Key,
-                            AnomalyType = "UBA: Sesiuni Concurente Multi-Stație (Lateral Movement / Credential Sharing)",
-                            Severity = "High",
-                            Description = $"Contul '{userGroup.Key}' a deschis sesiuni simultane pe {stations.Count} stații diferite ({string.Join(", ", stations)}) în mai puțin de 15 minute.",
-                            SourceIp = string.Join(", ", stations),
-                            Workstation = stations.FirstOrDefault() ?? "Multiple",
-                            Timestamp = maxTime,
-                            RiskWeight = 80.0
+                            AnomalyType = "Sesiuni Concurente Multi-StaÈ›ie (Impossible Concurrent Logon)",
+                            Severity = "Critical",
+                            RiskWeight = 90.0,
+                            Description = $"Utilizatorul {userGroup.Key} s-a autentificat simultan pe {e1.MachineName} È™i {e2.MachineName} Ã®ntr-un interval de {Math.Round((e2.TimeCreated - e1.TimeCreated).TotalMinutes, 1)} minute.",
+                            Timestamp = e2.TimeCreated
                         });
                     }
                 }
             }
 
-            // 3. Eșecuri repetate urmate de succes imediat (Brute-Force / Password Guessing Success)
-            var failedLogons = list.Where(e => e.EventId == 4625 || e.EventId == 4771).ToList();
-            var failedUsers = failedLogons.GroupBy(e => ExtractUser(e)).Where(g => g.Count() >= 3 && !string.IsNullOrEmpty(g.Key));
+            // 3. Detectare rafalÄƒ de autentificÄƒri eÈ™uate urmate de succes imediat (Brute-Force Compromise)
+            var failedLogons = list.Where(e => e.EventId == 4625).ToList();
+            var successLogons = list.Where(e => e.EventId == 4624).ToList();
 
-            foreach (var fGroup in failedUsers)
+            foreach (var userGroup in failedLogons.GroupBy(e => ExtractUserFromMessage(e.Message)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$")))
             {
-                var user = fGroup.Key;
-                var hasSubsequentSuccess = successfulLogons.Any(s => ExtractUser(s).Equals(user, StringComparison.OrdinalIgnoreCase) && s.TimeCreated >= fGroup.Min(f => f.TimeCreated));
-                if (hasSubsequentSuccess)
+                if (userGroup.Count() >= 3)
                 {
-                    anomalies.Add(new UbaAnomalyItem
+                    var lastFail = userGroup.Max(e => e.TimeCreated);
+                    var subsequentSuccess = successLogons.FirstOrDefault(s => ExtractUserFromMessage(s.Message) == userGroup.Key && s.TimeCreated >= lastFail && (s.TimeCreated - lastFail).TotalMinutes <= 5);
+
+                    if (subsequentSuccess != null)
                     {
-                        Username = user,
-                        AnomalyType = "UBA: Succes Autentificare După Tentative Eșuate Multiple (Brute-Force Compromise)",
-                        Severity = "Critical",
-                        Description = $"Contul '{user}' a înregistrat {fGroup.Count()} autentificări eșuate urmate de o autentificare reușită. Risc critic de compromitere a credențialelor prin atac de ghicire/forță brută.",
-                        SourceIp = fGroup.First().MachineName ?? "Rețea",
-                        Workstation = fGroup.First().MachineName ?? "Workstation",
-                        Timestamp = fGroup.Max(f => f.TimeCreated),
-                        RiskWeight = 95.0
-                    });
+                        anomalies.Add(new UbaAnomalyItem
+                        {
+                            Username = userGroup.Key,
+                            AnomalyType = "Succes dupÄƒ RafalÄƒ EÈ™uatÄƒ (Brute-Force Compromise)",
+                            Severity = "Critical",
+                            RiskWeight = 95.0,
+                            Description = $"Contul {userGroup.Key} a Ã®nregistrat {userGroup.Count()} eÈ™ecuri consecutive urmate de o autentificare reuÈ™itÄƒ la {subsequentSuccess.TimeCreated:HH:mm:ss}.",
+                            Timestamp = subsequentSuccess.TimeCreated
+                        });
+                    }
                 }
             }
 
             return anomalies;
         }
 
-        private static string ExtractUser(ParsedEvent e)
+        private static string ExtractUserFromMessage(string? message)
         {
-            if (e.Message != null)
+            if (string.IsNullOrEmpty(message)) return string.Empty;
+            var lines = message.Split('\n');
+            foreach (var line in lines)
             {
-                var lines = e.Message.Split('\n');
-                foreach (var line in lines)
+                if (line.Contains("TargetUserName:", StringComparison.OrdinalIgnoreCase) || line.Contains("Account Name:", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (line.Contains("Account Name:", StringComparison.OrdinalIgnoreCase) || line.Contains("TargetUserName:", StringComparison.OrdinalIgnoreCase))
+                    var parts = line.Split(':');
+                    if (parts.Length > 1)
                     {
-                        var parts = line.Split(':');
-                        if (parts.Length > 1)
+                        var user = parts[1].Trim();
+                        if (!string.IsNullOrEmpty(user) && !user.Equals("-") && !user.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
                         {
-                            var u = parts[1].Trim();
-                            if (!string.IsNullOrEmpty(u) && !u.Equals("-") && !u.EndsWith("$")) return u;
+                            return user;
                         }
                     }
                 }
             }
-
-            if (e.XmlData != null && e.XmlData.Contains("TargetUserName\">"))
-            {
-                int start = e.XmlData.IndexOf("TargetUserName\">") + 16;
-                int end = e.XmlData.IndexOf("<", start);
-                if (start > 15 && end > start)
-                {
-                    var u = e.XmlData.Substring(start, end - start).Trim();
-                    if (!string.IsNullOrEmpty(u) && !u.Equals("-") && !u.EndsWith("$")) return u;
-                }
-            }
-
             return string.Empty;
         }
     }

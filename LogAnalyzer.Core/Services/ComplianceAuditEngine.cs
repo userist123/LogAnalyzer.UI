@@ -1,110 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services
 {
-    public class ComplianceCheckResult
-    {
-        public string Framework { get; set; } = string.Empty; // "HG 585/2002", "NIS2 (Directiva UE 2022/2555)", "ISO/IEC 27042", "GDPR", "PCI-DSS"
-        public string ArticleOrControl { get; set; } = string.Empty;
-        public string ControlTitle { get; set; } = string.Empty;
-        public string Status { get; set; } = "CONFORM"; // "CONFORM", "NON-CONFORM", "ATENȚIE"
-        public string StatusColor { get; set; } = "#34D399";
-        public string EvidenceSummary { get; set; } = string.Empty;
-        public string RequiredAction { get; set; } = string.Empty;
-    }
-
     public class ComplianceAuditEngine
     {
         public List<ComplianceCheckResult> Evaluate(
-            IEnumerable<ParsedEvent> events, 
-            AdAuditSummary adSummary, 
-            StandaloneSamSummary samSummary, 
-            int yaraMatchesCount, 
-            int totalAnomalies)
+            IEnumerable<ParsedEvent> events,
+            AdAuditSummary adSummary,
+            StandaloneSamSummary samSummary,
+            int yaraMatchesCount,
+            int anomalyCount)
         {
             var results = new List<ComplianceCheckResult>();
 
-            // 1. HG 585/2002 - Securitatea Informațiilor Clasificate (Standard Național România)
-            bool hg585Violated = samSummary.UsbStorageEventsCount > 0 || samSummary.AuditPolicyTamperingCount > 0;
+            // 1. HG 585/2002 - Securitatea InformaÈ›iilor Clasificate (RomÃ¢nia)
+            bool hg585Pass = samSummary.LocalAdminGroupModifications == 0 && samSummary.AuditPolicyTamperingCount == 0 && adSummary.PrivilegedGroupChanges == 0;
             results.Add(new ComplianceCheckResult
             {
-                Framework = "HG 585/2002 (România)",
-                ArticleOrControl = "Art. 158 / Art. 191",
-                ControlTitle = "Integritatea Mediilor de Stocare și Interdicția Conexiunilor Neautorizate",
-                Status = hg585Violated ? "NON-CONFORM" : "CONFORM",
-                StatusColor = hg585Violated ? "#FF4D6D" : "#34D399",
-                EvidenceSummary = hg585Violated 
-                    ? $"Detectate {samSummary.UsbStorageEventsCount} inserări de medii removabile și {samSummary.AuditPolicyTamperingCount} modificări ale politicii de audit." 
-                    : "Zero medii neautorizate conectate. Politica de auditare este activă și neschimbată.",
-                RequiredAction = hg585Violated 
-                    ? "Înregistrați de urgență incidentul de securitate în Registrul de Transferuri conform procedurii OCS." 
-                    : "Mențineți verificarea periodică a integrității fizice și logice."
+                Framework = "HG 585/2002 (RomÃ¢nia)",
+                ArticleOrControl = "Art. 21 / Control Acces Privilegii",
+                ControlTitle = "Gestiunea È™i Auditarea Rolurilor Administrative",
+                Status = hg585Pass ? "CONFORM" : "NON-CONFORM",
+                EvidenceSummary = $"ModificÄƒri Admini AD: {adSummary.PrivilegedGroupChanges}, ModificÄƒri Admini SAM: {samSummary.LocalAdminGroupModifications}, AlterÄƒri Politici: {samSummary.AuditPolicyTamperingCount}",
+                RequiredAction = hg585Pass ? "MenÈ›inerea jurnalizÄƒrii stricte." : "Revizuirea imediatÄƒ a numirilor Ã®n grupurile administrative È™i raportarea incidentului."
             });
 
-            // 2. Directiva NIS2 (UE 2022/2555) / OUG 155/2024 (DNSC)
-            bool nis2Critical = adSummary.KerberosAttacksDetected > 0 || totalAnomalies > 5;
+            // 2. Directiva NIS2 (UE 2022/2555) / Legea SecuritÄƒÈ›ii Cibernetice
+            bool nis2Pass = adSummary.KerberosAttacksDetected == 0 && yaraMatchesCount == 0;
             results.Add(new ComplianceCheckResult
             {
-                Framework = "NIS2 (Directiva UE 2022/2555)",
-                ArticleOrControl = "Art. 23 (Notificare 24h)",
-                ControlTitle = "Gestiunea Incidentelor Semnificative de Securitate Cibernetică",
-                Status = nis2Critical ? "NON-CONFORM" : "CONFORM",
-                StatusColor = nis2Critical ? "#FF4D6D" : "#34D399",
-                EvidenceSummary = nis2Critical 
-                    ? $"Detectate atacuri critice de domeniu ({adSummary.KerberosAttacksDetected} atacuri Kerberos/AD). Impune notificare către DNSC/CSIRT în termen de 24h." 
-                    : "Nu s-au detectat incidente cu impact semnificativ asupra continuității operaționale.",
-                RequiredAction = nis2Critical 
-                    ? "Generați draftul de notificare timpurie (Early Warning) din modulul Chain of Custody / NIS2." 
-                    : "Continuați monitorizarea continuă a fluxului de evenimente."
+                Framework = "Directiva NIS2 (UE 2022/2555)",
+                ArticleOrControl = "Art. 21 / Securitatea LanÈ›ului & Incident Response",
+                ControlTitle = "CapabilitÄƒÈ›i de DetecÈ›ie È™i RÄƒspuns la Atacuri Avansate",
+                Status = nis2Pass ? "CONFORM" : "NON-CONFORM",
+                EvidenceSummary = $"Atacuri Active Directory / Kerberos: {adSummary.KerberosAttacksDetected}, SemnÄƒturi YARA Malicioase: {yaraMatchesCount}",
+                RequiredAction = nis2Pass ? "PosturÄƒ defensivÄƒ adecvatÄƒ." : "DeclanÈ™area notificÄƒrii timpurii cÄƒtre DNSC Ã®n termen de 24 de ore conform NIS2."
             });
 
-            // 3. ISO/IEC 27042 - Lanț de Custodie și Integritate Forensică
+            // 3. ISO/IEC 27042 - Ghid de AnalizÄƒ È™i PÄƒstrare a Probelor Digitale
             results.Add(new ComplianceCheckResult
             {
                 Framework = "ISO/IEC 27042",
-                ArticleOrControl = "Clauza 6.4 (Chain of Custody)",
-                ControlTitle = "Garantarea Integrității Probelor Digitale (Cryptographic Provenance)",
+                ArticleOrControl = "Clauza 7.4 / Integritatea LanÈ›ului de Custodie",
+                ControlTitle = "PÄƒstrarea IntegritÄƒÈ›ii Probatorii cu Hash Criptografic SHA-256",
                 Status = "CONFORM",
-                StatusColor = "#34D399",
-                EvidenceSummary = "Toate evenimentele analizate sunt semnate cu amprente hash SHA-256 și stocate în baza de date locală criptată SQLCipher.",
-                RequiredAction = "Exportați lanțul de custodie în format CASE/UCO 1.3 la finalizarea investigației."
+                EvidenceSummary = "Toate jurnalele EVTX È™i artefactele sunt imutabile È™i indexate Ã®n baza de date securizatÄƒ SQLCipher.",
+                RequiredAction = "Nu sunt necesare mÄƒsuri corective."
             });
 
             // 4. GDPR (Regulamentul UE 2016/679)
-            bool gdprRisk = samSummary.LocalAccountsCreated > 0 || adSummary.UserAccountsCreated > 0;
+            bool gdprPass = samSummary.UsbStorageEventsCount == 0 && anomalyCount == 0;
             results.Add(new ComplianceCheckResult
             {
-                Framework = "GDPR (Regulamentul UE 2016/679)",
-                ArticleOrControl = "Art. 32 (Securitatea Prelucrării)",
-                ControlTitle = "Controlul Accesului și Gestiunea Conturilor de Utilizator",
-                Status = gdprRisk ? "ATENȚIE" : "CONFORM",
-                StatusColor = gdprRisk ? "#F6C445" : "#34D399",
-                EvidenceSummary = gdprRisk 
-                    ? $"Înregistrate conturi noi de utilizator create ({adSummary.UserAccountsCreated} în AD, {samSummary.LocalAccountsCreated} local SAM). Necesită verificare cu principiul 'Need-to-Know'." 
-                    : "Zero conturi noi neautorizate identificate.",
-                RequiredAction = gdprRisk 
-                    ? "Verificați permisiunile acordate noilor conturi pentru a preveni accesul excesiv la date cu caracter personal." 
-                    : "Păstrați revizuirea trimestrială a drepturilor de acces."
+                Framework = "GDPR (UE 2016/679)",
+                ArticleOrControl = "Art. 32 / Securitatea PrelucrÄƒrii Datelor cu Caracter Personal",
+                ControlTitle = "ProtecÈ›ia ÃŽmpotriva Scurgerilor È™i Extragerii Neautorizate",
+                Status = gdprPass ? "CONFORM" : "ATENÈšIE",
+                EvidenceSummary = $"Evenimente Stocare USB RemovabilÄƒ: {samSummary.UsbStorageEventsCount}, Anomalii Comportamentale: {anomalyCount}",
+                RequiredAction = gdprPass ? "Monitorizare continuÄƒ." : "Auditarea registrelor de transfer de date pe suporturi optice/USB."
             });
 
             // 5. PCI-DSS v4.0
-            bool pciDssViolated = adSummary.AccountLockouts > 3 || samSummary.LocalAccountLockouts > 3;
+            bool pciPass = adSummary.AccountLockouts < 10 && adSummary.PasswordResets < 5;
             results.Add(new ComplianceCheckResult
             {
                 Framework = "PCI-DSS v4.0",
-                ArticleOrControl = "Cerința 8.3.4",
-                ControlTitle = "Blocarea Conturilor la Tentative Repetate de Autentificare Eșuată",
-                Status = pciDssViolated ? "ATENȚIE" : "CONFORM",
-                StatusColor = pciDssViolated ? "#F6C445" : "#34D399",
-                EvidenceSummary = pciDssViolated 
-                    ? $"Detectat prag depășit de blocări de conturi ({adSummary.AccountLockouts + samSummary.LocalAccountLockouts} blocări)." 
-                    : "Mecanismul de blocare a conturilor funcționează în parametri optimi.",
-                RequiredAction = pciDssViolated 
-                    ? "Investigați sursa atacului de forță brută și verificați IP-urile sursă." 
-                    : "Mențineți pragul de lockout configurat la maxim 5 tentative eșuate."
+                ArticleOrControl = "CerinÈ›a 8.3 & 10.2 / Audit Log & Autentificare",
+                ControlTitle = "ProtecÈ›ia Mecanismelor de Autentificare È™i Contorizare BlocÄƒri",
+                Status = pciPass ? "CONFORM" : "ATENÈšIE",
+                EvidenceSummary = $"BlocÄƒri de Conturi (EID 4740): {adSummary.AccountLockouts}, ResetÄƒri Parole (EID 4724): {adSummary.PasswordResets}",
+                RequiredAction = pciPass ? "Conformitate validatÄƒ." : "Verificarea tentativelor de tip Password Spraying Ã®mpotriva conturilor din scope."
             });
 
             return results;

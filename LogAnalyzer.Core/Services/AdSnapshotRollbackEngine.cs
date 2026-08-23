@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using LogAnalyzer.Core.Models;
 
 namespace LogAnalyzer.Core.Services
 {
-    public class AdRollbackScript
-    {
-        public string TargetObject { get; set; } = string.Empty;
-        public string ActionDescription { get; set; } = string.Empty;
-        public string GeneratedPowerShellScript { get; set; } = string.Empty;
-        public DateTime GeneratedAt { get; set; } = DateTime.UtcNow;
-    }
-
     public class AdSnapshotRollbackEngine
     {
         public AdRollbackScript GenerateRollbackForFinding(string attackType, string targetAccount)
@@ -20,7 +12,7 @@ namespace LogAnalyzer.Core.Services
             sb.AppendLine("# ===========================================================================");
             sb.AppendLine($"# ADAUDIT PLUS - SCRIPT DE ROLLBACK AUTOMAT & RESTAURARE STARE");
             sb.AppendLine($"# Tip Incident: {attackType}");
-            sb.AppendLine($"# Țintă: {targetAccount}");
+            sb.AppendLine($"# ÈšintÄƒ: {targetAccount}");
             sb.AppendLine($"# Generat la: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC");
             sb.AppendLine("# ===========================================================================");
             sb.AppendLine("Import-Module ActiveDirectory -ErrorAction SilentlyContinue");
@@ -34,10 +26,10 @@ namespace LogAnalyzer.Core.Services
             }
             else if (attackType.Contains("Kerberoasting", StringComparison.OrdinalIgnoreCase))
             {
-                sb.AppendLine($"# 1. Resetare SPN și forțare schimbare parolă cu criptare AES-256");
+                sb.AppendLine($"# 1. Resetare SPN È™i forÈ›are schimbare parolÄƒ cu criptare AES-256");
                 sb.AppendLine($"Set-ADUser -Identity '{targetAccount}' -KerberosEncryptionType AES128,AES256");
                 sb.AppendLine($"Set-ADAccountPassword -Identity '{targetAccount}' -Reset");
-                sb.AppendLine($"Write-Host 'Criptare întărită și parolă resetată pentru {targetAccount}.'");
+                sb.AppendLine($"Write-Host 'Criptare Ã®ntÄƒritÄƒ È™i parolÄƒ resetatÄƒ pentru {targetAccount}.'");
             }
             else if (attackType.Contains("Lockout", StringComparison.OrdinalIgnoreCase))
             {
@@ -47,15 +39,15 @@ namespace LogAnalyzer.Core.Services
             }
             else if (attackType.Contains("LAPS", StringComparison.OrdinalIgnoreCase))
             {
-                sb.AppendLine($"# 1. Forțare rotație parolă LAPS");
+                sb.AppendLine($"# 1. ForÈ›are rotaÈ›ie parolÄƒ LAPS");
                 sb.AppendLine($"Reset-LapsPassword -Identity '{targetAccount}'");
-                sb.AppendLine($"Write-Host 'Parola LAPS a fost rotită de urgență pentru {targetAccount}.'");
+                sb.AppendLine($"Write-Host 'Parola LAPS a fost rotitÄƒ de urgenÈ›Äƒ pentru {targetAccount}.'");
             }
             else
             {
-                sb.AppendLine($"# 1. Dezactivare de urgență a contului compromis");
+                sb.AppendLine($"# 1. Dezactivare de urgenÈ›Äƒ a contului compromis");
                 sb.AppendLine($"Disable-ADAccount -Identity '{targetAccount}'");
-                sb.AppendLine($"Write-Host 'Contul {targetAccount} a fost dezactivat de urgență.'");
+                sb.AppendLine($"Write-Host 'Contul {targetAccount} a fost dezactivat de urgenÈ›Äƒ.'");
             }
 
             return new AdRollbackScript

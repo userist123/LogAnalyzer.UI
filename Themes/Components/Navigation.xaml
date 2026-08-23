@@ -17,7 +17,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,3" CornerRadius="0">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0,0,0,3" CornerRadius="0">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -134,7 +134,7 @@
                         </Grid.RowDefinitions>
                         <Border x:Name="Bd"
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderBrush="Transparent"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}"
                                 CornerRadius="4"

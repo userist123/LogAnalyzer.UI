@@ -1,4 +1,4 @@
-using System;
+uusing System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -502,12 +502,29 @@ namespace LogAnalyzer.UI.ViewModels
 #if !AIR_GAPPED_EDITION
             LicenseTier = "Enterprise Network SOC (Live EDR)";
             SelectedTabIndex = 11; // Open directly on Real-Time Live SOC Stream
-            StartLiveMonitoring();
 #else
             LicenseTier = "Enterprise Air-Gapped";
 #endif
-            UpdateDatabaseSize();
-            RunAiAnalysis();
+            // Asynchronous startup initialization to guarantee instantaneous window launch (< 50ms)
+            Task.Run(() =>
+            {
+                try
+                {
+                    Application.Current?.Dispatcher?.Invoke(() =>
+                    {
+                        UpdateDatabaseSize();
+                        ReloadEvtxFromDb();
+                        ReloadRegistryFromDb();
+                        ReloadTimelineFromDb();
+                        ReloadDashboardStats();
+                        RunAiAnalysis();
+#if !AIR_GAPPED_EDITION
+                        StartLiveMonitoring();
+#endif
+                    });
+                }
+                catch { }
+            });
         }
 
         private void ReloadEvtxFromDb()

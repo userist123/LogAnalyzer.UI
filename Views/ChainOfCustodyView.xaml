@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LogAnalyzer.UI.Views.ChainOfCustodyView"
+<UserControl x:Class="LogAnalyzer.UI.Views.ChainOfCustodyView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="24">
@@ -29,13 +29,14 @@
                         <TextBlock Text="CRYPTOGRAPHICALLY SEALED" FontSize="10" FontWeight="Bold" Foreground="{StaticResource EvidenceAccentBrush}"/>
                     </Border>
                 </DockPanel>
-                <DataGrid Grid.Row="1" ItemsSource="{Binding CustodyRecords}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid Grid.Row="1" ItemsSource="{Binding ProvenanceEntries}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Acquisition (UTC)" Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
-                        <DataGridTextColumn Header="Evidence Name / Artifact" Binding="{Binding ArtifactName}" Width="200"/>
-                        <DataGridTextColumn Header="Collector / Operator" Binding="{Binding CollectorPrincipal}" Width="150"/>
-                        <DataGridTextColumn Header="Integrity (SHA-256)" Binding="{Binding Sha256Hash}" FontFamily="{StaticResource CodeFontFamily}" Width="*"/>
-                        <DataGridTextColumn Header="Classification" Binding="{Binding Classification}" Width="120"/>
+                        <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}" Width="45"/>
+                        <DataGridTextColumn Header="Timestamp (UTC)" Binding="{Binding TimestampUtc, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
+                        <DataGridTextColumn Header="Action / Stage" Binding="{Binding ActionType}" Width="150"/>
+                        <DataGridTextColumn Header="Evidence File / Reference" Binding="{Binding EvidenceReference}" Width="200"/>
+                        <DataGridTextColumn Header="SHA-256 Hash" Binding="{Binding SourceSha256}" FontFamily="{StaticResource CodeFontFamily}" Width="240"/>
+                        <DataGridTextColumn Header="Audit &amp; Forensic Details" Binding="{Binding Details}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LogAnalyzer.UI.Views.LiveSocView"
+<UserControl x:Class="LogAnalyzer.UI.Views.LiveSocView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="20">
@@ -75,7 +75,7 @@
                     <TextBlock DockPanel.Dock="Left" Text="Live In-Memory Telemetry Stream" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}"/>
                     <TextBlock DockPanel.Dock="Right" Text="Auto-refreshing &lt; 50ms" FontSize="11" Foreground="{StaticResource SuccessBrush}"/>
                 </DockPanel>
-                <DataGrid Grid.Row="1" ItemsSource="{Binding LiveEvents}" SelectedItem="{Binding SelectedLiveEvent}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid Grid.Row="1" ItemsSource="{Binding LiveStreamingEvents}" SelectedItem="{Binding SelectedLiveStreamingEvent}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeCreated, StringFormat={}{0:HH:mm:ss.fff}}" Width="110"/>
                         <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="60"/>

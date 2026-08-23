@@ -21,15 +21,15 @@
         </Border>
 
         <!-- Main Registry DataGrid -->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding RegistryArtifacts}" SelectedItem="{Binding SelectedRegistryArtifact}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding RegistryArtifacts}" SelectedItem="{Binding SelectedArtifact}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
             <DataGrid.ContextMenu>
                 <ContextMenu Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}">
-                    <MenuItem Header="Inspect Registry Key Details" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <MenuItem Header="Inspect Registry Key Details" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedArtifact}"/>
                     <Separator Background="{StaticResource BorderBrush}"/>
-                    <MenuItem Header="Filter by Category" Command="{Binding PivotRegistryCategoryCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
-                    <MenuItem Header="Filter by Key Path" Command="{Binding PivotRegistryKeyPathCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <MenuItem Header="Filter by Category" Command="{Binding PivotRegistryCategoryCommand}" CommandParameter="{Binding SelectedArtifact}"/>
+                    <MenuItem Header="Filter by Key Path" Command="{Binding PivotRegistryKeyPathCommand}" CommandParameter="{Binding SelectedArtifact}"/>
                     <Separator Background="{StaticResource BorderBrush}"/>
-                    <MenuItem Header="Copy Value Data" Command="{Binding CopyRegistryValueDataCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <MenuItem Header="Copy Value Data" Command="{Binding CopyRegistryValueDataCommand}" CommandParameter="{Binding SelectedArtifact}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

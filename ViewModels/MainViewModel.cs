@@ -146,8 +146,33 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private string _analystCaseNotes = "Analyst notes initialized. Documenting forensic hypothesis and evidence correlation.";
         [ObservableProperty] private string _analystCaseStatus = "UNDER TRIAGE";
 
+        [ObservableProperty] private string _searchText = string.Empty;
+        partial void OnSearchTextChanged(string value) => SearchEventsText = value;
+
         [RelayCommand] private void ToggleAnalystDrawer() => IsAnalystDrawerOpen = !IsAnalystDrawerOpen;
         [RelayCommand] private void CloseAnalystDrawer() => IsAnalystDrawerOpen = false;
+
+        [RelayCommand]
+        private void ClearFilters()
+        {
+            SearchEventsText = string.Empty;
+            SearchText = string.Empty;
+            FilterFailedLogins = false;
+            FilterPrivEsc = false;
+            FilterCritical = true;
+            FilterHigh = true;
+            FilterMedium = true;
+            FilterInfo = true;
+            StatusMessage = "Filtrele au fost resetate.";
+        }
+
+        [RelayCommand]
+        private void ClearRegistryFilter()
+        {
+            SearchArtifactsText = string.Empty;
+            SelectedRegistryCategory = "Toate Cheile";
+            StatusMessage = "Filtrul de registru a fost resetat.";
+        }
 
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;
@@ -270,6 +295,15 @@ namespace LogAnalyzer.UI.ViewModels
                     RelatedEvents = new List<ParsedEvent> { value }
                 };
                 OpenAlertModal(dummyAlert, value.MachineName ?? Environment.MachineName);
+            }
+        }
+
+        [RelayCommand]
+        private void OpenAlertModal(DetectedIssue? alert)
+        {
+            if (alert != null)
+            {
+                OpenAlertModal(alert, LiveRemoteTargetHost);
             }
         }
 

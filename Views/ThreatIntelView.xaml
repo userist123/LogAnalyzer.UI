@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LogAnalyzer.UI.Views.ThreatIntelView"
+<UserControl x:Class="LogAnalyzer.UI.Views.ThreatIntelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="24">
@@ -14,8 +14,8 @@
                 <TextBlock Text="Adversary profiles, IOC indicators, motivation and known toolsets" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
             </StackPanel>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                <Button Content="Export STIX 2.1" Command="{Binding ExportStixCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0"/>
-                <Button Content="Export MISP JSON" Command="{Binding ExportMispCommand}" Style="{StaticResource ActionButtonStyle}"/>
+                <Button Content="Export STIX 2.1" Command="{Binding ExportStixJsonCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0"/>
+                <Button Content="Export MISP JSON" Command="{Binding ExportMispJsonCommand}" Style="{StaticResource ActionButtonStyle}"/>
             </StackPanel>
         </DockPanel>
 

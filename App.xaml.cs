@@ -1,15 +1,15 @@
 using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
-using System;
+using System.IO;
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using LogAnalyzer.Core.Interfaces;
+using LogAnalyzer.Core.Services;
+using LogAnalyzer.Infrastructure;
+using LogAnalyzer.Infrastructure.Parsers;
+using LogAnalyzer.Infrastructure.Services;
+using LogAnalyzer.UI.ViewModels;
+using LogAnalyzer.UI.Services;
+using LogAnalyzer.UI.Views;
 
 namespace LogAnalyzer.UI
 {

@@ -132,8 +132,14 @@ namespace LogAnalyzer.UI.ViewModels
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
+        // Command Palette & Global Search
+        [ObservableProperty] private bool _isCommandPaletteVisible = false;
+        [ObservableProperty] private string _workbenchStatusMessage = "Ready to compile and evaluate rules against ingested events.";
         [ObservableProperty] private string _workbenchCompileResult = "Introduceți o regulă Sigma YAML sau YARA și apăsați 'Compilează & Evaluează'.";
         [ObservableProperty] private int _workbenchMatchCount = 0;
+
+        [RelayCommand] private void ToggleCommandPalette() => IsCommandPaletteVisible = !IsCommandPaletteVisible;
+        [RelayCommand] private void CloseCommandPalette() => IsCommandPaletteVisible = false;
 
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;

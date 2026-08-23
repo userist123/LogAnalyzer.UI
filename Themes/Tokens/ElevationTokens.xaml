@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Subdued, Professional Drop Shadows -->
+    <DropShadowEffect x:Key="CardShadow" Color="#000000" Direction="270" ShadowDepth="2" Opacity="0.35" BlurRadius="10"/>
+    <DropShadowEffect x:Key="ModalShadow" Color="#000000" Direction="270" ShadowDepth="4" Opacity="0.55" BlurRadius="24"/>
+    <DropShadowEffect x:Key="AccentGlow" Color="#6EA8FE" Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="12"/>
+    <DropShadowEffect x:Key="EvidenceGlow" Color="#A78BFA" Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="12"/>
+
+</ResourceDictionary>

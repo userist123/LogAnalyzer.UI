@@ -18,9 +18,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Border x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{StaticResource Surface1Brush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
                             CornerRadius="6"
                             SnapsToDevicePixels="True"
                             Padding="{TemplateBinding Padding}">
@@ -69,9 +69,9 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border x:Name="CheckBorder" Grid.Column="0" Width="16" Height="16" CornerRadius="4"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{StaticResource Surface1Brush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
                                 HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Path x:Name="CheckMark" Data="M 3 8 L 6 11 L 12 4" Stroke="{StaticResource PrimaryAccentBrush}" StrokeThickness="2"
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"

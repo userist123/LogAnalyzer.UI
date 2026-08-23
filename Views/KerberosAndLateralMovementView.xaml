@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LogAnalyzer.UI.Views.KerberosAndLateralMovementView"
+<UserControl x:Class="LogAnalyzer.UI.Views.KerberosAndLateralMovementView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="24">
@@ -30,13 +30,17 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Kerberos Authentication &amp; Ticket Anomalies" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding KerberosAnomalies}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="Kerberos Authentication &amp; Ticket Anomalies" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding KerberosFindings.Count, StringFormat='{}{0} Anomalies'}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </DockPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding KerberosFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type" Binding="{Binding AttackType}" Width="140"/>
-                            <DataGridTextColumn Header="Account / SPN" Binding="{Binding TargetAccount}" Width="160"/>
-                            <DataGridTextColumn Header="Encryption" Binding="{Binding TicketEncryption}" Width="100"/>
-                            <DataGridTextColumn Header="Analysis Summary" Binding="{Binding Summary}" Width="*"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding AttackType}" Width="160"/>
+                            <DataGridTextColumn Header="Target Account" Binding="{Binding TargetAccount}" Width="130"/>
+                            <DataGridTextColumn Header="Client IP" Binding="{Binding ClientIp}" Width="100"/>
+                            <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="85"/>
+                            <DataGridTextColumn Header="Analysis Summary" Binding="{Binding Description}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -51,11 +55,15 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Living-off-the-Land (LOLBAS) Binary Executions" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource HighBrush}" Margin="0,0,0,12"/>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding LolbasExecutions}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="Living-off-the-Land (LOLBAS) Execution Audit" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource HighBrush}"/>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding LolbasFindings.Count, StringFormat='{}{0} Detections'}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </DockPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding LolbasFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Binary" Binding="{Binding BinaryName}" Width="110"/>
-                            <DataGridTextColumn Header="MITRE" Binding="{Binding MitreId}" Width="85"/>
+                            <DataGridTextColumn Header="Binary" Binding="{Binding BinaryName}" Width="100"/>
+                            <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="85"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="130"/>
                             <DataGridTextColumn Header="Command Line" Binding="{Binding CommandLine}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>

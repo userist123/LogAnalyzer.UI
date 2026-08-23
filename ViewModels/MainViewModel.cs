@@ -1137,6 +1137,16 @@ namespace LogAnalyzer.UI.ViewModels
         }
 
         [RelayCommand]
+        private void CopyIocValue(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                Clipboard.SetText(value);
+                StatusMessage = $"IOC Value copied to clipboard: {value}";
+            }
+        }
+
+        [RelayCommand]
         private async Task LoadFolderAsync()
         {
             var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Selectează folderul cu loguri sau mediul de stocare" };

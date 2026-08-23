@@ -8,20 +8,21 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- 1. Header with Title & ADAudit Report Export Actions -->
+        <!-- 1. Header with Title & ADAudit Report Export Actions (CSV + HTML) -->
         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,16">
             <StackPanel DockPanel.Dock="Left">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="ADAudit Intelligence &amp; Endpoint Forensics Command Center" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                     <Border Margin="12,0,0,0" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
-                        <TextBlock Text="ENTERPRISE + STANDALONE + CLOUD HYBRID" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                        <TextBlock Text="ENTERPRISE 360 AUDIT SUITE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                     </Border>
                 </StackPanel>
-                <TextBlock Text="Auditare hibridă: On-Prem Active Directory, Standalone SAM, Azure AD / Entra ID, File Server / NAS, Server DNS și Conformitate HG 585 / NIS2" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
+                <TextBlock Text="Auditare completă: Active Directory, Standalone SAM, Azure AD Cloud, File Server, DNS, Sesiuni Angajați, Storage ACLs &amp; Conformitate HG 585 / NIS2" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                <Button Content="📄 Export Raport ADAudit (CSV)" Command="{Binding ExportAdAuditReportCommand}" Style="{StaticResource AccentButtonStyle}" Padding="14,6"/>
+                <Button Content="📄 Export CSV" Command="{Binding ExportAdAuditReportCommand}" Style="{StaticResource OutlineButtonStyle}" Padding="12,6" Margin="0,0,8,0"/>
+                <Button Content="🌐 Raport Executiv HTML" Command="{Binding ExportAdAuditHtmlReportCommand}" Style="{StaticResource AccentButtonStyle}" Padding="14,6"/>
             </StackPanel>
         </DockPanel>
 
@@ -82,7 +83,7 @@
             </Border>
         </UniformGrid>
 
-        <!-- 3. Comprehensive 7-Tab ADAudit Plus Enterprise Workspace -->
+        <!-- 3. Comprehensive Multi-Workspace TabControl -->
         <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0">
             <!-- TAB 1: Standalone PC & Local SAM Forensics -->
             <TabItem Header="💻 ADAudit Standalone SAM" Style="{StaticResource InspectorTabItemStyle}">
@@ -235,8 +236,66 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 6: DNS Server & Zone Auditing -->
-            <TabItem Header="🌐 Audit Server DNS" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 6: Employee Work Hours & Session Activity -->
+            <TabItem Header="⏱️ Sesiuni &amp; Ore Lucru" Style="{StaticResource InspectorTabItemStyle}">
+                <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
+                    <Grid Margin="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                            <TextBlock DockPanel.Dock="Left" Text="Monitorizare Activitate Sesiuni Utilizatori (Ore Active, Blocare / Deblocare Ecran, Logoff)" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
+                                <TextBlock Text="{Binding EmployeeActivities.Count, StringFormat='{}{0} Sesiuni Utilizatori'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            </Border>
+                        </DockPanel>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding EmployeeActivities}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Utilizator" Binding="{Binding Username}" Width="130"/>
+                                <DataGridTextColumn Header="Stație" Binding="{Binding Workstation}" Width="130"/>
+                                <DataGridTextColumn Header="Oră Logon" Binding="{Binding LogonTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="145"/>
+                                <DataGridTextColumn Header="Oră Logoff" Binding="{Binding LogoffTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="145"/>
+                                <DataGridTextColumn Header="Timp Activ (Ore)" Binding="{Binding ActiveHours}" Width="110"/>
+                                <DataGridTextColumn Header="Blocări Ecran" Binding="{Binding LockCount}" Width="100"/>
+                                <DataGridTextColumn Header="Deblocări" Binding="{Binding UnlockCount}" Width="90"/>
+                                <DataGridTextColumn Header="Status Sesiune" Binding="{Binding SessionStatus}" Width="110"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- TAB 7: File Storage Risks & Open ACLs -->
+            <TabItem Header="💾 Analiză Storage &amp; ACLs" Style="{StaticResource InspectorTabItemStyle}">
+                <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
+                    <Grid Margin="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                            <TextBlock DockPanel.Dock="Left" Text="File Analysis: Permisiuni Deschise Excesive (Everyone Full Control) &amp; Proprietari Orfani" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
+                                <TextBlock Text="{Binding StorageAuditItems.Count, StringFormat='{}{0} Riscuri Storage'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            </Border>
+                        </DockPanel>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding StorageAuditItems}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Resursă / Partajare" Binding="{Binding ResourcePath}" Width="220"/>
+                                <DataGridTextColumn Header="Categorie Risc" Binding="{Binding RiskCategory}" Width="220"/>
+                                <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
+                                <DataGridTextColumn Header="Detalii &amp; Diagnostic" Binding="{Binding Details}" Width="*"/>
+                                <DataGridTextColumn Header="Măsură Optimizare" Binding="{Binding StorageImpact}" Width="180"/>
+                                <DataGridTextColumn Header="Ultimul Acces" Binding="{Binding LastAccessed, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="135"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- TAB 8: DNS Server & Zone Auditing -->
+            <TabItem Header="🌐 Server DNS" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>
@@ -265,8 +324,8 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 7: Automated Compliance Checks Matrix -->
-            <TabItem Header="⚖️ Conformitate (HG 585, NIS2, ISO, GDPR)" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 9: Automated Compliance Checks Matrix -->
+            <TabItem Header="⚖️ Conformitate" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>

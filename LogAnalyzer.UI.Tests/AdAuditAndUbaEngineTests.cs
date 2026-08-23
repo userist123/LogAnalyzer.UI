@@ -36,6 +36,61 @@ namespace LogAnalyzer.UI.Tests
         }
 
         [Fact]
+        public void EmployeeActivityAuditEngine_Calculates_WorkHoursAndLockStates()
+        {
+            var engine = new EmployeeActivityAuditEngine();
+            var events = new List<ParsedEvent>
+            {
+                new ParsedEvent { EventId = 4624, Message = "TargetUserName: analyst_john", MachineName = "WS01", TimeCreated = DateTime.UtcNow.Date.AddHours(8) },
+                new ParsedEvent { EventId = 4800, Message = "TargetUserName: analyst_john", MachineName = "WS01", TimeCreated = DateTime.UtcNow.Date.AddHours(12) },
+                new ParsedEvent { EventId = 4801, Message = "TargetUserName: analyst_john", MachineName = "WS01", TimeCreated = DateTime.UtcNow.Date.AddHours(13) },
+                new ParsedEvent { EventId = 4634, Message = "TargetUserName: analyst_john", MachineName = "WS01", TimeCreated = DateTime.UtcNow.Date.AddHours(17) }
+            };
+
+            var activities = engine.AnalyzeWorkHours(events);
+
+            Assert.Single(activities);
+            var a = activities[0];
+            Assert.Equal("analyst_john", a.Username);
+            Assert.Equal(1, a.LockCount);
+            Assert.Equal(1, a.UnlockCount);
+            Assert.Equal("Closed", a.SessionStatus);
+            Assert.True(a.ActiveHours > 0);
+        }
+
+        [Fact]
+        public void FileStorageAnalyticsEngine_Detects_OpenAclAndOrphanedSid()
+        {
+            var engine = new FileStorageAnalyticsEngine();
+            var events = new List<ParsedEvent>
+            {
+                new ParsedEvent { EventId = 5145, Message = "Access mask 0x1F01FF Everyone granted Full Control", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 4663, Message = "Account Deleted Account SID S-1-5-21-999-999", TimeCreated = DateTime.UtcNow }
+            };
+
+            var items = engine.AnalyzeStorageRisks(events);
+
+            Assert.Equal(2, items.Count);
+            Assert.Contains(items, i => i.RiskCategory.Contains("Everyone"));
+            Assert.Contains(items, i => i.RiskCategory.Contains("Orphaned SID"));
+        }
+
+        [Fact]
+        public void AdAuditHtmlReportService_Generates_ValidHtmlWithStyles()
+        {
+            var service = new AdAuditHtmlReportService();
+            var adSummary = new AdAuditSummary { TotalAdEventsAnalyzed = 500, KerberosAttacksDetected = 2 };
+            var samSummary = new StandaloneSamSummary { LocalAdminGroupModifications = 1 };
+
+            var html = service.GenerateHtmlReport(adSummary, samSummary, new List<KerberosAdFinding>(), new List<StandaloneSamFinding>(), new List<UbaAnomalyItem>(), new List<ComplianceCheckResult>());
+
+            Assert.NotNull(html);
+            Assert.Contains("<!DOCTYPE html>", html);
+            Assert.Contains("ADAUDIT PLUS", html);
+            Assert.Contains("500", html);
+        }
+
+        [Fact]
         public void DnsAuditEngine_Detects_DnsRecordAndZoneTampering()
         {
             var engine = new DnsAuditEngine();

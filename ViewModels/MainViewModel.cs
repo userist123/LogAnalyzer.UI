@@ -154,6 +154,8 @@ namespace LogAnalyzer.UI.ViewModels
         public ObservableCollection<AdAttributeDelta> AdAttributeDeltas { get; set; } = new();
         public ObservableCollection<AzureAdFinding> AzureAdFindings { get; set; } = new();
         public ObservableCollection<FileServerAuditFinding> FileServerFindings { get; set; } = new();
+        public ObservableCollection<EmployeeSessionActivity> EmployeeActivities { get; set; } = new();
+        public ObservableCollection<StorageAuditItem> StorageAuditItems { get; set; } = new();
 
         private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
         private readonly AdAuditReportService _adAuditReportService = new();
@@ -165,6 +167,9 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly AzureAdAuditEngine _azureAdEngine = new();
         private readonly FileServerAuditEngine _fileServerEngine = new();
         private readonly AdSnapshotRollbackEngine _rollbackEngine = new();
+        private readonly EmployeeActivityAuditEngine _employeeActivityEngine = new();
+        private readonly FileStorageAnalyticsEngine _storageAnalyticsEngine = new();
+        private readonly AdAuditHtmlReportService _adAuditHtmlReportService = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -934,6 +939,60 @@ namespace LogAnalyzer.UI.ViewModels
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Eroare la exportul raportului ADAudit: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ExportAdAuditHtmlReport()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Fișiere HTML (*.html)|*.html",
+                FileName = $"ADAudit_Executive_Report_{DateTime.Now:yyyyMMdd_HHmmss}.html"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var adSummary = new AdAuditSummary
+                    {
+                        TotalAdEventsAnalyzed = AdEventsAnalyzedCount,
+                        UserAccountsCreated = AdAccountsCreatedCount,
+                        UserAccountsModified = AdAccountsModifiedCount,
+                        UserAccountsDeleted = AdAccountsDeletedCount,
+                        PasswordResets = AdPasswordResetsCount,
+                        AccountLockouts = AdAccountLockoutsCount,
+                        PrivilegedGroupChanges = AdPrivilegedGroupChangesCount,
+                        GpoPolicyChanges = AdGpoPolicyChangesCount,
+                        KerberosAttacksDetected = AdKerberosAttacksCount
+                    };
+
+                    var samSummary = new StandaloneSamSummary
+                    {
+                        LocalAccountsCreated = SamAccountsCreatedCount,
+                        LocalAccountsDeleted = SamAccountsDeletedCount,
+                        LocalAdminGroupModifications = SamAdminGroupModificationsCount,
+                        AuditPolicyTamperingCount = SamAuditPolicyTamperingCount,
+                        UsbStorageEventsCount = SamUsbStorageEventsCount,
+                        HighPrivilegeAssignmentsCount = SamHighPrivilegeAssignmentsCount
+                    };
+
+                    var html = _adAuditHtmlReportService.GenerateHtmlReport(
+                        adSummary, 
+                        samSummary, 
+                        KerberosFindings, 
+                        StandaloneSamFindings, 
+                        UbaAnomalies, 
+                        ComplianceResults);
+
+                    File.WriteAllText(dialog.FileName, html, Encoding.UTF8);
+                    MessageBox.Show("Raportul Executiv HTML ADAudit Plus a fost exportat cu succes!", "Export HTML Reușit", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Eroare la exportul raportului HTML: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -3207,6 +3266,22 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var fs in files)
                 {
                     FileServerFindings.Add(fs);
+                }
+
+                // Analiză ADAudit Employee Work Hours & Session Activity
+                var emp = _employeeActivityEngine.AnalyzeWorkHours(eventsForAnalysis);
+                EmployeeActivities.Clear();
+                foreach (var ea in emp)
+                {
+                    EmployeeActivities.Add(ea);
+                }
+
+                // Analiză ADAudit File Storage, Open ACLs & Orphaned SIDs
+                var stor = _storageAnalyticsEngine.AnalyzeStorageRisks(eventsForAnalysis);
+                StorageAuditItems.Clear();
+                foreach (var si in stor)
+                {
+                    StorageAuditItems.Add(si);
                 }
 
                 // Analiză LOLBAS & Relații Anomale Părinte-Copil

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using LogAnalyzer.Core.Services;
 
 namespace LogAnalyzer.UI.Views
@@ -12,20 +12,30 @@ namespace LogAnalyzer.UI.Views
             InitializeComponent();
             _licenseService = licenseService;
             
-            // Afișăm ID-ul pe ecran
             TxtHardwareId.Text = _licenseService.GetHardwareId();
+        }
+
+        private void CopyHwid_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TxtHardwareId.Text))
+            {
+                Clipboard.SetText(TxtHardwareId.Text);
+                TxtStatus.Text = "HWID copied to clipboard.";
+                TxtStatus.Foreground = Application.Current.TryFindResource("SuccessBrush") as System.Windows.Media.Brush;
+            }
         }
 
         private void Activate_Click(object sender, RoutedEventArgs e)
         {
             if (_licenseService.ValidateAndSaveKey(TxtLicenseKey.Text))
             {
-                MessageBox.Show("✅ Licența a fost activată cu succes! Aplicația va porni.", "Activare Reușită", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Platform node license verified and activated successfully.", "Activation Successful", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
             }
             else
             {
-                MessageBox.Show("❌ Cheia de licență este invalidă pentru acest Hardware ID.", "Eroare Activare", MessageBoxButton.OK, MessageBoxImage.Error);
+                TxtStatus.Text = "Invalid license key for this Hardware ID.";
+                TxtStatus.Foreground = Application.Current.TryFindResource("CriticalBrush") as System.Windows.Media.Brush;
             }
         }
 

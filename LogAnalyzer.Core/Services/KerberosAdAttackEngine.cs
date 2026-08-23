@@ -233,6 +233,78 @@ namespace LogAnalyzer.Core.Services
                 });
             }
 
+            // 10. ADAUDIT: Detecție DCShadow (T1207 - Înregistrare Rogue Domain Controller)
+            var dcShadowEvents = eventList.Where(e => e.EventId == 4742 && e.Message != null && (e.Message.Contains("GC/") || e.Message.Contains("E3514235-4B06-11D1-AB04-00C04FC2DCD2") || (e.XmlData != null && e.XmlData.Contains("E3514235-4B06-11D1-AB04-00C04FC2DCD2")))).ToList();
+            if (dcShadowEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Detecție DCShadow (Rogue Domain Controller Registration)",
+                    Category = "Active Directory Exploitation",
+                    Severity = "Critical",
+                    Description = "Detectată înregistrarea unui SPN de replicare Active Directory pe un cont de calculator non-DC. Tehnica DCShadow permite modificarea directă a bazei de date Active Directory prin simularea unui DC fără generarea de loguri standard de securitate.",
+                    TargetAccount = "Domain Replication SPN",
+                    ClientIp = "Rogue Station",
+                    MitreTechniqueId = "T1207",
+                    ContainmentActionRo = "1. Izolați imediat stația care a emis cererea de înregistrare SPN.\n2. Ștergeți manual obiectul de calculator compromis din Active Directory.\n3. Auditați integritatea atributelor obiectelor din schema AD.",
+                    DetectedAt = dcShadowEvents.Max(d => d.TimeCreated)
+                });
+            }
+
+            // 11. ADAUDIT: Auditare Citire Parole LAPS (T1003 - Local Administrator Password Solution)
+            var lapsEvents = eventList.Where(e => (e.EventId == 4662 || e.EventId == 5136) && ((e.Message != null && (e.Message.Contains("ms-Mcs-AdmPwd") || e.Message.Contains("msLAPS-Password"))) || (e.XmlData != null && (e.XmlData.Contains("ms-Mcs-AdmPwd") || e.XmlData.Contains("msLAPS-Password"))))).ToList();
+            if (lapsEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Citire Neautorizată Parolă LAPS (Local Admin Password Access)",
+                    Category = "Credential Access",
+                    Severity = "High",
+                    Description = $"Detectată interogarea atributului criptat LAPS ({string.Join(", ", lapsEvents.Select(l => l.EventId).Distinct())}). Citirea parolei de administrator local permite atacatorului acces administrativ deplin pe stațiile țintă.",
+                    TargetAccount = "ms-Mcs-AdmPwd / msLAPS-Password",
+                    ClientIp = "Active Directory Query",
+                    MitreTechniqueId = "T1003",
+                    ContainmentActionRo = "1. Auditați permisiunile delegate pe Unitatea Organizațională (OU) afectată.\n2. Rotiți imediat parolele LAPS pentru computerele din container folosind Reset-LapsPassword.",
+                    DetectedAt = lapsEvents.Max(l => l.TimeCreated)
+                });
+            }
+
+            // 12. ADAUDIT: Modificare AdminSDHolder / SDProp (T1098 - Persistență de Nivel Domeniu)
+            var adminSdEvents = eventList.Where(e => e.EventId == 5136 && ((e.Message != null && e.Message.Contains("AdminSDHolder")) || (e.XmlData != null && e.XmlData.Contains("AdminSDHolder")))).ToList();
+            if (adminSdEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Modificare ACL pe Obiectul AdminSDHolder (Backdoor Persistence)",
+                    Category = "Persistence / Defense Evasion",
+                    Severity = "Critical",
+                    Description = "Detectată modificarea descriptorului de securitate pe containerul 'CN=AdminSDHolder'. Procesul SDProp propagă automat aceste permisiuni către toți utilizatorii protejați (Domain Admins, Enterprise Admins) la fiecare 60 de minute.",
+                    TargetAccount = "CN=AdminSDHolder,CN=System",
+                    ClientIp = "Domain Controller",
+                    MitreTechniqueId = "T1098",
+                    ContainmentActionRo = "1. Restaurați imediat ACL-ul implicit pe AdminSDHolder din backup securizat.\n2. Rulați SDProp manual pentru a elimina drepturile propagate.\n3. Revocați credențialele contului care a efectuat modificarea.",
+                    DetectedAt = adminSdEvents.Max(a => a.TimeCreated)
+                });
+            }
+
+            // 13. ADAUDIT: Auditare Acces Partajări de Rețea Administrative (C$, ADMIN$, IPC$, SYSVOL)
+            var shareEvents = eventList.Where(e => (e.EventId == 5140 || e.EventId == 5145) && e.Message != null && (e.Message.Contains(@"\\*\C$") || e.Message.Contains(@"\\*\ADMIN$") || e.Message.Contains(@"\\*\SYSVOL"))).ToList();
+            if (shareEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Acces Partajări Administrative Ascunse (C$, ADMIN$, SYSVOL)",
+                    Category = "Lateral Movement / File Access",
+                    Severity = "Medium",
+                    Description = $"Detectat acces la partajări de rețea administrative sensibile ({shareEvents.Count} evenimente EID 5140/5145). Frecvent utilizat în mișcarea laterală prin PsExec, SMBExec sau staging de fișiere ransomware.",
+                    TargetAccount = "Administrative Network Share",
+                    ClientIp = "SMB Client",
+                    MitreTechniqueId = "T1021.002",
+                    ContainmentActionRo = "1. Verificați dacă accesul provine de la un instrument autorizat de management (SCCM, Lansweeper).\n2. Restricționați traficul SMB pe portul 445 între stațiile client (Host Isolation).",
+                    DetectedAt = shareEvents.Max(s => s.TimeCreated)
+                });
+            }
+
             return findings;
         }
     }

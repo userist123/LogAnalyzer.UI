@@ -1,4 +1,4 @@
-uusing System.Windows;
+using System.Windows;
 
 namespace LogAnalyzer.UI.Views
 {

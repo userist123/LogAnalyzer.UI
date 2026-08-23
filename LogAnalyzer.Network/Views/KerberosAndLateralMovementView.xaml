@@ -12,12 +12,12 @@
         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,16">
             <StackPanel DockPanel.Dock="Left">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock Text="ADAudit &amp; Active Directory Threat Intelligence" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                    <TextBlock Text="ADAudit Intelligence &amp; Endpoint Forensics Command Center" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                     <Border Margin="12,0,0,0" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
-                        <TextBlock Text="ADAUDIT PLUS SUITE &amp; UBA" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                        <TextBlock Text="DUAL AUDIT ENGINE: DOMAIN + STANDALONE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                     </Border>
                 </StackPanel>
-                <TextBlock Text="Auditare completă utilizatori/grupuri privilegiate, modificări GPO, anomalii comportamentale UBA, Kerberoasting și execuții LOLBAS" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
+                <TextBlock Text="Auditare completă hibridă: Active Directory Domain (Kerberos, GPO, DCSync) &amp; Standalone Workstation (Local SAM, USB Media, Audit Policy, Privilege Abuse)" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
@@ -25,58 +25,67 @@
             </StackPanel>
         </DockPanel>
 
-        <!-- 2. ADAudit Executive KPI Metrics Strip -->
-        <UniformGrid Grid.Row="1" Columns="5" Margin="0,0,0,16">
-            <!-- Metric 1: Total AD Events -->
-            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,8,0" Padding="12">
+        <!-- 2. Dual-Engine Executive KPI Ribbon (Domain & Standalone Metrics) -->
+        <UniformGrid Grid.Row="1" Columns="6" Margin="0,0,0,16">
+            <!-- Metric 1: Total AD & Local Events -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,6,0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="EVENIMENTE AD AUDITATE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
-                    <TextBlock Text="{Binding AdEventsAnalyzedCount, FallbackValue=0}" FontSize="20" FontWeight="Black" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4,0,2"/>
-                    <TextBlock Text="Jurnale Securitate &amp; DS (4720..4799)" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="EVENIMENTE AD / SAM" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                    <TextBlock Text="{Binding AdEventsAnalyzedCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="Jurnale Securitate &amp; SAM" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
             </Border>
 
-            <!-- Metric 2: Privileged Group Changes -->
-            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,8,0" Padding="12">
+            <!-- Metric 2: Domain Admins Changes -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,6,0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="MEMBRI GRUPURI PRIVILEGIATE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"/>
-                    <TextBlock Text="{Binding AdPrivilegedGroupChangesCount, FallbackValue=0}" FontSize="20" FontWeight="Black" Foreground="{StaticResource DangerBrush}" Margin="0,4,0,2"/>
-                    <TextBlock Text="Domain Admins / Enterprise Admins" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="GRUPURI PRIVILEGIATE AD" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"/>
+                    <TextBlock Text="{Binding AdPrivilegedGroupChangesCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource DangerBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="Domain / Enterprise Admins" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
             </Border>
 
-            <!-- Metric 3: Account Lockouts & Spraying -->
-            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,8,0" Padding="12">
+            <!-- Metric 3: Standalone Local Admin Changes -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,6,0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="BLOCĂRI CONTURI / SPRAYING" FontSize="9" FontWeight="Bold" Foreground="{StaticResource HighBrush}"/>
-                    <TextBlock Text="{Binding AdAccountLockoutsCount, FallbackValue=0}" FontSize="20" FontWeight="Black" Foreground="{StaticResource HighBrush}" Margin="0,4,0,2"/>
-                    <TextBlock Text="EID 4740 (Depășire prag parole)" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="ADMINISTRATORI LOCALI SAM" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"/>
+                    <TextBlock Text="{Binding SamAdminGroupModificationsCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource DangerBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="BUILTIN\Administrators" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
             </Border>
 
-            <!-- Metric 4: GPO & Domain Policy Tampering -->
-            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,8,0" Padding="12">
+            <!-- Metric 4: Standalone USB & Media Devices -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,6,0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="MODIFICĂRI POLITICI GPO" FontSize="9" FontWeight="Bold" Foreground="{StaticResource WarningBrush}"/>
-                    <TextBlock Text="{Binding AdGpoPolicyChangesCount, FallbackValue=0}" FontSize="20" FontWeight="Black" Foreground="{StaticResource WarningBrush}" Margin="0,4,0,2"/>
-                    <TextBlock Text="EID 4739 / 5136 (Password &amp; Lockout)" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="MEDII USB REMOVABILE" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource HighBrush}"/>
+                    <TextBlock Text="{Binding SamUsbStorageEventsCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource HighBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="USBSTOR / PnP Conectate" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
             </Border>
 
-            <!-- Metric 5: Kerberos & AD Exploits -->
-            <Border Style="{StaticResource ObsidianCardStyle}" Padding="12">
+            <!-- Metric 5: Policy & Audit Tampering -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,6,0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="ATACURI AD &amp; KERBEROS" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
-                    <TextBlock Text="{Binding AdKerberosAttacksCount, FallbackValue=0}" FontSize="20" FontWeight="Black" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,4,0,2"/>
-                    <TextBlock Text="Kerberoasting, DCSync, Golden Ticket" FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="ALTERARE POLITICI / GPO" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource WarningBrush}"/>
+                    <TextBlock Text="{Binding SamAuditPolicyTamperingCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource WarningBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="EID 4719 / 1102 / 5136" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Metric 6: Advanced Exploits -->
+            <Border Style="{StaticResource ObsidianCardStyle}" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="ATACURI KERBEROS / AD" FontSize="8.5" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                    <TextBlock Text="{Binding AdKerberosAttacksCount, FallbackValue=0}" FontSize="18" FontWeight="Black" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,3,0,1"/>
+                    <TextBlock Text="Kerberoast, DCSync, Shadow" FontSize="8.5" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
             </Border>
         </UniformGrid>
 
-        <!-- 3. Main Workspace: TabControl with AD Attack Detections, UBA Behavior Analytics, and LOLBAS Binaries -->
+        <!-- 3. Quad-Tab Multi-Workspace: AD Domain, Standalone SAM, UBA Analytics, LOLBAS -->
         <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0">
-            <!-- TAB 1: AD Attack Findings -->
-            <TabItem Header="🛡️ Detecții Atacuri AD &amp; Kerberos" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 1: Standalone PC & Local SAM Forensics -->
+            <TabItem Header="💻 ADAudit Standalone PC &amp; SAM" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>
@@ -84,9 +93,39 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="Anomalii de Autentificare &amp; Modificări Active Directory" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="Auditare Securitate Stații Standalone &amp; Bază SAM (Grupuri Locale, USB, Politici de Audit)" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                             <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
-                                <TextBlock Text="{Binding KerberosFindings.Count, StringFormat='{}{0} Detecții'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="{Binding StandaloneSamFindings.Count, StringFormat='{}{0} Detecții SAM'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            </Border>
+                        </DockPanel>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding StandaloneSamFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="150"/>
+                                <DataGridTextColumn Header="Tip Detecție Standalone" Binding="{Binding FindingType}" Width="200"/>
+                                <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
+                                <DataGridTextColumn Header="Cont / Resursă Țintă" Binding="{Binding TargetAccountOrResource}" Width="150"/>
+                                <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="85"/>
+                                <DataGridTextColumn Header="Proces / Dispozitiv Sursă" Binding="{Binding SourceProcessOrDevice}" Width="150"/>
+                                <DataGridTextColumn Header="Descriere &amp; Acțiune Recomandată" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- TAB 2: Active Directory Domain & Kerberos Exploits -->
+            <TabItem Header="🛡️ ADAudit Active Directory &amp; Kerberos" Style="{StaticResource InspectorTabItemStyle}">
+                <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
+                    <Grid Margin="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                            <TextBlock DockPanel.Dock="Left" Text="Anomalii de Autentificare Domeniu, Modificări GPO &amp; Exploatări Replicare AD" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
+                                <TextBlock Text="{Binding KerberosFindings.Count, StringFormat='{}{0} Detecții AD'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                             </Border>
                         </DockPanel>
                         <DataGrid Grid.Row="1" ItemsSource="{Binding KerberosFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
@@ -104,8 +143,8 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 2: User Behavior Analytics (UBA) -->
-            <TabItem Header="👤 UBA: Analitică Comportamentală Utilizatori" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 3: User Behavior Analytics (UBA) -->
+            <TabItem Header="👤 UBA: Analitică Comportamentală" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>
@@ -133,7 +172,7 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 3: LOLBAS Execution Audit -->
+            <!-- TAB 4: LOLBAS Execution Audit -->
             <TabItem Header="⚡ Audit Execuții LOLBAS" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">

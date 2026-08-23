@@ -9,6 +9,33 @@ namespace LogAnalyzer.UI.Tests
     public class AdAuditAndUbaEngineTests
     {
         [Fact]
+        public void StandaloneSamAuditEngine_Detects_LocalAdminTamperingAndUsbStorage()
+        {
+            var engine = new StandaloneSamAuditEngine();
+            var events = new List<ParsedEvent>
+            {
+                new ParsedEvent { EventId = 4732, Message = "Member added to BUILTIN\\Administrators", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 4719, Message = "System audit policy was changed", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 20001, Message = "USBSTOR\\Disk&Ven_SanDisk", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 4672, Message = "Special privileges assigned: SeDebugPrivilege", TimeCreated = DateTime.UtcNow }
+            };
+
+            var summary = engine.GetSummary(events);
+            var findings = engine.Analyze(events);
+
+            Assert.Equal(1, summary.LocalAdminGroupModifications);
+            Assert.Equal(1, summary.AuditPolicyTamperingCount);
+            Assert.Equal(1, summary.UsbStorageEventsCount);
+            Assert.Equal(1, summary.HighPrivilegeAssignmentsCount);
+
+            Assert.Equal(4, findings.Count);
+            Assert.Contains(findings, f => f.FindingType.Contains("Administrators"));
+            Assert.Contains(findings, f => f.FindingType.Contains("Auditare"));
+            Assert.Contains(findings, f => f.FindingType.Contains("USB"));
+            Assert.Contains(findings, f => f.FindingType.Contains("SeDebugPrivilege"));
+        }
+
+        [Fact]
         public void UserBehaviorAnalyticsEngine_Detects_OffHoursAndBruteForceSuccess()
         {
             var engine = new UserBehaviorAnalyticsEngine();

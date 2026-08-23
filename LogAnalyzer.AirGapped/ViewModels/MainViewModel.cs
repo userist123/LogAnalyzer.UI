@@ -141,8 +141,17 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _adGpoPolicyChangesCount = 0;
         [ObservableProperty] private int _adKerberosAttacksCount = 0;
         public ObservableCollection<UbaAnomalyItem> UbaAnomalies { get; set; } = new();
+        public ObservableCollection<StandaloneSamFinding> StandaloneSamFindings { get; set; } = new();
+        [ObservableProperty] private int _samAccountsCreatedCount = 0;
+        [ObservableProperty] private int _samAccountsDeletedCount = 0;
+        [ObservableProperty] private int _samAdminGroupModificationsCount = 0;
+        [ObservableProperty] private int _samAuditPolicyTamperingCount = 0;
+        [ObservableProperty] private int _samUsbStorageEventsCount = 0;
+        [ObservableProperty] private int _samHighPrivilegeAssignmentsCount = 0;
+
         private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
         private readonly AdAuditReportService _adAuditReportService = new();
+        private readonly StandaloneSamAuditEngine _samAuditEngine = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -3106,6 +3115,22 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var uf in ubaFindings)
                 {
                     UbaAnomalies.Add(uf);
+                }
+
+                // Analiză ADAudit Standalone PC & SAM Forensics (pentru PC-uri izolate / fără domeniu)
+                var samSummary = _samAuditEngine.GetSummary(eventsForAnalysis);
+                SamAccountsCreatedCount = samSummary.LocalAccountsCreated;
+                SamAccountsDeletedCount = samSummary.LocalAccountsDeleted;
+                SamAdminGroupModificationsCount = samSummary.LocalAdminGroupModifications;
+                SamAuditPolicyTamperingCount = samSummary.AuditPolicyTamperingCount;
+                SamUsbStorageEventsCount = samSummary.UsbStorageEventsCount;
+                SamHighPrivilegeAssignmentsCount = samSummary.HighPrivilegeAssignmentsCount;
+
+                var samFindings = _samAuditEngine.Analyze(eventsForAnalysis);
+                StandaloneSamFindings.Clear();
+                foreach (var sf in samFindings)
+                {
+                    StandaloneSamFindings.Add(sf);
                 }
 
                 // Analiză LOLBAS & Relații Anomale Părinte-Copil

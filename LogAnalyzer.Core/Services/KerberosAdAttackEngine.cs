@@ -7,7 +7,8 @@ namespace LogAnalyzer.Core.Services
 {
     public class KerberosAdFinding
     {
-        public string AttackType { get; set; } = string.Empty; // ex: "Kerberoasting", "AS-REP Roasting", "Pass-the-Hash", "DCSync", "Golden Ticket"
+        public string AttackType { get; set; } = string.Empty; // ex: "Kerberoasting", "Privileged Group Modification", "Account Lockout", "DCSync", "Golden Ticket"
+        public string Category { get; set; } = "Active Directory Security"; // "Authentication", "User Management", "Group Membership", "GPO Policy", "Exploit"
         public string Severity { get; set; } = "Critical";
         public string Description { get; set; } = string.Empty;
         public string TargetAccount { get; set; } = string.Empty;
@@ -17,8 +18,41 @@ namespace LogAnalyzer.Core.Services
         public DateTime DetectedAt { get; set; } = DateTime.UtcNow;
     }
 
+    public class AdAuditSummary
+    {
+        public int TotalAdEventsAnalyzed { get; set; }
+        public int UserAccountsCreated { get; set; }
+        public int UserAccountsModified { get; set; }
+        public int UserAccountsDeleted { get; set; }
+        public int PasswordResets { get; set; }
+        public int AccountLockouts { get; set; }
+        public int PrivilegedGroupChanges { get; set; }
+        public int GpoPolicyChanges { get; set; }
+        public int KerberosAttacksDetected { get; set; }
+    }
+
     public class KerberosAdAttackEngine
     {
+        public AdAuditSummary GetAuditSummary(IEnumerable<ParsedEvent> events)
+        {
+            var summary = new AdAuditSummary();
+            if (events == null) return summary;
+
+            var list = events.ToList();
+            summary.TotalAdEventsAnalyzed = list.Count(e => (e.EventId >= 4720 && e.EventId <= 4799) || e.EventId == 4662 || e.EventId == 4672 || e.EventId == 5136 || e.EventId == 5137 || e.EventId == 5141);
+            summary.UserAccountsCreated = list.Count(e => e.EventId == 4720);
+            summary.UserAccountsModified = list.Count(e => e.EventId == 4738 || e.EventId == 4722);
+            summary.UserAccountsDeleted = list.Count(e => e.EventId == 4726);
+            summary.PasswordResets = list.Count(e => e.EventId == 4724);
+            summary.AccountLockouts = list.Count(e => e.EventId == 4740);
+            summary.PrivilegedGroupChanges = list.Count(e => e.EventId == 4728 || e.EventId == 4732 || e.EventId == 4756);
+            summary.GpoPolicyChanges = list.Count(e => e.EventId == 4739 || e.EventId == 5136 || e.EventId == 5137 || e.EventId == 5141);
+            
+            var findings = AnalyzeEvents(list);
+            summary.KerberosAttacksDetected = findings.Count;
+            return summary;
+        }
+
         public List<KerberosAdFinding> AnalyzeEvents(IEnumerable<ParsedEvent> events)
         {
             var findings = new List<KerberosAdFinding>();
@@ -124,6 +158,78 @@ namespace LogAnalyzer.Core.Services
                     MitreTechniqueId = "T1558.001",
                     ContainmentActionRo = "1. Rotiți imediat cheile contului KRBTGT.\n2. Auditați lista de tichete Kerberos active pe Domain Controller folosind 'klist'.",
                     DetectedAt = specialPrivLogons.Max(r => r.TimeCreated)
+                });
+            }
+
+            // 6. ADAUDIT: Modificare Grupuri Privilegiate (EID 4728 / 4732 / 4756 - Domain Admins, Enterprise Admins)
+            var groupEvents = eventList.Where(e => e.EventId == 4728 || e.EventId == 4732 || e.EventId == 4756).ToList();
+            if (groupEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Adăugare Membru în Grup Privilegiat (Domain / Enterprise Admins)",
+                    Category = "Privilege Escalation",
+                    Severity = "Critical",
+                    Description = $"Detectată adăugarea de membri în grupuri de securitate privilegiate (EID {string.Join(", ", groupEvents.Select(g => g.EventId).Distinct())}). Necesită audit imediat pentru prevenirea persistenței atacatorului cu drepturi administrative depline.",
+                    TargetAccount = "Privileged Security Group",
+                    ClientIp = "Domain Controller",
+                    MitreTechniqueId = "T1098",
+                    ContainmentActionRo = "1. Verificați dacă modificarea a fost autorizată prin Change Management.\n2. Eliminați contul adăugat dacă nu există tichet aprobat.\n3. Auditați contul de administrator care a efectuat modificarea.",
+                    DetectedAt = groupEvents.Max(g => g.TimeCreated)
+                });
+            }
+
+            // 7. ADAUDIT: Blocare Conturi în Masă / Password Spraying (EID 4740)
+            var lockoutEvents = eventList.Where(e => e.EventId == 4740).ToList();
+            if (lockoutEvents.Count >= 3)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Blocare Conturi în Masă (Account Lockout / Password Spraying)",
+                    Category = "Credential Access",
+                    Severity = "High",
+                    Description = $"Detectat un număr de {lockoutEvents.Count} conturi blocate prin depășirea numărului maxim de parole incorecte. Indică un posibil atac de tip Password Spraying sau Brute Force distribuit.",
+                    TargetAccount = "Multiple User Accounts",
+                    ClientIp = "Rețea Internă / Edge",
+                    MitreTechniqueId = "T1110.003",
+                    ContainmentActionRo = "1. Identificați stația sau adresa IP sursă a încercărilor de autentificare (Event ID 4776 / 4625).\n2. Deblocați conturile legitime după resetarea parolei.\n3. Blocați adresa IP sursă la nivel de rețea.",
+                    DetectedAt = lockoutEvents.Max(l => l.TimeCreated)
+                });
+            }
+
+            // 8. ADAUDIT: Modificare Politici de Securitate GPO (EID 4739 / 5136)
+            var gpoEvents = eventList.Where(e => e.EventId == 4739 || e.EventId == 5136).ToList();
+            if (gpoEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Modificare Politică Domeniu GPO (Password Policy / Lockout Policy)",
+                    Category = "Defense Evasion / Policy Tampering",
+                    Severity = "High",
+                    Description = $"Detectată modificarea politicilor globale de securitate ale domeniului Active Directory (EID 4739 / 5136). Modificările pot include slăbirea complexității parolelor, eliminarea pragului de lockout sau permiterea NTLMv1.",
+                    TargetAccount = "Default Domain Policy / GPO",
+                    ClientIp = "Domain Controller",
+                    MitreTechniqueId = "T1484.001",
+                    ContainmentActionRo = "1. Examinați istoricul versiunilor GPO pentru a identifica modificările exacte.\n2. Reinițializați GPO din backup-ul securizat aprobat.\n3. Auditați permisiunile de editare GPO (Delegation permissions).",
+                    DetectedAt = gpoEvents.Max(g => g.TimeCreated)
+                });
+            }
+
+            // 9. ADAUDIT: Creare Cont Utilizator în Afara Programului / Neautorizat (EID 4720)
+            var userCreatedEvents = eventList.Where(e => e.EventId == 4720).ToList();
+            if (userCreatedEvents.Count > 0)
+            {
+                findings.Add(new KerberosAdFinding
+                {
+                    AttackType = "ADAudit: Creare Cont Nou Utilizator în Active Directory (EID 4720)",
+                    Category = "Account Provisioning",
+                    Severity = "Medium",
+                    Description = $"Înregistrate {userCreatedEvents.Count} conturi noi de utilizator create în Active Directory. Necesită corelare cu aprobările de HR/IT Service Desk pentru a elimina conturile 'rogue' de persistență.",
+                    TargetAccount = "New AD User Account",
+                    ClientIp = "Domain Controller",
+                    MitreTechniqueId = "T1136.001",
+                    ContainmentActionRo = "1. Verificați validitatea cererii de creare cont în sistemul de ticketing.\n2. Dacă este neautorizat, dezactivați imediat contul (Disable Account).\n3. Investigați contul creator.",
+                    DetectedAt = userCreatedEvents.Max(u => u.TimeCreated)
                 });
             }
 

@@ -130,6 +130,17 @@ namespace LogAnalyzer.UI.ViewModels
         public ObservableCollection<MultiEventCorrelationFinding> MultiEventCorrelations { get; set; } = new();
         [ObservableProperty] private string _provenanceStatusMessage = "✅ Lanț Criptografic Verificat (SHA-256)";
 
+        // ADAudit Plus & Active Directory Analytics Properties
+        [ObservableProperty] private int _adEventsAnalyzedCount = 0;
+        [ObservableProperty] private int _adAccountsCreatedCount = 0;
+        [ObservableProperty] private int _adAccountsModifiedCount = 0;
+        [ObservableProperty] private int _adAccountsDeletedCount = 0;
+        [ObservableProperty] private int _adPasswordResetsCount = 0;
+        [ObservableProperty] private int _adAccountLockoutsCount = 0;
+        [ObservableProperty] private int _adPrivilegedGroupChangesCount = 0;
+        [ObservableProperty] private int _adGpoPolicyChangesCount = 0;
+        [ObservableProperty] private int _adKerberosAttacksCount = 0;
+
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
         // Command Palette & Global Search
@@ -3030,7 +3041,18 @@ namespace LogAnalyzer.UI.ViewModels
                     ExplainableRiskFactors.Add(factor);
                 }
 
-                // Analiză Kerberos / Active Directory
+                // Analiză ADAudit Plus & Kerberos Active Directory
+                var adSummary = _kerberosEngine.GetAuditSummary(eventsForAnalysis);
+                AdEventsAnalyzedCount = adSummary.TotalAdEventsAnalyzed;
+                AdAccountsCreatedCount = adSummary.UserAccountsCreated;
+                AdAccountsModifiedCount = adSummary.UserAccountsModified;
+                AdAccountsDeletedCount = adSummary.UserAccountsDeleted;
+                AdPasswordResetsCount = adSummary.PasswordResets;
+                AdAccountLockoutsCount = adSummary.AccountLockouts;
+                AdPrivilegedGroupChangesCount = adSummary.PrivilegedGroupChanges;
+                AdGpoPolicyChangesCount = adSummary.GpoPolicyChanges;
+                AdKerberosAttacksCount = adSummary.KerberosAttacksDetected;
+
                 var kerbFindings = _kerberosEngine.AnalyzeEvents(eventsForAnalysis);
                 KerberosFindings.Clear();
                 foreach (var kf in kerbFindings)

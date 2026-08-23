@@ -107,6 +107,9 @@ namespace LogAnalyzer.UI
             catch (Exception ex)
             {
                 File.WriteAllText(crashLogPath, $"CRASH: {ex.ToString()}");
+                MessageBox.Show($"Eroare critică la pornire:\n\n{ex.Message}\n\n{ex.StackTrace}", "Eroare LogAnalyzer", MessageBoxButton.OK, MessageBoxImage.Error);
+                try { splash?.Close(); } catch {}
+                this.Shutdown();
             }
         }
     }

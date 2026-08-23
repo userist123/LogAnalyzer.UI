@@ -17,11 +17,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border"
-                            Background="{TemplateBinding Background}"
+                            Background="{StaticResource Surface2Brush}"
                             BorderBrush="{StaticResource BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderThickness="1"
                             CornerRadius="6"
-                            Padding="{TemplateBinding Padding}">
+                            Padding="12,6">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>

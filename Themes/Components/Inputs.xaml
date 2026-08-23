@@ -23,7 +23,7 @@
                             BorderThickness="1"
                             CornerRadius="6"
                             SnapsToDevicePixels="True"
-                            Padding="{TemplateBinding Padding}">
+                            Padding="8,4">
                         <ScrollViewer x:Name="PART_ContentHost" Focusable="False" 
                                       VerticalAlignment="Center"
                                       HorizontalScrollBarVisibility="Hidden" 
@@ -77,7 +77,7 @@
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"
                                   Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}"
+                        <ContentPresenter Grid.Column="1" Margin="8,0,0,0"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Left" RecognizesAccessKey="True"/>
                     </Grid>
@@ -184,7 +184,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
-                    <Border x:Name="itemBorder" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="4" Margin="2">
+                    <Border x:Name="itemBorder" Background="Transparent" Padding="10,6" CornerRadius="4" Margin="2">
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>

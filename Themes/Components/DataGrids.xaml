@@ -41,11 +41,12 @@
     </Style>
 
     <Style TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="8,2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="0" Padding="{TemplateBinding Padding}">
+                    <Border Background="Transparent" BorderThickness="0" Padding="8,2">
                         <ContentPresenter VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

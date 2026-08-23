@@ -116,7 +116,7 @@
                             <!-- GROUP 1: OPERATIONS -->
                             <TextBlock Text="OPERATIONS" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,10,0,6"/>
                             <RadioButton Content="Command Dashboard" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="0" IsChecked="True"/>
-                            <RadioButton Content="Live Real-Time SOC" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="11"/>
+                            <RadioButton Content="Live Real-Time SOC" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="11" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <RadioButton Content="Threats &amp; Detections" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="3"/>
                             <RadioButton Content="Incident Timeline" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
 

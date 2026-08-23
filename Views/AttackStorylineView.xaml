@@ -79,7 +79,7 @@
                     <ItemsControl ItemsSource="{Binding StorylineNodes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="{StaticResource Surface3Brush}" BorderBrush="{Binding SeverityColor}" BorderThickness="1" CornerRadius="6" Margin="0,0,0,10" Padding="14" Cursor="Hand">
+                                <Border Background="{StaticResource Surface3Brush}" BorderBrush="{Binding SeverityColor, FallbackValue={StaticResource BorderBrush}}" BorderThickness="1" CornerRadius="6" Margin="0,0,0,10" Padding="14" Cursor="Hand">
                                     <Border.InputBindings>
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.PivotStorylineStageCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
                                     </Border.InputBindings>

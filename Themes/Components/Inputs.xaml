@@ -218,18 +218,18 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <ToggleButton x:Name="ToggleButton"
-                                      Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{StaticResource Surface1Brush}"
+                                      BorderBrush="{StaticResource BorderBrush}"
+                                      BorderThickness="1"
                                       Focusable="false"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       ClickMode="Press">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="ToggleButton">
                                     <Border x:Name="border"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{StaticResource Surface1Brush}"
+                                            BorderBrush="{StaticResource BorderBrush}"
+                                            BorderThickness="1"
                                             CornerRadius="6">
                                         <Grid Margin="10,0">
                                             <Path x:Name="Arrow"

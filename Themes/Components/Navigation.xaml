@@ -118,6 +118,8 @@
 
     <Style TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="Padding" Value="4,3"/>
         <Setter Property="Cursor" Value="Hand"/>

@@ -41,7 +41,7 @@ namespace LogAnalyzer.Core.Services
 
             foreach (var ev in events)
             {
-                if (ev.EventId != 4688) continue;
+                if (ev.EventId != 4688 && ev.EventId != 1) continue;
 
                 string msg = ev.Message?.ToLowerInvariant() ?? string.Empty;
                 string xml = ev.XmlData ?? string.Empty;

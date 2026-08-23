@@ -22,6 +22,7 @@ namespace LogAnalyzer.UI
             string debugLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "startup_debug.log");
             string crashLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "startup_crash.log");
 
+            SplashWindow? splash = null;
             try
             {
                 File.WriteAllText(debugLogPath, "OnStartup starting...\n");
@@ -72,7 +73,7 @@ namespace LogAnalyzer.UI
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 File.AppendAllText(debugLogPath, "Showing SplashWindow...\n");
-                var splash = new SplashWindow();
+                splash = new SplashWindow();
                 splash.Show();
                 File.AppendAllText(debugLogPath, "SplashWindow shown.\n");
 

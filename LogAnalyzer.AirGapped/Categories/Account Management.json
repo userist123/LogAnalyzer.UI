@@ -1,0 +1,1968 @@
+[
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Computer Account Management",
+        "eventID": "4741",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A computer account was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Computer Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4741",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "MDI",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1136",
+        "ExtendedDescription": "The user identified by Subject: created the computer identified by New Computer Account:. \n\r\nNote: computer accounts always end with a $.",
+        "EventExample": "A computer account was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4741",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Computer Account Management",
+        "eventID": "4742",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A computer account was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Computer Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4742",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: changed the computer identified by Computer Account That Was Changed:. \n\r\nNote: computer accounts always end with a $",
+        "EventExample": "A computer account was changed.\n\r\nSubject:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4742",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Computer Account Management",
+        "eventID": "4743",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A computer account was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Computer Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4743",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "MDI"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: changed the computer identified by Target Computer:. \n\r\nNote: computer accounts always end with a $.",
+        "EventExample": "A computer account was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4743",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4744",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled local group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4749",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: created a Local Distribution group identified in New Group.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group can have members from any trusted domain.",
+        "EventExample": "A security-disabled local group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4744",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4745",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled local group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4750",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Local Distribution group identified in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group can have members from any trusted domain.",
+        "EventExample": "A security-disabled local group was changed.\r\nSubject:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4745",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4746",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-disabled local group",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4751",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Local Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group can have members from any trusted domain.",
+        "EventExample": "A member was added to a security-disabled local group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4746",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4747",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-disabled local group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4752",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member: to the Local Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group can have members from any trusted domain.",
+        "EventExample": "A member was added to a security-disabled local group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4747",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4748",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled local group was deleted. ",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4753",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theLocal Distribution group identified in Deleted Group.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group can have members from any trusted domain.",
+        "EventExample": "A security-disabled local group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4748",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4749",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled global group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4749",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: created a Global Distribution group identified in New Group.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA global group can only have members from its own domain.",
+        "EventExample": "A security-disabled global group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4749",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4750",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled global group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4750",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Global Distribution group identified in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA global group can only have members from its own domain.",
+        "EventExample": "A security-disabled global group was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4750",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4751",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-disabled global group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4751",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Global Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\r\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \r\n\r\nA global group can only have members from its own domain.",
+        "EventExample": "A member was added to a security-disabled global group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4751",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4752",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-disabled global group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4752",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member:from the Global Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA global group can only have members from its own domain.",
+        "EventExample": "A member was removed from a security-disabled global group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4752",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4753",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled global group was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4753",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDI"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theGlobal Distribution group identified in Deleted Group.\n\r\nThis event is only logged on domain controllers.\r\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \r\n\r\nA global group can only have members from its own domain.",
+        "EventExample": "A security-disabled global group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4753",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4759",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled universal group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4749",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: created a Universal Distribution group identified in New Group.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversalgroup may have members from any trusted domain.",
+        "EventExample": "A security-disabled universal group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4759",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4760",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled universal group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4750",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Universal Distribution group identified in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversal group may have members from any trusted domain.",
+        "EventExample": "A security-disabled universal group was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4760",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4761",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-disabled universal group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4751",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Universal Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\r\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists.\r\n\r\nUniversal group may have members from any trusted domain.",
+        "EventExample": "A member was added to a security-disabled universal group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4761",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4762",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-disabled universal group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4752",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member:from the Universal Distribution group in Group:.\n\r\nThis event is only logged on domain controllers.\r\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists.\r\n\r\nUniversal group may have members from any trusted domain.",
+        "EventExample": "A member was removed from a security-disabled universal group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4762",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Distribution Group Management",
+        "eventID": "4763",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-disabled universal group was deleted. ",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Distribution Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4753",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "MDI"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theUniversal Distribution group identified in Deleted Group.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Disabled\" groups are referred to as Distribution groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists.\n\r\nUniversal groups may have members from any trusted domain.",
+        "EventExample": "A security-disabled universal group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4763",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Other Account Management Events",
+        "eventID": "4782",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The password hash of an account was accessed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Other Account Management Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4782",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1003",
+        "ExtendedDescription": "This typically happens when something like the Active Directory Migration Tool (ADMT) is moving password data.",
+        "EventExample": "The password hash an account was accessed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4782",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Other Account Management Events",
+        "eventID": "4793",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Password Policy Checking API was called.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Other Account Management Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4793",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Microsoft says this is \"typical behavior\" and can be ignored. I concur. You may frequently see it on SQL Servers.",
+        "EventExample": "The Password Policy Checking API was called.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4793",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4727",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled global group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4731",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: just created a Security Global group identified in New Group.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groupsare simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nGlobal means the group can be granted access in any trusting domain but may only have members from its own domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled global group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4728",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-enabled global group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Security Global group in Group:.\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nGlobal means the group can be granted access in any trusting domain but may only have members from its own domain. \n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "An account was successfully logged on.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4728",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4729",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-enabled global group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4733",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member: from the Security Global group in Group:.\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nGlobal means the group can be granted access in any trusting domain but may only have members from its own domain. \n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A member was removed from a security-enabled global group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4729",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4730",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled global group was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4734",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "MDI"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theSecurity Global group identified in Deleted Group.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nGlobal means the group can be granted access in any trusting domain but may only have members from its own domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled global group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4730",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4731",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled local group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4731",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: created a Security Local group identified in New Group.\n\r\nThis event is logged on domain controllers for Active Directory domain local groups and member computer for local SAM groups. You can determine if the group is a domain or SAM group by comparing Group Domain: to the Computer: name. If they match you havea SAM group, if they differ you have a domain group.\n\r\nActive Directory\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group means the group can only be granted access to objects within its domain but can have members from any trusted domain.\n\r\nLocal SAM\n\r\nAll groups are security groups in the computer's SAM. Local SAM groups can be granted access to objects on the local computer onlybut may have members from the local SAM and any trusted domain.",
+        "EventExample": "A security-enabled local group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4731",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4732",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-enabled local group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "ANSSI",
+            "MDI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Security Local group in Group:.\n\r\nThis event is logged on domain controllers for Active Directory domain local groups and member computer for local SAM groups. You can determine if the group is a domain or SAM group by comparing Group Domain: to the Computer: name. If they match you have aSAM group, if they differ you have a domain group.\n\r\nActive Directory\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. A domain local group means the group can only be granted access to objects within its domain but can have members from any trusted domain.\n\r\nLocal SAM\n\r\nAll groups are security groups in the computer's SAM. Local SAM groups can be granted access to objects on the local computer onlybut may have members from the local SAM and any trusted domain.",
+        "EventExample": "A member was added to a security-enabled local group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4732",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4733",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-enabled local group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4733",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member: to the Security Local group in Group:.\n\r\nThis event is logged on domain controllers for Active Directory domain local groups and member computer for local SAM groups. You can determine if the group is a domain or SAM group by comparing Group Domain: to the Computer: name. If they match you havea SAM group, if they differ you have a domain group.\n\r\nActive Directory\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group means the group can only be granted access to objects within its domain but can have members from any trusted domain.\n\r\nLocal SAM\n\r\nAll groups are security groups in the computer's SAM. Local SAM groups can be granted access to objects on the local computer onlybut may have members from the local SAM and any trusted domain.",
+        "EventExample": "A member was removed from a security-enabled local group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4733",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4734",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled local group was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4734",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theSecurity Local group identified in Deleted Group.\n\r\nThis event is logged on domain controllers for Active Directory domain local groups and member computer for local SAM groups. You can determine if the group is a domain or SAM group by comparing Group Domain: to the Computer: name. If they match you havea SAM group, if they differ you have a domain group.\n\r\nActive Directory\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group means the group can only be granted access to objects within its domain but can have members from any trusted domain.\n\r\nLocal SAM\n\r\nAll groups are security groups in the computer's SAM. Local SAM groups can be granted access to objects on the local computer onlybut may have members from the local SAM and any trusted domain.",
+        "EventExample": "A security-enabled local group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4734",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4735",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled local group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4735",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Security Local group identified in Group:.\n\r\nThis event is logged on domain controllers for Active Directory domain local groups and member computer for local SAM groups. You can determine if the group is a domain or SAM group by comparing Group Domain: to the Computer: name. If they match you have aSAM group, if they differ you have a domain group.\n\r\nActive Directory\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nA domain local group means the group can only be granted access to objects within its domain but can have members from any trusted domain.\n\r\nLocal SAM\n\r\nAll groups are security groups in the computer's SAM. Local SAM groups can be granted access to objects on the local computer onlybut may have members from the local SAM and any trusted domain.",
+        "EventExample": "A security-enabled local group was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4735",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4737",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled global group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4735",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Security Global group identified in Group:.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nGlobal means the group can be granted access in any trusting domain but may only have members from its own domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled global group was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4737",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4754",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled universal group was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4731",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: created a Universal Security group identified in New Group.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversal means the group can be granted access in any trusting domain and may have members from any trusted domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled universal group was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4755",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled universal group was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4735",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject: changed the Universal Security group identified in Group:.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversal means the group can be granted access in any trusting domain and may have members from any trusted domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled universal group was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4755",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4756",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was added to a security-enabled universal group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "MDI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: added the user/group/computer in Member: to the Universal Security group in Group:.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversal means the group can be granted access in any trusting domain and may have members from any trusted domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A member was added to a security-enabled universal group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4756",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4757",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A member was removed from a security-enabled universal group.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4733",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user in Subject: removed the user/group/computer in Member: from the Universal Security group in Group:.\n\r\nThis event is only logged on domain controllers.\n\r\nIn Active Directory Users and Computers \"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversalgroup may have members from any trusted domain.",
+        "EventExample": "A member was removed from a security-enabled universal group.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4757",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4758",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled universal group was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4734",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "MDI"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user in Subject:deleted theUniversal Security group identified in Deleted Group.\n\r\nIn Active Directory Users and Computers\"Security Enabled\" groups are simply referred to as Security groups. AD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nUniversal means the group can be granted access in any trusting domain and may have members from any trusted domain.\n\r\nThis event is only logged on domain controllers.",
+        "EventExample": "A security-enabled universal group was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4758",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4764",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A group’s type was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4764",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A group's type or scope was changed by Subject:.\n\r\nAD has 2 types of groups: Security and Distribution. Distribution (security disabled) groups are for distribution lists in Exchange and cannot be assigned permissions or rights. Security (security enabled) groups can be used for permissions, rights and as distribution lists. \n\r\nNo matter what type the group was before or after the change this event is always logged as subcategory \"Security Group Management\".\n\r\nScope: \r\nAD has 3 scopes of groups: Local, Global, Universal. See knowledge base article 326265. \n\nSubject:\n\r\nThe ID and logon session of the user that changed the policy - always the local system - see note above.",
+        "EventExample": "A groups type was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4764",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit Security Group Management",
+        "eventID": "4799",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security-enabled local group membership was enumerated.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit Security Group Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4799",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1069.002",
+        "ExtendedDescription": "Windows logs this event when a process enumerates the members of the specified local group on that computer.",
+        "EventExample": "A security-enabled local group membership was enumerated.\n\nSubject:\n\tSecurity ID:\t\tAzureAD\\RandyFranklinSmith\n\tAccount Name:\t\tRandyFranklinSmith\n\tAccount Domain:\t\tAzureAD\n\tLogon ID:\t\t0x7A1EA\n\nUser:\n\tSecurity ID:\t\tDESKTOP-TMO9MI9\\Users\n\tGroup Name:\t\tUsers\n\tGroup Domain:\t\tDESKTOP-TMO9MI9\n\nProcess Information:\n\tProcess ID:\t\t0x106c\n\tProcess Name:\t\tC:\\Windows\\System32\\mmc.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4799",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4720",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4720",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1136",
+        "ExtendedDescription": "The user identified by Subject: created the user identified by New Account:. \n\r\nAttributes show some of the properties that were set at the time the account was created. Notice account is initially disabled.\n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will see a series of other User Account Management events after this event as the remaining properties are punched down, password set and account finally enabled.",
+        "EventExample": "A user account was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4720",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4722",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was enabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4722",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: enabed the user identified by Target Account:. \n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nThis event is always logged after event 4720 - user account creation.\n\r\nYou will also see event ID 4738 informing you of the same information.",
+        "EventExample": "A user account was enabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4722",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4723",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to change an account's password.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4723",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user attempted to change his/her own password. Subject and Target should always match. Don't confuse this event with 4724.\n\r\nThis event is logged as a failure ifhis new password fails to meet the password policy.\n\r\nIf the user fails to correctly enter his old password this event is not logged. Instead, for domain accounts, a 4771 is logged with kadmin/changepw as the service name.\n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will also see event ID 4738 informing you of the same information.",
+        "EventExample": "An attempt was made to change an account's password.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4723",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4724",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to reset an account's password.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4724",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The Subject attempted to reset the password of the Target:\n\r\nDon't confuse this event with 4723.\n\r\nThis event is logged as a failure ifthe new password fails to meet the password policy.\n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will also see one or more event ID 4738s informing you of the same information.",
+        "EventExample": "An attempt was made to reset an account's password.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4724",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4725",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was disabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4725",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: disabled the user identified by Target Account:. \n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will also see event ID4738informing you of the same information.",
+        "EventExample": "A user account was disabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4725",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4726",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4726",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "ANSSI",
+            "MDI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The user identified by Subject: deleted the user identified by Target Account:. \n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will also see event ID 4738 informing you of the same information.",
+        "EventExample": "A user account was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4726",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4738",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4738",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: changed the user identified by Target Account:. \n\r\nAttributes show some of the properties that were set at the time the account was changed. \n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nDepending on what was changed you may see other User Account Management events specific to certain operations like password resets.",
+        "EventExample": "A user account was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4738",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4740",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was locked out.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4740",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "The indicated user account was locked out after repeated logon failures due to a bad password. \n\r\nSee event ID 4767 for account unlocked.\n\r\nThis event is logged both for local SAM accounts and domain accounts.",
+        "EventExample": "A user account was locked out.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4740",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4765",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "SID History was added to an account.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4765",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1134.005",
+        "ExtendedDescription": "",
+        "EventExample": "SID History was added to an account.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4765",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4766",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt to add SID History to an account failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4766",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1134.005",
+        "ExtendedDescription": "",
+        "EventExample": "An attempt to add SID History to an account failed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4766",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4767",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user account was unlocked.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4767",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "The user identified by Subject: unlocked the user identified by Target Account:. \n\r\nNote: this event is logged whenever you check the Unlock Account check box on the user's account tab - even if the account is notcurrently locked as a result of failed logon attempts. See event ID 4740.\n\r\nThis event is logged both for local SAM accounts and domain accounts.",
+        "EventExample": "A user account was unlocked.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4767",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4780",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The ACL was set on accounts which are members of administrators groups.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4780",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "This event, 4780, is logged whenever Windows modifies the ACL of a member of Domain Admins or Administrators to match the standard ACL in theAdminSDHolder object. AdminSDHolderdefines a stricter ACL to protect members of admin groups from being modified and taken over by other privileged users like Account Operators. \n\r\nWindows logs this event only for accounts where it actually has to change the ACL because of it being different from AdminSDHolder. Typically you will only see it once, sometime after adding an account to Domain Admins or Administrators.\n\r\nYou will also see event ID 4738 informing you of the same information.",
+        "EventExample": "The ACL was set on accounts which are members of administrators groups.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4780",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4781",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The name of an account was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4781",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "The user identified by Subject: changed either the normal logon name or the pre-Win2k logonnameof the user identified by Target Account:. Event 4738 actually provides better information on this change.\n\r\nThis event is logged both for local SAM accounts and domain accounts.\n\r\nYou will also see event ID 4738 informing you of the same information.",
+        "EventExample": "The name of an account was changed:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4781",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4794",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to set the Directory Services Restore Mode administrator password.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4794",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1098",
+        "ExtendedDescription": "This event is logged whenever you successfully set the DSRM administrator password such as with ntdsutil.\n\r\nThis password is important since it controls someone's ability to enter DSRM and potentially restore or other wise access the Active Directory database.",
+        "EventExample": "An attempt was made to set the Directory Services Restore Mode\r\nadministrator password.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4794",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "4798",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user's local group membership was enumerated.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4798",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "MDE",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1069.001",
+        "ExtendedDescription": "Windows logs this event when a process enumerates the local groups to which a the specified user belongs on that computer.",
+        "EventExample": "A user's local group membership was enumerated.\n\nSubject:\n\tSecurity ID:\t\tAzureAD\\RandyFranklinSmith\n\tAccount Name:\t\tRandyFranklinSmith\n\tAccount Domain:\t\tAzureAD\n\tLogon ID:\t\t0x7A1EA\n\nUser:\n\tSecurity ID:\t\tDESKTOP-TMO9MI9\\Administrator\n\tAccount Name:\t\tAdministrator\n\tAccount Domain:\t\tDESKTOP-TMO9MI9\n\nProcess Information:\n\tProcess ID:\t\t0x106c\n\tProcess Name:\t\tC:\\Windows\\System32\\mmc.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4798",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "5376",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Credential Manager credentials were backed up.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5376",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1555.004",
+        "ExtendedDescription": "Credential Manager is the stored passwords feature in Windows that allows Windows to remember passwords for websites, shared folders, VPNs, etc. From Control Panel\\User Accounts\\Manage your network passwords you can backup these stored credentials and/or restore them. This event is logged when you back them up.",
+        "EventExample": "Credential Manager credentials were backed up.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5376",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Account Management",
+        "subCategory": "Audit User Account Management",
+        "eventID": "5377",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Credential Manager credentials were restored from a backup.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Management\\Audit User Account Management",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5377",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Credential Manager is the stored passwords feature in Windows that allows Windows to remember passwords for websites, shared folders, VPNs, etc. From Control Panel\\User Accounts\\Manage your network passwords you can backup these stored credentials and/or restore them. This event is logged when you restore them.",
+        "EventExample": "Credential Manager credentials were restored from a backup.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5377",
+        "PotentialCriticality": "Medium"
+    }
+]

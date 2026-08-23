@@ -1,0 +1,45 @@
+<UserControl x:Class="LogAnalyzer.UI.Views.ChainOfCustodyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,18">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="Chain of Custody &amp; Forensic Provenance" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                <TextBlock Text="Immutable evidence ledger, cryptographic SHA-256 integrity &amp; NIS2 / DNSC incident reporting" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button DockPanel.Dock="Right" Content="Export Evidence Package" Command="{Binding ExportCsvCommand}" Style="{StaticResource AccentButtonStyle}" Padding="16,8"/>
+        </DockPanel>
+
+        <!-- Main Evidence Ledger DataGrid -->
+        <Border Grid.Row="1" Style="{StaticResource ObsidianCardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                    <TextBlock DockPanel.Dock="Left" Text="Immutable Evidence Intake Ledger" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource EvidenceAccentBrush}"/>
+                    <Border DockPanel.Dock="Right" Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource EvidenceAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="8,3">
+                        <TextBlock Text="CRYPTOGRAPHICALLY SEALED" FontSize="10" FontWeight="Bold" Foreground="{StaticResource EvidenceAccentBrush}"/>
+                    </Border>
+                </DockPanel>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding ProvenanceEntries}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}" Width="45"/>
+                        <DataGridTextColumn Header="Timestamp (UTC)" Binding="{Binding TimestampUtc, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
+                        <DataGridTextColumn Header="Action / Stage" Binding="{Binding ActionType}" Width="150"/>
+                        <DataGridTextColumn Header="Evidence File / Reference" Binding="{Binding EvidenceReference}" Width="200"/>
+                        <DataGridTextColumn Header="SHA-256 Hash" Binding="{Binding SourceSha256}" FontFamily="{StaticResource CodeFontFamily}" Width="240"/>
+                        <DataGridTextColumn Header="Audit &amp; Forensic Details" Binding="{Binding Details}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Obsidian Evidence - Core Base Surfaces -->
+    <Color x:Key="CanvasColor">#080B12</Color>
+    <SolidColorBrush x:Key="CanvasBrush" Color="{StaticResource CanvasColor}"/>
+    <SolidColorBrush x:Key="BgBrush" Color="{StaticResource CanvasColor}"/>
+
+    <Color x:Key="WorkspaceColor">#0C111B</Color>
+    <SolidColorBrush x:Key="WorkspaceBrush" Color="{StaticResource WorkspaceColor}"/>
+
+    <Color x:Key="Surface1Color">#111827</Color>
+    <SolidColorBrush x:Key="Surface1Brush" Color="{StaticResource Surface1Color}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource Surface1Color}"/>
+
+    <Color x:Key="Surface2Color">#151E2E</Color>
+    <SolidColorBrush x:Key="Surface2Brush" Color="{StaticResource Surface2Color}"/>
+
+    <Color x:Key="Surface3Color">#1A2740</Color>
+    <SolidColorBrush x:Key="Surface3Brush" Color="{StaticResource Surface3Color}"/>
+
+    <Color x:Key="ElevatedPanelColor">#101827</Color>
+    <SolidColorBrush x:Key="ElevatedPanelBrush" Color="{StaticResource ElevatedPanelColor}"/>
+
+    <!-- Hairline & Structural Borders -->
+    <Color x:Key="HairlineBorderColor">#232E42</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource HairlineBorderColor}"/>
+    <SolidColorBrush x:Key="HairlineBorderBrush" Color="{StaticResource HairlineBorderColor}"/>
+
+    <Color x:Key="StrongBorderColor">#3B4A63</Color>
+    <SolidColorBrush x:Key="StrongBorderBrush" Color="{StaticResource StrongBorderColor}"/>
+
+    <!-- Typography Brushes -->
+    <Color x:Key="TextPrimaryColor">#F1F5F9</Color>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+
+    <Color x:Key="TextSecondaryColor">#A8B5C7</Color>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+
+    <Color x:Key="TextMutedColor">#718096</Color>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}"/>
+
+    <Color x:Key="TextDisabledColor">#4B5563</Color>
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource TextDisabledColor}"/>
+
+    <Color x:Key="CodeTextColor">#D5E6FF</Color>
+    <SolidColorBrush x:Key="CodeTextBrush" Color="{StaticResource CodeTextColor}"/>
+
+    <!-- Semantic Severity & State Colors -->
+    <Color x:Key="CriticalColor">#FF4D6D</Color>
+    <SolidColorBrush x:Key="CriticalBrush" Color="{StaticResource CriticalColor}"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource CriticalColor}"/>
+
+    <Color x:Key="HighColor">#FF7A45</Color>
+    <SolidColorBrush x:Key="HighBrush" Color="{StaticResource HighColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource HighColor}"/>
+
+    <Color x:Key="MediumColor">#F6C445</Color>
+    <SolidColorBrush x:Key="MediumBrush" Color="{StaticResource MediumColor}"/>
+
+    <Color x:Key="LowColor">#33C3F0</Color>
+    <SolidColorBrush x:Key="LowBrush" Color="{StaticResource LowColor}"/>
+
+    <Color x:Key="SuccessColor">#34D399</Color>
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+
+    <!-- Product Accents -->
+    <Color x:Key="PrimaryAccentColor">#6EA8FE</Color>
+    <SolidColorBrush x:Key="PrimaryAccentBrush" Color="{StaticResource PrimaryAccentColor}"/>
+
+    <Color x:Key="EvidenceAccentColor">#A78BFA</Color>
+    <SolidColorBrush x:Key="EvidenceAccentBrush" Color="{StaticResource EvidenceAccentColor}"/>
+    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="{StaticResource EvidenceAccentColor}"/>
+
+    <Color x:Key="CyanAccentColor">#22D3EE</Color>
+    <SolidColorBrush x:Key="CyanAccentBrush" Color="{StaticResource CyanAccentColor}"/>
+    <SolidColorBrush x:Key="CyberBlueBrush" Color="{StaticResource CyanAccentColor}"/>
+
+</ResourceDictionary>

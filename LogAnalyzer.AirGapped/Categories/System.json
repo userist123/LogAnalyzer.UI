@@ -1,0 +1,1746 @@
+[
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5024",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service has started successfully.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5024",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Self explanatory.",
+        "EventExample": "The Windows Firewall Service has started successfully.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5024",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5025",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service has been stopped.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is produced when the Windows Firewall Service (MpsSvc)is stopped via the Services MMC.",
+        "EventExample": "The Windows Firewall Service has been stopped.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5025",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5027",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service was unable to retrieve the security policy from the local storage. The service will continue enforcing the current policy.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5027",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Service was unable to retrieve the security policy from the local storage. The service will continue enforcing the current policy.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5027",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5028",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service was unable to parse the new security policy. The service will continue with currently enforced policy.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5028",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Service was unable to parse the new security policy. The service will continue with currently enforced policy.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5028",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5029",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service failed to initialize the driver. The service will continue to enforce the current policy.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5029",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Service failed to initialize the driver. The service will continue to enforce the current policy.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5029",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5030",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service failed to start.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5030",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Service failed to start.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5030",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5032",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall was unable to notify the user that it blocked an application from accepting incoming connections on the network.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5032",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event seems to be logged as a normal course of operation if you have Windows Firewall configured not to provide end-user notifications.",
+        "EventExample": "Windows Firewall was unable to notify the user that it blocked an application from accepting incoming connections on the network.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5032",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5033",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Driver has started successfully.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5033",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The Windows Firewall driver is the the \"callout\" component of Windows Firewall that works with the Windows Filtering Platform.",
+        "EventExample": "The Windows Firewall Driver has started successfully.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5033",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5034",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Driver was stopped.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5034",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Driver has been stopped.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5034",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5035",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Driver failed to start.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5035",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Driver failed to start.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5035",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5037",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Driver detected critical runtime error. Terminating.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5037",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Firewall Driver detected critical runtime error. Terminating.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5037",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5058",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Key file operation.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5058",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Key file operation",
+        "EventExample": "Key file operation.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5058",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "5059",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Key migration operation.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5059",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Key migration operation",
+        "EventExample": "Key migration operation.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5059",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6400",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: Received an incorrectly formatted response while discovering availability of content.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6400",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: Received an incorrectly formatted response while discovering availability of content.",
+        "EventExample": "We have not yet produced this event. The following is from the manifest of Server 2008 R2:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6400",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6401",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: Received invalid data from a peer. Data discarded.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6401",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: Received invalid data from a peer. Data discarded.",
+        "EventExample": "We have not yet produced this event. The following is from the manifest of Servrer 2008 R2:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6401",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6402",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: The message to the hosted cache offering it data is incorrectly formatted.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6402",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: The message to the hosted cache offering it data is incorrectly formatted.",
+        "EventExample": "We have not yet produced this event. The following if from the manifest of Server 2008 R2.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6402",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6403",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: The hosted cache sent an incorrectly formatted response to the client.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6403",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: The hosted cache sent an incorrectly formatted response to the client&apos;s message to offer it data.",
+        "EventExample": "We have not yet produced this event. The following is from the Server 2008 R2 Manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6403",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6404",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: Hosted cache could not be authenticated using the provisioned SSL certificate.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6404",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: Hosted cache could not be authenticated using the provisioned SSL certificate.",
+        "EventExample": "We have not yet produced this event. The following is from the Server 2008 R2 manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6404",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6405",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: %2 instance(s) of event id %1 occurred.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6405",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "BranchCache: %2 instance(s) of event id %1 occurred.",
+        "EventExample": "We have not yet produced this event. The following is from the Server 2008 R2 manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6405",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6406",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "%1 registered to Windows Firewall to control filtering for the following: %2.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6406",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "%1 registered to Windows Firewall to control filtering for the following: %2.",
+        "EventExample": "We have not produced this event. The following is from the Server 2008 R2 manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6406",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6407",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "1%.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6407",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "%1",
+        "EventExample": "We have not produced this event. The following appears in the Server 2008 R2 manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6407",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6408",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Registered product %1 failed and Windows Firewall is now controlling the filtering for %2.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6408",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "Registered product %1 failed and Windows Firewall is now controlling the filtering for %2.",
+        "EventExample": "We have not produced this event. The following appears in the Server 2008 R2 manifest:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6408",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Other System Events",
+        "eventID": "6409",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "BranchCache: A service connection point object could not be parsed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Other System Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6409",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is new to Server 2012. It does not appear in earlier versions.",
+        "EventExample": "BranchCache: A service connection point object could not be parsed. \n\r\nSCP object GUID: %1",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6409",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security State Change",
+        "eventID": "4608",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows is starting up.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security State Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4608",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "4608 is an important security event: Any operating system is essentially defenseless when the operating system is down.",
+        "EventExample": "Windows is starting up. \n\r\nThis event is logged when LSASS.EXE starts and the auditing subsystem is initialized.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4608",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security State Change",
+        "eventID": "4616",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The system time was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security State Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4616",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI"
+        ],
+        "MitreTTP": "T1070.006",
+        "ExtendedDescription": "This event indicates the old and new system time as well as who did it as specified in the Subject: section. Process information shows the program that was used to change the time. Changing the time manually from the taskbar uses rundll.exe as shown in the example.",
+        "EventExample": "The system time was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4616",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security State Change",
+        "eventID": "4621",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Administrator recovered system from CrashOnAuditFail.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security State Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4621",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "In testing I configured the log to crash on audit failure and then filled up the security log which indeed brought the system down. I rebooted, reset the CrashOnAuditFail registry setting, cleared the log and restarted. The event was never logged. ",
+        "EventExample": "Administrator recovered system from CrashOnAuditFail. Users who are not administrators will now be allowed to log on. Some auditable activity might not have been recorded.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4621",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security System Extension",
+        "eventID": "4610",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An authentication package has been loaded by the Local Security Authority.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security System Extension",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4610",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1547.008",
+        "ExtendedDescription": "Event4610 is logged once at startup for each authentication package on the system. \n\r\nAn authentication package is a DLL that encapsulates a given form of authentication, such as NTLM or Kerberos. The Local Security Authority calls into the appropriate authentication package during the logon process to find out if the user is authentic. \n\r\nAlthough a third party can develop an authentication package, few do so, except for smart card and token manufacturers. The only authentication package logged by Windows Server 2008 is C:\\Windows\\system32\\msv1_0.dll : MICROSOFT_AUTHENTICATION_PACKAGE_V1_0 which is just one of the authentication options supported by Windows (See 514 for a list of standard authentication packages on Windows Server 2003). The other authentication options supported by Windows Server 2008 appear to now be part of a larger package called a security package. See 4622. From MSDN: \"A security package that functions as an authentication package and implements the functionality required by SSPI is called a security support provider/authentication package (SSP/AP).\"\n\r\nThe security implication of event 4610, realistically, is low. Although a rogue package could cause great harm by stealing credentials at the time of logon, the effort required in developing and installing a rogue authentication package is significant.",
+        "EventExample": "An authentication package has been loaded by the Local Security Authority.\r\nThis authentication package will be used to authenticate logon attempts.\n\r\nAuthentication Package Name:C:\\Windows\\system32\\msv1_0.dll : MICROSOFT_AUTHENTICATION_PACKAGE_V1_0",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4610",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security System Extension",
+        "eventID": "4611",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A trusted logon process has been registered with the Local Security Authority.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security System Extension",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4611",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1547.008",
+        "ExtendedDescription": "An occurrence of event 4611 is logged at startup and occasionally afterwards for each logon process on the system. \n\r\nA logon process is a trusted part of the operating system and handles the overall logon function for different logon methods including incoming RAS connections, RunAs, interactive logons initiated by CtrlAltDel, and network logons (as in drive mappings). \n\r\nBecause logon processes are such trusted functions, a rogue logon process would be a devastating security breach--but an improbable one, given the effort and skill required. \n\r\nStandard logon processes for Windows Server 2008:",
+        "EventExample": "A trusted logon process has been registered with the Local Security Authority.\r\nThis logon process will be trusted to submit logon requests.\n\r\nSubject:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4611",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security System Extension",
+        "eventID": "4614",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A notification package has been loaded by the Security Account Manager.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security System Extension",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4614",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "An occurrence of Event4614 is logged for each notification package on the system. \n\r\nNotification packages are DLLs that Windows calls into whenenever a user changes his/her password. The purpose of a notification package is to let you evaluate passwords against your own rules for acceptability. The notification package answers back whether or not the password is acceptable. Notification packages are also used to implement password synchronization systems. \n\r\nA rogue notification package would be a devastating security breach because notification packages are supplied with the clear text of the password and are simpler to write and install than authentication packages and logon processes (see 4610, 4611, and 4622).",
+        "EventExample": "A notification package has been loaded by the Security Account Manager.\r\nThis package will be notified of any account or password changes.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4614",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security System Extension",
+        "eventID": "4622",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A security package has been loaded by the Local Security Authority.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security System Extension",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4622",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1547.008",
+        "ExtendedDescription": "Security packages are yet another type of plug-in that extends security functionality in Windows. MSDN defines a security package as \"The software implementation of a security protocol. Security packages are contained in security support provider DLLs or security support provider/authentication package DLLs.\" From http://msdn2.microsoft.com/en-us/library/aa380130.aspx: Windows operating system supports authentication using security packages that function as both security support providers and as authentication packages. Security packages provide the logon process support services of a Windows authentication package and also provide authentication services to applications by implementing a set of functions that are mapped to the Security Support Provider Interface (SSPI). The security implication of event 4622realistically, is low. Although a rogue package could cause great harm by stealing credentials at the time of logon, the effort required in developing and installing a rogue security package is significant.",
+        "EventExample": "A security package has been loaded by the Local Security Authority.\n\r\nSecurity Package Name:C:\\Windows\\system32\\LSASRV.dll : Negotiate",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4622",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit Security System Extension",
+        "eventID": "4697",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A service was installed in the system.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit Security System Extension",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4697",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "JSCU-NL",
+            "MDE",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1543.003",
+        "ExtendedDescription": "A new service was installed by the userindicated in the subject. Subject often identifies the local system (SYSTEM) for services installed as part of native Windows components and therefore you can't determine who actually initiated the installation.\n\r\nThis is a key change control event as new services are significant extensions of the software running on a server and the roles it performs.",
+        "EventExample": "A service was installed in the system.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4697",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "4612",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Internal resources allocated for the queuing of audit messages have been exhausted, leading to the loss of some audits.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4612",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event has not been observed but would indicate that an extremely high period of activity prevented Windows from logginga number of security events. ",
+        "EventExample": "Internal resources allocated for the queuing of audit messages have been exhausted, leading to the loss of some audits.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4612",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "4615",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Invalid use of LPC port.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4615",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "LPC is used for communication between threads or processes or for communication between kernel mode and user mode components. The communication can be on the samecomputer between the client and server functions. In 2000 there were several LPC port spoofing vulnerabilities patched for Windows NT.",
+        "EventExample": "Invalid use of LPC port.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4615",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "4618",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A monitored security event pattern has occurred.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4618",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A monitored security event pattern has occurred.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4618",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "4816",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "RPC detected an integrity violation while decrypting an incoming message.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4816",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "RPC detected an integrity violation while decrypting an incoming message.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4816",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5038",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Code integrity determined that the image hash of a file is not valid. The file could be corrupt due to unauthorized modification or the invalid hash could indicate a potential disk device error.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5038",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "JSCU-NL"
+        ],
+        "MitreTTP": "T1036.001",
+        "ExtendedDescription": "",
+        "EventExample": "Code integrity determined that the image hash of a file is not valid. The file could be corrupt due to unauthorized modification or the invalid hash could indicate a potential disk device error.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5038",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5056",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic self-test was performed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5056",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic self test was performed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5056",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5057",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic primitive operation failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5057",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic primitive operation failed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5057",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5060",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Verification operation failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5060",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Verification operation failed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5060",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5061",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Cryptographic operation.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5061",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Cryptographic operation.",
+        "EventExample": "Cryptographic operation.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5061",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "5062",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A kernel-mode cryptographic self-test was performed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5062",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A kernel-mode cryptographic self test was performed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5062",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "6281",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Code Integrity determined that the page hashes of an image file aren't valid. The file could be improperly signed without page hashes or corrupt due to unauthorized modification. The invalid hashes could indicate a potential disk device error.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6281",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL"
+        ],
+        "MitreTTP": "T1036.001",
+        "ExtendedDescription": "Code Integrity determined that the page hashes of an image file are not valid. The file could be improperly signed without page hashes or corrupt due to unauthorized modification. The invalid hashes could indicate a potential disk device error.",
+        "EventExample": "We have not yet produced this event",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6281",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit System Integrity",
+        "eventID": "6410",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Code integrity determined that a file does not meet the security requirements to load into a process.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit System Integrity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6410",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL"
+        ],
+        "MitreTTP": "T1036.001",
+        "ExtendedDescription": "",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6410",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "4960",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec dropped an inbound packet that failed an integrity check. If this problem persists, it could indicate a network issue or that packets are being modified in transit to this computer. Verify that the packets sent from the remote computer are the same as those received by this computer. This error might also indicate interoperability problems with other IPsec implementations.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec dropped an inbound packet that failed an integrity check. If this problem persists, it could indicate a network issue or that packets are being modified in transit to this computer. Verify that the packets sent from the remote computer are the same as those received by this computer. This error might also indicate interoperability problems with other IPsec implementations.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4960",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "4962",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec dropped an inbound packet that failed a replay check. If this problem persists, it could indicate a replay attack against this computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec dropped an inbound packet that failed a replay check. The inbound packet had too low a sequence number to ensure it was not a replay.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4962",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "4963",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec dropped an inbound clear text packet that should have been secured. This is usually due to the remote computer changing its IPsec policy without informing this computer. This could also be a spoofing attack attempt.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec dropped an inbound clear text packet that should have been secured. This is usually due to the remote computer changing its IPsec policy without informing this computer. This could also be a spoofing attack attempt.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4963",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "4965",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec received a packet from a remote computer with an incorrect Security Parameter Index (SPI). This is usually caused by malfunctioning hardware that is corrupting packets. If these errors persist, verify that the packets sent from the remote computer are the same as those received by this computer. This error may also indicate interoperability problems with other IPsec implementations. In that case, if connectivity is not impeded, then these events can be ignored.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec received a packet from a remote computer with an incorrect Security Parameter Index (SPI). This is usually caused by malfunctioning hardware that is corrupting packets. If these errors persist, verify that the packets sent from the remote computer are the same as those received by this computer. This error may also indicate interoperability problems with other IPsec implementations. In that case, if connectivity is not impeded, then these events can be ignored.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4965",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5478",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services has started successfully.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is produced when the IPsec Policy Agent service starts.",
+        "EventExample": "IPsec Services has started successfully.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5478",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5479",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services has been shut down successfully. The shutdown of IPsec Services can put the computer at greater risk of network attack or expose the computer to potential security risks.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec Services has been shut down successfully. The shutdown of IPsec Services can put the computer at greater risk of network attack or expose the computer to potential security risks.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5479",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5480",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services failed to get the complete list of network interfaces on the computer. This poses a potential security risk because some of the network interfaces may not get the protection provided by the applied IPsec filters. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec Services failed to get the complete list of network interfaces on the computer. This poses a potential security risk because some of the network interfaces may not get the protection provided by the applied IPsec filters. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5480",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5483",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services failed to initialize RPC server. IPsec Services could not be started.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec Services failed to initialize RPC server. IPsec Services could not be started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5483",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5484",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services has experienced a critical failure and has been shut down. The shutdown of IPsec Services can put the computer at greater risk of network attack or expose the computer to potential security risks.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "IPsec Services has experienced a critical failure and has been shut down. The shutdown of IPsec Services can put the computer at greater risk of network attack or expose the computer to potential security risks.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5484",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "System",
+        "subCategory": "Audit IPsec Driver",
+        "eventID": "5485",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services failed to process some IPsec filters on a plug-and-play event for network interfaces. This poses a potential security risk because some of the network interfaces may not get the protection provided by the applied IPsec filters. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System\\Audit IPsec Driver",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "ExtendedDescription": "",
+        "EventExample": "IPsec Services failed to process some IPsec filters on a plug-and-play event for network interfaces. This poses a potential security risk because some of the network interfaces may not get the protection provided by the applied IPsec filters. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5485",
+        "PotentialCriticality": "Medium"
+    }
+]

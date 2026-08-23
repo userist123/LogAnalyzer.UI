@@ -1,0 +1,169 @@
+[
+    {
+        "category": "Other Events",
+        "subCategory": "Other Events",
+        "eventID": "1100",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The event logging service has shut down.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Other Events\\Other Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "This is a normal event logged at time of shutdown",
+        "EventExample": "The event logging service has shutdown.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=1100",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Other Events",
+        "subCategory": "Other Events",
+        "eventID": "1102",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The audit log was cleared.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Other Events\\Other Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "ANSSI",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1070.001",
+        "ExtendedDescription": "Event 1102 is logged whenever the Security log is cleared, REGARDLESS of the status of the Audit System Events audit policy. The Account Name and Domain Name fields identify the user who cleared the log.\n\r\nLogon ID allows you to correlate backwards to the logon event (4624) as well as with other events logged during the same logon session.",
+        "EventExample": "The audit log was cleared.\r\nSubject:\r\nSecurity ID: WIN-R9H529RIO4Y\\Administrator\r\nAccount Name: Administrator\r\nDomain Name: WIN-R9H529RIO4Y\r\nLogon ID: 0x169e9",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=1102",
+        "PotentialCriticality": "Medium to High"
+    },
+    {
+        "category": "Other Events",
+        "subCategory": "Other Events",
+        "eventID": "1104",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The security log is now full.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Other Events\\Other Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1104",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "No more events will be logged until the log is expanded, cleared or configured to overwrite events.\n\r\nThis event indicates a \"hole\" in your audit trail and should be avoided with the implementation of an effective log management solution that collects events before they can be overwritten or before the log fills up.\n\r\n\"Do not overwrite events (clear log manually)\" should only be used in conjunction with the security option \"Audit: Shutdown system immediately if unable to log security audits\". Of course these 2 settings together will cause the system outages if the log is allowed to fill up and would only be appropriate for systems with the highest integrity requirements on audit trails.",
+        "EventExample": "The security log is now full.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=1104",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Other Events",
+        "subCategory": "Other Events",
+        "eventID": "1105",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Event log automatic backup",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Other Events\\Other Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1105",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is only logged when \"When maximum log size is reached:\" is set to \"Archive the log when full, do not overwrite events\". When the log reaches maximum size Windows saves it to %systemroot%\\System32\\Winevt\\Logs\\ with the file name Archive-Security-YYYY-MM-DD-HH-MM-SS-NNN.evtx.",
+        "EventExample": "Event log automatic backup",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=1105",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Other Events",
+        "subCategory": "Other Events",
+        "eventID": "1108",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The event logging service encountered an error while processing an incoming event published from %1.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Other Events\\Other Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1108",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I have observed this event on actual systems but have not been able to determine the cause. Start a discussion below if you get this event and have questions or comments.",
+        "EventExample": "The event logging service encountered an error while processing an incoming event published from Microsoft-Windows-Security-Auditing.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=1108",
+        "PotentialCriticality": ""
+    }
+]

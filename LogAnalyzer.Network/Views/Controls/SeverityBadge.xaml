@@ -1,0 +1,7 @@
+﻿<UserControl x:Class="LogAnalyzer.UI.Views.Controls.SeverityBadge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border x:Name="BadgeBorder" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2">
+        <TextBlock x:Name="BadgeText" Text="INFO" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+    </Border>
+</UserControl>

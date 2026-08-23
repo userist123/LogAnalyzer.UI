@@ -1,0 +1,3323 @@
+[
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4715",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The audit policy (SACL) on an object was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4715",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The description is poorly worded but this event is logged whenever you set the security descriptor used to delegate access to the audit policy. You can delegate authority to the system's audit policy using \"auditpol /sd:\".",
+        "EventExample": "The audit policy (SACL) on an object was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4715",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4719",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "System audit policy was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4719",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "This computer'ssystem level audit policywas modified - either via Local Security Policy, Group Policy in Active Directory or the audipol command.",
+        "EventExample": "System audit policy was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4719",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4817",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Auditing settings on object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4817",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Auditing settings on object were changed.",
+        "EventExample": "We have not been able to produce this event.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4817",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4902",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Per-user audit policy table was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4902",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This is a routine event logged at system startup and can be regarded as noise.",
+        "EventExample": "The Per-user audit policy table was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4902",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4904",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to register a security event source.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4904",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Windows allows applications to report their own security events to the security log by registering with Authorization Manager as a security event source using the AuthzRegisterSecurityEventSource function. Windows logs this event, 4904, when such an application calls AuthzRegisterSecurityEventSource and thus provides an audit trail of applications that report custom security events. It is normal to see this event logged for several built-in components of Windows including IIS and DFS-R.",
+        "EventExample": "An attempt was made to register a security event source.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4904",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4905",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to unregister a security event source.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4905",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Windows allows applications to report their own security events to the security log by registering through Authorization Manager with LSA as a security event source using the AuthzRegisterSecurityEventSource function. \n\r\nLater applications can unregister by calling AuthzUnregisterSecurityEventSource. Windows logs this event, 4904, when such an application calls AuthzUnregisterSecurityEventSource and thus provides an audit trail of applications that report custom security events. It is normal to see this event logged for several built-in components of Windows including IIS and DFS-R.",
+        "EventExample": "An attempt was made to unregister a security event source.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4905",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4906",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The CrashOnAuditFail value has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4906",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "This event is logged when you change the value of the security option \"Audit: Shut down system immediately if unable to log security audits\" which can be used to make the system crash with blue screen if the security log fills and configured to not overwrite or autobackup.",
+        "EventExample": "The CrashOnAuditFail value has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4906",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4907",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Auditing settings on object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4907",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "When you change the audit SACL of an object, such as a file or folder, Windows logs this event. In the example below, Administrator configured a new audit policy on C:\\Users\\Administrator\\testfolder.",
+        "EventExample": "Auditing settings on object were changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4907",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4908",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Special Groups Logon table modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4908",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1562.002",
+        "ExtendedDescription": "This event is produced when a SID (Security Identifier) is added to SpecialGroups for auditing purposes.",
+        "EventExample": "Special Groups Logon table modified.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4908",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Audit Policy Change",
+        "eventID": "4912",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Per User Audit Policy was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Audit Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4912",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "When you use auditpol to set per user selective auditing Windows logs this event documenting the user for whom you set audit policy as well as the category, subcategory and the nature of the change in terms of success/failure and include/exclude.\n\r\nTo learn more about per-user selective auditing see See Roger Grimes article at www.windowsitpro.com for an excellent introduction to per user selective auditing. But don't get your hopes up; it isn't a very practical feature; basically it's just there for Common Criteria compliance.\n\r\nThe user and logon session that performed the action.",
+        "EventExample": "Per User Audit Policy was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4912",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4706",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A new trust was created to a domain.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4706",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged for all new trust relationships connecting to this domain. While the description says \"Trusted\" this event applies to both trusted and trusting relationships as documented by Trust Information:.\n\nSubject:\n\r\nThe ID and logon session of the user that excercised created the trust.",
+        "EventExample": "Example of tree root trust, bidirectional, transitive",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4706",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4707",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A trust to a domain was removed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4707",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged for all deleted trust relationships that connected to this domain. While the description says \"Trusted\" this event applies to both trusted and trusting relationships as documented by Trust Information:.\n\nSubject:\n\r\nThe ID and logon session of the user that excerciseddeleted the trust.",
+        "EventExample": "Example of an external trust being deleted",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4707",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4713",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Kerberos policy was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4713",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1484",
+        "ExtendedDescription": "Windows logs 4713 when it detects a change to the the domain's Kerberos policy. Kerberos policy is defined in GPOs linked to the root of the domain under Computer Configuration\\Windows Settings\\Security Settings\\Account Policy\\Kerberos Policy. \n\r\nUnfortunately theSubject fields don't identify who actually changed the policy because Kerberos policy isn't directly configured by administrators. Instead it is edited in a group policy object which then gets applied to the computer. Therefore this event always shows the local computer as the one who changed the policy since the computer is the security principal under which gpupdate runs. \n\nSubject:\n\r\nThe ID and logon session of the user that changed the policy - always the local system - see note above.",
+        "EventExample": "Kerberos policy was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4713",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4716",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Trusted domain information was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4716",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged for modifications to trust relationships connecting to this domain. While the description says \"Trusted\" this event applies to both trusted and trusting relationships as documented by Trust Information.",
+        "EventExample": "Trusted domain information was modified.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4716",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4717",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "System security access was granted to an account.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4717",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "This event documents the grant of logon rights such as \"Access this computer from the network\" or \"Logon as a service\". \n\r\nRights, like most other security settings, are defined in group policy objects and applied by the computer. Therefore this event will normally show the Assigned By user as the system itself. To determine who actually made the rights assignment change you must search the domain controllers' security logs for changes to groupPolicyContainer objects (logged by Directory Service auditing). Logon ID allows you to link this event to the prior event 4624 logon event of the user who performed this action. \n\n\r\nThis event, 4717,documents the system name for each logon right as opposed to the more familiar description. Click here for a cross reference. \n\r\nNote: This event and4718 log changes to strictly logon rights such as \"Access this computer from the network\" or \"Logon as a service\" - not to other rights such as \"Change the system time\" or \"Take ownership of files and other objects\". See events 4704 and 4705.",
+        "EventExample": "System security access was granted to an account.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4717",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4718",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "System security access was removed from an account.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4718",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "This event documents the revokation of logon rights such as \"Access this computer from the network\" or \"Logon as a service\". \n\r\nRights, like most other security settings, are defined in group policy objects and applied by the computer. Therefore this event will normally show the Assigned By user as the system itself. To determine who actually made the rights assignment change you must search the domain controllers' security logs for changes to groupPolicyContainer objects (logged by Directory Service auditing). Logon ID allows you to link this event to the prior event 4624 logon event of the user who performed this action. \n\r\nThis event, 4718documents the system name for each logon right as opposed to the more familiar description. Click here for a cross reference. \n\r\nNote: This event and 4717 log changes to strictly logon rights such as \"Access this computer from the network\" or \"Logon as a service\" - not to other rights such as \"Change the system time\" or \"Take ownership of files and other objects\". See events 4704 and 4705.",
+        "EventExample": "System security access was removed from an account.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4718",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4739",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Domain Policy was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4739",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1484",
+        "ExtendedDescription": "This computer's Security Settings\\Account Policyor Account Lockout Policypolicy was modified - either via Local Security Policy or Group Policy in Active Directory.\n\r\nThere are few other operations that can generate this event, including:",
+        "EventExample": "Domain Policy was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4739",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4864",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A namespace collision was detected.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4864",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A namespace collision was detected.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4864",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4865",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A trusted forest information entry was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4865",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged cross-forest trust relationships are created or modified. You will get several of these events per trust. \n\r\nWindows stores trust relationships as Trusted Domain Objects (see events 4706, 4707, 4716) but cross-forest trusts require extra information stored in several entries in the TDO's Forest Trust Information attribute (aka FTInfo). FTInfo includes the all namespaces that a trusted forest manages, withother fields that indicate whether each claim is actually trusted by the trusting (this) forest.\n\r\nThis event, 4865, documents creation of each ofsuch entries. You can link all the entries created at one time by the Operation ID:.\n\r\nNot all elements are filled in for each entry type.",
+        "EventExample": "A trusted forest information entry was added.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4865",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4866",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A trusted forest information entry was removed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4866",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged cross-forest trust relationships are deleted or modified. You will get several of these events per trust. \n\r\nWindows stores trust relationships as Trusted Domain Objects (see events 4706, 4707, 4716) but cross-forest trusts require extra information stored in several entries in the TDO's Forest Trust Information attribute (aka FTInfo). FTInfo includes the all namespaces that a trusted forest manages, withother fields that indicate whether each claim is actually trusted by the trusting (this) forest.\n\r\nThis event, 4865, documents deletion of each ofsuch entries. You can link all the entries created at one time by the Operation ID:.\n\r\nNot all elements are filled in for each entry type.",
+        "EventExample": "A trusted forest information entry was removed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4866",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4867",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A trusted forest information entry was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4867",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1484.002",
+        "ExtendedDescription": "This event is logged cross-forest trust relationships are modified. You will get several of these events per trust. \n\r\nWindows stores trust relationships as Trusted Domain Objects (see events 4706, 4707, 4716) but cross-forest trusts require extra information stored in several entries in the TDO's Forest Trust Information attribute (aka FTInfo). FTInfo includes the all namespaces that a trusted forest manages, withother fields that indicate whether each claim is actually trusted by the trusting (this) forest.\n\r\nThis event, 4865, documents creation of each ofsuch entries. You can link all the entries modified at one time by the Operation ID:.\n\r\nNot all elements are filled in for each entry type.",
+        "EventExample": "A trusted forest information entry was added.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4867",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4703",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user right was adjusted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "We have not yet observed this event",
+        "EventExample": "A token right was adjusted.\n\r\nSubject:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4703",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4704",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user right was assigned.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4704",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "This event documents a change to user right assignments on this computer including the right anduser or group that received the new right.\n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nRights, like most other security settings, are defined in group policy objects and applied by the computer. Therefore this event will normally show the Assigned By user as the system itself. To determine who actually made the rights assignment change you must search the domain controllers' security logs for changes to groupPolicyContainer objects (logged by Directory Service auditing). \n\r\nLogon ID allows you to link this event to the prior event4624logon event of the user who performed this action. \n\r\nNote: This event, 4704, and 4705 do not log changes to logon rights such as \"Access this computer from the network\" or \"Logon as a service\". See events 4717 and 4718.",
+        "EventExample": "A user right was assigned.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4704",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4705",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user right was removed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4705",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "This event documents a change to user right assignments on this computer including the right anduser or group that lost theright.\n\r\nNote: \"User rights\" and \"privileges\" are synonymous terms used interchangeably in Windows.\n\r\nRights, like most other security settings, are defined in group policy objects and applied by the computer. Therefore this event will normally show the Assigned By user as the system itself. To determine who actually made the rights assignment change you must search the domain controllers' security logs for changes to groupPolicyContainer objects (logged by Directory Service auditing). \n\r\nLogon ID allows you to link this event to the prior event4624logon event of the user who performed this action. \n\r\nNote: This event, 4705, and 4704 do not log changes to logon rights such as \"Access this computer from the network\" or \"Logon as a service\". See events 4714 and 4718.\n\nSubject:\n\r\nThe ID and logon session of the user that revoked the right. Unfortunately this is just the local system account - see above.",
+        "EventExample": "A user right was removed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4705",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4911",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Resource attributes of the object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4911",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Resource attributes of the object were changed.\n\r\nSubject:\r\n Security ID: %1\r\n Account Name: %2\r\n Account Domain: %3\r\n Logon ID:  %4\n\r\nObject:\r\n Object Server: %5\r\n Object Type: %6\r\n Object Name: %7\r\n Handle ID:  %8\n\r\nProcess Information:\r\n Process ID: %11\r\n Process Name: %12\n\r\nResource Attributes:\r\n Original Security Descriptor: %9\r\n New Security Descriptor:  %10",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4911",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4913",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Central Access Policy on the object was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4913",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Central Access Policy on the object was changed.\n\r\nSubject:\r\n Security ID: %1\r\n Account Name: %2\r\n Account Domain: %3\r\n Logon ID:  %4\n\r\nObject:\r\n Object Server: %5\r\n Object Type: %6\r\n Object Name: %7\r\n Handle ID:  %8\n\r\nProcess Information:\r\n Process ID: %11\r\n Process Name: %12\n\r\nCentral Policy ID:\r\n Original Security Descriptor: %9\r\n New Security Descriptor:  %10",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4913",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4944",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following policy was active when the Windows Firewall started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4944",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged once each time Windows Firewall start which is usually at boot up. This event documents the high level policy settings in effect at the time of startup.",
+        "EventExample": "The following policy was active when the Windows Firewall started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4944",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4945",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A rule was listed when the Windows Firewall started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4945",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged aproximately 1.7 bazillion times everytime Windows Firewall starts which results in a full record of all rules that were in place at the time Windows Firewall started. \n\r\nThese rules are defined in Group Policy and in the Windows Firewall with Advanced Services MMC console.",
+        "EventExample": "A rule was listed when the Windows Firewall started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4945",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4946",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to Windows Firewall exception list. A rule was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4946",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Exceptions define traffic that bypasses other Windows Firewall rules.",
+        "EventExample": "A change has been made to Windows Firewall exception list. A rule was added.\n\r\nProfile Changed: All\r\nAdded Rule:\r\n Rule ID: DNSSrv-UDP-Out\r\n Rule Name: @dns.exe,-1005",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4946",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4947",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to Windows Firewall exception list. A rule was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4947",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Exceptions define traffic that bypasses other Windows Firewall rules.\n\r\nProfile Changed: Domain, Private, Public, All",
+        "EventExample": "A change has been made to Windows Firewall exception list. A rule was modified.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4947",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4948",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to Windows Firewall exception list. A rule was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4948",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A change was made via the Windows Firewall with Advanced Services MMC console.",
+        "EventExample": "A change has been made to Windows Firewall exception list. A rule was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4948",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4949",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall settings were restored to the default values.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4949",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "self explanatory",
+        "EventExample": "Windows Firewall settings were restored to the default values.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4949",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4950",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Firewall setting has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A change was made via the Windows Firewall with Advanced Services MMC console.",
+        "EventExample": "A Windows Firewall setting has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4950",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4951",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A rule has been ignored because its major version number wasn't recognized by Windows Firewall.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4951",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A rule has been ignored because its major version number was not recognized by Windows Firewall.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4951",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4952",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall. The other parts of the rule will be enforced.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4952",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall. The other parts of the rule will be enforced.\n\r\nProfile:%1\n\r\nPartially Ignored Rule:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4952",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4953",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall ignored a rule because it couldn't be parsed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4953",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I haven't been able to produce this event. Have you? If so, please start a discussion (see above) and post a sample along with any comments you may have! Don't forget to sanitize any private information",
+        "EventExample": "A rule has been ignored by Windows Firewall because it could not parse the rule.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4953",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4954",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall Group Policy settings have changed. The new settings have been applied.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4954",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged whenever group policy is refreshed and a change in the RSOP (resultant set of policy) of Windows Firewall policies is detected.",
+        "EventExample": "Windows Firewall Group Policy settings has changed. The new settings have been applied.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4954",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4956",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall has changed the active profile.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4956",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged whenever Windows Firewall switches between Domain and Public profiles.\n\r\nYou will usually see this event whenever Windows Firewall starts up since it starts out in Public and then after initialization switches to Domain if appropriate.",
+        "EventExample": "Windows Firewall has changed the active profile.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4956",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4957",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall did not apply the following rule.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4957",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I routinely see this event logged throughout the day for Teredo and ICMP related rules. \n\r\nThese rules are defined in Group Policy and in the Windows Firewall with Advanced Services MMC console.",
+        "EventExample": "Windows Firewall did not apply the following rule:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4957",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit MPSSVC Rule-Level Policy Change",
+        "eventID": "4958",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Windows Firewall did not apply the following rule because the rule referred to items not configured on this computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit MPSSVC Rule-Level Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4958",
+        "volume": {
+            "DomainController": "Medium",
+            "Server": "Medium",
+            "Workstation": "Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Windows Firewall did not apply the following rule because the rule referred to items not configured on this computer:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4958",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "4714",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Encrypted data recovery policy was changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4714",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This computer's Security Settings\\Public Key Policies\\Encrypting File System data recovery agent policy was modified - either via Local Security Policy or Group Policy in Active Directory.\n\r\nUnfortunately theSubject fields don't identify who actually changed the policy because this policy isn't directly configured by administrators. Instead it is edited in a group policy object which then gets applied to the computer. Therefore this event always shows the local computer as the one who changed the policy since the computer is the security principal under which gpupdate runs. Subject:\n\r\nThe ID and logon session of the user that changed the policy - always the local system - see note above.",
+        "EventExample": "Encrypted data recovery policy was changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4714",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "4819",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Central Access Policies on the machine have been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4819",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Central Access Policies on the machine have been changed.\n\r\nSubject:\r\n Security ID: %1\r\n Account Name: %2\r\n Account Domain: %3\r\n Logon ID:  %4\n\r\nObject:\r\n Object Server: %5\r\n Object Type: %6\n\r\nCAPs Added:  %7\n\r\nCAPs Deleted:   %8\n\r\nCAPs Modified: %9\n\r\nCAPs As-Is:  %10",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4819",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "4826",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Boot Configuration Data loaded.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4826",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Windows logs this event at startup to document the current Boot Configuration Data settings with particular security relevance. BCD data is configured with bcdedit.exe.",
+        "EventExample": "Boot Configuration Data loaded.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4826",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "4909",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The local policy settings for the TBS were changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4909",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event, 4909, is apparently logged when you make a change to the TPM configuration in the local policy objectof the computer as opposed to GPOs in Active Directory (see event 4910).\n\r\nTPM Base Services (TBS) proves an interface to theTrusted Platform Module chip in the computer if so equipped.BitLocker Drive Encryption is the most prominent feature of Windows that uses TPM.\n\r\nTPM commands arereferred to asordinals. MSDN: \"To preserve integrity of operations, certain TPM commands are not allowed to be executed by software on the platform. For example, some commands are only executed by system software.\"\n\r\nOld Blocked Ordinals:TPM commands blocked before this event\r\nNew Blocked Ordinals: TPM commands blocked after this event\n\r\n",
+        "EventExample": "The local policy settings for the TBS were changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4909",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "4910",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The group policy settings for the TBS were changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4910",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event, 4910, is apparently logged when you make a change to the TPM configuration through a group policy object in Active Directoryas opposed to with the local policy of the system (see event 4909).\n\r\nTPM Base Services (TBS) proves an interface to theTrusted Platform Module chip in the computer if so equipped.BitLocker Drive Encryption is the most prominent feature of Windows that uses TPM.\n\r\nTPM commands arereferred to asordinals. MSDN: \"To preserve integrity of operations, certain TPM commands are not allowed to be executed by software on the platform. For example, some commands are only executed by system software.\"\n\r\nGroup Policy Setting:Ignore Default Settings\n\r\nCorresponds to the \"Ignore the default list of blocked TPM commands\" in Computer Configuration\\Policies\\Administrative Templates\\System\\Trusted Platform Module Services.\n\r\nOld Value:%1\r\nNew Value:%2\n\r\nGroup Policy Setting:Ignore Local Settings\r\nOld Value:%3\r\nNew Value:%4\n\r\nOld Blocked Ordinals:TPM commands blocked before this event\r\nNew Blocked Ordinals: TPM commands blocked after this event\n\r\n",
+        "EventExample": "The group policy settings for the TBS were changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4910",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5063",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic provider operation was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5063",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic provider operation was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5063",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5064",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic context operation was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5064",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic context operation was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5064",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5065",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic context modification was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5065",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic context modification was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5065",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5066",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic function operation was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5066",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic function operation was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5066",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5067",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic function modification was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5067",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic function modification was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5067",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5068",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic function provider operation was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5068",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic function provider operation was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5068",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5069",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic function property operation was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5069",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic function property operation was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5069",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5070",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A cryptographic function property modification was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5070",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A cryptographic function property modification was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5070",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "5447",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Filtering Platform filter has been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5447",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A Windows Filtering Platform filter has been changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5447",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "6144",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Security policy in the group policy objects has been applied successfully.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6144",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This is a useful event.  This event does not just get logged each time Group Policy refreshes.  It only gets logged (based on testing Win2012R2) when something in Security Settings the RSOP has changed (i.e. someone edited a Security Setting in one of the GPOs applicable to this computer, or Local Security Policy)thus necessitating Windows to adjust local configuration to meet Group Policy.  So basically this event tells you a security configuration change has occurred due to Group Policy (including Local Security Settings).  It doesn't tell you which policy(ies) but at least you know something has changed.",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6144",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Other Policy Change",
+        "eventID": "6145",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "One or more errors occurred while processing security policy in the group policy objects.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Other Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6145",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "One or more errors occured while processing security policy in the group policy objects.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6145",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authentication Policy Change",
+        "eventID": "4670",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Permissions on an object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authentication Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4670",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "Windows logs this event when someonechanges the access control list on an object. The event identifies the object, who changed the permissions and the old an new permissions.\n\r\nOf course the object'saudit policy must have auditing enabled for \"Write DAC\"/\"Change Permissions\" or \"Take Ownership\" permissions for the user who just modified this object's access control list or a group to which the user belongs.",
+        "EventExample": "File System example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4670",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Authorization Policy Change",
+        "eventID": "4670",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Permissions on an object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Authorization Policy Change",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4670",
+        "volume": {
+            "DomainController": "Medium to High",
+            "Server": "Medium to High",
+            "Workstation": "Medium to High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "Windows logs this event when someonechanges the access control list on an object. The event identifies the object, who changed the permissions and the old an new permissions.\n\r\nOf course the object'saudit policy must have auditing enabled for \"Write DAC\"/\"Change Permissions\" or \"Take Ownership\" permissions for the user who just modified this object's access control list or a group to which the user belongs.",
+        "EventExample": "File System example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4670",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "4709",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services was started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is not produced in the default configuration (using Windows Firewall)however event 5478 is produced..",
+        "EventExample": "IPsec Services was started.\n\r\n%1\n\r\nPolicy Source: %2\n\r\n%3\"",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4709",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "4710",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services was disabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "In the default configuration this event is not produced when the IPsec Policy agent service is disabled or fails to start.",
+        "EventExample": "IPsec Services was disabled",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4710",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "4711",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "May contain any one of the following:",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4711",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "4712",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "IPsec Services encountered a potentially serious failure.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "In theory this reports when the service cannot perform its required tasks, such as properly processing filters, or cannot protect traffic sent or received by one or more of the network adapters attached to the computer.",
+        "EventExample": "IPsec Services encountered a potentially serious failure.\r\n%1",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4712",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5040",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. An Authentication Set was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. An Authentication Set was added.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5040",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5041",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. An Authentication Set was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. An Authentication Set was modified.\n\r\nProfile Changed:%1\n\r\nModified Authentication Set:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5041",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5042",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. An Authentication Set was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. An Authentication Set was deleted.\n\r\nProfile Changed:%1\n\r\nDeleted Authentication Set:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5042",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5043",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Connection Security Rule was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. A Connection Security Rule was added.\n\r\nProfile Changed:%1\n\r\nAdded Connection Security Rule:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5043",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5044",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Connection Security Rule was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. A Connection Security Rule was modified.\n\r\nProfile Changed:%1\n\r\nModified Connection Security Rule:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5044",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5045",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Connection Security Rule was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. A Connection Security Rule was deleted.\n\r\nProfile Changed:%1\n\r\nDeleted Connection Security Rule:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5045",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5046",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Crypto Set was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. A Crypto Set was added.\n\r\nProfile Changed:%1\n\r\nAdded Crypto Set:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5046",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5047",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Crypto Set was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A change has been made to IPsec settings. A Crypto Set was modified.\n\r\nProfile Changed:%1\n\r\nModified Crypto Set:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5047",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5048",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A change has been made to IPsec settings. A Crypto Set was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This is a normal event generated by Windows Firewall rule processing. Microsoft says \"This is a normal condition. No further action is required.\".",
+        "EventExample": "A change has been made to IPsec settings. A Crypto Set was deleted.\n\r\nProfile Changed: All\n\r\nDeleted Crypto Set:\r\nID: {E5A7D97B-4BCE-4e4d-B07F-4AB1BA7E7tr4}\r\nName: -",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5048",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5440",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following callout was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I haven't been able to produce this event. Have you? If so, please start a discussion (see above) and post a sample along with any comments you may have! Don't forget to sanitize any private information",
+        "EventExample": "The following callout was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5440",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5441",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following filter was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged for each filter of each WFP provider at startup. For more information on WFP and providers see 5442.\n\r\nThe fields in this event provide all the details about the filter and serves to document the provider's entire policy at the time of startup.",
+        "EventExample": "The following filter was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5441",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5442",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following provider was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged for each Windows Filtering Platform Provider present when the base engine starts as part of Windows boot up.\n\r\nThe Windows Filtering Platform is a foundation component of Windows that provides an API and base filtering engine upon which other network filtering applications are built including several other Windows networking components and potentially 3rd party applications.\n\r\nA WFP Provider is a Windows component or 3rd party application that that has built a solution on WFP. The default, built-in providers are:",
+        "EventExample": "The following provider was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5442",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5443",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following provider context was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The following provider context was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5443",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5444",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The following sub-layer was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged for sub-layer of each WFP provider at startup. For more information on WFP and providers see 5442.\n\r\nA sublayer is a collection of filters assigned to a layer within WFP. For more information on the sub-layer fields of this event see the FWPM_SUBLAYER0structure in MSDN.\n\r\nThis event does not indicate a change - it just documents the providers present at the time of startup.",
+        "EventExample": "The following sub-layer was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5444",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5446",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Filtering Platform callout has been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A WFP callout is aet of functions in a driver used for specialized filtering. Callouts can block, permit, modify and secure network traffic.For more information on WFP and providers see 5442.\n\r\nThis event is logged whenever a callout is added or deleted.",
+        "EventExample": "A Windows Filtering Platform callout has been changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5446",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5448",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Filtering Platform provider has been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged when a WFP provider is added or there is a change to an existing provider. \n\r\nFor more information on WFP and providers see 5442.\n\r\nIn my testing this event is logged at startup for non persistent provider WFKMP which no doubt has something to do with Windows Firewall.",
+        "EventExample": "A Windows Filtering Platform provider has been changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5448",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5449",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Filtering Platform provider context has been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A provider context is a blob used by a WFP provider to store its state information. For more information on WFP and providers see 5442.\n\r\nThis event is logged whenever a provider context is added or deleted.",
+        "EventExample": "A Windows Filtering Platform provider context has been changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5449",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5450",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Windows Filtering Platform sub-layer has been changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The following callout was present when the Windows Filtering Platform Base Filtering Engine started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5450",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5456",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine applied Active Directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine applied Active Directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5456",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5457",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to apply Active Directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to apply Active Directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5457",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5458",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine applied locally cached copy of Active Directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine applied locally cached copy of Active Directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5458",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5459",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to apply locally cached copy of Active Directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to apply locally cached copy of Active Directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5459",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5460",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine applied local registry storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine applied local registry storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5460",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5461",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to apply local registry storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to apply local registry storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5461",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5462",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to apply some rules of the active IPsec policy on the computer. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to apply some rules of the active IPsec policy on the computer. Use the IP Security Monitor snap-in to diagnose the problem.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5462",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5463",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine polled for changes to the active IPsec policy and detected no changes.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine polled for changes to the active IPsec policy and detected no changes.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5463",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5464",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine polled for changes to the active IPsec policy, detected changes, and applied them to IPsec Services.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine polled for changes to the active IPsec policy, detected changes, and applied them to IPsec Services.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5464",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5465",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine received a control for forced reloading of IPsec policy and processed the control successfully.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine received a control for forced reloading of IPsec policy and processed the control successfully.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5465",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5466",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory cannot be reached, and will use the cached copy of the Active Directory IPsec policy instead. Any changes made to the Active Directory IPsec policy since the last poll could not be applied.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory cannot be reached, and will use the cached copy of the Active Directory IPsec policy instead. Any changes made to the Active Directory IPsec policy since the last poll could not be applied.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5466",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5467",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can be reached, and found no changes to the policy. The cached copy of the Active Directory IPsec policy is no longer being used.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can be reached, and found no changes to the policy. The cached copy of the Active Directory IPsec policy is no longer being used.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5467",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5468",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can be reached, found changes to the policy, and applied those changes. The cached copy of the Active Directory IPsec policy is no longer being used.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can be reached, found changes to the policy, and applied those changes. The cached copy of the Active Directory IPsec policy is no longer being used.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5468",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5471",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine loaded local storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine loaded local storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5471",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5472",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to load local storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to load local storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5472",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5473",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine loaded directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine loaded directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5473",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5474",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to load directory storage IPsec policy on the computer.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to load directory storage IPsec policy on the computer.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5474",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Policy Change",
+        "subCategory": "Audit Filtering Platform Policy Change",
+        "eventID": "5477",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "PAStore Engine failed to add quick mode filter.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Policy Change\\Audit Filtering Platform Policy Change",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "PAStore Engine failed to add quick mode filter.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5477",
+        "PotentialCriticality": "Low"
+    }
+]

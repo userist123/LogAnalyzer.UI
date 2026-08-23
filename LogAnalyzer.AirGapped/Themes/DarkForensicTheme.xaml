@@ -1,0 +1,24 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Design Tokens -->
+        <ResourceDictionary Source="/Themes/Tokens/ColorTokens.xaml"/>
+        <ResourceDictionary Source="/Themes/Tokens/TypographyTokens.xaml"/>
+        <ResourceDictionary Source="/Themes/Tokens/SpacingTokens.xaml"/>
+        <ResourceDictionary Source="/Themes/Tokens/ElevationTokens.xaml"/>
+        <ResourceDictionary Source="/Themes/Tokens/MotionTokens.xaml"/>
+
+        <!-- Component Styles -->
+        <ResourceDictionary Source="/Themes/Components/Buttons.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Inputs.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/DataGrids.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Navigation.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Cards.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/StatusBadges.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Inspector.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Dialogs.xaml"/>
+        <ResourceDictionary Source="/Themes/Components/Timeline.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

@@ -1,0 +1,53 @@
+﻿<Window x:Class="LogAnalyzer.UI.Views.ActivationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="LogAnalyzer Enterprise License Activation" Height="480" Width="620"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+        AllowsTransparency="True" Background="Transparent" Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Border Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1.5" CornerRadius="10" Padding="32" Effect="{StaticResource ModalShadow}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Brand Header -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Border Width="28" Height="28" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="5" Margin="0,0,8,0">
+                        <Path Data="M 12 2 L 2 7 L 2 13 C 2 19 6.5 24.5 12 26 C 17.5 24.5 22 19 22 13 L 22 7 Z"
+                              Fill="{StaticResource PrimaryAccentBrush}" Stretch="Uniform" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="LOGANALYZER ENTERPRISE" FontSize="18" FontWeight="Black" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Node Activation Required — Enter Authorized Digital Key" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource HighBrush}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+            </StackPanel>
+
+            <!-- Inputs -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBlock Text="UNIQUE HARDWARE IDENTIFIER (HWID):" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,0,0,6"/>
+                <Grid Margin="0,0,0,16">
+                    <TextBox x:Name="TxtHardwareId" IsReadOnly="True" Height="36" Padding="8,4" FontFamily="{StaticResource CodeFontFamily}" FontSize="12" Background="{StaticResource CanvasBrush}" Foreground="{StaticResource CyanAccentBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+                    <Button Content="Copy HWID" Click="CopyHwid_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" Padding="10,4" FontSize="10" Style="{StaticResource ActionButtonStyle}"/>
+                </Grid>
+
+                <TextBlock Text="ENTERPRISE PRODUCT LICENSE KEY:" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="2,0,0,6"/>
+                <TextBox x:Name="TxtLicenseKey" Height="42" Padding="8,4" FontFamily="{StaticResource CodeFontFamily}" FontSize="13" FontWeight="Bold" CharacterCasing="Upper" Background="{StaticResource CanvasBrush}" Foreground="{StaticResource TextPrimaryBrush}" BorderBrush="{StaticResource BorderBrush}" Margin="0,0,0,16"/>
+
+                <TextBlock x:Name="TxtStatus" Text="" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource CriticalBrush}" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Actions -->
+            <Grid Grid.Row="2" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Exit Platform" Click="Exit_Click" Margin="0,0,8,0" Height="38"/>
+                <Button Grid.Column="1" Content="Verify &amp; Activate Node" Click="Activate_Click" Style="{StaticResource AccentButtonStyle}" Margin="8,0,0,0" Height="38"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

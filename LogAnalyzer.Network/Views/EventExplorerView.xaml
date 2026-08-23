@@ -1,0 +1,188 @@
+<UserControl x:Class="LogAnalyzer.UI.Views.EventExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:LogAnalyzer.UI.ViewModels">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left 2 Panes: Filter/Query Bar, Main Virtualized DataGrid, Process Tree -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="180"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Filter / Search Query Console -->
+            <Border Grid.Row="0" Style="{StaticResource ObsidianCardStyle}" Margin="0,0,0,12" Padding="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Search Input & Quick Action Row -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding SearchEventsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                        <Button Grid.Column="1" Content="Clear Filters" Command="{Binding ClearFiltersCommand}" Width="100"/>
+                    </Grid>
+                    
+                    <!-- Filter Toggles: Severity & Quick Forensics -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Severity Toggles -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Severity:" FontSize="11" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold"/>
+                            <CheckBox IsChecked="{Binding FilterCritical}" Content="Critical" Foreground="{StaticResource CriticalBrush}" Margin="0,0,10,0"/>
+                            <CheckBox IsChecked="{Binding FilterHigh}" Content="High" Foreground="{StaticResource HighBrush}" Margin="0,0,10,0"/>
+                            <CheckBox IsChecked="{Binding FilterMedium}" Content="Medium" Foreground="{StaticResource MediumBrush}" Margin="0,0,10,0"/>
+                            <CheckBox IsChecked="{Binding FilterInfo}" Content="Info" Foreground="{StaticResource SuccessBrush}" Margin="0,0,10,0"/>
+                        </StackPanel>
+                        
+                        <!-- Quick Threat Use Cases -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="SOC Presets:" FontSize="11" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="SemiBold"/>
+                            <CheckBox IsChecked="{Binding FilterFailedLogins}" Content="Failed Logins (4625)" Margin="0,0,10,0"/>
+                            <CheckBox IsChecked="{Binding FilterPrivEsc}" Content="Account Changes (4720/4732)"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+            
+            <!-- Center Forensic DataGrid -->
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                <DataGrid.ContextMenu>
+                    <ContextMenu Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}">
+                        <MenuItem Header="Inspect Event Properties" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                        <Separator Background="{StaticResource BorderBrush}"/>
+                        <MenuItem Header="Filter by Event ID" Command="{Binding PivotByEventIdCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                        <MenuItem Header="Filter by Provider Source" Command="{Binding PivotByProviderCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                        <MenuItem Header="Filter by Host Machine" Command="{Binding PivotByMachineCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                        <Separator Background="{StaticResource BorderBrush}"/>
+                        <MenuItem Header="Copy Row as JSON" Command="{Binding CopyRowAsJsonCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                        <MenuItem Header="Copy Timestamp (UTC)" Command="{Binding CopyUtcTimestampCommand}" CommandParameter="{Binding SelectedEvent}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Timestamp (UTC)" Binding="{Binding TimeCreated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="145"/>
+                    <DataGridTextColumn Header="EID" Binding="{Binding EventId}" Width="60"/>
+                    <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="80"/>
+                    <DataGridTextColumn Header="Provider Source" Binding="{Binding ProviderName}" Width="140"/>
+                    <DataGridTextColumn Header="Host Machine" Binding="{Binding MachineName}" Width="110"/>
+                    <DataGridTextColumn Header="Event Message / Summary" Binding="{Binding Message}" Width="*"/>
+                </DataGrid.Columns>
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                </DataGrid.InputBindings>
+            </DataGrid>
+            
+            <!-- Paging Bar -->
+            <Grid Grid.Row="2" Margin="0,8,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Pagination: 100 records / page" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"/>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Content="◀ Prev" Command="{Binding PrevEvtxPageCommand}" Width="80" Margin="2,0"/>
+                    <TextBlock Text="{Binding EvtxCurrentPage}" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryBrush}" Margin="8,0" FontWeight="Bold"/>
+                    <TextBlock Text=" / " VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="{Binding EvtxTotalPages}" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,8,0"/>
+                    <Button Content="Next ▶" Command="{Binding NextEvtxPageCommand}" Width="80" Margin="2,0"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Bottom Dockable Process Tree Visualizer -->
+            <Border Grid.Row="3" Style="{StaticResource ObsidianCardStyle}" Padding="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Process Execution Lineage (Triage Tree)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,6"/>
+                    <TreeView Grid.Row="1" ItemsSource="{Binding ProcessTreeNodes}" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextPrimaryBrush}">
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type vm:ProcessNode}" ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal" Margin="2">
+                                    <TextBlock Text="{Binding ProcessIcon}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding ProcessName}" FontWeight="SemiBold" Foreground="{Binding RiskColor}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding PID, StringFormat=' [PID: {0}]'}" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{StaticResource BorderBrush}" Margin="6,0"/>
+
+        <!-- Right Side: Context Inspector -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="140"/>
+            </Grid.RowDefinitions>
+            
+            <TabControl Grid.Row="0" Margin="0,0,0,8" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                <!-- Tab 1: Parsed Properties -->
+                <TabItem Header="Properties" Style="{StaticResource InspectorTabItemStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="PARSED EVENT FIELDS" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,6"/>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedEventProperties}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" Background="Transparent" BorderThickness="0" GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Disabled">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Property" Binding="{Binding Key}" Width="120" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!-- Tab 2: Full Message -->
+                <TabItem Header="Full Message" Style="{StaticResource InspectorTabItemStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="RAW PAYLOAD &amp; SCRIPTBLOCK" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,6"/>
+                        <TextBox Grid.Row="1" Text="{Binding InspectorMessage}" IsReadOnly="True" TextWrapping="Wrap" Background="Transparent" Foreground="{StaticResource TextPrimaryBrush}" BorderThickness="0" FontFamily="{StaticResource CodeFontFamily}" FontSize="11.5" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+            <!-- Bottom Context Card: Security Mitigation -->
+            <Border Grid.Row="1" Style="{StaticResource ObsidianCardStyle}" Padding="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="TACTICAL MITIGATION &amp; PLAYBOOK" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,4"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding SelectedEventMitigation, FallbackValue='Select an event row to inspect relevant mitigation and containment guidance.'}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

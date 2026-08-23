@@ -1,0 +1,98 @@
+<UserControl x:Class="LogAnalyzer.UI.Views.ThreatIntelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,18">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="Threat Intelligence &amp; APT Attribution" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                <TextBlock Text="Adversary profiles, IOC indicators, motivation and known toolsets" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Export STIX 2.1" Command="{Binding ExportStixJsonCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0"/>
+                <Button Content="Export MISP JSON" Command="{Binding ExportMispJsonCommand}" Style="{StaticResource ActionButtonStyle}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Main 2-Pane Split: Left APT Profiles, Right Extracted IOC Knowledge Base -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: APT Groups & Attribution -->
+            <Border Grid.Column="0" Style="{StaticResource ObsidianCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="Known Threat Actor Profiles &amp; Attribution" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding AptAttributionProfiles.Count, StringFormat='{}{0} Profiles'}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </DockPanel>
+                    
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding AptAttributionProfiles}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="14" Margin="0,0,0,10">
+                                        <StackPanel>
+                                            <DockPanel LastChildFill="False" Margin="0,0,0,6">
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding ActorName}" FontSize="13.5" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                                                <Border DockPanel.Dock="Right" Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2">
+                                                    <TextBlock Text="{Binding Origin}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource HighBrush}"/>
+                                                </Border>
+                                            </DockPanel>
+                                            <TextBlock Text="{Binding TargetSectors, StringFormat='Targets: {0}'}" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="{Binding KnownTools, StringFormat='Tools: {0}'}" FontSize="11" Foreground="{StaticResource SuccessBrush}" Margin="0,0,0,6"/>
+                                            <DockPanel LastChildFill="False">
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding Aliases, StringFormat='Aliases: {0}'}" FontSize="10.5" Foreground="{StaticResource TextMutedBrush}"/>
+                                                <TextBlock DockPanel.Dock="Right" Text="{Binding MatchScore, StringFormat='Match: {0:F0}%'}" FontSize="11" FontWeight="Bold" Foreground="{StaticResource CyanAccentBrush}"/>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{StaticResource BorderBrush}" Margin="6,0"/>
+
+            <!-- Right: Extracted IOCs & Pivoting -->
+            <Border Grid.Column="2" Style="{StaticResource ObsidianCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="Extracted Indicators of Compromise (IOC)" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding CurrentIocs.Count, StringFormat='{}{0} IOCs'}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </DockPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentIocs}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}">
+                                <MenuItem Header="Copy IOC Value" Command="{Binding CopyIocValueCommand}" CommandParameter="{Binding SelectedItem.Value, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <MenuItem Header="Pivot to Event Explorer" Command="{Binding PivotIocCommand}" CommandParameter="{Binding SelectedItem.Value, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="90"/>
+                            <DataGridTextColumn Header="Indicator Value (IP / Hash / Domain)" Binding="{Binding Value}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

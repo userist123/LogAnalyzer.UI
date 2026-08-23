@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="LogAnalyzer.AirGapped/LogAnalyzer.AirGapped.csproj" />
+  <Project Path="LogAnalyzer.Core/LogAnalyzer.Core.csproj" />
+  <Project Path="LogAnalyzer.Infrastructure/LogAnalyzer.Infrastructure.csproj" />
+  <Project Path="LogAnalyzer.KeyGen/LogAnalyzer.KeyGen.csproj" />
+  <Project Path="LogAnalyzer.Network/LogAnalyzer.Network.csproj" />
+  <Project Path="LogAnalyzer.UI.Tests/LogAnalyzer.UI.Tests.csproj" />
+</Solution>

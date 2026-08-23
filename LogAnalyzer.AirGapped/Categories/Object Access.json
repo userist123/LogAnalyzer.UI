@@ -1,0 +1,3003 @@
+[
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Central Access Policy Staging",
+        "eventID": "4618",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Proposed Central Access Policy does not grant the same access permissions as the current Central Access Policy.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Central Access Policy Staging",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4618",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A monitored security event pattern has occurred.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4618",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Detailed File Share",
+        "eventID": "5145",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A network share object was checked to see whether client can be granted desired access.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Detailed File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5145",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1021.002",
+        "ExtendedDescription": "A network share object was checked to see whether client can be granted desired access",
+        "EventExample": "A network share object was checked to see whether client can be granted desired access.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5145",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4656",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4656",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nWhen you enable auditing on an object(e.g. file or folder), this is the first event recorded when an application attempts to access the object in such a way that matches the audit policy defined for that object in terms of who is requesting the access and what type of access is being requested.(it appears that two subcategories must be enabled, Handle Manipulation and one other such as File System or Registry depending on what type of object you are auditing.)",
+        "EventExample": "File example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4656",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4658",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The handle to an object was closed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4658",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.",
+        "EventExample": "The handle to an object was closed.\nSubject :\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0xb8\nProcess Information:\n Process ID: 0xed0\r\n Process Name: C:\\Windows\\System32\\notepad.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4658",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4660",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4660",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event is logged when an object is deleted where that object's audit policy has auditing enabled for deletions for the user who just deleted it or a group to which the user belongs.\n\r\nTo find out the object's name and type you will need to correlate back to to the event 4656 that has the same Handle ID.\n\r\nIn addition to this event you will also get event 4663 when you delete the object; Accesses: will include DELETE.4663 identifies the object's name without requiring correlation to 4656.",
+        "EventExample": "An object was deleted.\nSubject:\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0x40\nProcess Information:\n Process ID: 0xc34\r\n Process Name: C:\\Windows\\System32\\cmd.exe\r\n Transaction ID: {00000000-0000-0000-0000-000000000000}",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4660",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4663",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to access an object.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1003.001",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event documents actual operations performed against files and other objects.This event is logged between the open (4656)and close (4658)events for the object being opened and can be correlated to those events via Handle ID. \n\r\nWhile event 4656tells you when the object is initially opened and what type of access was requested at that time; 4656 doesn't give you positive confirmation any of the access permissions were actually exercised. That is the role of this event. This event, 4663, is logged the first time one or more of the requested permissions are actually exercised. If the program repeatedly exercises a permission while the object is open, Windows only logs 4663 the first time.",
+        "EventExample": "",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4663",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4664",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to create a hard link.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4664",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "An attempt was made to create a hard link.",
+        "EventExample": "An attempt was made to create a hard link.\n\r\nSubject:\r\nAccount Name:SYSTEM\r\nAccount Name:LABMS$\r\nAccount Domain:LAB\r\nLogon ID:0x3e7\n\r\nLink Information:\r\nFile Name:C:\\Windows\\winsxs\\x86_microsoft-windows-ie-htmlrendering_31bf3856ad364e35_6.0.6001.18183_none_12ef96002267a3d0\\mshtml.tlb\r\nLink Name:C:\\Windows\\System32\\mshtml.tlb\r\nTransaction ID:{4185d0f7-d5b9-11dd-a7c2-000c29b41689}",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4664",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4670",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Permissions on an object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4670",
+        "volume": {
+            "DomainController": "Varies, depending on how file system SACLs are configured.",
+            "Server": "Varies, depending on how file system SACLs are configured.",
+            "Workstation": "Varies, depending on how file system SACLs are configured."
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "Windows logs this event when someonechanges the access control list on an object. The event identifies the object, who changed the permissions and the old an new permissions.\n\r\nOf course the object'saudit policy must have auditing enabled for \"Write DAC\"/\"Change Permissions\" or \"Take Ownership\" permissions for the user who just modified this object's access control list or a group to which the user belongs.",
+        "EventExample": "File System example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4670",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "4985",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The state of a transaction has changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4985",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The state of a transaction has changed.",
+        "EventExample": "The state of a transaction has changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4985",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File System",
+        "eventID": "5051",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A file was virtualized",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File System",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5051",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A file was virtualized.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5051",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5031",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Firewall Service blocked an application from accepting incoming connections on the network.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5031",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "It's strange that this event refers to \"Windows Firewall Service\" when it is supposed to be a Filtering Platform Connection event. Windows Firewall is built on top of the Windows Filtering Platform. Perhaps it's because there is not Windows Firewall subcategory for connection type events.\n\r\nAt any rate as the description says, Windows Firewall prevented an application from accepting incoming connections due to absence of an appropriate Exception in the current profile's policy.",
+        "EventExample": "The Windows Firewall Service blocked an application from accepting incoming connections on the network.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5031",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5150",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform blocked a packet.",
+        "availableSettings": [
+            ""
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5150",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "The Windows Filtering Platform has blocked a packet.",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5150",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5151",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A more restrictive Windows Filtering Platform filter has blocked a packet.",
+        "availableSettings": [
+            ""
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5151",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A more restrictive Windows Filtering Platform filter has blocked a packet.",
+        "EventExample": "We have not been able to produce this event.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5151",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5154",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has permitted an application or service to listen on a port for incoming connections.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5154",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents each time WFP allows a program to begin listening on a TCP or UDP port for incoming connections and documents the program, port and filter that allowed it.\n\r\nThe above example is of WFP allowing the DNS Server service to listen on port 53 for DNS queries.\n\r\nApplication Information:",
+        "EventExample": "The Windows Filtering Platform has permitted an application or service to listen on a port for incoming connections.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5154",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5155",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has blocked an application or service from listening on a port for incoming connections.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5155",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "The Windows Filtering Platform has blocked an application or service from listening on a port for incoming connections.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5155",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5156",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has permitted a connection.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5156",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents each time WFP allows a program to connect to another process (on the same or a remote computer) on a TCP or UDP port.\n\r\nThe above example is of WFP allowing the DNS Server service to connect tothe DNS client on the same computer.\n\r\nApplication Information:",
+        "EventExample": "The Windows Filtering Platform has allowed a connection.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5156",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5157",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has blocked a connection.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5157",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents each time WFP allows a program to connect to another process (on the same or a remote computer) on a TCP or UDP port.\n\r\nThe above example is of WFP allowing the DNS Server service to connect tothe DNS client on the same computer.",
+        "EventExample": "The Windows Filtering Platform has blocked a connection.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5157",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5158",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has permitted a bind to a local port.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5158",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged every time a client or server application binds to a port. Binding is the first step in TCP/UDP communications. For server applications, subsequent to this event you will see 5154 or 5031when the server attempts to begin listening on the port. \n\r\nThe example above is the system binding to TCP port 3389 for Remote Desktop connections. \n\r\nApplication Information:",
+        "EventExample": "The Windows Filtering Platform has permitted a bind to a local port.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5158",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Connection",
+        "eventID": "5159",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has blocked a bind to a local port.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Connection",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5159",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged every timeWFP prevents aclient or server application binds to a port. Binding is the first step in TCP or UDP communications.\n\r\nApplication Information:",
+        "EventExample": "The Windows Filtering Platform has blocked a bind to a local port.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5159",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Packet Drop",
+        "eventID": "5152",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform blocked a packet.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Packet Drop",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5152",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event logs all the particulars about a blocked packet including the filter that caused the block.\n\r\nApplication Information:",
+        "EventExample": "The Windows Filtering Platform blocked a packet.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5152",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Filtering Platform Packet Drop",
+        "eventID": "5153",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A more restrictive Windows Filtering Platform filter has blocked a packet.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Filtering Platform Packet Drop",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5153",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A more restrictive Windows Filtering Platform filter has blocked a packet.\n\r\nApplication Information:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5153",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Handle Manipulation",
+        "eventID": "4658",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The handle to an object was closed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Handle Manipulation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4658",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.",
+        "EventExample": "The handle to an object was closed.\nSubject :\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0xb8\nProcess Information:\n Process ID: 0xed0\r\n Process Name: C:\\Windows\\System32\\notepad.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4658",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Handle Manipulation",
+        "eventID": "4690",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to duplicate a handle to an object.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Handle Manipulation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4690",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "When a program opens an object like a file, it gets a \"handle\" to that file which it references in subsequent operations on the object. Windows checks permissions at the time of the open (aka handle request) but not afterwards. Windows allows you to duplicate a handle and hand it off to another thread or process which then inherits whatever level of access the first program obtained to the object when the program opened. Therefore a thread impersonating a different user or a process running as a different user could exploit the potentially higher level of access of the first program for that object. And that apparently is why this event is logged. Unfortunately this event doesn't seem to provide enough information to determine if the Handle was given to a lower security thread or process. Consequently I classify this event as noise.\n\r\nFor an explanation of the fields in this event see events 4688 and 4656.\n\r\nDo you know more about this event? If so please start a discussion and share!",
+        "EventExample": "An attempt was made to duplicate a handle to an object.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4690",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Kernel Object",
+        "eventID": "4656",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Kernel Object",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4656",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nWhen you enable auditing on an object(e.g. file or folder), this is the first event recorded when an application attempts to access the object in such a way that matches the audit policy defined for that object in terms of who is requesting the access and what type of access is being requested.(it appears that two subcategories must be enabled, Handle Manipulation and one other such as File System or Registry depending on what type of object you are auditing.)",
+        "EventExample": "File example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4656",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Kernel Object",
+        "eventID": "4658",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The handle to an object was closed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Kernel Object",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4658",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.",
+        "EventExample": "The handle to an object was closed.\nSubject :\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0xb8\nProcess Information:\n Process ID: 0xed0\r\n Process Name: C:\\Windows\\System32\\notepad.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4658",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Kernel Object",
+        "eventID": "4660",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Kernel Object",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4660",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event is logged when an object is deleted where that object's audit policy has auditing enabled for deletions for the user who just deleted it or a group to which the user belongs.\n\r\nTo find out the object's name and type you will need to correlate back to to the event 4656 that has the same Handle ID.\n\r\nIn addition to this event you will also get event 4663 when you delete the object; Accesses: will include DELETE.4663 identifies the object's name without requiring correlation to 4656.",
+        "EventExample": "An object was deleted.\nSubject:\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0x40\nProcess Information:\n Process ID: 0xc34\r\n Process Name: C:\\Windows\\System32\\cmd.exe\r\n Transaction ID: {00000000-0000-0000-0000-000000000000}",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4660",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Kernel Object",
+        "eventID": "4663",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to access an object.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Kernel Object",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663",
+        "volume": {
+            "DomainController": "High",
+            "Server": "High",
+            "Workstation": "High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1003.001",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event documents actual operations performed against files and other objects.This event is logged between the open (4656)and close (4658)events for the object being opened and can be correlated to those events via Handle ID. \n\r\nWhile event 4656tells you when the object is initially opened and what type of access was requested at that time; 4656 doesn't give you positive confirmation any of the access permissions were actually exercised. That is the role of this event. This event, 4663, is logged the first time one or more of the requested permissions are actually exercised. If the program repeatedly exercises a permission while the object is open, Windows only logs 4663 the first time.",
+        "EventExample": "",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4663",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4671",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An application attempted to access a blocked ordinal through the TBS.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4671",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "TBS is a part of Trusted Platform Module",
+        "EventExample": "An application attempted to access a blocked ordinal through the TBS.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4671",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4691",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Indirect access to an object was requested.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4691",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Indirect access to an object was requested.",
+        "EventExample": "No example available",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4691",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4698",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A scheduled task was created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1053.005",
+        "ExtendedDescription": "The user indicated in Subject: just created a new scheduled task (Start menu\\Accessories\\System Tools\\Task Scheduler) identified by Task Name:.\n\r\nThis is an important change control event. See related events for changes to Scheduled Tasks: 4699, 4700, 4701, 4702.",
+        "EventExample": "A scheduled task was created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4698",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4699",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A scheduled task was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4699",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1053.005",
+        "ExtendedDescription": "The user indicated in Subject: just deletedthe scheduled task (Start menu\\Accessories\\System Tools\\Task Scheduler) identified by Task Name:.\n\r\nThis is an important change control event. See related events for changes to Scheduled Tasks: 4698, 4700, 4701, and 4702.",
+        "EventExample": "A scheduled task was deleted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4699",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4700",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A scheduled task was enabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4700",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1053.005",
+        "ExtendedDescription": "The user indicated in Subject: just enabled the scheduled task (Start menu\\Accessories\\System Tools\\Task Scheduler) identified by Task Name.\n\r\nA task must be enabled in order to run at its scheduled time.\n\r\nThis is an important change control event. See related events for changes to Scheduled Tasks: 4698, 4699, 4601 and 4702.",
+        "EventExample": "A scheduled task was enabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4700",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4701",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A scheduled task was disabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4701",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "T1053.005",
+        "ExtendedDescription": "The user indicated in Subject: just disabled the scheduled task (Start menu\\Accessories\\System Tools\\Task Scheduler) identified by Task Name:.\n\r\nIn its disabled the state the task will not run at its scheduled time until re-enabled.\n\r\nThis is an important change control event. See related events for changes to Scheduled Tasks: 4698, 4699, 4700, 4702",
+        "EventExample": "A scheduled task was disabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4701",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "4702",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A scheduled task was updated.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4702",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "MDE",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1053.005",
+        "ExtendedDescription": "The user indicated in Subject: just updated the scheduled task (Start menu\\Accessories\\System Tools\\Task Scheduler) identified by Task Name:.\n\r\nThis event logs all updates to Scheduled Tasks except for enable and disable operations which have their own events.\n\r\nThis is an important change control event. See related events for changes to Scheduled Tasks: 4698, 4699, 4700 and 4701.",
+        "EventExample": "A scheduled task was updated.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4702",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "5148",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The Windows Filtering Platform has detected a DoS attack and entered a defensive mode; packets associated with this attack will be discarded.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5148",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "T1498",
+        "ExtendedDescription": "The Windows Filtering Platform has detected a DoS attack and entered a defensive mode; packets associated with this attack will be discarded.",
+        "EventExample": "We have not yet produced this event",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5148",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "5149",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The DoS attack has subsided and normal processing is being resumed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5149",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "T1498",
+        "ExtendedDescription": "The DoS attack has subsided and normal processing is being resumed.",
+        "EventExample": "We have not yet produced this event.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5149",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "5888",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object in the COM+ Catalog was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5888",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "An object in the COM+ Catalog was modified.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5888",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "5889",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object was deleted from the COM+ Catalog.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5889",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "An object was deleted from the COM+ Catalog.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5889",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Other Object Access Events",
+        "eventID": "5890",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object was added to the COM+ Catalog.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Other Object Access Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5890",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "An object added to the Com+ Catalog",
+        "EventExample": "An object was added to the COM+ Catalog.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5890",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4656",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4656",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nWhen you enable auditing on an object(e.g. file or folder), this is the first event recorded when an application attempts to access the object in such a way that matches the audit policy defined for that object in terms of who is requesting the access and what type of access is being requested.(it appears that two subcategories must be enabled, Handle Manipulation and one other such as File System or Registry depending on what type of object you are auditing.)",
+        "EventExample": "File example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4656",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4657",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A registry value was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4657",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents creation, modification and deletion of registry VALUES. This event is logged between the open (4656)and close (4658)events for the registry KEY where the value resides. See Operation Type to find out if the value was created, modified or deleted. Of course this event will only be logged if the key'saudit policy is enabled for Set Value permissionfor the appropriate user or a group in the user is a member.",
+        "EventExample": "New Value Example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4657",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4658",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The handle to an object was closed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4658",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.",
+        "EventExample": "The handle to an object was closed.\nSubject :\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0xb8\nProcess Information:\n Process ID: 0xed0\r\n Process Name: C:\\Windows\\System32\\notepad.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4658",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4660",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An object was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4660",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event is logged when an object is deleted where that object's audit policy has auditing enabled for deletions for the user who just deleted it or a group to which the user belongs.\n\r\nTo find out the object's name and type you will need to correlate back to to the event 4656 that has the same Handle ID.\n\r\nIn addition to this event you will also get event 4663 when you delete the object; Accesses: will include DELETE.4663 identifies the object's name without requiring correlation to 4656.",
+        "EventExample": "An object was deleted.\nSubject:\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0x40\nProcess Information:\n Process ID: 0xc34\r\n Process Name: C:\\Windows\\System32\\cmd.exe\r\n Transaction ID: {00000000-0000-0000-0000-000000000000}",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4660",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4670",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Permissions on an object were changed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4670",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "MDE",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "Windows logs this event when someonechanges the access control list on an object. The event identifies the object, who changed the permissions and the old an new permissions.\n\r\nOf course the object'saudit policy must have auditing enabled for \"Write DAC\"/\"Change Permissions\" or \"Take Ownership\" permissions for the user who just modified this object's access control list or a group to which the user belongs.",
+        "EventExample": "File System example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4670",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "5039",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A registry key was virtualized.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5039",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A registry key was virtualized.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5039",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Registry",
+        "eventID": "4663",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to access an object.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Registry",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1003.001",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event documents actual operations performed against files and other objects.This event is logged between the open (4656)and close (4658)events for the object being opened and can be correlated to those events via Handle ID. \n\r\nWhile event 4656tells you when the object is initially opened and what type of access was requested at that time; 4656 doesn't give you positive confirmation any of the access permissions were actually exercised. That is the role of this event. This event, 4663, is logged the first time one or more of the requested permissions are actually exercised. If the program repeatedly exercises a permission while the object is open, Windows only logs 4663 the first time.",
+        "EventExample": "",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4663",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Application Generated",
+        "eventID": "4665",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to create an application client context.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Application Generated",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "An attempt was made to create an application client context.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4665",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Application Generated",
+        "eventID": "4666",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An application attempted an operation.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Application Generated",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "An application attempted an operation:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4666",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Application Generated",
+        "eventID": "4667",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An application client context was deleted.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Application Generated",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged in connection with Authorization Manager access checks. See Establishing a Client Context with Authorization Manager in C++ for more details.",
+        "EventExample": "An application client context was deleted. \n\r\nSubject: \r\nClient Name: Administrator \r\nClient Domain: MOM \r\nClient Context ID: 615654731 \n\r\nApplication Information: \r\nApplication Name: Microsoft Operations Manager \r\nApplication Instance ID: 302660",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4667",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Application Generated",
+        "eventID": "4668",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An application was initialized.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Application Generated",
+        "documentation": "",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I haven't been able to produce this event. Have you? If so, please start a discussion (see above) and post a sample along with any comments you may have! Don't forget to sanitize any private information",
+        "EventExample": "An application was initialized.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4668",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4868",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The certificate manager denied a pending certificate request.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Certification Authorities and Certificate Templates can be configured to require approval by an administrator or certificate manager before the certificate is signed and issued by the CA. In such cases the certificate request is accepted into the Pending Requests folder of the Certification Authority MMC snap-in. The certificate manager can then Issue or Deny the request. This event is logged when the manager denies the request.\n\r\nTo get the details on the request including who requested it you will need to look in the log forotherevents with the same Request ID.\n\r\nThis event event is only logged if \"Issue and manage certificate requests\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "The certificate manager denied a pending certificate request.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4868",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4869",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services received a resubmitted certificate request.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event gets logged more than the description would indicate. It seems to be logged whenever",
+        "EventExample": "Certificate Services received a resubmitted certificate request.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4869",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4870",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services revoked a certificate.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "When an administrator revokes a certificate the certificate is moved to the Revoked Certificates folder and this event is logged. Reason for revocation noted below.\n\r\nUnfortunately Windows does not report who revoked the certificate, just that it happened. To find out what certificate was revoked look in Revoked Certificates for the Serial Number reported herein. \n\r\nSerial Number: the serial number of the certificate see the Details tab of the certificate's Properties dialog.\n\r\nThis event event is only logged if \"Revoke certificates and publish CRLs\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services revoked a certificate.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4870",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4871",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services received a request to publish the certificate revocation list (CRL).",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "See event 4872.\n\r\n",
+        "EventExample": "Certificate Services received a request to publish the certificate revocation list (CRL).",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4871",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4872",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services published the certificate revocation list (CRL).",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Certification Authorities as a normal course of operation periodically publish an updated CRL and this event is logged at that time.\n\r\nThis event event is only logged if \"Revoke certificates and publish CRLs\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.\n\r\nBase CRL: Yes or No - A base CRL is every certificate ever revoked; a delta CRL is an update to the base CRL and preceding deltas.\n\r\nCRL Number: incremented each time CRL published\n\r\nKey Container: unknown. if you have information on this field please share it in a discussion below.\n\r\nNext Publish: The next time an updated CRL will be published\n\r\nPublish URLs: the URLs where the CRL was published including file system paths, ldap/Active Directory and on the web via http",
+        "EventExample": "Certificate Services published the certificate revocation list (CRL).",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4872",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4873",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A certificate request extension changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A certificate request extension changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4873",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4874",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "One or more certificate request attributes changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "One or more certificate request attributes changed.\n\r\nRequest ID:%1\r\nAttributes:%2",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4874",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4875",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services received a request to shut down.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Having tested for this event by shutting down Certificate Services I conclude this event does not seem to get logged at all despite MS documentation. \n\r\nHowever check out events 4880 and 4881 which log startup and shutdown of Certificate Services.\n\r\n",
+        "EventExample": "Certificate Services received a request to shut down.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4875",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4876",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services backup started.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Logged each time the Certification Authorities backup starts. Event indicates type of backup below. Next, event 4877 shows when the backup completes.\n\r\nThis event event is only logged if \"Backup and restore the CA database\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services backup started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4876",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4877",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services backup completed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Certificate Services backup completed. To find out when the backup started and what type of backup it was look earlier in the log for 4876.\n\r\nThis event event is only logged if \"Backup and restore the CA database\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services backup completed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4877",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4878",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services restore started.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "self explanatory\n\r\nTo find out when the restore ended look later in the log for 4879.\n\r\nThis event event is only logged if \"Backup and restore the CA database\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol",
+        "EventExample": "Certificate Services restore started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4878",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4879",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services restore completed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "self explanatory\n\r\nTo find out when the restore started look earlier in the log for 4878.",
+        "EventExample": "Certificate Services restore completed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4879",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4880",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services started.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged each time the Active Directory Certificate Services service starts.\n\r\nThis event event is only logged if \"Start and stop Active Directory Certificate Services\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services started.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4880",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4881",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services stopped.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged each time the Active Directory Certificate Services service is stopped.\n\r\nThis event event is only logged if \"Start and stop Active Directory Certificate Services\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services stopped.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4881",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4882",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The security permissions for Certificate Services changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event documents a change to the access control list of the Certification Authority itself. The ACL governs who can perform CA level operations documented below.\n\r\nYou can reach the ACL by opening the Properties dialog of the CA in the Certification Authority MMC snap-in.\n\r\nThis event event is only logged if \"Change CA security settings\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.\n\r\nAllow user/group\n\r\n permission/role\n\r\n permission/role\n\r\n permission/role... Allow user/group\n\r\n permission/role\n\r\n permission/role\n\r\n permission/role... Allow user/group\n\r\n permission/role\n\r\n permission/role\n\r\n permission/role... Allow user/group\n\r\n permission/role\n\r\n permission/role\n\r\n permission/role...",
+        "EventExample": "The security permissions for Certificate Services changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4882",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4883",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services retrieved an archived key.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Certificate Services retrieved an archived key.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4883",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4884",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services imported a certificate into its database.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Certificate Services imported a certificate into its database.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4884",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4885",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The audit filter for Certificate Services changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Windows logs this event whenever you modify the Auditing tab of the Properties dialog of the CA in the Certification Authority MMC snap-in. The Audit tab controls which CA releated events are reported to the security log.\n\r\nThe Filter: field below is a bitwise representation of the check boxes on the Audit tab mentioned above.",
+        "EventExample": "The audit filter for Certificate Services changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4885",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4886",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services received a certificate request.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "When the Certification Authority receives a certificate reqeuest it logs this event. \n\r\nThen it evaluates the request, loading the relavent certificate template if appropriate (event 4898). Then the CA will place the request into the Pending Requests folder (4889), immediately issue (4887) or deny it (4888). \n\r\nThis event event is only logged if \"Issue and manage certificate requests\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.\n\r\nRequest ID: The certificate request is identified by the Request ID. To get the details on the request including who requested it you will need to look in the log forotherevents with the same Request ID.\n\r\nRequester:the account that requested the certificate\r\nAttributes: unknown. if you have information to share on this event please start a discussion.\n\r\nAttributes: attributes taken from the certificate template and request\n\r\nUserAgent: the browser ID or other program that submitted the request \n\r\nccm: apparently the computer name of the client",
+        "EventExample": "Certificate Services received a certificate request.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4886",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4887",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services approved a certificate request and issued a certificate.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged when a certificate is issued as a result of either:",
+        "EventExample": "Certificate Services approved a certificate request and issued a certificate.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4887",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4888",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services denied a certificate request.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event event is only logged if \"Issue and manage certificate requests\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.",
+        "EventExample": "Certificate Services denied a certificate request.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4888",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4889",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services set the status of a certificate request to pending.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Certification Authorities and Certificate Templates can be configured to require approval by an administrator or certificate manager before the certificate is signed and issued by the CA. \n\r\nIn such cases the certificate request is received (event 4886) and placedinto the Pending Requests folder of the Certification Authority MMC snap-in. \n\r\nThis event, 4889,is logged when the request is submitted to Pending. The certificate manager can then Issue (event 4887)or Deny (event ID 4868)the request.\n\r\nThis event event is only logged if \"Issue and manage certificate requests\" is enabled on the Audit tab of the CA's properties in Certificate Services MMC snap-in and of course if the Certificate Services audit subcategory is enabled with auditpol.\n\r\nRequest ID: To get the details on the request including who requested it you will need to look in the log forotherevents with the same Request ID.\n\r\nRequester:the account that requested the certificate\n\r\nAttributes: unknown. if you have information to share on this event please start a discussion.\n\r\nUserAgent: the browser ID or other program that submitted the request \n\r\nccm: apparently <ca computer name>.<domain name>",
+        "EventExample": "Certificate Services set the status of a certificate request to pending.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4889",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4890",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The certificate manager settings for Certificate Services changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged when you modify the settings in the Certificate Managers tab of the CA properties dialog in Certification Authority MMC snap-in.",
+        "EventExample": "The certificate manager settings for Certificate Services changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4890",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4891",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A configuration entry changed in Certificate Services.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Windows logs this event to document changes to Certificate Services registry entries many of which correspond to properties in the CA Properties dialog of Certification Authority MMC snap-in. \n\r\nYou can learn more about the various entries athttp://technet2.microsoft.com/windowsserver/en/library/7fe116af-971b-44d3-809e-00606c080a191033.mspx?mfr=true\n\r\nNode: the subkey path under HKLM\\SYSTEM\\CurrentControlSet\\Services\\CertSvc\\Configuration\\ca name\n\r\nEntry: The registry value name\n\r\nValue: the data of the value",
+        "EventExample": "A configuration entry changed in Certificate Services.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4891",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4892",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A property of Certificate Services changed.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "A property of Certificate Services changed.",
+        "EventExample": "A property of Certificate Services changed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4892",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4893",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services archived a key.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Certificate Services archived a key.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4893",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4894",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services imported and archived a key.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Certificate Services imported and archived a key.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4894",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4895",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services published the CA certificate to Active Directory Domain Services.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Certificate Services published the CA certificate to Active Directory Domain Services.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4895",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4896",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "One or more rows have been deleted from the certificate database.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Certificate Services published the CA certificate to Active Directory Domain Services.",
+        "EventExample": "One or more rows have been deleted from the certificate database.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4896",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4897",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Role separation enabled.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged whenever CS starts and whenever role separation is actually changed.\n\r\nRole separation is a form of \"separation of duty\" control that you can optionally enable on your Certification Authority to ensures that the compromise of a user's account - or a user going \"rogue\" - does not compromise the entire CA administered by the user",
+        "EventExample": "Role separation enabled: No",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4897",
+        "PotentialCriticality": "High"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Certification Services",
+        "eventID": "4898",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Certificate Services loaded a template.",
+        "availableSettings": [],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Certification Services",
+        "documentation": "",
+        "volume": {
+            "DomainController": "Low to medium",
+            "Server": "Low to medium",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "CORTEX",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1649",
+        "ExtendedDescription": "Windows logs this event when CS loads a certificate template in order to evaluate a new certificate request",
+        "EventExample": "Certificate Services loaded a template.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4898",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Removable Storage",
+        "eventID": "4663",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An attempt was made to access an object.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Removable Storage",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "JSCU-NL",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1003.001",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nThis event documents actual operations performed against files and other objects.This event is logged between the open (4656)and close (4658)events for the object being opened and can be correlated to those events via Handle ID. \n\r\nWhile event 4656tells you when the object is initially opened and what type of access was requested at that time; 4656 doesn't give you positive confirmation any of the access permissions were actually exercised. That is the role of this event. This event, 4663, is logged the first time one or more of the requested permissions are actually exercised. If the program repeatedly exercises a permission while the object is open, Windows only logs 4663 the first time.",
+        "EventExample": "",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4663",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Removable Storage",
+        "eventID": "4656",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Removable Storage",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4656",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nWhen you enable auditing on an object(e.g. file or folder), this is the first event recorded when an application attempts to access the object in such a way that matches the audit policy defined for that object in terms of who is requesting the access and what type of access is being requested.(it appears that two subcategories must be enabled, Handle Manipulation and one other such as File System or Registry depending on what type of object you are auditing.)",
+        "EventExample": "File example:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4656",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit Removable Storage",
+        "eventID": "4658",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The handle to an object was closed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit Removable Storage",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4658",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.",
+        "EventExample": "The handle to an object was closed.\nSubject :\n Security ID: WIN-R9H529RIO4Y\\Administrator\r\n Account Name: Administrator\r\n Account Domain: WIN-R9H529RIO4Y\r\n Logon ID: 0x1fd23\nObject:\n Object Server: Security\r\n Handle ID: 0xb8\nProcess Information:\n Process ID: 0xed0\r\n Process Name: C:\\Windows\\System32\\notepad.exe",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4658",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit SAM",
+        "eventID": "4661",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A handle to an object was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit SAM",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4661",
+        "volume": {
+            "DomainController": "High",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1003,T1201",
+        "ExtendedDescription": "This event is logged by multiple subcategories as indicated above.\n\r\nMost objects, when opened (handle request), generate event 4656 but when you open a SAM object you get 4661 instead.\n\r\nSome AD objects also double as SAM objects and some properties of those objects double as SAM attributes. This event is logged when opening such SAM objects such as SAM_DOMAIN or SAM_USER. \n\r\nWhen the object is closed you get event ID 4658 with the same handle ID.\n\r\nI regard these events as noise and recommend disabling the SAM subcategory in your audit policy.",
+        "EventExample": "SAM example",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4661",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File Share",
+        "eventID": "5140",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A network share object was accessed.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5140",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low to High",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "JSCU-NL",
+            "YAMATO",
+            "ANSSI",
+            "CORTEX",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1021.002",
+        "ExtendedDescription": "Windows logs this event the first time you access a given network share during a given logon session. Be aware that Windows Server 2008 logs off network logon sessions even sooner than past versions of Windows. When a user closes all open files on a server it seems to immediatelly log him off.",
+        "EventExample": "A network share object was accessed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5140",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File Share",
+        "eventID": "5142",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A network share object was added.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5142",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low to High",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "YAMATO",
+            "ANSSI"
+        ],
+        "MitreTTP": "T1021.002",
+        "ExtendedDescription": "",
+        "EventExample": "A network share object was added.\r\n\r\nSubject:\r\nSecurity ID:W8R2\\wsmith\r\nAccount Name:wsmith\r\nAccount Domain:W8R2\r\nLogon ID:0x475b7",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5142",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File Share",
+        "eventID": "5143",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A network share object was modified.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5143",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low to High",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "T1222.001",
+        "ExtendedDescription": "A network share object was modified.",
+        "EventExample": "A network share object was modified.\r\n\r\nSubject:\r\nSecurity ID:W8R2\\wsmith\r\nAccount Name:wsmith\r\nAccount Domain:W8R2\r\nLogon ID:0x475b7",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5143",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File Share",
+        "eventID": "5144",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A network share object was deleted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5144",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low to High",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO",
+            "ANSSI"
+        ],
+        "MitreTTP": "T1021.002",
+        "ExtendedDescription": "A network share object was deleted.",
+        "EventExample": "A network share object was deleted.\r\n\r\nSubject:\r\nSecurity ID:W8R2\\wsmith\r\nAccount Name:wsmith\r\nAccount Domain:W8R2\r\nLogon ID:0x475b7",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5144",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Object Access",
+        "subCategory": "Audit File Share",
+        "eventID": "5168",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "SPN check for SMB/SMB2 failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access\\Audit File Share",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5168",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low to High",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "T1187T1187T1187T1187",
+        "ExtendedDescription": "Spn check for SMB/SMB2 fails.",
+        "EventExample": "We have not been able to produce this event.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5168",
+        "PotentialCriticality": ""
+    }
+]

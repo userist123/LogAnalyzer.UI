@@ -1,0 +1,540 @@
+[
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit DPAPI Activity",
+        "eventID": "4692",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Backup of data protection master key was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit DPAPI Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4692",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Microsoft documentation indicates this is a routine event that can be filtered out of events to review. At this time I classify this as a \"noise\" event.\n\r\n",
+        "EventExample": "Backup of data protection master key was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4692",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit DPAPI Activity",
+        "eventID": "4693",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Recovery of data protection master key was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit DPAPI Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4693",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Recovery of data protection master key was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4693",
+        "PotentialCriticality": "Medium"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit DPAPI Activity",
+        "eventID": "4694",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Protection of auditable protected data was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit DPAPI Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4694",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "Protection of auditable protected data was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4694",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit DPAPI Activity",
+        "eventID": "4695",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Unprotection of auditable protected data was attempted.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit DPAPI Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4695",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event has to do with the Data Protection API. \n\r\nPer Microsoft: \"The Data Protection API (DPAPI) helps to protect data in Windows 2000 and later operating systems. DPAPI is used to help protect private keys, stored credentials (in Windows XP and later), and other confidential information that the operating system or a program wants to keep confidential. \"\n\r\nApparently a program running under the account documented in Subject: tried to decrypt a blob with the CryptUnprotectData function and failed. Status code 0x8009000b is pretty general. Most often it means",
+        "EventExample": "Unprotection of auditable protected data was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4695",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6416",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A new external device was recognized by the System.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6416",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "MDE",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1091",
+        "ExtendedDescription": "Windows logs at least 1 of these events (observed 6 in the case of a USB flash drive) when you connect a new external device to the system.  To determine the type of system look to the class GUID, or for more descriptive information, the Vendor and Compatible IDs.  Note that this event is logged whenever you connect said device - even repeatedly; unlike other audit events that only log the very first time a given device is connected.",
+        "EventExample": "A new external device was recognized by the system.\r\nSubject:\r\n\tSecurity ID:\t\tSYSTEM\r\n\tAccount Name:\t\tRFSOFFICEPC-249$\r\n\tAccount Domain:\t\tLAB\r\n\tLogon ID:\t\t0x3E7\n\r\nDevice ID:\tUSB\\VID_045E&PID_07A5\\5&521a615&0&13\n\r\nDevice Name:\tMicrosoft Mouse and Keyboard Detection Driver (USB)\n\r\nClass ID:\t\t{36fc9e60-c465-11cf-8056-444553540000}\n\r\nClass Name:\tUSB\n\r\nVendor IDs:\t\r\n\t\tUSB\\VID_045E&PID_07A5&REV_0767\r\n\t\tUSB\\VID_045E&PID_07A5\n\r\nCompatible IDs:\t\r\n\t\tUSB\\DevClass_00&SubClass_00&Prot_00\r\n\t\tUSB\\DevClass_00&SubClass_00\r\n\t\tUSB\\DevClass_00\r\n\t\tUSB\\COMPOSITE\n\r\nLocation Information:\t\r\n\t\tPort_#0013.Hub_#0002",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6416",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6419",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A request was made to disable a device.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6419",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is generated if a user attempts to disable a device on the system. This event does not mean that a device was successfully disabled. Event ID 6420 will be generated if this attempt is successful.",
+        "EventExample": "A request was made to disable a device.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6419",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6420",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A device was disabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6420",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is generated when a user successfully disables a device.",
+        "EventExample": "A device was disabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6420",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6421",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A request was made to enable a device.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6421",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is generated if a user attempts to enable a device on the system. This event does not mean that a device was successfully enabled. Event ID 6422 will be generated if this attempt is successful.",
+        "EventExample": "A request was made to enable a device.\r\nSubject:\r\n  Security ID:\t\tAzureAD\\BarryVista\r\n  Account Name:\t\tBarryVista\r\n  Account Domain:\t\tAzureAD\r\n  Logon ID:\t\t0x833A8\r\nDevice ID:\tPCISTOR\\DISK&VEN_RSPER&PROD_RTS5208LUN0&REV_1.00\\0000\r\nDevice Name:\tSDXC Card\r\nClass ID:\t\t{4d36e967-e325-11ce-bfc1-08002be10318}\r\nClass Name:\tDiskDrive\r\nHardware IDs:\r\n  RSPCIESTOR\\GenDisk\r\n  GenDisk\r\nCompatible IDs:\r\n  SCSI\\Disk\r\nLocation Information:\t-",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6421",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6422",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A device was enabled.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6422",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [],
+        "MitreTTP": "",
+        "ExtendedDescription": "This event is generated when a user successfully enables a device.",
+        "EventExample": "A device was enabled.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6422",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6423",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The installation of this device is forbidden by system policy.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6423",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "MDE",
+            "SENTINEL"
+        ],
+        "MitreTTP": "T1091",
+        "ExtendedDescription": "Logged as a result of \\Computer Configuration\\Administrative Templates\\System\\Device Installation\\Device Installation Restrictions. That category contains four device installation restriction settings that allow you to prevent devices from being installed that match certain specified criteria. You can prevent installation of devices that match device ID's, device class GUID's or are removable devices. You can also prevent devices from being installed that do not match any other policies.",
+        "EventExample": "The installation of this device is forbidden by system policy.\r\nSubject:\r\n  Security ID: \t\t SYSTEM\r\n  Account Name: \t\t DESKTOP-3PNSS2S$\r\n  Account Domain: \t\t WORKGROUP\r\n  Logon ID: \t\t 0x3E7\r\nDevice ID: \t PCISTOR\\DISK&VEN_RSPER&PROD_RTS5208LUN0&REV_1.00\\0000\r\nDevice Name: \t Disk drive\r\nClass ID: \t\t {00000000-0000-0000-0000-000000000000}\r\nClass Name:\r\nHardware IDs:\r\n  RSPCIESTOR\\GenDisk\r\n  GenDisk\r\nCompatible IDs:\r\n  SCSI\\Disk\r\nLocation Information: \t -",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6423",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit PNP Activity",
+        "eventID": "6424",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The installation of this device was allowed, after having previously been forbidden by policy.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit PNP Activity",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6424",
+        "volume": {
+            "DomainController": "Low",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Microsoft says \"This event occurs rarely, and in some situations may be difficult to reproduce.\"",
+        "EventExample": "The installation of this device was allowed, after having previously been forbidden by policy.\r\nSubject:\r\n  Security ID: \t\t SYSTEM\r\n  Account Name: \t\t DESKTOP-3PNSS2S$\r\n  Account Domain: \t\t WORKGROUP\r\n  Logon ID: \t\t 0x3E7\r\nDevice ID: \t PCISTOR\\DISK&VEN_RSPER&PROD_RTS5208LUN0&REV_1.00\\0000\r\nDevice Name: \t Disk drive\r\nClass ID: \t\t {00000000-0000-0000-0000-000000000000}\r\nClass Name:\r\nHardware IDs:\r\n  RSPCIESTOR\\GenDisk\r\n  GenDisk\r\nCompatible IDs:\r\n  SCSI\\Disk\r\nLocation Information: \t -",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=6424",
+        "PotentialCriticality": ""
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit Process Creation",
+        "eventID": "4688",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A new process has been created.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit Process Creation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4688",
+        "volume": {
+            "DomainController": "Medium to High",
+            "Server": "Medium to High",
+            "Workstation": "Medium to High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "ANSSI",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4688 documents each program that is executed, who the program ran as and the process that started this process.\n\nWhen you start a program you are creating a \"process\" that stays open until the program exits. This process is identified by the Process ID:. You can correlate this event to other events by Process ID to determine what the program did while it ran and when it exited (event 4689).",
+        "EventExample": "A new process has been created.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4688",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit Process Creation",
+        "eventID": "4696",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A primary token was assigned to process.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit Process Creation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4696",
+        "volume": {
+            "DomainController": "Medium to High",
+            "Server": "Medium to High",
+            "Workstation": "Medium to High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "Success",
+            "Workstation": "Success"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "This often happens when a service starts or a scheduled task starts under the authority of a different user. You will see events4624 and 4648 as well as 4776 or 4768 earlier in the log. \n\r\nThe Assigning process fields identify the process that started the child (new) process. Process ID allows you to link this event to the corresponding event 4688 (process start of the parent process) but there is little need since this event gives you the program name (Process Name) and the user under which the process was running (Subject).\n\r\nTarget Process: information identifies the new child process that was started under the account and logon session in New Token Information. \n\r\nYou can use the Target Process ID to link back to the earlier4688 for the new child process ID but again there is little need to do this since you have the Target Process Name:right here in this event.",
+        "EventExample": "A primary token was assigned to process.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4696",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit Process Termination",
+        "eventID": "4689",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A process has exited.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit Process Termination",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4689",
+        "volume": {
+            "DomainController": "Low to Medium",
+            "Server": "Low to Medium",
+            "Workstation": "Low to Medium"
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Event 4689 documents when a process ends. \n\r\nWhen you start a program you are creating a \"process\" that stays open until the program exits. This process is identified by the Process ID:. \n\r\nYou can use this event to tell how long the program ran by correlating it to the earlier 4688 with the same Process ID.",
+        "EventExample": "A process has exited.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4689",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit RPC Events",
+        "eventID": "5712",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Remote Procedure Call (RPC) was attempted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit RPC Events",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5712",
+        "volume": {
+            "DomainController": "",
+            "Server": "",
+            "Workstation": ""
+        },
+        "microsoftBaseline": {
+            "DomainController": "No",
+            "Server": "No",
+            "Workstation": "No"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "",
+        "EventExample": "A Remote Procedure Call (RPC) was attempted.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5712",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Detailed Tracking",
+        "subCategory": "Audit Token Right Adjusted",
+        "eventID": "4703",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A user right was adjusted.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Detailed Tracking\\Audit Token Right Adjusted",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703",
+        "volume": {
+            "DomainController": "Medium to High",
+            "Server": "Medium to High",
+            "Workstation": "Medium to High"
+        },
+        "microsoftBaseline": {
+            "DomainController": "IF",
+            "Server": "IF",
+            "Workstation": "IF"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "YAMATO"
+        ],
+        "MitreTTP": "T1134",
+        "ExtendedDescription": "We have not yet observed this event",
+        "EventExample": "A token right was adjusted.\n\r\nSubject:",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4703",
+        "PotentialCriticality": ""
+    }
+]

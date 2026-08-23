@@ -1,0 +1,107 @@
+<UserControl x:Class="LogAnalyzer.UI.Views.DataCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,18">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="Forensic Triage &amp; Evidence Collector" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                <TextBlock Text="Target endpoint live triage, ETW providers, volatile memory telemetry and chain of custody packaging" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Execute Full Live Triage" Command="{Binding StartCollectionCommand}" Style="{StaticResource AccentButtonStyle}" Padding="16,8" Margin="0,0,8,0"/>
+                <Button Content="Export Sealed Intake Package" Command="{Binding SealDfirCaseBundleCommand}" Padding="16,8"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Status Cards -->
+        <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,16">
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="COLLECTION TARGET" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="{Binding LiveRemoteTargetHost, FallbackValue='LOCAL-HOST'}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="18" FontWeight="Bold" Margin="0,4,0,0"/>
+                    <TextBlock Text="Agentless ETW / RPC Triage" FontSize="11" Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="4,0,4,0">
+                <StackPanel>
+                    <TextBlock Text="INGESTED SENSORS" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="12 ARTIFACTS" Foreground="{StaticResource SuccessBrush}" FontSize="18" FontWeight="Bold" Margin="0,4,0,0"/>
+                    <TextBlock Text="EVTX, Hives, Sockets, DNS" FontSize="11" Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="4,0,4,0">
+                <StackPanel>
+                    <TextBlock Text="CLASSIFICATION CEILING" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="SECRET DE SERVICIU" Foreground="{StaticResource HighBrush}" FontSize="16" FontWeight="Bold" Margin="0,4,0,0"/>
+                    <TextBlock Text="HG 585 / NATO AC/35 Baseline" FontSize="11" Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource ObsidianCardStyle}" Margin="8,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="EVIDENCE VAULT" FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <TextBlock Text="LOCKED (SQLCIPHER)" Foreground="{StaticResource EvidenceAccentBrush}" FontSize="16" FontWeight="Bold" Margin="0,4,0,0"/>
+                    <TextBlock Text="AES-256 HMAC-SHA512" FontSize="11" Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- 2-Pane Intake Workspace -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: Triage Checklists & Artifact Sources -->
+            <Border Grid.Column="0" Style="{StaticResource ObsidianCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Forensic Acquisition Scope" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}" Margin="0,0,0,12"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <CheckBox Content="Security EVTX (Event IDs 4624, 4625, 4672, 4688, 4720, 4732)" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="System &amp; Application EVTX (Service Installations 7045, Errors)" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Sysmon / Microsoft-Windows-Sysmon/Operational (Process Guid, Network)" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="PowerShell ScriptBlock Logging (EID 4104) &amp; Command History" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Offline Registry Hives (SYSTEM, SOFTWARE, SAM, NTUSER.DAT)" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Volatile Network Sockets (Active TCP/UDP connections &amp; listening ports)" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="DNS Resolver Cache &amp; Route Table Forensics" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Loaded Kernel Drivers &amp; Unsigned Code Signatures" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Local User Accounts, Groups &amp; Privilege Attributes" IsChecked="True" Margin="0,4"/>
+                            <CheckBox Content="Windows Defender Real-time Protection &amp; Exclusion Paths" IsChecked="True" Margin="0,4"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{StaticResource BorderBrush}" Margin="6,0"/>
+
+            <!-- Right: Real-Time Acquisition Log -->
+            <Border Grid.Column="2" Style="{StaticResource ObsidianCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="Acquisition Output &amp; Integrity Hashes" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}"/>
+                        <TextBlock DockPanel.Dock="Right" Text="ISO/IEC 27037" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </DockPanel>
+                    <TextBox Grid.Row="1" IsReadOnly="True" Background="{StaticResource CanvasBrush}" Foreground="{StaticResource CodeTextBrush}" BorderBrush="{StaticResource BorderBrush}" FontFamily="{StaticResource CodeFontFamily}" FontSize="11.5" Padding="12" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                             Text="{Binding CollectionLogs, FallbackValue='[+] Acquisition Engine Ready. Select Scope and execute Triage.'}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

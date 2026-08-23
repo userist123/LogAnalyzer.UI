@@ -1,0 +1,328 @@
+[
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Credential Validation",
+        "eventID": "4774",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An account was mapped for logon.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Credential Validation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4774",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM",
+            "SENTINEL"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I have not actually seen this event logged by Windows but suspect that if it is logged at all it would be in conjunction with IIS's certificate mapping capability where users are authenticated via a client certificate which is then mapped to a Windows user account according to mapping rules defined in IIS.\n\r\n",
+        "EventExample": "An account was mapped for logon.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4774",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Credential Validation",
+        "eventID": "4775",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "An account could not be mapped for logon",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Credential Validation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4775",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "I have not actually seen this event logged by Windows but suspect that it if it is logged at all it would be in conjunction with IIS's certificate mapping capability where users are authenticated via a client certificate which is then mapped to a Windows user account according to mapping rules defined in IIS.\n\r\nI haven't been able to produce this event. Have you? If so, please start a discussion (see above) and post a sample along with any comments you may have! Don't forget to sanitize any private information",
+        "EventExample": "An account could not be mapped for logon.\n\r\n Authentication Package:%1\r\n Account Name:%2",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4775",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Credential Validation",
+        "eventID": "4776",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The computer attempted to validate the credentials for an account.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Credential Validation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "Success and Failure",
+            "Workstation": "Success and Failure"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ANSSI",
+            "MDI"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "Despite what this event says, the computer is not necessarily a domain controller; member servers and workstations also log this event for logon attempts with local SAM accounts.\n\r\nWhena domain controllersuccessfully authenticates a user via NTLM (instead of Kerberos), the DC logs this event. This specifies which user account who logged on (Account Name) as well as the client computer's name from which the user initiated the logon in the Workstation field.",
+        "EventExample": "The domain controller attempted to validate the credentials for an account.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4776",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Credential Validation",
+        "eventID": "4777",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "The domain controller failed to validate the credentials for an account.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Credential Validation",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4777",
+        "volume": {
+            "DomainController": "High",
+            "Server": "Low",
+            "Workstation": "Low"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "Failure",
+            "Workstation": "Failure"
+        },
+        "securityMonitoringRecommandation": "No",
+        "tags": [
+            "SRV-ETM"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "This event does not seem to exist. I have never observed it. Furthermore, 4776 is logged for both success and failure.",
+        "EventExample": "The domain controller failed to validate the credentials for an account.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4777",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Kerberos Authentication Service",
+        "eventID": "4768",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Kerberos authentication ticket (TGT) was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Kerberos Authentication Service",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4768",
+        "volume": {
+            "DomainController": "High",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1558",
+        "ExtendedDescription": "This event is logged on domain controllers only and both success and failure instances of this event are logged. \n\r\nAt the beginning of the day when a user sits down at his or her workstation and enters his domain username and password, the workstation contacts a local DC and requests a TGT. If the username and password are correct and the user account passes status and restriction checks, the DC grants the TGT and logs event ID4768 (authentication ticket granted). \n\r\nIf the ticket request fails Windows will either log this event, 4768 or 4771 with failure as the type.\n\r\nThe User field for this event (and all other events in the Audit account logon event category) doesn't help you determine who the user was; the field always reads N/A. Rather look at theAccount Information:fields, which identify the user who logged on and the user account's DNS suffix. The User ID field provides theSID of the account.\n\r\nWindows logs other instances of event ID 4768 when a computer in the domain needs to authenticate to the DC typically when a workstation boots up or a server restarts. In these instances, you'll find a computer name in the User Name and fields. Computer generated kerberos events are always identifiable by the $ after the computer account's name. \n\r\nMicrosoft's Comments: \n\r\nThis event records that a Kerberos TGT was granted, actual access will not occur until a service ticket is granted, which is audited by Event 673. If the PATYPE is PKINIT, the logon was a smart card logon.",
+        "EventExample": "Success",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4768",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Kerberos Authentication Service",
+        "eventID": "4771",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "Kerberos pre-authentication failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Kerberos Authentication Service",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771",
+        "volume": {
+            "DomainController": "High",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "YAMATO",
+            "CORTEX",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "This event is logged on domain controllers only and only failure instances of this event are logged. \n\r\nAt the beginning of the day when a user sits down at his or her workstation and enters his domain username and password, the workstation contacts a local DC and requests a TGT. If the username and password are correct and the user account passes status and restriction checks, the DC grants the TGT and logs event ID 4768 (authentication ticket granted). \n\r\nIf the ticket request fails Windows will either log this event, failure 4771, or 4768 if the problem arose during \"pre-authentication\". In Windows Kerberos, password verification takes place during pre-authentication.\n\r\nThe User field for this event (and all other events in the Audit account logon event category) doesn't help you determine who the user was; the field always reads N/A. Rather look at theAccount Information:fields, which identify the user who logged on and the user account's DNS suffix. The User ID field provides theSID of the account.\n\r\nWindows logs other instances of event ID 4768 when a computer in the domain needs to authenticate to the DC typically when a workstation boots up or a server restarts. In these instances, you'll find a computer name in the User Name and fields. Computer generated kerberos events are always identifiable by the $ after the computer account's name.",
+        "EventExample": "Kerberos pre-authentication failed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4771",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Kerberos Authentication Service",
+        "eventID": "4771",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Kerberos authentication ticket request failed.",
+        "availableSettings": [
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Kerberos Authentication Service",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4772",
+        "volume": {
+            "DomainController": "High",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Failure",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "JSCU-NL",
+            "YAMATO",
+            "CORTEX",
+            "SENTINEL",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1110",
+        "ExtendedDescription": "This event is logged on domain controllers only and only failure instances of this event are logged. \n\r\nAt the beginning of the day when a user sits down at his or her workstation and enters his domain username and password, the workstation contacts a local DC and requests a TGT. If the username and password are correct and the user account passes status and restriction checks, the DC grants the TGT and logs event ID 4768 (authentication ticket granted). \n\r\nIf the ticket request fails Windows will either log this event, failure 4771, or 4768 if the problem arose during \"pre-authentication\". In Windows Kerberos, password verification takes place during pre-authentication.\n\r\nThe User field for this event (and all other events in the Audit account logon event category) doesn't help you determine who the user was; the field always reads N/A. Rather look at theAccount Information:fields, which identify the user who logged on and the user account's DNS suffix. The User ID field provides theSID of the account.\n\r\nWindows logs other instances of event ID 4768 when a computer in the domain needs to authenticate to the DC typically when a workstation boots up or a server restarts. In these instances, you'll find a computer name in the User Name and fields. Computer generated kerberos events are always identifiable by the $ after the computer account's name.",
+        "EventExample": "Kerberos pre-authentication failed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4771",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Kerberos Service Ticket Operations",
+        "eventID": "4769",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Kerberos service ticket was requested.",
+        "availableSettings": [
+            "Success",
+            "Failure"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Kerberos Service Ticket Operations",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769",
+        "volume": {
+            "DomainController": "High",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success and Failure",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "JSCU-NL",
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO",
+            "ADSECURITY"
+        ],
+        "MitreTTP": "T1558",
+        "ExtendedDescription": "Windows uses this event ID for both successful and failed service ticket requests. If it is a failure event see Failure Code: below.\n\r\nWhereas event ID 4768 lets you track initial logons through the granting of TGTs, this lets you monitor the granting of service tickets. Service tickets are obtained whenever a user or computer accesses a server on the network. For example, when a user maps a drive to a file server, the resulting service ticket request generates event ID4769 on the DC.",
+        "EventExample": "A Kerberos service ticket was requested.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4769",
+        "PotentialCriticality": "Low"
+    },
+    {
+        "category": "Account Logon",
+        "subCategory": "Audit Kerberos Service Ticket Operations",
+        "eventID": "4770",
+        "level": "Information",
+        "channel": "Security",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "description": "A Kerberos service ticket was renewed.",
+        "availableSettings": [
+            "Success"
+        ],
+        "gpoSettings": "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Account Logon\\Audit Kerberos Service Ticket Operations",
+        "documentation": "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4770",
+        "volume": {
+            "DomainController": "High",
+            "Server": "NA",
+            "Workstation": "NA"
+        },
+        "microsoftBaseline": {
+            "DomainController": "Success",
+            "Server": "",
+            "Workstation": ""
+        },
+        "securityMonitoringRecommandation": "Yes",
+        "tags": [
+            "SRV-ETM",
+            "CORTEX",
+            "YAMATO"
+        ],
+        "MitreTTP": "",
+        "ExtendedDescription": "Kerberos limits how long a ticket is valid. If a ticket expires when the user is still logged on, Windows automatically contacts thedomain controllerto renew the ticket which triggers this event.",
+        "EventExample": "A Kerberos service ticket was renewed.",
+        "ReferenceUrl": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4770",
+        "PotentialCriticality": "Low"
+    }
+]

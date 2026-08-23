@@ -1,0 +1,244 @@
+<Window x:Class="LogAnalyzer.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:LogAnalyzer.UI.ViewModels"
+        xmlns:views="clr-namespace:LogAnalyzer.UI.Views"
+        xmlns:ctrl="clr-namespace:LogAnalyzer.UI.Views.Controls"
+        Title="LogAnalyzer Enterprise — Threat Triage &amp; Incident Response Command Center"
+        Height="900" Width="1500" MinHeight="720" MinWidth="1100"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource CanvasBrush}" Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Window.InputBindings>
+        <KeyBinding Key="K" Modifiers="Control" Command="{Binding ToggleCommandPaletteCommand}"/>
+        <KeyBinding Key="Escape" Command="{Binding CloseCommandPaletteCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Background="{StaticResource CanvasBrush}">
+        <Grid.RowDefinitions>
+            <!-- 64px Command Header Bar -->
+            <RowDefinition Height="64"/>
+            <!-- Main Operational Canvas (Sidebar + Content Region) -->
+            <RowDefinition Height="*"/>
+            <!-- 32px Restrained Bottom Status Bar -->
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+
+        <!-- TOP 64PX COMMAND BAR -->
+        <Border Grid.Row="0" Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="20,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!-- Brand & Workspace -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Global Command / Search Box -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Health, DB, Operator Identity -->
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Vector Logo + Identity -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="34" Height="34" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,12,0">
+                        <Path Data="M 12 2 L 2 7 L 2 13 C 2 19 6.5 24.5 12 26 C 17.5 24.5 22 19 22 13 L 22 7 Z"
+                              Fill="{StaticResource PrimaryAccentBrush}" Stretch="Uniform" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="LOGANALYZER" FontSize="15" FontWeight="Black" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <Border Margin="10,0,0,0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                <TextBlock Text="v2.5 PRO" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Text="DFIR &amp; Threat Operations Command Center" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    
+                    <!-- Environment Mode Badge -->
+                    <Border Margin="18,0,0,0" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,4" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SystemModeBadgeText}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Center: Global Command Palette Search -->
+                <Grid Grid.Column="1" HorizontalAlignment="Center" Width="440" VerticalAlignment="Center">
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="34" Padding="32,6,10,6" FontSize="11.5" ToolTip="Press Ctrl+K for command palette search across Events, Rules &amp; Artifacts"/>
+                    <Path Data="M 9 2 C 5.1 2 2 5.1 2 9 C 2 12.9 5.1 16 9 16 C 10.7 16 12.2 15.4 13.4 14.4 L 17.3 18.3 C 17.7 18.7 18.3 18.7 18.7 18.3 C 19.1 17.9 19.1 17.3 18.7 16.9 L 14.8 13 C 15.6 11.8 16 10.5 16 9 C 16 5.1 12.9 2 9 2 Z M 9 4 C 11.8 4 14 6.2 14 9 C 14 11.8 11.8 14 9 14 C 6.2 14 4 11.8 4 9 C 4 6.2 6.2 4 9 4 Z"
+                          Fill="{StaticResource TextMutedBrush}" Stretch="Uniform" Width="14" Height="14" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    <Border Background="{StaticResource Surface3Brush}" CornerRadius="3" Padding="4,1" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center">
+                        <TextBlock Text="Ctrl+K" FontSize="9" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                    </Border>
+                </Grid>
+
+                <!-- Right: Telemetry, Cryptographic DB, Operator -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Sensor / Encrypted DB State -->
+                    <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,5" Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="VAULT: " FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                            <TextBlock Text="SQLCIPHER (AES-256)" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource EvidenceAccentBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Operator -->
+                    <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,5" Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="OPERATOR: " FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
+                            <TextBlock Text="{Binding OperatorName, FallbackValue='ANALYST'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Analyst Scratchpad Toggle -->
+                    <Button Content="Case Notes ▾" Command="{Binding ToggleAnalystDrawerCommand}" Style="{StaticResource ActionButtonStyle}" Padding="10,5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- MAIN OPERATIONAL WORKSPACE (2-Level Navigation Sidebar + View Region Host) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <!-- Left Collapsible Sidebar -->
+                <ColumnDefinition Width="240"/>
+                <!-- Central Region View Host -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- SIDEBAR NAVIGATION -->
+            <Border Grid.Column="0" Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="8,10">
+                        <StackPanel>
+                            <!-- GROUP 1: OPERATIONS -->
+                            <TextBlock Text="OPERATIONS" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,10,0,6"/>
+                            <RadioButton Content="Command Dashboard" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="0" IsChecked="True"/>
+                            <RadioButton Content="Live Real-Time SOC" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="11" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <RadioButton Content="Threats &amp; Detections" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="3"/>
+                            <RadioButton Content="Incident Timeline" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="4"/>
+
+                            <!-- GROUP 2: INVESTIGATION -->
+                            <TextBlock Text="INVESTIGATION" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,16,0,6"/>
+                            <RadioButton Content="Event Explorer (EVTX)" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="1"/>
+                            <RadioButton Content="Registry Forensics" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
+                            <RadioButton Content="Explainable Risk AI" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="5"/>
+                            <RadioButton Content="Attack Storyline Lineage" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="6"/>
+
+                            <!-- GROUP 3: DETECTION & INTEL -->
+                            <TextBlock Text="DETECTION &amp; INTEL" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,16,0,6"/>
+                            <RadioButton Content="Threat Intel &amp; APT" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="7"/>
+                            <RadioButton Content="Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
+                            <RadioButton Content="Chain of Custody (NIS2)" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
+                            <RadioButton Content="MITRE ATT&amp;CK Matrix" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
+
+                            <!-- GROUP 4: TELEMETRY & AUDIT -->
+                            <TextBlock Text="GOVERNANCE" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,16,0,6"/>
+                            <RadioButton Content="Telemetry &amp; Collector" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="12"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Bottom Quick Intake Actions (Air-Gapped Mode) -->
+                    <StackPanel Grid.Row="1" Margin="14,10" Visibility="{Binding IsAirGappedMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button Content="Ingest Triage Folder" Command="{Binding LoadFolderCommand}" Margin="0,3"/>
+                        <Button Content="Load EVTX Files" Command="{Binding LoadFilesCommand}" Margin="0,3"/>
+                        <Button Content="Export Forensic CSV" Command="{Binding ExportCsvCommand}" Style="{StaticResource AccentButtonStyle}" Margin="0,3"/>
+                    </StackPanel>
+
+                    <!-- Bottom Quick Actions (Network Live Mode) -->
+                    <StackPanel Grid.Row="1" Margin="14,10" Visibility="{Binding IsNetworkMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,8">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                    <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="LIVE EDR STREAM ACTIVE" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}"/>
+                                </StackPanel>
+                                <TextBlock Text="Kernel ETW interceptor active in memory." FontSize="9" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Button Content="Export Live Report" Command="{Binding ExportCsvCommand}" Style="{StaticResource AccentButtonStyle}" Margin="0,2"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- CENTRAL CONTENT VIEW REGION -->
+            <Grid Grid.Column="1" Background="{StaticResource WorkspaceBrush}">
+                <!-- TabControl Region Host (Bound to SelectedTabIndex & SelectedModuleIndex) -->
+                <TabControl SelectedIndex="{Binding SelectedTabIndex}" BorderThickness="0" Background="Transparent">
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+
+                    <!-- 0: Command Dashboard -->
+                    <TabItem><views:DashboardView/></TabItem>
+                    <!-- 1: EVTX Event Explorer -->
+                    <TabItem><views:EventExplorerView/></TabItem>
+                    <!-- 2: Offline Registry Forensics -->
+                    <TabItem><views:RegistryForensicsView/></TabItem>
+                    <!-- 3: Threats, Alerts & Sigma Workbench -->
+                    <TabItem><views:AlertsAndRulesView/></TabItem>
+                    <!-- 4: Incident Timeline Live -->
+                    <TabItem><views:IncidentTimelineView/></TabItem>
+                    <!-- 5: Explainable Risk Analysis -->
+                    <TabItem><views:RiskAnalysisView/></TabItem>
+                    <!-- 6: Attack Storyline & Kill Chain -->
+                    <TabItem><views:AttackStorylineView/></TabItem>
+                    <!-- 7: Threat Intel & APT Profiler -->
+                    <TabItem><views:ThreatIntelView/></TabItem>
+                    <!-- 8: Kerberos AD & LOLBAS -->
+                    <TabItem><views:KerberosAndLateralMovementView/></TabItem>
+                    <!-- 9: Chain of Custody & Provenance -->
+                    <TabItem><views:ChainOfCustodyView/></TabItem>
+                    <!-- 10: MITRE ATT&CK Enterprise Matrix -->
+                    <TabItem><views:MitreMatrixView/></TabItem>
+                    <!-- 11: Real-Time Live SOC Monitoring -->
+                    <TabItem><views:LiveSocView/></TabItem>
+                    <!-- 12: Telemetry & Forensic Triage Collector -->
+                    <TabItem><views:DataCollectionView/></TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+        <!-- 32PX RESTRAINED BOTTOM STATUS BAR -->
+        <Border Grid.Row="2" Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="20,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding StatusMessage, FallbackValue='STATUS: OPERATIONAL — ALL SYSTEMS NORMAL'}" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" VerticalAlignment="Center" FontSize="11"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0"/>
+                    <TextBlock Text="SHIELD ARMED &amp; SECURE" Foreground="{StaticResource SuccessBrush}" FontWeight="Bold" FontSize="10.5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- GLOBAL OVERLAYS & MODALS -->
+        <ctrl:CommandPalette/>
+        <ctrl:LiveAlertToast Grid.RowSpan="3"/>
+        <ctrl:AnalystNotesDrawer Grid.RowSpan="3"/>
+
+        <!-- Loading Step-by-Step Overlay -->
+        <Grid Grid.RowSpan="3" Style="{StaticResource ModalBackdropStyle}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Style="{StaticResource ModalDialogStyle}" Width="480" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel>
+                    <DockPanel LastChildFill="False" Margin="0,0,0,14">
+                        <TextBlock DockPanel.Dock="Left" Text="FORENSIC INGESTION &amp; ANALYSIS" Foreground="{StaticResource TextPrimaryBrush}" FontSize="13" FontWeight="Bold"/>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding LoadingProgress, StringFormat='{}{0:F0}%'}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="16" FontWeight="Bold"/>
+                    </DockPanel>
+                    <Border Background="{StaticResource Surface1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,14">
+                        <TextBlock Text="{Binding LoadingStepTitle}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    </Border>
+                    <ProgressBar Value="{Binding LoadingProgress}" Minimum="0" Maximum="100" Height="6" Foreground="{StaticResource PrimaryAccentBrush}" Background="{StaticResource Surface1Brush}" BorderThickness="0" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding LoadingSubDetail}" Foreground="{StaticResource PrimaryAccentBrush}" FontSize="11" TextAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="10" TextAlignment="Center" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

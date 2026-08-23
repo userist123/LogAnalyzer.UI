@@ -7,6 +7,12 @@ namespace LogAnalyzer.Core.Services
 {
     public class UserBehaviorAnalyticsEngine
     {
+        private static readonly HashSet<string> IgnoredSystemAccounts = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "SYSTEM", "LOCAL SERVICE", "NETWORK SERVICE", "ANONYMOUS LOGON",
+            "DWM-1", "DWM-2", "DWM-3", "UMFD-0", "UMFD-1", "UMFD-2"
+        };
+
         public List<UbaAnomalyItem> Evaluate(IEnumerable<ParsedEvent> events)
         {
             var anomalies = new List<UbaAnomalyItem>();
@@ -14,27 +20,30 @@ namespace LogAnalyzer.Core.Services
 
             var list = events.ToList();
 
-            // 1. Detectare autentificare Ã®n afara orelor normale (23:00 - 06:00)
+            // 1. Detectare autentificare în afara orelor normale (23:00 - 06:00) - Agregat per Utilizator
             var offHoursLogons = list.Where(e => e.EventId == 4624 && (e.TimeCreated.Hour >= 23 || e.TimeCreated.Hour < 6)).ToList();
-            foreach (var e in offHoursLogons)
+            var validOffHours = offHoursLogons.Where(e => IsRealUser(ExtractUserFromMessage(e.Message))).GroupBy(e => ExtractUserFromMessage(e.Message));
+
+            foreach (var g in validOffHours)
             {
-                string user = ExtractUserFromMessage(e.Message);
-                if (!string.IsNullOrEmpty(user) && !user.EndsWith("$"))
+                var first = g.Min(e => e.TimeCreated);
+                var last = g.Max(e => e.TimeCreated);
+                anomalies.Add(new UbaAnomalyItem
                 {
-                    anomalies.Add(new UbaAnomalyItem
-                    {
-                        Username = user,
-                        AnomalyType = "Autentificare Ã®n Afara Orelor Normale (Off-Hours Logon)",
-                        Severity = "High",
-                        RiskWeight = 75.0,
-                        Description = $"Utilizatorul {user} s-a autentificat la ora {e.TimeCreated:HH:mm:ss} pe staÈ›ia {e.MachineName}. Abatere comportamentalÄƒ de la programul de lucru autorizat.",
-                        Timestamp = e.TimeCreated
-                    });
-                }
+                    Username = g.Key,
+                    Workstation = g.FirstOrDefault()?.MachineName ?? "Workstation",
+                    AnomalyType = "Autentificare în Afara Orelor Normale (Off-Hours Logon)",
+                    Severity = "High",
+                    RiskWeight = 75.0,
+                    Description = $"Utilizatorul {g.Key} a înregistrat {g.Count()} autentificări nocturne între {first:HH:mm} și {last:HH:mm}. Abatere comportamentală de la programul autorizat.",
+                    Timestamp = last
+                });
             }
 
-            // 2. Detectare sesiuni concurente pe mai multe staÈ›ii Ã®n interval scurt
-            var logonsByUser = list.Where(e => e.EventId == 4624).GroupBy(e => ExtractUserFromMessage(e.Message)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$"));
+            // 2. Detectare sesiuni concurente pe mai multe stații în interval scurt
+            var logonsByUser = list.Where(e => e.EventId == 4624)
+                .GroupBy(e => ExtractUserFromMessage(e.Message))
+                .Where(g => IsRealUser(g.Key));
 
             foreach (var userGroup in logonsByUser)
             {
@@ -49,21 +58,23 @@ namespace LogAnalyzer.Core.Services
                         anomalies.Add(new UbaAnomalyItem
                         {
                             Username = userGroup.Key,
-                            AnomalyType = "Sesiuni Concurente Multi-StaÈ›ie (Impossible Concurrent Logon)",
+                            Workstation = $"{e1.MachineName}, {e2.MachineName}",
+                            AnomalyType = "Sesiuni Concurente Multi-Stație (Impossible Concurrent Logon)",
                             Severity = "Critical",
                             RiskWeight = 90.0,
-                            Description = $"Utilizatorul {userGroup.Key} s-a autentificat simultan pe {e1.MachineName} È™i {e2.MachineName} Ã®ntr-un interval de {Math.Round((e2.TimeCreated - e1.TimeCreated).TotalMinutes, 1)} minute.",
+                            Description = $"Utilizatorul {userGroup.Key} s-a autentificat simultan pe {e1.MachineName} și {e2.MachineName} într-un interval de {Math.Round((e2.TimeCreated - e1.TimeCreated).TotalMinutes, 1)} minute.",
                             Timestamp = e2.TimeCreated
                         });
+                        break; // Un singur semnal UBA per utilizator pentru a evita spamul
                     }
                 }
             }
 
-            // 3. Detectare rafalÄƒ de autentificÄƒri eÈ™uate urmate de succes imediat (Brute-Force Compromise)
+            // 3. Detectare rafală de autentificări eșuate urmate de succes imediat (Brute-Force Compromise)
             var failedLogons = list.Where(e => e.EventId == 4625).ToList();
             var successLogons = list.Where(e => e.EventId == 4624).ToList();
 
-            foreach (var userGroup in failedLogons.GroupBy(e => ExtractUserFromMessage(e.Message)).Where(g => !string.IsNullOrEmpty(g.Key) && !g.Key.EndsWith("$")))
+            foreach (var userGroup in failedLogons.GroupBy(e => ExtractUserFromMessage(e.Message)).Where(g => IsRealUser(g.Key)))
             {
                 if (userGroup.Count() >= 3)
                 {
@@ -75,10 +86,11 @@ namespace LogAnalyzer.Core.Services
                         anomalies.Add(new UbaAnomalyItem
                         {
                             Username = userGroup.Key,
-                            AnomalyType = "Succes dupÄƒ RafalÄƒ EÈ™uatÄƒ (Brute-Force Compromise)",
+                            Workstation = subsequentSuccess.MachineName ?? "Workstation",
+                            AnomalyType = "Succes după Rafală Eșuată (Brute-Force Compromise)",
                             Severity = "Critical",
                             RiskWeight = 95.0,
-                            Description = $"Contul {userGroup.Key} a Ã®nregistrat {userGroup.Count()} eÈ™ecuri consecutive urmate de o autentificare reuÈ™itÄƒ la {subsequentSuccess.TimeCreated:HH:mm:ss}.",
+                            Description = $"Contul {userGroup.Key} a înregistrat {userGroup.Count()} eșecuri consecutive urmate de o autentificare reușită la {subsequentSuccess.TimeCreated:HH:mm:ss}.",
                             Timestamp = subsequentSuccess.TimeCreated
                         });
                     }
@@ -86,6 +98,13 @@ namespace LogAnalyzer.Core.Services
             }
 
             return anomalies;
+        }
+
+        private static bool IsRealUser(string? user)
+        {
+            if (string.IsNullOrEmpty(user) || user.Equals("-")) return false;
+            if (user.EndsWith("$") || IgnoredSystemAccounts.Contains(user)) return false;
+            return true;
         }
 
         private static string ExtractUserFromMessage(string? message)
@@ -100,7 +119,7 @@ namespace LogAnalyzer.Core.Services
                     if (parts.Length > 1)
                     {
                         var user = parts[1].Trim();
-                        if (!string.IsNullOrEmpty(user) && !user.Equals("-") && !user.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
+                        if (!string.IsNullOrEmpty(user) && !user.Equals("-"))
                         {
                             return user;
                         }

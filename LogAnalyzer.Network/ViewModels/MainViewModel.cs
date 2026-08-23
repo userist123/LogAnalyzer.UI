@@ -988,7 +988,8 @@ namespace LogAnalyzer.UI.ViewModels
                         KerberosFindings, 
                         StandaloneSamFindings, 
                         UbaAnomalies, 
-                        ComplianceResults);
+                        ComplianceResults,
+                        IsAirGappedMode);
 
                     File.WriteAllText(dialog.FileName, html, Encoding.UTF8);
                     MessageBox.Show("Raportul Executiv HTML ADAudit Plus a fost exportat cu succes!", "Export HTML Reușit", MessageBoxButton.OK, MessageBoxImage.Information);

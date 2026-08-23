@@ -661,6 +661,57 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand] private void PrevTimelinePage() { if (TimelineCurrentPage > 1) TimelineCurrentPage--; }
 
         [RelayCommand]
+        private void PivotByEventId(ParsedEvent? item)
+        {
+            if (item != null)
+            {
+                SearchEventsText = item.EventId.ToString();
+                StatusMessage = $"Pivoting on Event ID: {item.EventId}";
+            }
+        }
+
+        [RelayCommand]
+        private void PivotByProvider(ParsedEvent? item)
+        {
+            if (item != null && !string.IsNullOrEmpty(item.ProviderName))
+            {
+                SearchEventsText = item.ProviderName;
+                StatusMessage = $"Pivoting on Provider: {item.ProviderName}";
+            }
+        }
+
+        [RelayCommand]
+        private void PivotByMachine(ParsedEvent? item)
+        {
+            if (item != null && !string.IsNullOrEmpty(item.MachineName))
+            {
+                SearchEventsText = item.MachineName;
+                StatusMessage = $"Pivoting on Machine: {item.MachineName}";
+            }
+        }
+
+        [RelayCommand]
+        private void CopyRowAsJson(ParsedEvent? item)
+        {
+            if (item != null)
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(item, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                Clipboard.SetText(json);
+                StatusMessage = $"Event ID {item.EventId} copied to clipboard as JSON.";
+            }
+        }
+
+        [RelayCommand]
+        private void CopyUtcTimestamp(ParsedEvent? item)
+        {
+            if (item != null)
+            {
+                Clipboard.SetText(item.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                StatusMessage = "UTC Timestamp copied to clipboard.";
+            }
+        }
+
+        [RelayCommand]
         private void ClearCache()
         {
             var result = MessageBox.Show(

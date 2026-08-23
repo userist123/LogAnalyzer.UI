@@ -14,10 +14,10 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock Text="ADAudit Intelligence &amp; Endpoint Forensics Command Center" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                     <Border Margin="12,0,0,0" Background="{StaticResource Surface3Brush}" BorderBrush="{StaticResource PrimaryAccentBrush}" BorderThickness="1" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
-                        <TextBlock Text="DUAL AUDIT ENGINE: DOMAIN + STANDALONE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                        <TextBlock Text="FULL ADAUDIT PLUS SUITE &amp; COMPLIANCE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                     </Border>
                 </StackPanel>
-                <TextBlock Text="Auditare completă hibridă: Active Directory Domain (Kerberos, GPO, DCSync) &amp; Standalone Workstation (Local SAM, USB Media, Audit Policy, Privilege Abuse)" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
+                <TextBlock Text="Auditare hibridă: Active Directory Domain, Standalone SAM, Server DNS, Conformitate (HG 585/2002, NIS2, ISO 27042), UBA &amp; LOLBAS" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}"/>
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
@@ -82,7 +82,7 @@
             </Border>
         </UniformGrid>
 
-        <!-- 3. Quad-Tab Multi-Workspace: AD Domain, Standalone SAM, UBA Analytics, LOLBAS -->
+        <!-- 3. Full ADAudit Plus Multi-Workspace TabControl -->
         <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0">
             <!-- TAB 1: Standalone PC & Local SAM Forensics -->
             <TabItem Header="💻 ADAudit Standalone PC &amp; SAM" Style="{StaticResource InspectorTabItemStyle}">
@@ -123,7 +123,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="Anomalii de Autentificare Domeniu, Modificări GPO &amp; Exploatări Replicare AD" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="Anomalii de Autentificare Domeniu, Modificări GPO, DCShadow &amp; Exploatări Replicare AD" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                             <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
                                 <TextBlock Text="{Binding KerberosFindings.Count, StringFormat='{}{0} Detecții AD'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                             </Border>
@@ -143,8 +143,8 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 3: User Behavior Analytics (UBA) -->
-            <TabItem Header="👤 UBA: Analitică Comportamentală" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 3: DNS Server & Zone Auditing -->
+            <TabItem Header="🌐 Audit Server DNS" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>
@@ -152,19 +152,20 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="Anomalii de Comportament Logon &amp; Sesiuni Multi-Stație (User Behavior Analytics)" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource EvidenceAccentBrush}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="Auditare Modificări Înregistrări &amp; Zone DNS (DNS Poisoning &amp; Redirection)" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                             <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
-                                <TextBlock Text="{Binding UbaAnomalies.Count, StringFormat='{}{0} Anomalii UBA'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="{Binding DnsFindings.Count, StringFormat='{}{0} Evenimente DNS'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                             </Border>
                         </DockPanel>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding UbaAnomalies}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding DnsFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Utilizator" Binding="{Binding Username}" Width="130"/>
-                                <DataGridTextColumn Header="Tip Anomalie UBA" Binding="{Binding AnomalyType}" Width="220"/>
+                                <DataGridTextColumn Header="Tip Detecție" Binding="{Binding FindingType}" Width="180"/>
                                 <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="90"/>
-                                <DataGridTextColumn Header="Scor Risc" Binding="{Binding RiskWeight, StringFormat='{}{0}/100'}" Width="85"/>
-                                <DataGridTextColumn Header="Stație / Sursă" Binding="{Binding Workstation}" Width="130"/>
-                                <DataGridTextColumn Header="Descriere Detaliată &amp; Corelare Temporală" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Nume Înregistrare" Binding="{Binding RecordName}" Width="160"/>
+                                <DataGridTextColumn Header="Zonă DNS" Binding="{Binding ZoneName}" Width="150"/>
+                                <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="85"/>
+                                <DataGridTextColumn Header="Descriere &amp; Impact" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Acțiune Recomandată" Binding="{Binding RemediationActionRo}" Width="250"/>
                                 <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="140"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -172,8 +173,8 @@
                 </Border>
             </TabItem>
 
-            <!-- TAB 4: LOLBAS Execution Audit -->
-            <TabItem Header="⚡ Audit Execuții LOLBAS" Style="{StaticResource InspectorTabItemStyle}">
+            <!-- TAB 4: Automated Compliance Checks Matrix -->
+            <TabItem Header="⚖️ Conformitate (HG 585, NIS2, ISO 27042, GDPR)" Style="{StaticResource InspectorTabItemStyle}">
                 <Border Style="{StaticResource ObsidianCardStyle}" Margin="0,10,0,0">
                     <Grid Margin="4">
                         <Grid.RowDefinitions>
@@ -181,21 +182,85 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
-                            <TextBlock DockPanel.Dock="Left" Text="Audit Execuții Living-off-the-Land (LOLBAS Binaries)" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource HighBrush}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="Matrice Automată de Evaluare a Conformității de Securitate și Reglementare" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource PrimaryAccentBrush}"/>
                             <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
-                                <TextBlock Text="{Binding LolbasFindings.Count, StringFormat='{}{0} Detecții'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="{Binding ComplianceResults.Count, StringFormat='{}{0} Controale Evaluate'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                             </Border>
                         </DockPanel>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding LolbasFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding ComplianceResults}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Binar LOLBAS" Binding="{Binding BinaryName}" Width="110"/>
-                                <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="85"/>
-                                <DataGridTextColumn Header="Categorie Execuție" Binding="{Binding Category}" Width="140"/>
-                                <DataGridTextColumn Header="Linie de Comandă Detectată" Binding="{Binding CommandLine}" Width="*"/>
+                                <DataGridTextColumn Header="Standard / Cadru" Binding="{Binding Framework}" Width="170"/>
+                                <DataGridTextColumn Header="Articol / Control" Binding="{Binding ArticleOrControl}" Width="140"/>
+                                <DataGridTextColumn Header="Titlu Control" Binding="{Binding ControlTitle}" Width="200"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                                <DataGridTextColumn Header="Evidență Forensică Corelată" Binding="{Binding EvidenceSummary}" Width="*"/>
+                                <DataGridTextColumn Header="Măsură Corectivă Impusă" Binding="{Binding RequiredAction}" Width="260"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
                 </Border>
+            </TabItem>
+
+            <!-- TAB 5: User Behavior Analytics (UBA) & LOLBAS -->
+            <TabItem Header="👤 UBA &amp; LOLBAS Audit" Style="{StaticResource InspectorTabItemStyle}">
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="6"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: UBA -->
+                    <Border Grid.Column="0" Style="{StaticResource ObsidianCardStyle}">
+                        <Grid Margin="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                                <TextBlock DockPanel.Dock="Left" Text="UBA: Anomalii Comportamentale Logon" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource EvidenceAccentBrush}"/>
+                                <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
+                                    <TextBlock Text="{Binding UbaAnomalies.Count, StringFormat='{}{0} Anomalii'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                </Border>
+                            </DockPanel>
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding UbaAnomalies}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Utilizator" Binding="{Binding Username}" Width="110"/>
+                                    <DataGridTextColumn Header="Tip Anomalie UBA" Binding="{Binding AnomalyType}" Width="160"/>
+                                    <DataGridTextColumn Header="Severitate" Binding="{Binding Severity}" Width="80"/>
+                                    <DataGridTextColumn Header="Risc" Binding="{Binding RiskWeight, StringFormat='{}{0}/100'}" Width="65"/>
+                                    <DataGridTextColumn Header="Descriere" Binding="{Binding Description}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+
+                    <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Transparent"/>
+
+                    <!-- Right: LOLBAS -->
+                    <Border Grid.Column="2" Style="{StaticResource ObsidianCardStyle}">
+                        <Grid Margin="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,10">
+                                <TextBlock DockPanel.Dock="Left" Text="Audit Execuții LOLBAS Binaries" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource HighBrush}"/>
+                                <Border DockPanel.Dock="Right" Background="{StaticResource Surface3Brush}" CornerRadius="4" Padding="6,2">
+                                    <TextBlock Text="{Binding LolbasFindings.Count, StringFormat='{}{0} Detecții'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                </Border>
+                            </DockPanel>
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding LolbasFindings}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Binar" Binding="{Binding BinaryName}" Width="95"/>
+                                    <DataGridTextColumn Header="MITRE" Binding="{Binding MitreTechniqueId}" Width="75"/>
+                                    <DataGridTextColumn Header="Categorie" Binding="{Binding Category}" Width="110"/>
+                                    <DataGridTextColumn Header="Linie de Comandă" Binding="{Binding CommandLine}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

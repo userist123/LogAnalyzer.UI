@@ -149,9 +149,15 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _samUsbStorageEventsCount = 0;
         [ObservableProperty] private int _samHighPrivilegeAssignmentsCount = 0;
 
+        public ObservableCollection<DnsAuditFinding> DnsFindings { get; set; } = new();
+        public ObservableCollection<ComplianceCheckResult> ComplianceResults { get; set; } = new();
+
         private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
         private readonly AdAuditReportService _adAuditReportService = new();
         private readonly StandaloneSamAuditEngine _samAuditEngine = new();
+        private readonly DnsAuditEngine _dnsAuditEngine = new();
+        private readonly ComplianceAuditEngine _complianceAuditEngine = new();
+        private readonly AlertActionTriggerService _actionTriggerService = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -923,6 +929,13 @@ namespace LogAnalyzer.UI.ViewModels
                     MessageBox.Show($"Eroare la exportul raportului ADAudit: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        [RelayCommand]
+        private void TriggerContainmentPlaybook(string target)
+        {
+            var res = _actionTriggerService.ExecuteContainmentScript("Izolare Cont / Stație", target ?? "SelectedEntity", IsAirGappedMode);
+            MessageBox.Show(res.OutputLog, "Rezultat Răspuns Incident (Containment Playbook)", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private string EscapeCsv(string? field)
@@ -3131,6 +3144,22 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var sf in samFindings)
                 {
                     StandaloneSamFindings.Add(sf);
+                }
+
+                // Analiză ADAudit DNS Server & Zone Changes
+                var dnsFindings = _dnsAuditEngine.Analyze(eventsForAnalysis);
+                DnsFindings.Clear();
+                foreach (var df in dnsFindings)
+                {
+                    DnsFindings.Add(df);
+                }
+
+                // Evaluare Conformitate Automată (HG 585/2002, NIS2, ISO 27042, GDPR, PCI-DSS)
+                var compResults = _complianceAuditEngine.Evaluate(eventsForAnalysis, adSummary, samSummary, yaraMatches.Count, anomalies.Count);
+                ComplianceResults.Clear();
+                foreach (var cr in compResults)
+                {
+                    ComplianceResults.Add(cr);
                 }
 
                 // Analiză LOLBAS & Relații Anomale Părinte-Copil

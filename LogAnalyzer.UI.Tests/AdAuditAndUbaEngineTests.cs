@@ -36,6 +36,38 @@ namespace LogAnalyzer.UI.Tests
         }
 
         [Fact]
+        public void DnsAuditEngine_Detects_DnsRecordAndZoneTampering()
+        {
+            var engine = new DnsAuditEngine();
+            var events = new List<ParsedEvent>
+            {
+                new ParsedEvent { EventId = 258, Message = "DNS Server resource record modified", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 259, Message = "DNS Server resource record deleted", TimeCreated = DateTime.UtcNow }
+            };
+
+            var findings = engine.Analyze(events);
+
+            Assert.Equal(2, findings.Count);
+            Assert.Contains(findings, f => f.FindingType.Contains("Creare / Modificare"));
+            Assert.Contains(findings, f => f.FindingType.Contains("Ștergere Înregistrare"));
+        }
+
+        [Fact]
+        public void ComplianceAuditEngine_Evaluates_Hg585AndNis2()
+        {
+            var engine = new ComplianceAuditEngine();
+            var adSummary = new AdAuditSummary { KerberosAttacksDetected = 1 };
+            var samSummary = new StandaloneSamSummary { UsbStorageEventsCount = 1 };
+
+            var results = engine.Evaluate(new List<ParsedEvent>(), adSummary, samSummary, 0, 1);
+
+            Assert.NotEmpty(results);
+            Assert.Contains(results, r => r.Framework.Contains("HG 585/2002") && r.Status == "NON-CONFORM");
+            Assert.Contains(results, r => r.Framework.Contains("NIS2") && r.Status == "NON-CONFORM");
+            Assert.Contains(results, r => r.Framework.Contains("ISO/IEC 27042") && r.Status == "CONFORM");
+        }
+
+        [Fact]
         public void UserBehaviorAnalyticsEngine_Detects_OffHoursAndBruteForceSuccess()
         {
             var engine = new UserBehaviorAnalyticsEngine();

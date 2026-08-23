@@ -68,69 +68,66 @@ namespace LogAnalyzer.UI.Tests
         }
 
         [Fact]
-        public void UserBehaviorAnalyticsEngine_Detects_OffHoursAndBruteForceSuccess()
+        public void AdAttributeDeltaEngine_Extracts_AttributeModifications()
         {
-            var engine = new UserBehaviorAnalyticsEngine();
+            var engine = new AdAttributeDeltaEngine();
             var events = new List<ParsedEvent>
             {
-                // Failed logons followed by success
-                new ParsedEvent { EventId = 4625, Message = "TargetUserName: victim_admin", TimeCreated = DateTime.UtcNow.Date.AddHours(2).AddMinutes(1), MachineName = "DC01" },
-                new ParsedEvent { EventId = 4625, Message = "TargetUserName: victim_admin", TimeCreated = DateTime.UtcNow.Date.AddHours(2).AddMinutes(2), MachineName = "DC01" },
-                new ParsedEvent { EventId = 4625, Message = "TargetUserName: victim_admin", TimeCreated = DateTime.UtcNow.Date.AddHours(2).AddMinutes(3), MachineName = "DC01" },
-                new ParsedEvent { EventId = 4624, Message = "TargetUserName: victim_admin", TimeCreated = DateTime.UtcNow.Date.AddHours(2).AddMinutes(4), MachineName = "DC01" }
+                new ParsedEvent { EventId = 5136, Message = "Object DN: CN=AdminSDHolder,CN=System,DC=lab,DC=local\nAttribute LDAP Display Name: adminCount\nAttribute Value: 1\nOperation Type: Value Added\nAccount Name: attacker_admin", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 4738, Message = "Target Account Name: svc_backup\nSubject: Account Name: admin\nDon't Require Preauth", TimeCreated = DateTime.UtcNow }
             };
 
-            var anomalies = engine.Evaluate(events);
+            var deltas = engine.ExtractDeltas(events);
 
-            Assert.NotEmpty(anomalies);
-            Assert.Contains(anomalies, a => a.AnomalyType.Contains("Brute-Force Compromise"));
-            Assert.Contains(anomalies, a => a.AnomalyType.Contains("Orelor Normale"));
+            Assert.Equal(2, deltas.Count);
+            Assert.Contains(deltas, d => d.AttributeName.Contains("adminCount"));
+            Assert.Contains(deltas, d => d.AttributeName.Contains("DONT_REQ_PREAUTH"));
         }
 
         [Fact]
-        public void AdAuditReportService_Generates_ValidCsvOutput()
+        public void AzureAdAuditEngine_Detects_GlobalAdminAndRiskySignIns()
         {
-            var service = new AdAuditReportService();
-            var summary = new AdAuditSummary
+            var engine = new AzureAdAuditEngine();
+            var events = new List<ParsedEvent>
             {
-                TotalAdEventsAnalyzed = 150,
-                UserAccountsCreated = 3,
-                AccountLockouts = 5,
-                PrivilegedGroupChanges = 2,
-                KerberosAttacksDetected = 1
+                new ParsedEvent { EventId = 50126, ProviderName = "Microsoft-Windows-AzureAD-Authentication", Message = "Global Administrator role activated for user", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 50126, ProviderName = "Microsoft-Windows-AzureAD-Authentication", Message = "Risky Sign-in / Impossible Travel detected", TimeCreated = DateTime.UtcNow }
             };
 
-            var findings = new List<KerberosAdFinding>
+            var findings = engine.Analyze(events);
+
+            Assert.Equal(2, findings.Count);
+            Assert.Contains(findings, f => f.ActivityType.Contains("Global Administrator"));
+            Assert.Contains(findings, f => f.ActivityType.Contains("Impossible Travel"));
+        }
+
+        [Fact]
+        public void FileServerAuditEngine_Detects_RansomwareAndSensitiveDirectoryAccess()
+        {
+            var engine = new FileServerAuditEngine();
+            var events = new List<ParsedEvent>();
+            for (int i = 0; i < 6; i++)
             {
-                new KerberosAdFinding
-                {
-                    AttackType = "Kerberoasting",
-                    Category = "Active Directory Security",
-                    Severity = "Critical",
-                    TargetAccount = "svc_sql",
-                    MitreTechniqueId = "T1558.003",
-                    Description = "RC4 encryption requested for SPN"
-                }
-            };
+                events.Add(new ParsedEvent { EventId = 4663, Message = $"Object Name: \\Device\\HarddiskVolume2\\Data\\document_{i}.locked with WriteData", TimeCreated = DateTime.UtcNow });
+            }
+            events.Add(new ParsedEvent { EventId = 4663, Message = "Object Name: \\Device\\HarddiskVolume2\\Confidential\\salarii.xlsx", TimeCreated = DateTime.UtcNow });
 
-            var uba = new List<UbaAnomalyItem>
-            {
-                new UbaAnomalyItem
-                {
-                    Username = "svc_backup",
-                    AnomalyType = "Off-Hours Logon",
-                    Severity = "High",
-                    RiskWeight = 85.0
-                }
-            };
+            var findings = engine.Analyze(events);
 
-            var csv = service.GenerateCsvReport(summary, findings, uba);
+            Assert.Equal(2, findings.Count);
+            Assert.Contains(findings, f => f.ActivityType.Contains("Ransomware"));
+            Assert.Contains(findings, f => f.ActivityType.Contains("Confidențiale"));
+        }
 
-            Assert.NotNull(csv);
-            Assert.Contains("ADAUDIT PLUS SUITE", csv);
-            Assert.Contains("Kerberoasting", csv);
-            Assert.Contains("svc_sql", csv);
-            Assert.Contains("svc_backup", csv);
+        [Fact]
+        public void AdSnapshotRollbackEngine_Generates_PowerShellScript()
+        {
+            var engine = new AdSnapshotRollbackEngine();
+            var script = engine.GenerateRollbackForFinding("Domain Admins Member Escalation", "Domain Admins");
+
+            Assert.NotNull(script);
+            Assert.Contains("Remove-ADGroupMember", script.GeneratedPowerShellScript);
+            Assert.Contains("Domain Admins", script.GeneratedPowerShellScript);
         }
     }
 }

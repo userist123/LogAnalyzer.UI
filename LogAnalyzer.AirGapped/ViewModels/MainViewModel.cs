@@ -151,6 +151,9 @@ namespace LogAnalyzer.UI.ViewModels
 
         public ObservableCollection<DnsAuditFinding> DnsFindings { get; set; } = new();
         public ObservableCollection<ComplianceCheckResult> ComplianceResults { get; set; } = new();
+        public ObservableCollection<AdAttributeDelta> AdAttributeDeltas { get; set; } = new();
+        public ObservableCollection<AzureAdFinding> AzureAdFindings { get; set; } = new();
+        public ObservableCollection<FileServerAuditFinding> FileServerFindings { get; set; } = new();
 
         private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
         private readonly AdAuditReportService _adAuditReportService = new();
@@ -158,6 +161,10 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly DnsAuditEngine _dnsAuditEngine = new();
         private readonly ComplianceAuditEngine _complianceAuditEngine = new();
         private readonly AlertActionTriggerService _actionTriggerService = new();
+        private readonly AdAttributeDeltaEngine _adDeltaEngine = new();
+        private readonly AzureAdAuditEngine _azureAdEngine = new();
+        private readonly FileServerAuditEngine _fileServerEngine = new();
+        private readonly AdSnapshotRollbackEngine _rollbackEngine = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -936,6 +943,22 @@ namespace LogAnalyzer.UI.ViewModels
         {
             var res = _actionTriggerService.ExecuteContainmentScript("Izolare Cont / Stație", target ?? "SelectedEntity", IsAirGappedMode);
             MessageBox.Show(res.OutputLog, "Rezultat Răspuns Incident (Containment Playbook)", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void GenerateRollbackScript(KerberosAdFinding finding)
+        {
+            if (finding == null) return;
+            var script = _rollbackEngine.GenerateRollbackForFinding(finding.AttackType, finding.TargetAccount);
+            try
+            {
+                Clipboard.SetText(script.GeneratedPowerShellScript);
+                MessageBox.Show($"Scriptul de rollback PowerShell a fost copiat în Clipboard!\n\nȚintă: {script.TargetObject}\nAcțiune: {script.ActionDescription}", "Script Rollback ADAudit Generat", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Eroare la generarea scriptului de rollback: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private string EscapeCsv(string? field)
@@ -3160,6 +3183,30 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var cr in compResults)
                 {
                     ComplianceResults.Add(cr);
+                }
+
+                // Analiză ADAudit Delta Valori Atribute Active Directory (Before / After)
+                var deltas = _adDeltaEngine.ExtractDeltas(eventsForAnalysis);
+                AdAttributeDeltas.Clear();
+                foreach (var d in deltas)
+                {
+                    AdAttributeDeltas.Add(d);
+                }
+
+                // Analiză ADAudit Azure AD & Cloud Hybrid Identity
+                var azure = _azureAdEngine.Analyze(eventsForAnalysis);
+                AzureAdFindings.Clear();
+                foreach (var az in azure)
+                {
+                    AzureAdFindings.Add(az);
+                }
+
+                // Analiză ADAudit File Server, NAS & Ransomware Pattern
+                var files = _fileServerEngine.Analyze(eventsForAnalysis);
+                FileServerFindings.Clear();
+                foreach (var fs in files)
+                {
+                    FileServerFindings.Add(fs);
                 }
 
                 // Analiză LOLBAS & Relații Anomale Părinte-Copil

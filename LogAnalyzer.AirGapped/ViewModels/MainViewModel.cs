@@ -140,6 +140,9 @@ namespace LogAnalyzer.UI.ViewModels
         [ObservableProperty] private int _adPrivilegedGroupChangesCount = 0;
         [ObservableProperty] private int _adGpoPolicyChangesCount = 0;
         [ObservableProperty] private int _adKerberosAttacksCount = 0;
+        public ObservableCollection<UbaAnomalyItem> UbaAnomalies { get; set; } = new();
+        private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
+        private readonly AdAuditReportService _adAuditReportService = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -872,6 +875,43 @@ namespace LogAnalyzer.UI.ViewModels
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Eroare la exportul raportului: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ExportAdAuditReport()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Fișiere CSV (*.csv)|*.csv",
+                FileName = $"ADAudit_Plus_Report_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var summary = new AdAuditSummary
+                    {
+                        TotalAdEventsAnalyzed = AdEventsAnalyzedCount,
+                        UserAccountsCreated = AdAccountsCreatedCount,
+                        UserAccountsModified = AdAccountsModifiedCount,
+                        UserAccountsDeleted = AdAccountsDeletedCount,
+                        PasswordResets = AdPasswordResetsCount,
+                        AccountLockouts = AdAccountLockoutsCount,
+                        PrivilegedGroupChanges = AdPrivilegedGroupChangesCount,
+                        GpoPolicyChanges = AdGpoPolicyChangesCount,
+                        KerberosAttacksDetected = AdKerberosAttacksCount
+                    };
+
+                    var csv = _adAuditReportService.GenerateCsvReport(summary, KerberosFindings, UbaAnomalies);
+                    File.WriteAllText(dialog.FileName, csv, Encoding.UTF8);
+                    MessageBox.Show("Raportul complet ADAudit Plus (AD & UBA) a fost exportat cu succes!", "Export ADAudit Reușit", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Eroare la exportul raportului ADAudit: {ex.Message}", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -3058,6 +3098,14 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var kf in kerbFindings)
                 {
                     KerberosFindings.Add(kf);
+                }
+
+                // Analiză Comportamentală Utilizatori UBA (User Behavior Analytics)
+                var ubaFindings = _ubaEngine.Evaluate(eventsForAnalysis);
+                UbaAnomalies.Clear();
+                foreach (var uf in ubaFindings)
+                {
+                    UbaAnomalies.Add(uf);
                 }
 
                 // Analiză LOLBAS & Relații Anomale Părinte-Copil

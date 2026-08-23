@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LogAnalyzer.UI.Views.RegistryForensicsView"
+<UserControl x:Class="LogAnalyzer.UI.Views.RegistryForensicsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="20">
@@ -15,13 +15,23 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding RegistrySearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                <TextBox Text="{Binding SearchArtifactsText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
                 <Button Grid.Column="1" Content="Clear Filter" Command="{Binding ClearRegistryFilterCommand}" Width="100"/>
             </Grid>
         </Border>
 
         <!-- Main Registry DataGrid -->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding RegistryArtifacts}" SelectedItem="{Binding SelectedRegistryArtifact}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding RegistryArtifacts}" SelectedItem="{Binding SelectedRegistryArtifact}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}">
+                    <MenuItem Header="Inspect Registry Key Details" Command="{Binding OpenGenericDetailCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <Separator Background="{StaticResource BorderBrush}"/>
+                    <MenuItem Header="Filter by Category" Command="{Binding PivotRegistryCategoryCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <MenuItem Header="Filter by Key Path" Command="{Binding PivotRegistryKeyPathCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                    <Separator Background="{StaticResource BorderBrush}"/>
+                    <MenuItem Header="Copy Value Data" Command="{Binding CopyRegistryValueDataCommand}" CommandParameter="{Binding SelectedRegistryArtifact}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="140"/>
                 <DataGridTextColumn Header="Key Path" Binding="{Binding KeyPath}" Width="280"/>

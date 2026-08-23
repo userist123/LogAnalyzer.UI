@@ -81,12 +81,15 @@
                     </Border>
 
                     <!-- Operator -->
-                    <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,5">
+                    <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,5" Margin="0,0,10,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="OPERATOR: " FontSize="10" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}"/>
                             <TextBlock Text="{Binding OperatorName, FallbackValue='ANALYST'}" FontSize="10.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
                         </StackPanel>
                     </Border>
+
+                    <!-- Analyst Scratchpad Toggle -->
+                    <Button Content="Case Notes ▾" Command="{Binding ToggleAnalystDrawerCommand}" Style="{StaticResource ActionButtonStyle}" Padding="10,5"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -217,6 +220,8 @@
 
         <!-- GLOBAL OVERLAYS & MODALS -->
         <ctrl:CommandPalette/>
+        <ctrl:LiveAlertToast Grid.RowSpan="3"/>
+        <ctrl:AnalystNotesDrawer Grid.RowSpan="3"/>
 
         <!-- Loading Step-by-Step Overlay -->
         <Grid Grid.RowSpan="3" Style="{StaticResource ModalBackdropStyle}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

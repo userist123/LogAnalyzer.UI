@@ -141,6 +141,14 @@ namespace LogAnalyzer.UI.ViewModels
         [RelayCommand] private void ToggleCommandPalette() => IsCommandPaletteVisible = !IsCommandPaletteVisible;
         [RelayCommand] private void CloseCommandPalette() => IsCommandPaletteVisible = false;
 
+        // Analyst Triage Case Notes & Scratchpad
+        [ObservableProperty] private bool _isAnalystDrawerOpen = false;
+        [ObservableProperty] private string _analystCaseNotes = "Analyst notes initialized. Documenting forensic hypothesis and evidence correlation.";
+        [ObservableProperty] private string _analystCaseStatus = "UNDER TRIAGE";
+
+        [RelayCommand] private void ToggleAnalystDrawer() => IsAnalystDrawerOpen = !IsAnalystDrawerOpen;
+        [RelayCommand] private void CloseAnalystDrawer() => IsAnalystDrawerOpen = false;
+
         // Dashboard stats
         [ObservableProperty] private int _selectedTabIndex = 0;
         [ObservableProperty] private int _totalEventsCount;
@@ -708,6 +716,36 @@ namespace LogAnalyzer.UI.ViewModels
             {
                 Clipboard.SetText(item.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 StatusMessage = "UTC Timestamp copied to clipboard.";
+            }
+        }
+
+        [RelayCommand]
+        private void PivotRegistryCategory(RegistryArtifact? item)
+        {
+            if (item != null && !string.IsNullOrEmpty(item.Category))
+            {
+                SearchArtifactsText = item.Category;
+                StatusMessage = $"Pivoting Registry Category: {item.Category}";
+            }
+        }
+
+        [RelayCommand]
+        private void PivotRegistryKeyPath(RegistryArtifact? item)
+        {
+            if (item != null && !string.IsNullOrEmpty(item.KeyPath))
+            {
+                SearchArtifactsText = item.KeyPath;
+                StatusMessage = $"Pivoting Registry Key: {item.KeyPath}";
+            }
+        }
+
+        [RelayCommand]
+        private void CopyRegistryValueData(RegistryArtifact? item)
+        {
+            if (item != null && !string.IsNullOrEmpty(item.ValueData))
+            {
+                Clipboard.SetText(item.ValueData);
+                StatusMessage = "Registry Value Data copied to clipboard.";
             }
         }
 

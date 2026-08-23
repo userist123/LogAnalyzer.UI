@@ -36,6 +36,38 @@ namespace LogAnalyzer.UI.Tests
         }
 
         [Fact]
+        public void AiCopilotInvestigationEngine_Generates_StructuredReportAndContainment()
+        {
+            var engine = new AiCopilotInvestigationEngine();
+            var res = engine.InvestigateFinding("Kerberoasting", "Kerberos", "svc_sql", "RC4 ticket requested", "T1558.003");
+
+            Assert.NotNull(res);
+            Assert.Equal("Critic", res.RiskLevel);
+            Assert.Contains("T1558.003", res.MitreKillChainMapping);
+            Assert.NotEmpty(res.RecommendedContainmentSteps);
+            Assert.Contains("HG 585/2002", res.RegulatoryImpactRo);
+        }
+
+        [Fact]
+        public void ProcessLineageCorrelator_Builds_ParentChildTree()
+        {
+            var engine = new ProcessLineageCorrelator();
+            var events = new List<ParsedEvent>
+            {
+                new ParsedEvent { EventId = 1, Message = "Image: C:\\Windows\\System32\\cmd.exe\nProcessId: 0x100\nParentProcessId: 0x0\nCommandLine: cmd.exe", TimeCreated = DateTime.UtcNow },
+                new ParsedEvent { EventId = 1, Message = "Image: C:\\Windows\\System32\\powershell.exe\nProcessId: 0x200\nParentProcessId: 0x100\nCommandLine: powershell.exe -enc AAAA", TimeCreated = DateTime.UtcNow.AddSeconds(1) }
+            };
+
+            var roots = engine.BuildLineageTrees(events);
+
+            Assert.Single(roots);
+            Assert.Equal("cmd.exe", roots[0].ProcessName);
+            Assert.Single(roots[0].Children);
+            Assert.Equal("powershell.exe", roots[0].Children[0].ProcessName);
+            Assert.True(roots[0].Children[0].IsSuspicious);
+        }
+
+        [Fact]
         public void EmployeeActivityAuditEngine_Calculates_WorkHoursAndLockStates()
         {
             var engine = new EmployeeActivityAuditEngine();

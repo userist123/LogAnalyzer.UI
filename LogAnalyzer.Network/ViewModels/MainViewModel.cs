@@ -156,6 +156,7 @@ namespace LogAnalyzer.UI.ViewModels
         public ObservableCollection<FileServerAuditFinding> FileServerFindings { get; set; } = new();
         public ObservableCollection<EmployeeSessionActivity> EmployeeActivities { get; set; } = new();
         public ObservableCollection<StorageAuditItem> StorageAuditItems { get; set; } = new();
+        public ObservableCollection<CorrelatedProcessNode> CorrelatedProcessLineage { get; set; } = new();
 
         private readonly UserBehaviorAnalyticsEngine _ubaEngine = new();
         private readonly AdAuditReportService _adAuditReportService = new();
@@ -170,6 +171,8 @@ namespace LogAnalyzer.UI.ViewModels
         private readonly EmployeeActivityAuditEngine _employeeActivityEngine = new();
         private readonly FileStorageAnalyticsEngine _storageAnalyticsEngine = new();
         private readonly AdAuditHtmlReportService _adAuditHtmlReportService = new();
+        private readonly AiCopilotInvestigationEngine _copilotEngine = new();
+        private readonly ProcessLineageCorrelator _processLineageCorrelator = new();
 
         // Live Rule Workbench (Sigma & YARA)
         [ObservableProperty] private string _workbenchRuleContent = "title: Execuție PowerShell Codificat\nlogsource:\n  category: process_creation\ndetection:\n  selection:\n    CommandLine|contains:\n      - '-enc'\n      - 'bypass'\n      - 'downloadstring'\n  condition: selection";
@@ -1002,6 +1005,60 @@ namespace LogAnalyzer.UI.ViewModels
         {
             var res = _actionTriggerService.ExecuteContainmentScript("Izolare Cont / Stație", target ?? "SelectedEntity", IsAirGappedMode);
             MessageBox.Show(res.OutputLog, "Rezultat Răspuns Incident (Containment Playbook)", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void InvestigateWithCopilot(object finding)
+        {
+            if (finding == null) return;
+            string type = "Amenințare Securitate";
+            string cat = "Forensic Investigation";
+            string target = "Entity";
+            string desc = "Detaliu activitate corelată";
+            string mitre = "T1078";
+
+            if (finding is KerberosAdFinding kf)
+            {
+                type = kf.AttackType;
+                cat = kf.Category;
+                target = kf.TargetAccount;
+                desc = kf.Description;
+                mitre = kf.MitreTechniqueId;
+            }
+            else if (finding is StandaloneSamFinding sf)
+            {
+                type = sf.FindingType;
+                cat = sf.Category;
+                target = sf.TargetAccountOrResource;
+                desc = sf.Description;
+                mitre = sf.MitreTechniqueId;
+            }
+            else if (finding is FileServerAuditFinding ff)
+            {
+                type = ff.ActivityType;
+                cat = "File Server Audit";
+                target = ff.SharePathOrFileName;
+                desc = ff.Description;
+                mitre = ff.MitreTechniqueId;
+            }
+
+            var inv = _copilotEngine.InvestigateFinding(type, cat, target, desc, mitre);
+            var sb = new StringBuilder();
+            sb.AppendLine($"=== {inv.Title} (Risc: {inv.RiskLevel}) ===");
+            sb.AppendLine();
+            sb.AppendLine($"📋 SUMAR EXECUTIV:\n{inv.ExecutiveSummaryRo}");
+            sb.AppendLine();
+            sb.AppendLine($"⚔️ CARTOGRAFIERE MITRE ATT&CK:\n{inv.MitreKillChainMapping}");
+            sb.AppendLine();
+            sb.AppendLine($"⚖️ IMPACT REGLEMENTAR:\n{inv.RegulatoryImpactRo}");
+            sb.AppendLine();
+            sb.AppendLine("🔍 EVIDENȚE FORENSICE CORELATE:");
+            foreach (var ev in inv.ForensicEvidenceBullets) sb.AppendLine($" • {ev}");
+            sb.AppendLine();
+            sb.AppendLine("🛡️ GHID DE IZOLARE & CONTAINMENT (HG 585 / NIS2):");
+            foreach (var st in inv.RecommendedContainmentSteps) sb.AppendLine($" {st}");
+
+            MessageBox.Show(sb.ToString(), "AI Copilot DFIR Assistant — Analiză & Playbook", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]
@@ -3290,6 +3347,14 @@ namespace LogAnalyzer.UI.ViewModels
                 foreach (var lf in lolbas)
                 {
                     LolbasFindings.Add(lf);
+                }
+
+                // Corelare Arbore Procese (Process Lineage Tree - Sysmon EID 1 & 4688)
+                var procs = _processLineageCorrelator.BuildLineageTrees(eventsForAnalysis);
+                CorrelatedProcessLineage.Clear();
+                foreach (var p in procs)
+                {
+                    CorrelatedProcessLineage.Add(p);
                 }
 
                 // Corelare Multi-Eveniment Temporală (ex: Brute-Force -> Logon Success, Ransomware VSS Delete)

@@ -130,7 +130,7 @@
                             <!-- GROUP 3: DETECTION & INTEL -->
                             <TextBlock Text="DETECTION &amp; INTEL" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" Margin="12,16,0,6"/>
                             <RadioButton Content="Threat Intel &amp; APT" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="7"/>
-                            <RadioButton Content="Kerberos AD &amp; LOLBAS" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
+                            <RadioButton Content="Active Directory &amp; ADAudit" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="8"/>
                             <RadioButton Content="Chain of Custody (NIS2)" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="9"/>
                             <RadioButton Content="MITRE ATT&amp;CK Matrix" Style="{StaticResource SidebarTabStyle}" Command="{Binding NavigateCommand}" CommandParameter="10"/>
 

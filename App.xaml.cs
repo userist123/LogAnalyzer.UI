@@ -69,11 +69,9 @@ namespace LogAnalyzer.UI
                 dbService.InitializeDatabase();
                 File.AppendAllText(debugLogPath, "Database initialized.\n");
 
-                // Setăm temporar modul de oprire la explicit pentru a nu se închide aplicația când se închide SplashWindow
-                this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 File.AppendAllText(debugLogPath, "Showing SplashWindow...\n");
-                // 1. Afișăm SplashWindow
                 var splash = new SplashWindow();
                 splash.Show();
                 File.AppendAllText(debugLogPath, "SplashWindow shown.\n");
@@ -84,25 +82,17 @@ namespace LogAnalyzer.UI
                 if (!licenseService.IsActivated())
                 {
                     File.AppendAllText(debugLogPath, "License is not activated. Showing ActivationWindow...\n");
-                    splash.Hide();
                     var activationWindow = ServiceProvider.GetRequiredService<ActivationWindow>();
                     bool? activated = activationWindow.ShowDialog();
                     File.AppendAllText(debugLogPath, $"ActivationWindow ShowDialog returned: {activated}\n");
                     if (activated != true)
                     {
                         File.AppendAllText(debugLogPath, "Shutdown called due to license failure.\n");
+                        splash.Close();
                         this.Shutdown();
                         return;
                     }
-                    splash.Show();
                 }
-
-                // Simulăm un mic delay pentru splash screen (1.5 secunde) pentru efect vizual de inițializare
-                File.AppendAllText(debugLogPath, "Sleeping for 1500ms...\n");
-                System.Threading.Thread.Sleep(1500);
-                File.AppendAllText(debugLogPath, "Closing SplashWindow...\n");
-                splash.Close();
-                File.AppendAllText(debugLogPath, "SplashWindow closed.\n");
 
                 // 3. Afișăm fereastra principală
                 File.AppendAllText(debugLogPath, "Resolving MainWindow...\n");
@@ -110,10 +100,8 @@ namespace LogAnalyzer.UI
                 this.MainWindow = mainWindow;
                 File.AppendAllText(debugLogPath, "Showing MainWindow...\n");
                 mainWindow.Show();
-                File.AppendAllText(debugLogPath, "MainWindow shown.\n");
-
-                // Restabilim comportamentul normal de închidere
-                this.ShutdownMode = ShutdownMode.OnLastWindowClose;
+                File.AppendAllText(debugLogPath, "MainWindow shown. Closing SplashWindow...\n");
+                splash.Close();
                 File.AppendAllText(debugLogPath, "Startup complete.\n");
             }
             catch (Exception ex)
